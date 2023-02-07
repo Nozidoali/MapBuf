@@ -1,0 +1,458 @@
+# Benchmark "teeny" written by ABC on Sun Jan  1 04:44:01 2023
+.model teeny
+.inputs teeny^cst_0__store_0__data__0__anchor__in \
+ teeny^MC_dest__end_0__data__0__anchor__in \
+ teeny^ret_0__end_0__data__0__anchor__in \
+ teeny^cst_1__MC_dest__data__0__anchor__in teeny^start_in \
+ teeny^forkC_1__cst_0__data__0__anchor__in teeny^dest_din1 teeny^dest_din0 \
+ teeny^forkC_1__cst_0__valid__0__anchor__in \
+ teeny^store_0__MC_dest__ready__0__anchor__in \
+ teeny^start_0__forkC_1__data__0__anchor__in \
+ teeny^ret_0__end_0__ready__0__anchor__in \
+ teeny^MC_dest__end_0__ready__0__anchor__in \
+ teeny^src__store_0__valid__0__anchor__in \
+ teeny^forkC_1__cst_1__valid__0__anchor__in \
+ teeny^cst_0__store_0__valid__0__anchor__in teeny^src_din \
+ teeny^src__store_0__ready__0__anchor__in teeny^clk \
+ teeny^store_0__MC_dest__ready__1__anchor__in \
+ teeny^store_0__MC_dest__valid__0__anchor__in \
+ teeny^forkC_1__cst_1__ready__0__anchor__in \
+ teeny^cst_1__MC_dest__ready__0__anchor__in \
+ teeny^start_0__forkC_1__ready__0__anchor__in \
+ teeny^cst_0__store_0__ready__0__anchor__in \
+ teeny^forkC_1__cst_0__ready__0__anchor__in teeny^src_valid_in \
+ teeny^end_ready teeny^cst_1__MC_dest__valid__0__anchor__in \
+ teeny^ret_0__end_0__valid__0__anchor__in \
+ teeny^forkC_1__ret_0__data__0__anchor__in teeny^rst \
+ teeny^MC_dest__end_0__valid__0__anchor__in \
+ teeny^src__store_0__data__0__anchor__in teeny^start_valid \
+ teeny^store_0__MC_dest__valid__1__anchor__in \
+ teeny^forkC_1__cst_1__data__0__anchor__in \
+ teeny^store_0__MC_dest__data__0__anchor__in \
+ teeny^start_0__forkC_1__valid__0__anchor__in \
+ teeny^forkC_1__ret_0__valid__0__anchor__in \
+ teeny^forkC_1__ret_0__ready__0__anchor__in \
+ teeny^store_0__MC_dest__data__1__anchor__in
+.outputs teeny^start_0__forkC_1__ready__0__anchor__out teeny^end_valid \
+ teeny^cst_0__store_0__ready__0__anchor__out \
+ teeny^forkC_1__cst_0__data__0__anchor__out teeny^dest_dout0 teeny^end_out \
+ teeny^cst_1__MC_dest__valid__0__anchor__out \
+ teeny^forkC_1__cst_1__data__0__anchor__out \
+ teeny^forkC_1__cst_1__valid__0__anchor__out \
+ teeny^cst_0__store_0__data__0__anchor__out \
+ teeny^MC_dest__end_0__data__0__anchor__out teeny^dest_we0 \
+ teeny^MC_dest__end_0__ready__0__anchor__out \
+ teeny^cst_0__store_0__valid__0__anchor__out \
+ teeny^forkC_1__cst_0__ready__0__anchor__out \
+ teeny^ret_0__end_0__data__0__anchor__out \
+ teeny^ret_0__end_0__ready__0__anchor__out \
+ teeny^forkC_1__cst_1__ready__0__anchor__out \
+ teeny^start_0__forkC_1__data__0__anchor__out \
+ teeny^forkC_1__ret_0__data__0__anchor__out \
+ teeny^cst_1__MC_dest__ready__0__anchor__out \
+ teeny^store_0__MC_dest__ready__0__anchor__out \
+ teeny^MC_dest__end_0__valid__0__anchor__out teeny^dest_ce0 \
+ teeny^store_0__MC_dest__data__0__anchor__out \
+ teeny^store_0__MC_dest__data__1__anchor__out \
+ teeny^store_0__MC_dest__valid__0__anchor__out teeny^dest_dout1 \
+ teeny^dest_address0 teeny^forkC_1__ret_0__ready__0__anchor__out \
+ teeny^src__store_0__valid__0__anchor__out teeny^src_ready_in \
+ teeny^src__store_0__data__0__anchor__out \
+ teeny^start_0__forkC_1__valid__0__anchor__out \
+ teeny^src__store_0__ready__0__anchor__out \
+ teeny^cst_1__MC_dest__data__0__anchor__out \
+ teeny^store_0__MC_dest__valid__1__anchor__out teeny^dest_address1 \
+ teeny^forkC_1__cst_0__valid__0__anchor__out teeny^dest_we1 \
+ teeny^ret_0__end_0__valid__0__anchor__out \
+ teeny^forkC_1__ret_0__valid__0__anchor__out teeny^start_ready \
+ teeny^dest_ce1 teeny^store_0__MC_dest__ready__1__anchor__out
+
+.latch       n155 $sdff~0^FF~1  2
+.latch       n160 $sdff~0^FF~9  2
+.latch       n165 $sdff~0^FF~7  2
+.latch       n170 $sdff~0^FF~5  2
+.latch       n175 $sdff~0^FF~3  2
+.latch       n180 $sdffce~46^FF~14  2
+.latch       n185 $sdffce~73^FF~17  2
+.latch       n190 $sdffce~35^FF~20  2
+.latch       n195 $sdff~38^FF~22  2
+.latch       n200 $sdffce~44^FF~25  2
+.latch       n205 $sdffce~56^FF~28  2
+.latch       n210 $sdff~45^FF~30  2
+.latch       n215 $sdff~59^FF~32  2
+.latch       n220 $sdff~76^FF~37  2
+.latch       n225 $sdff~47^FF~39  2
+.latch       n230 $sdff~64^FF~41  2
+.latch       n235 $sdff~81^FF~45  2
+.latch       n240 $dff~20^FF~35  2
+.latch       n245 $dff~26^FF~33  2
+.latch       n250 $dff~31^FF~34  2
+.latch       n255 $dffe~48^FF~43  2
+.latch       n260 $dffe~66^FF~47  2
+
+
+.subckt adder a[0]=$sdff~0^FF~1 b[0]=teeny^cst_1__MC_dest__data__0__anchor__in cin[0]=$add~1^ADD~11-0[0] cout[0]=$add~1^ADD~11-1[0] sumout[0]=$add~1^ADD~11-1[1]
+.subckt adder a[0]=$sdff~0^FF~3 b[0]=unconn cin[0]=$add~1^ADD~11-1[0] cout[0]=$add~1^ADD~11-2[0] sumout[0]=$add~1^ADD~11-2[1]
+.subckt adder a[0]=$sdff~0^FF~5 b[0]=unconn cin[0]=$add~1^ADD~11-2[0] cout[0]=$add~1^ADD~11-3[0] sumout[0]=$add~1^ADD~11-3[1]
+.subckt adder a[0]=$sdff~0^FF~7 b[0]=unconn cin[0]=$add~1^ADD~11-3[0] cout[0]=$add~1^ADD~11-4[0] sumout[0]=$add~1^ADD~11-4[1]
+.subckt adder a[0]=$sdff~0^FF~9 b[0]=unconn cin[0]=$add~1^ADD~11-4[0] cout[0]=$add~1^ADD~11-5[0] sumout[0]=$add~1^ADD~11-5[1]
+.subckt adder a[0]=$mux~6^SMUX_2~75 b[0]=lNOT~52 cin[0]=$sub~7^MIN~10-4[0] cout[0]=$sub~7^MIN~10-5~dummy_output~5~0 sumout[0]=$sub~7^MIN~10-5[1]
+.subckt adder a[0]=$mux~6^SMUX_2~74 b[0]=lNOT~51 cin[0]=$sub~7^MIN~10-3[0] cout[0]=$sub~7^MIN~10-4[0] sumout[0]=$sub~7^MIN~10-4[1]
+.subckt adder a[0]=$mux~6^SMUX_2~73 b[0]=lNOT~50 cin[0]=$sub~7^MIN~10-2[0] cout[0]=$sub~7^MIN~10-3[0] sumout[0]=$sub~7^MIN~10-3[1]
+.subckt adder a[0]=$mux~6^SMUX_2~72 b[0]=lNOT~49 cin[0]=$sub~7^MIN~10-1[0] cout[0]=$sub~7^MIN~10-2[0] sumout[0]=$sub~7^MIN~10-2[1]
+.subckt adder a[0]=$mux~6^SMUX_2~71 b[0]=gnd cin[0]=$sub~7^MIN~10-0[0] cout[0]=$sub~7^MIN~10-1[0] sumout[0]=$sub~7^MIN~10-1[1]
+.subckt adder a[0]=vcc b[0]=gnd cin[0]=gnd cout[0]=$add~1^ADD~11-0[0] sumout[0]=$add~1^ADD~11-0~dummy_output~0~1
+.subckt adder a[0]=gnd b[0]=vcc cin[0]=unconn cout[0]=$sub~7^MIN~10-0[0] sumout[0]=$sub~7^MIN~10-0~dummy_output~0~1
+
+
+.names new_n211_1_ new_n208_ teeny^start_0__forkC_1__ready__0__anchor__out
+01 1
+.names new_n209_ new_n210_1_ new_n208_
+00 1
+.names teeny^forkC_1__cst_0__ready__0__anchor__in $dff~20^FF~35 new_n209_
+01 1
+.names teeny^forkC_1__cst_1__ready__0__anchor__in $dff~26^FF~33 new_n210_1_
+01 1
+.names teeny^forkC_1__ret_0__ready__0__anchor__in $dff~31^FF~34 new_n211_1_
+01 1
+.names teeny^ret_0__end_0__valid__0__anchor__in \
+ teeny^MC_dest__end_0__valid__0__anchor__in teeny^end_valid
+11 1
+.names teeny^store_0__MC_dest__ready__0__anchor__in \
+ teeny^src__store_0__valid__0__anchor__in \
+ teeny^cst_0__store_0__ready__0__anchor__out
+11 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in \
+ teeny^store_0__MC_dest__data__0__anchor__in teeny^dest_dout0
+11 1
+.names teeny^start_0__forkC_1__valid__0__anchor__in $dff~26^FF~33 \
+ teeny^forkC_1__cst_1__valid__0__anchor__out
+11 1
+.names new_n217_ new_n218_ teeny^ret_0__end_0__data__0__anchor__out
+00 0
+.names $sdffce~35^FF~20 $sdff~38^FF~22 new_n217_
+11 1
+.names $sdff~38^FF~22 teeny^forkC_1__ret_0__data__0__anchor__in new_n218_
+01 1
+.names teeny^end_ready teeny^MC_dest__end_0__valid__0__anchor__in \
+ teeny^ret_0__end_0__ready__0__anchor__out
+11 1
+.names new_n221_1_ new_n224_ teeny^MC_dest__end_0__valid__0__anchor__out
+11 1
+.names new_n222_ new_n223_ new_n221_1_
+11 1
+.names $sdff~0^FF~9 $sdff~0^FF~7 new_n222_
+00 1
+.names $sdff~0^FF~5 $sdff~0^FF~3 new_n223_
+00 1
+.names teeny^cst_1__MC_dest__valid__0__anchor__in $sdff~0^FF~1 new_n224_
+00 1
+.names teeny^src__store_0__valid__0__anchor__in \
+ teeny^cst_0__store_0__valid__0__anchor__in \
+ teeny^store_0__MC_dest__valid__0__anchor__out
+11 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in \
+ teeny^store_0__MC_dest__data__1__anchor__in teeny^dest_address0
+11 1
+.names teeny^store_0__MC_dest__ready__0__anchor__in \
+ teeny^cst_0__store_0__valid__0__anchor__in \
+ teeny^src__store_0__ready__0__anchor__out
+11 1
+.names teeny^start_0__forkC_1__valid__0__anchor__in $dff~20^FF~35 \
+ teeny^forkC_1__cst_0__valid__0__anchor__out
+11 1
+.names teeny^forkC_1__ret_0__valid__0__anchor__in $sdff~38^FF~22 \
+ teeny^ret_0__end_0__valid__0__anchor__out
+00 0
+.names teeny^start_0__forkC_1__valid__0__anchor__in $dff~31^FF~34 \
+ teeny^forkC_1__ret_0__valid__0__anchor__out
+11 1
+.names new_n232_ new_n233_ $mux~6^SMUX_2~75
+00 1
+.names teeny^cst_1__MC_dest__valid__0__anchor__in $sdff~0^FF~9 new_n232_
+00 1
+.names $add~1^ADD~11-5[1] teeny^cst_1__MC_dest__valid__0__anchor__in \
+ new_n233_
+01 1
+.names new_n235_1_ new_n236_1_ $mux~6^SMUX_2~74
+00 1
+.names teeny^cst_1__MC_dest__valid__0__anchor__in $sdff~0^FF~7 new_n235_1_
+00 1
+.names $add~1^ADD~11-4[1] teeny^cst_1__MC_dest__valid__0__anchor__in \
+ new_n236_1_
+01 1
+.names new_n238_ new_n239_ $mux~6^SMUX_2~73
+00 1
+.names teeny^cst_1__MC_dest__valid__0__anchor__in $sdff~0^FF~5 new_n238_
+00 1
+.names $add~1^ADD~11-3[1] teeny^cst_1__MC_dest__valid__0__anchor__in \
+ new_n239_
+01 1
+.names new_n241_1_ new_n242_ $mux~6^SMUX_2~72
+00 1
+.names teeny^cst_1__MC_dest__valid__0__anchor__in $sdff~0^FF~3 new_n241_1_
+00 1
+.names $add~1^ADD~11-2[1] teeny^cst_1__MC_dest__valid__0__anchor__in \
+ new_n242_
+01 1
+.names new_n224_ new_n244_ $mux~6^SMUX_2~71
+00 1
+.names $add~1^ADD~11-1[1] teeny^cst_1__MC_dest__valid__0__anchor__in \
+ new_n244_
+01 1
+.names new_n246_1_ new_n247_ n155
+01 1
+.names $mux~6^SMUX_2~71 teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n246_1_
+00 1
+.names new_n248_ teeny^rst new_n247_
+00 1
+.names $sub~7^MIN~10-1[1] teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n248_
+01 1
+.names new_n250_1_ new_n251_1_ n160
+01 1
+.names $mux~6^SMUX_2~75 teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n250_1_
+00 1
+.names new_n252_ teeny^rst new_n251_1_
+00 1
+.names $sub~7^MIN~10-5[1] teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n252_
+01 1
+.names new_n254_ new_n255_1_ n165
+01 1
+.names $mux~6^SMUX_2~74 teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n254_
+00 1
+.names new_n256_1_ teeny^rst new_n255_1_
+00 1
+.names $sub~7^MIN~10-4[1] teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n256_1_
+01 1
+.names new_n258_ new_n259_ n170
+01 1
+.names $mux~6^SMUX_2~73 teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n258_
+00 1
+.names new_n260_1_ teeny^rst new_n259_
+00 1
+.names $sub~7^MIN~10-3[1] teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n260_1_
+01 1
+.names new_n262_ new_n263_ n175
+01 1
+.names $mux~6^SMUX_2~72 teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n262_
+00 1
+.names new_n264_ teeny^rst new_n263_
+00 1
+.names $sub~7^MIN~10-2[1] teeny^store_0__MC_dest__valid__1__anchor__in \
+ new_n264_
+01 1
+.names new_n266_ new_n274_ n180
+00 0
+.names new_n271_ new_n267_ new_n266_
+01 1
+.names teeny^rst new_n268_ new_n267_
+01 1
+.names new_n269_ new_n270_ new_n268_
+00 1
+.names teeny^start_0__forkC_1__ready__0__anchor__in $sdff~47^FF~39 \
+ new_n269_
+01 1
+.names $sdff~76^FF~37 $sdff~81^FF~45 new_n270_
+00 1
+.names new_n272_ new_n273_ new_n271_
+00 1
+.names $sdffce~73^FF~17 $sdff~76^FF~37 new_n272_
+11 1
+.names $sdff~76^FF~37 teeny^start_in new_n273_
+01 1
+.names new_n268_ $sdffce~46^FF~14 new_n274_
+01 1
+.names new_n276_ new_n279_ n185
+00 0
+.names n220 new_n273_ new_n276_
+11 1
+.names new_n270_ new_n278_ n220
+01 1
+.names teeny^rst new_n269_ new_n278_
+01 1
+.names new_n280_ $sdffce~73^FF~17 new_n279_
+01 1
+.names new_n269_ new_n281_ new_n280_
+11 1
+.names $sdff~76^FF~37 $sdff~81^FF~45 new_n281_
+01 1
+.names new_n283_ new_n286_ n190
+00 0
+.names n195 new_n218_ new_n283_
+11 1
+.names teeny^ret_0__end_0__valid__0__anchor__out new_n285_ n195
+11 1
+.names teeny^ret_0__end_0__ready__0__anchor__in teeny^rst new_n285_
+00 1
+.names new_n287_ $sdffce~35^FF~20 new_n286_
+01 1
+.names $sdff~38^FF~22 new_n288_ new_n287_
+01 1
+.names teeny^ret_0__end_0__ready__0__anchor__in \
+ teeny^forkC_1__ret_0__valid__0__anchor__in new_n288_
+01 1
+.names new_n290_ new_n298_ n200
+00 0
+.names new_n295_ new_n291_ new_n290_
+01 1
+.names teeny^rst new_n292_ new_n291_
+01 1
+.names new_n293_ new_n294_ new_n292_
+00 1
+.names teeny^src__store_0__ready__0__anchor__in $sdff~45^FF~30 new_n293_
+01 1
+.names $sdff~59^FF~32 $sdff~64^FF~41 new_n294_
+00 1
+.names new_n296_ new_n297_ new_n295_
+00 1
+.names $sdffce~56^FF~28 $sdff~59^FF~32 new_n296_
+11 1
+.names $sdff~59^FF~32 teeny^src_din new_n297_
+01 1
+.names new_n292_ $sdffce~44^FF~25 new_n298_
+01 1
+.names new_n300_ new_n303_ n205
+00 0
+.names n215 new_n297_ new_n300_
+11 1
+.names new_n294_ new_n302_ n215
+01 1
+.names teeny^rst new_n293_ new_n302_
+01 1
+.names new_n304_ $sdffce~56^FF~28 new_n303_
+01 1
+.names new_n293_ new_n305_ new_n304_
+11 1
+.names $sdff~59^FF~32 $sdff~64^FF~41 new_n305_
+01 1
+.names new_n291_ new_n302_ n210
+00 0
+.names new_n267_ new_n278_ n225
+00 0
+.names $dffe~48^FF~43 new_n309_ n230
+01 1
+.names teeny^rst teeny^src_valid_in new_n309_
+01 1
+.names $dffe~66^FF~47 new_n311_ n235
+01 1
+.names teeny^rst teeny^start_valid new_n311_
+01 1
+.names new_n209_ new_n313_ n240
+01 0
+.names teeny^start_0__forkC_1__ready__0__anchor__out new_n314_ new_n313_
+01 1
+.names teeny^rst teeny^start_0__forkC_1__valid__0__anchor__in new_n314_
+01 1
+.names new_n210_1_ new_n313_ n245
+01 0
+.names new_n211_1_ new_n313_ n250
+01 0
+.names new_n309_ $dffe~48^FF~43 n255
+00 0
+.names new_n311_ $dffe~66^FF~47 n260
+00 0
+.names teeny^cst_0__store_0__data__0__anchor__out
+ 0
+.names teeny^MC_dest__end_0__data__0__anchor__out
+ 0
+.names teeny^MC_dest__end_0__ready__0__anchor__out
+ 0
+.names teeny^cst_1__MC_dest__ready__0__anchor__out
+ 1
+.names teeny^dest_dout1
+ 0
+.names teeny^cst_1__MC_dest__data__0__anchor__out
+ 1
+.names teeny^dest_address1
+ 0
+.names teeny^dest_we1
+ 0
+.names teeny^dest_ce1
+ 0
+.names unconn
+ 0
+.names lNOT~52
+ 1
+.names lNOT~51
+ 1
+.names lNOT~50
+ 1
+.names lNOT~49
+ 1
+.names gnd
+ 0
+.names vcc
+ 1
+.names $sdff~38^FF~22 teeny^forkC_1__ret_0__ready__0__anchor__out
+0 1
+.names $sdff~59^FF~32 teeny^src_ready_in
+0 1
+.names $sdff~76^FF~37 teeny^start_ready
+0 1
+.names teeny^start_0__forkC_1__data__0__anchor__in \
+ teeny^forkC_1__cst_0__data__0__anchor__out
+1 1
+.names teeny^ret_0__end_0__data__0__anchor__in teeny^end_out
+1 1
+.names teeny^forkC_1__cst_1__valid__0__anchor__in \
+ teeny^cst_1__MC_dest__valid__0__anchor__out
+1 1
+.names teeny^start_0__forkC_1__data__0__anchor__in \
+ teeny^forkC_1__cst_1__data__0__anchor__out
+1 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in teeny^dest_we0
+1 1
+.names teeny^forkC_1__cst_0__valid__0__anchor__in \
+ teeny^cst_0__store_0__valid__0__anchor__out
+1 1
+.names teeny^cst_0__store_0__ready__0__anchor__in \
+ teeny^forkC_1__cst_0__ready__0__anchor__out
+1 1
+.names teeny^cst_1__MC_dest__ready__0__anchor__in \
+ teeny^forkC_1__cst_1__ready__0__anchor__out
+1 1
+.names $sdffce~46^FF~14 teeny^start_0__forkC_1__data__0__anchor__out
+1 1
+.names teeny^start_0__forkC_1__data__0__anchor__in \
+ teeny^forkC_1__ret_0__data__0__anchor__out
+1 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in \
+ teeny^store_0__MC_dest__ready__0__anchor__out
+1 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in teeny^dest_ce0
+1 1
+.names teeny^src__store_0__data__0__anchor__in \
+ teeny^store_0__MC_dest__data__0__anchor__out
+1 1
+.names teeny^cst_0__store_0__data__0__anchor__in \
+ teeny^store_0__MC_dest__data__1__anchor__out
+1 1
+.names $sdff~45^FF~30 teeny^src__store_0__valid__0__anchor__out
+1 1
+.names $sdffce~44^FF~25 teeny^src__store_0__data__0__anchor__out
+1 1
+.names $sdff~47^FF~39 teeny^start_0__forkC_1__valid__0__anchor__out
+1 1
+.names teeny^store_0__MC_dest__valid__0__anchor__out \
+ teeny^store_0__MC_dest__valid__1__anchor__out
+1 1
+.names teeny^store_0__MC_dest__valid__1__anchor__in \
+ teeny^store_0__MC_dest__ready__1__anchor__out
+1 1
+.end
+
+
+.model adder
+.inputs a[0] b[0] cin[0]
+.outputs cout[0] sumout[0]
+.blackbox
+.end

@@ -2,9 +2,9 @@ __pycache__
 
 *.lp
 *.sol
-*.blif
 *.aig
 *.csv
 *.png
+*.dot
 
 abc.rc
