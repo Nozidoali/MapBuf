@@ -5,5 +5,6 @@ __pycache__
 *.blif
 *.aig
 *.csv
+*.png
 
 abc.rc

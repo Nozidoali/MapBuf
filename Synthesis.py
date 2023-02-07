@@ -84,6 +84,9 @@ class MAPS:
         self.dirty_labels: dict = {}
         self.buffer_of_buffer: set = set()
 
+        # for stats
+        self.n_channels: int = len(self.channel_is_buffered)
+
     def run(
         self,
         critical_path_filename: str = None,
@@ -130,7 +133,7 @@ class MAPS:
 
                 self._export_fanin_cone_to(n_max, critical_path_filename)
 
-        return set([c for c in self.channel_is_buffered if self.channel_is_buffered[c]]), l_max
+        return set([c for c in self.channel_is_buffered if self.channel_is_buffered[c]]), str(l_max)
 
     def _update_label(self, n: str) -> L:
         """

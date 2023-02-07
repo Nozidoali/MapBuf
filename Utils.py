@@ -107,6 +107,13 @@ class Channel:
     def is_transparent(self) -> bool:
         return self.t == Constant._channel_ready_
 
+def to_channel(name: str) -> Channel:
+    try:
+        u, v, t, idx = name.split(Constant._anchor_separator_)
+        return Channel(u, v, t, int(idx))
+
+    except:
+        return None
 
 def quote(s: str) -> str:
     try:

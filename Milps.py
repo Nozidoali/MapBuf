@@ -3,10 +3,6 @@ from gurobipy import GRB
 from BLIFGraph import *
 import random
 
-class cut_enumeration_params:
-    priority_cut_size: int = 3
-    lut_size_limit: int = 6
-
 class Cut:
     def __init__(self, leaves) -> None:
         self.leaves: set = set(leaves)
@@ -25,7 +21,7 @@ class Cut:
     def size(self) -> int:
         return len(self.leaves)
 
-def cut_enumeration(g: BLIFGraph, priority_cut_size: int = 3, lut_size_limit: int = 6) -> dict:
+def cut_enumeration(g: BLIFGraph, priority_cut_size: int = 20, lut_size_limit: int = 6) -> dict:
     cuts: dict = {}
     for n in g.topological_traversal():
         cuts[n] = [Cut([n])]
@@ -52,14 +48,14 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
                 cutset.add(c)
 
     cutset = list(cutset)
-    random.shuffle(cutset)
+    cutset.sort(key=lambda x: x.size(), reverse=True)
     return cutset[:setsize]
 
 class milp_params:
     infinity: int = 100
 
 
-def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
+def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True, priority_cut_size: int = 20, lut_size_limit: int = 6):
 
     g, node_to_channel, nodes_in_component = _g.retrieve_anchors()
 
@@ -74,14 +70,19 @@ def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
 
         cp = m.addVar(vtype=GRB.INTEGER, name=f"CP")
 
-        # Create target function
-        m.setObjective(cp, GRB.MINIMIZE)
-
         # channel constraints
         channel_to_var: dict = {}
+        channels: set = set()
         for n in node_to_channel:
             c = node_to_channel[n]
+            channels.add(c)
+
+        for c in channels:
             channel_to_var[c] = m.addVar(vtype=GRB.BINARY, name=f"X({c})")
+
+        # Create target function
+        m.setObjective(milp_params.infinity * cp + sum([channel_to_var[c] for c in channel_to_var]), GRB.MINIMIZE)
+        m.setObjective(cp, GRB.MINIMIZE)
 
         # input delay = 0
         for n in g.inputs:
@@ -92,13 +93,14 @@ def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
             m.addConstr(var >= 0, f"in_{n}")
 
         # clock period constraints
+        # m.addConstr(cp <= clock_period, f"Tcp")
         for n in g.nodes:
             if n in signal_to_var:
                 i = signal_to_var[n]
                 m.addConstr(i <= cp, f"cp_{n}")
 
         # cut selection
-        cuts = cut_enumeration(g)
+        cuts = cut_enumeration(g, priority_cut_size, lut_size_limit)
         for n in g.nodes:
 
             # dangling nodes
@@ -151,11 +153,11 @@ def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
         # retrieve number of buffers:
         buffers:set = set()
         for v in m.getVars():
-            if int(v.X) == 1: 
+            if float(v.X) > 0: 
                 var:str = v.VarName
                 if var.startswith('X(') and var.endswith(')'):
                     c_str = var[2:-1]
-                    c = retrieve_channel_from_anchor(c_str)
+                    c = to_channel(c_str)
                     buffers.add(c)
             
         # retrieve CP
