@@ -4,5 +4,6 @@ __pycache__
 *.sol
 *.blif
 *.aig
+*.csv
 
 abc.rc

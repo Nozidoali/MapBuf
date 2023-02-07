@@ -25,17 +25,17 @@ class Cut:
     def size(self) -> int:
         return len(self.leaves)
 
-def cut_enumeration(g: BLIFGraph) -> dict:
+def cut_enumeration(g: BLIFGraph, priority_cut_size: int = 3, lut_size_limit: int = 6) -> dict:
     cuts: dict = {}
     for n in g.topological_traversal():
         cuts[n] = [Cut([n])]
         if n in g.node_fanins:
             c = [cuts[f] for f in g.node_fanins[n]]
-            cuts[n] += merge_cuts(c, cut_enumeration_params.priority_cut_size)[:]
+            cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
     return cuts # uniqify
 
 
-def merge_cuts(cuts: list, setsize: int):
+def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
     if len(cuts) == 0:
         return []
     if len(cuts) == 1:
@@ -48,7 +48,7 @@ def merge_cuts(cuts: list, setsize: int):
     for cut in cuts[0]:
         for remain in remains:
             c: Cut = cut + remain
-            if c.size() <= cut_enumeration_params.lut_size_limit:
+            if c.size() <= lut_size_limit:
                 cutset.add(c)
 
     cutset = list(cutset)
@@ -59,7 +59,7 @@ class milp_params:
     infinity: int = 100
 
 
-def export_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
+def run_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
 
     g, node_to_channel, nodes_in_component = _g.retrieve_anchors()
 
@@ -148,12 +148,19 @@ def export_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
         m.optimize()
         m.write('test.sol')
 
-
+        # retrieve number of buffers:
+        buffers:set = set()
         for v in m.getVars():
-            print('%s %g' % (v.VarName, v.X))
-
-        print('Obj: %g' % m.ObjVal)
-        return m
+            if int(v.X) == 1: 
+                var:str = v.VarName
+                if var.startswith('X(') and var.endswith(')'):
+                    c_str = var[2:-1]
+                    c = retrieve_channel_from_anchor(c_str)
+                    buffers.add(c)
+            
+        # retrieve CP
+        cp_opt = m.ObjVal
+        return buffers, cp_opt
 
     except gp.GurobiError as e:
         print('Error code ' + str(e.errno) + ': ' + str(e))
@@ -213,4 +220,4 @@ if __name__ == "__main__":
 
     # g = small_blif()
 
-    export_milps(g, clock_period= 3)
+    run_milps(g, clock_period= 3)

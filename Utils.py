@@ -7,32 +7,6 @@ import pygraphviz as pgv
 
 
 """
-===================== Configurations =====================
-
-1. please modify first the configuration file
-"""
-
-# global configuration
-#
-def load_conf(filename: str = "conf.json", verbose: bool = False) -> dict:
-    """
-    load the configuration to a dictionary and return
-
-    Usage:
-    >>> conf = load_conf('setting.json')
-    """
-    data: dict = {}
-    with open(filename) as json_file:
-        data = json.load(json_file)
-
-    if verbose:
-        print("[i] loading configurations")
-        for key in data:
-            print("{:>15} : {}".format(key, data[key]))
-    return data
-
-
-"""
 ===================== Benchmarks =====================
 
 1. please refer to benchmark suite of Carmine's FPL papar:
@@ -54,74 +28,6 @@ def FPL_benchmarks() -> list:
         "mvt_float",
         "stencil_2d",
     ]
-
-
-class Benchmark:
-    def __init__(self, dirname: str) -> None:
-        """
-        Initialize from a benchmark folder.
-        """
-
-        # attributes
-        self.name = ""
-        self.top_module = ""
-        self.dirname = ""
-
-        if self.read_from_dir(dirname) == False:
-            sys.exit("FATAL: Reading benchmark from {} failed".format(dirname))
-
-    def read_from_dir(self, dirname: str) -> bool:
-        """
-        read the benchmark from a directory
-        """
-        self.name = os.path.basename(dirname)
-        self.top_module = os.path.basename(dirname)
-        self.dirname = dirname
-        return os.path.exists(self + ".dot")
-
-    def __str__(self) -> str:
-        return self.name
-
-    # reference: https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types
-    def __add__(self, other: str) -> str:
-        return os.path.join(self.dirname, self.name + other)
-
-    def __eq__(self, other: str) -> bool:
-        return str(self) == other
-
-    def __ne__(self, other: str) -> bool:
-        return str(self) != other
-
-
-def cleanup(benchmark: Benchmark):
-    # reference: https://www.tutorialspoint.com/python/os_walk.htm
-    for root, dirs, files in os.walk(benchmark.dirname):
-        for name in files:
-            name = os.path.join(root, name)
-            if name == benchmark + ".dot":
-                continue
-            subprocess.run("rm -f {}".format(name), shell=True)
-        for name in dirs:
-            subprocess.run("rm -rf {}".format(os.path.join(root, name)), shell=True)
-
-
-def read_benchmarks() -> dict:
-    """
-    read and check all benchmarks from the benchmark folder
-    """
-
-    conf = load_conf()
-
-    benchmark_dir = os.path.join(conf["root_dir"], conf["benchmarks"])
-    benchmarks = {}
-    for it in os.scandir(benchmark_dir):
-        if it.is_dir():
-            full_pathname = it.path
-            benchmark_name = os.path.basename(full_pathname)
-            benchmark = Benchmark(full_pathname)
-            benchmarks[benchmark_name] = benchmark
-    return benchmarks
-
 
 def remove_label(src: str) -> str:
     return re.sub("\[.*\]", "", src)
@@ -407,6 +313,9 @@ class stopwatch:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.toc = time.perf_counter()
         print_green("{:<25}: {:>8.02f} sec".format(self.name, self.toc - self.tic))
+
+    def time(self):
+        return float(time.perf_counter() - self.tic)
 
 
 """
