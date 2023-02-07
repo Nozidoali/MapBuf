@@ -4,7 +4,7 @@ from BLIFGraph import *
 import random
 
 class cut_enumeration_params:
-    priority_cut_size: int = 100
+    priority_cut_size: int = 3
     lut_size_limit: int = 6
 
 class Cut:
@@ -51,53 +51,23 @@ def merge_cuts(cuts: list, setsize: int):
             if c.size() <= cut_enumeration_params.lut_size_limit:
                 cutset.add(c)
 
-    return list(cutset)
-
-
-def small_blif() -> BLIFGraph:
-    """
-    
-    n1  n2
-     \  /
-      n3  n4
-       \  /
-        n5  n6
-         \  /
-          n7  n8
-           \ /
-            n9
-    """
-    g: BLIFGraph = BLIFGraph()
-
-    g.create_pi('n1')
-    g.create_pi('n2')
-    g.create_pi('n4')
-    g.create_pi('n6')
-    g.create_pi('n8')
-
-    g.create_po('n9')
-
-    g.create_and('n1', 'n2', 'n3')
-    g.create_and('n3', 'n4', 'n5')
-    g.create_and('n5', 'n6', 'n7')
-    g.create_and('n7', 'n8', 'n9')
-
-    g.traverse()
-
-    return g
-
+    cutset = list(cutset)
+    random.shuffle(cutset)
+    return cutset[:setsize]
 
 class milp_params:
     infinity: int = 100
 
 
-def export_milps(g: BLIFGraph, clock_period: int):
-    
+def export_milps(_g: BLIFGraph, clock_period: int, insert_buffer: bool = True):
+
+    g, node_to_channel, nodes_in_component = _g.retrieve_anchors()
+
     try:
         # Create a new model
         m = gp.Model("mip1")
 
-        # Create variables
+        # Create variables (timing labels)
         signal_to_var: dict = {}
         for n in g.signals:
             signal_to_var[n] = m.addVar(vtype=GRB.INTEGER, name=f"d_{n}") # delay variables
@@ -107,26 +77,34 @@ def export_milps(g: BLIFGraph, clock_period: int):
         # Create target function
         m.setObjective(cp, GRB.MINIMIZE)
 
-        # baseline delay propagations
-        # for n in g.nodes:
-        #     i = signal_to_var[n]
-        #     for f in g.node_fanins[n]:
-        #         j = signal_to_var[f]
-        #         m.addConstr(i >= j + 1, f"dc_{n}_{f}")
+        # channel constraints
+        channel_to_var: dict = {}
+        for n in node_to_channel:
+            c = node_to_channel[n]
+            channel_to_var[c] = m.addVar(vtype=GRB.BINARY, name=f"X({c})")
 
         # input delay = 0
         for n in g.inputs:
             var = signal_to_var[n]
             m.addConstr(var >= 0, f"in_{n}")
+        for n in g.ros:
+            var = signal_to_var[n]
+            m.addConstr(var >= 0, f"in_{n}")
 
-        # clock period
+        # clock period constraints
         for n in g.nodes:
-            i = signal_to_var[n]
-            m.addConstr(i <= cp, f"cp_{n}")
+            if n in signal_to_var:
+                i = signal_to_var[n]
+                m.addConstr(i <= cp, f"cp_{n}")
 
         # cut selection
         cuts = cut_enumeration(g)
         for n in g.nodes:
+
+            # dangling nodes
+            if n not in cuts:
+                continue
+
             cut_set: list = cuts[n]
             cut_selection_vars: list = []
             n_cuts = len(cut_set)
@@ -135,19 +113,31 @@ def export_milps(g: BLIFGraph, clock_period: int):
             for c in range(n_cuts):
                 
                 # cut selection variables
-                y = m.addVar(vtype=GRB.BINARY, name=f"Y({n}->{cut_set[c]})")
+                y = m.addVar(vtype=GRB.BINARY, name=f"Y({n}->{c})")
                 cut_selection_vars.append(y)
 
+            # delay propagation
+            d_i = signal_to_var[n]
+            m.addConstr(d_i >= 0)
+
             # one set of constraint for a cut
-            for c in range(n_cuts):
+            for cid in range(n_cuts):
 
-                y = cut_selection_vars[c]
+                y = cut_selection_vars[cid]
 
-                # delay propagation if the cut is chosen
-                d_i = signal_to_var[n]
-                for f in cut_set[c].leaves:
-                    d_j = signal_to_var[f]
-                    m.addConstr(d_i + (1-y) * milp_params.infinity >= d_j + 1)
+                # channel
+                if n in node_to_channel and insert_buffer:        
+                    
+                    c = node_to_channel[n]
+                    x = channel_to_var[c]
+                    for f in cut_set[cid].leaves:
+                        d_j = signal_to_var[f]
+                        m.addConstr(d_i + (1-y) * milp_params.infinity + x * milp_params.infinity >= d_j + 1)
+
+                else:
+                    for f in cut_set[cid].leaves:
+                        d_j = signal_to_var[f]
+                        m.addConstr(d_i + (1-y) * milp_params.infinity >= d_j + 1)
 
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
@@ -174,7 +164,53 @@ def export_milps(g: BLIFGraph, clock_period: int):
         return None
 
 
+# A small test case 
+def small_blif() -> BLIFGraph:
+    """
+    
+    n1  n2
+     \  /
+      n3_i
+      |
+      (c1)
+      |
+      n3_o n4
+       \  /
+        n5  n6
+         \  /
+          n7  n8
+           \ /
+            n9
+    """
+    g: BLIFGraph = BLIFGraph()
+
+    g.create_pi('n1')
+    g.create_pi('n2')
+    g.create_pi('n4')
+    g.create_pi('n6')
+    g.create_pi('n8')
+
+    g.create_po('n9')
+
+    c1 = Channel('A', 'B', 'data')
+
+    g.create_and('n1', 'n2', f'{c1}__anchor__out')
+
+    g.create_pi(f'{c1}__anchor__in')
+    g.create_po(f'{c1}__anchor__out')
+
+    g.create_and(f'{c1}__anchor__in', 'n4', 'n5')
+    g.create_and('n5', 'n6', 'n7')
+    g.create_and('n7', 'n8', 'n9')
+
+    g.traverse()
+
+    return g
+
+
 if __name__ == "__main__":
-    g = read_graph_from_blif('max.blif')
+    g = read_graph_from_blif('./benchmarks/gaussian/gaussian.blif')
+
+    # g = small_blif()
 
     export_milps(g, clock_period= 3)

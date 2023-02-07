@@ -361,6 +361,9 @@ class BLIFGraph:
     def create_or(self, f1: str, f2: str, name: str):
         self.create_node(name=name, fanins=set([f1, f2]), func=["1- 1", "-1 1"])
 
+    def create_buf(self, fin: str, fout: str):
+        self.create_node(name=fout, fanins=set([fin]), func=["1 1"])
+
     def create_latch(self, ri: str, ro: str):
         self.ris.add(ri)
         self.ros.add(ro)
