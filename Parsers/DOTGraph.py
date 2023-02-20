@@ -88,4 +88,3 @@ def read_graph_from_dot(filename: str) -> DOTGraph:
                 g.signals.add(u)
                 g.signals.add(v)
     return g
-

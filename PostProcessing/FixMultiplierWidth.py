@@ -1,5 +1,6 @@
 import pygraphviz as pgv
 
+
 def get_node_name(n: pgv.Node) -> str:
     return n.get_name().strip('"')
 

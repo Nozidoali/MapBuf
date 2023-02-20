@@ -3,6 +3,7 @@ import os
 
 from ExternalTools.Configuration import load_conf
 
+
 def run_prevpr(
     mapped_blif_file: str, odin_blif_file: str, prevpr_blif_file: str
 ) -> None:

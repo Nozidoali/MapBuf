@@ -1,8 +1,9 @@
 import pygraphviz as pgv
 import queue
 
-from Utils import * 
+from Utils import *
 from Formatter.PrettyGraph import *
+
 
 class BLIFGraph:
     def __init__(self, *args):
@@ -34,7 +35,6 @@ class BLIFGraph:
         #
         if len(args) == 1:
             self.read_graph_from_blif(args[0])
-
 
     def read_graph_from_blif(self, filename: str) -> "BLIFGraph":
 
@@ -506,4 +506,3 @@ def on_subckt(g: "BLIFGraph", line: str):
             g.inputs.add(s)
         if p in _g.inputs:
             g.outputs.add(s)
-

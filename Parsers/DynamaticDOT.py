@@ -1,5 +1,6 @@
 import pygraphviz as pgv
 
+
 def quote(s: str) -> str:
     try:
         try:
@@ -60,6 +61,7 @@ def write_dynamatic_dot(g: pgv.AGraph, filename: str):
             f.write(edge_str(e))
 
         f.write("}\n")
+
 
 def read_dynamatic_dot(filename: str):
     """

@@ -6,7 +6,7 @@ def get_difference_graph(G1: pgv.AGraph, G2: pgv.AGraph) -> pgv.AGraph:
     get_difference_graph:
         color the difference between two graphs
     """
-    
+
     G = pgv.AGraph(strict=False, directed=True)
     n1 = G1.nodes()
     n2 = G2.nodes()

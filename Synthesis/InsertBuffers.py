@@ -25,9 +25,9 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set):
 
 
 def buffer_blackboxes(g: pgv.AGraph):
-    
+
     edges_to_buffer: dict = {}
-    
+
     for u in g.nodes():
         n = u.get_name()
         if "add" not in n and "sub" not in n:
@@ -40,10 +40,11 @@ def buffer_blackboxes(g: pgv.AGraph):
             v, _ = e
             if "Buffer" not in v.get_name():
                 edges_to_buffer[e] = f"Buffer_{n}_{v.get_name()}"
-    
+
     for e in edges_to_buffer:
         name = edges_to_buffer[e]
         insert_buffer_at(g, e, name, False)
+
 
 def insert_buffer_at(
     g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool

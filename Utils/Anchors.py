@@ -1,6 +1,7 @@
 from Utils.Constants import Constants
 from Utils.Channel import Channel
 
+
 def retrieve_channel_from_anchor(anchor: str) -> Channel:
     if Constants._anchor_marker_ not in anchor:
         return None
@@ -14,4 +15,3 @@ def retrieve_channel_from_anchor(anchor: str) -> Channel:
     ]:
         return None
     return Channel(entries[0], entries[1], entries[2], int(entries[3]))
-

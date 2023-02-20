@@ -1,6 +1,7 @@
 import pygraphviz as pgv
 from Utils import *
 
+
 def set_pretty_attributes(
     G: pgv.AGraph, nodes_in_component: dict = None, remove_rst: bool = True
 ):

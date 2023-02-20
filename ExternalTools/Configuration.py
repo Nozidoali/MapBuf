@@ -40,4 +40,3 @@ def load_conf(filename: str = "conf.json", verbose: bool = False) -> dict:
         for key in data:
             print("{:>15} : {}".format(key, data[key]))
     return data
-

@@ -1,5 +1,6 @@
 from Utils.Constants import Constants
 
+
 class Channel:
     def __init__(
         self, u: str = None, v: str = None, t: str = None, idx: int = 0
@@ -37,6 +38,7 @@ class Channel:
     def is_transparent(self) -> bool:
         return self.t == Constants._channel_ready_
 
+
 def to_channel(name: str) -> Channel:
     try:
         u, v, t, idx = name.split(Constants._anchor_separator_)
@@ -44,6 +46,7 @@ def to_channel(name: str) -> Channel:
 
     except:
         return None
+
 
 def get_sibling_channel(c: Channel) -> Channel:
     if c == None:
@@ -61,11 +64,14 @@ def get_sibling_channel(c: Channel) -> Channel:
     )
     return _c
 
+
 def is_data(n: str) -> bool:
     return True if Constants._channel_data_ in n else False
 
+
 def is_valid(n: str) -> bool:
     return True if Constants._channel_valid_ in n else False
+
 
 def is_ready(n: str) -> bool:
     return True if Constants._channel_ready_ in n else False

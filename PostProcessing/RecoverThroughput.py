@@ -1,6 +1,7 @@
 import pygraphviz as pgv
 import subprocess
 
+
 def set_removable_labels(g: pgv.AGraph):
     for n in g.nodes():
         if "Buffer" in n.get_name() or "buffer" in n.get_name():

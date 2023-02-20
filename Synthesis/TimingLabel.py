@@ -1,5 +1,3 @@
-
-
 # reference: Mapping-Aware Constrained Scheduling for LUT-Based FPGAs
 class TimingLabel:
     def __init__(self, _d: float = float("inf")) -> None:

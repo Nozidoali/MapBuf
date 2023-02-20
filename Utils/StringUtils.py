@@ -2,6 +2,7 @@ import re
 from Utils.Channel import *
 from Utils.Anchors import *
 
+
 def remove_label(src: str) -> str:
     return re.sub("\[.*\]", "", src)
 
@@ -20,6 +21,7 @@ def retrieve_bracket(src: str) -> str:
         return vals[0]
     else:
         return ""
+
 
 def get_shortname(n: str, short: bool = True, extra_short: bool = True):
     """

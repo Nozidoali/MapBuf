@@ -4,6 +4,7 @@ from Utils import *
 ===================== Verilog parsers =====================
 """
 
+
 class VerilogGraph:
     def __init__(self):
         self.wires = []

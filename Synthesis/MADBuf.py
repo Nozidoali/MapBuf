@@ -33,7 +33,7 @@ class MADBuf:
             else:
                 self.labels[n] = TimingLabel()  # inf
 
-        self.clock_period: int = 0 # undefined
+        self.clock_period: int = 0  # undefined
 
         # parse the channel from the graph
         self.channel_is_buffered = {}
@@ -51,12 +51,12 @@ class MADBuf:
 
     def run(
         self,
-        clock_period: int, 
+        clock_period: int,
         critical_path_filename: str = None,
         verbose: bool = False,
         very_verbose: bool = False,
     ) -> set:
-        
+
         self.clock_period = clock_period
 
         # run buffer insertion
@@ -82,7 +82,9 @@ class MADBuf:
             )
 
         # export critical path
-        maximum_timing_label, n_max = max([(self._node_arrival_time(n), n) for n in self.g.signals])
+        maximum_timing_label, n_max = max(
+            [(self._node_arrival_time(n), n) for n in self.g.signals]
+        )
         print(f"[i] propagation delay = {str(maximum_timing_label)}")
         if maximum_timing_label > TimingLabel(clock_period):
             print(f"[w] found timing violation at {n_max}")
@@ -98,7 +100,9 @@ class MADBuf:
 
                 self._export_fanin_cone_to(n_max, critical_path_filename)
 
-        return set([c for c in self.channel_is_buffered if self.channel_is_buffered[c]]), str(maximum_timing_label)
+        return set(
+            [c for c in self.channel_is_buffered if self.channel_is_buffered[c]]
+        ), str(maximum_timing_label)
 
     def _update_label(self, n: str) -> TimingLabel:
         """
@@ -214,7 +218,9 @@ class MADBuf:
                     to_update.put(f)
                 enqueued.add(f)
 
-    def _reduce_arrival_time_to(self, n: str, timing_constraint: TimingLabel = None) -> bool:
+    def _reduce_arrival_time_to(
+        self, n: str, timing_constraint: TimingLabel = None
+    ) -> bool:
         if timing_constraint == None:
             timing_constraint = TimingLabel(self.clock_period)  # default constraint
 
@@ -514,6 +520,7 @@ class MADBuf:
             f"dot -Tpng {_n}.dot > {_n}.png",
             shell=True,
         )
+
 
 if __name__ == "__main__":
 

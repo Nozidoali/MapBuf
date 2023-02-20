@@ -45,4 +45,3 @@ def run_vpr_pnr(benchmark: str, prevpr_blif_file: str, out_dir: str) -> None:
     command += "cp -r {} {}".format(tmp_dir, benchmark.dirname)
 
     subprocess.run(command, shell=True)
-
