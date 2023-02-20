@@ -2,7 +2,7 @@ from Utils.Utils import *
 from Parsers.BLIFGraph import *
 from Optimize.Milps import *
 from Synthesis.MADBuf import *
-from ExternalTools.Abc import *
+from ExternalTools.AbcEnvironment import *
 
 import pandas as pd
 import matplotlib.pyplot as plt

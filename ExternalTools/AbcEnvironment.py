@@ -1,34 +1,5 @@
 import subprocess
 
-
-def abc_opt(filein: str, fileout: str = None, opt: str = 'compress2rs; if -K 6; '):
-    tmp_filename = "/tmp/abc.log"
-
-    command = 'abc -c "'
-    command += f'read_blif {filein}; strash;'
-    command += opt
-    command += f'ps; write_hie {filein} {fileout};'
-    command += f'" > {tmp_filename}'
-
-    with abc_environment():
-        subprocess.run(command, shell=True)
-    
-    with open(tmp_filename, "r") as f:
-        values: dict = {}
-        for line in f.readlines():
-            if '=' in line:
-                data = line.split()
-                for i in range(len(data)):
-                    if data[i] == '=' and i != len(data)-1:
-                        try:
-                            values[data[i-1]] = int(data[i+1])
-                        except:
-                            pass
-                        
-    subprocess.run(f"rm -f {tmp_filename}", shell=True)
-    return values
-
-
 class abc_environment:
     def __enter__(self):
         abcrc_str = """
