@@ -1,8 +1,8 @@
 import gurobipy as gp
 from gurobipy import GRB
-from Parsers.BLIFGraph import *
 import random
 
+from Parsers.BLIFGraph import *
 from Synthesis.CutEnumeration import cut_enumeration
 
 
@@ -115,7 +115,7 @@ def run_milps(
 
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
-            m.addConstr(sum(cut_selection_vars) >= 1)
+            m.addConstr(sum(cut_selection_vars) == 1, f"cut_{n}")
 
         # Optimize model
         m.write("test.lp")
@@ -190,8 +190,8 @@ def small_blif() -> BLIFGraph:
 
 
 if __name__ == "__main__":
-    g = read_graph_from_blif("./benchmarks/gaussian/gaussian.blif")
+    # g = read_graph_from_blif("./benchmarks/gaussian/gaussian.blif")
 
-    # g = small_blif()
+    g = small_blif()
 
     run_milps(g, clock_period=3)

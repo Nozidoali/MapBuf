@@ -1,5 +1,9 @@
 from Parsers.BLIFGraph import BLIFGraph
 
+def cuts_to_string(cuts: list) -> str:
+    cuts_str = ','.join([str(c) for c in cuts])
+
+    return cuts_str
 
 def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
     if len(cuts) == 0:
@@ -19,6 +23,7 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
 
     cutset = list(cutset)
     cutset.sort(key=lambda x: x.size(), reverse=True)
+    
     return cutset[:setsize]
 
 
@@ -29,10 +34,10 @@ class Cut:
     def __str__(self) -> str:
         leaves = list(self.leaves)
         leaves.sort()  # alphabetic order
-        return ",".join(leaves)
+        return str(",".join(leaves))
 
     def __hash__(self) -> int:
-        return hash(self.__str__)
+        return hash(str(self))
 
     def __add__(self, other: "Cut") -> "Cut":
         return Cut(self.leaves.union(other.leaves))
@@ -47,7 +52,11 @@ def cut_enumeration(
     cuts: dict = {}
     for n in g.topological_traversal():
         cuts[n] = [Cut([n])]
+        
         if n in g.node_fanins:
             c = [cuts[f] for f in g.node_fanins[n]]
             cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
+            
     return cuts  # uniqify
+
+
