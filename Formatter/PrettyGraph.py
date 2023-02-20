@@ -1,7 +1,7 @@
 import pygraphviz as pgv
 from Utils import *
 
-def set_dfg_attributes(
+def set_pretty_attributes(
     G: pgv.AGraph, nodes_in_component: dict = None, remove_rst: bool = True
 ):
     # split the graph into subgraphs, clusterd by the components in the DFG
@@ -90,27 +90,27 @@ def set_dfg_attributes(
             g.graph_attr.update(rank="min")  # top
 
 
-def set_dfg_labels(G: pgv.AGraph, labels: dict):
+def set_pretty_labels(G: pgv.AGraph, labels: dict):
     for n in G.nodes():
         if n.get_name() in labels:
             n.attr["xlabel"] = str(labels[n])
 
 
-def set_dfg_outputs(G: pgv.AGraph, outputs: set):
+def set_pretty_outputs(G: pgv.AGraph, outputs: set):
     for n in G.nodes():
         if n.get_name() in outputs:
             n.attr["color"] = "red"
             n.attr["label"] = "PO"
 
 
-def set_dfg_inputs(G: pgv.AGraph, inputs: set):
+def set_pretty_inputs(G: pgv.AGraph, inputs: set):
     for n in G.nodes():
         if n.get_name() in inputs:
             n.attr["color"] = "blue"
             n.attr["label"] = "PI"
 
 
-def set_dfg_const(G: pgv.AGraph, const0: set, const1: set):
+def set_pretty_constants(G: pgv.AGraph, const0: set, const1: set):
     for n in G.nodes():
         if n.get_name() in const0:
             n.attr["label"] = "C0"
@@ -118,7 +118,7 @@ def set_dfg_const(G: pgv.AGraph, const0: set, const1: set):
             n.attr["label"] = "C1"
 
 
-def clear_dfg_labels(G: pgv.AGraph):
+def clear_pretty_labels(G: pgv.AGraph):
     for n in G.nodes():
         if n.attr["label"] == "":
             n.attr["label"] = n.get_name()

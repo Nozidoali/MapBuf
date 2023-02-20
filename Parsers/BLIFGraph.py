@@ -2,7 +2,7 @@ import pygraphviz as pgv
 import queue
 
 from Utils import * 
-from Formatter.FormatDOT import *
+from Formatter.PrettyGraph import *
 
 class BLIFGraph:
     def __init__(self, *args):
@@ -265,9 +265,9 @@ class BLIFGraph:
             ri = self.ro_to_ri[ro]
             G.add_edge(ri, ro, style="dashed")
 
-        set_dfg_outputs(G, self.outputs)
-        set_dfg_inputs(G, self.inputs)
-        set_dfg_const(G, self.const0, self.const1)
+        set_pretty_outputs(G, self.outputs)
+        set_pretty_inputs(G, self.inputs)
+        set_pretty_constants(G, self.const0, self.const1)
 
         return G
 

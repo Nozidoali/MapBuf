@@ -1,1 +1,2 @@
-from Formatter.FormatDOT import *
+from Formatter.PrettyGraph import *
+from Formatter.GetDifference import *

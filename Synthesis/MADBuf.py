@@ -1,6 +1,6 @@
 from Parsers.BLIFGraph import BLIFGraph
 from Synthesis.TimingLabel import TimingLabel
-from Formatter.FormatDOT import *
+from Formatter.PrettyGraph import *
 from Utils import *
 
 import queue
@@ -494,9 +494,9 @@ class MADBuf:
     def _export_fanin_cone_to(self, n: str, filename: str):
         g: BLIFGraph = self.g.extract_fanin_cone(n)
         G: pgv.AGraph = g.export()
-        set_dfg_attributes(G, self.nodes_in_component, remove_rst=False)
-        set_dfg_labels(G, self.labels)
-        clear_dfg_labels(G)
+        set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
+        set_pretty_labels(G, self.labels)
+        clear_pretty_labels(G)
         _n = filename.replace(".dot", "") if filename.endswith(".dot") else filename
         G.write(f"{_n}.dot")
         subprocess.run(
@@ -507,7 +507,7 @@ class MADBuf:
     def _export_entire_graph_to(self, filename: str):
         g: BLIFGraph = self.g
         G: pgv.AGraph = g.export()
-        set_dfg_attributes(G, self.nodes_in_component, remove_rst=False)
+        set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
         _n = filename.replace(".dot", "") if filename.endswith(".dot") else filename
         G.write(f"{_n}.dot")
         subprocess.run(
