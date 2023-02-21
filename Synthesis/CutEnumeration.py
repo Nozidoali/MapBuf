@@ -1,4 +1,5 @@
 from Parsers.BLIFGraph import BLIFGraph
+from Utils import *
 
 def cuts_to_string(cuts: list) -> str:
     cuts_str = ','.join([str(c) for c in cuts])
@@ -25,25 +26,6 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
     cutset.sort(key=lambda x: x.size(), reverse=True)
     
     return cutset[:setsize]
-
-
-class Cut:
-    def __init__(self, leaves) -> None:
-        self.leaves: set = set(leaves)
-
-    def __str__(self) -> str:
-        leaves = list(self.leaves)
-        leaves.sort()  # alphabetic order
-        return str(",".join(leaves))
-
-    def __hash__(self) -> int:
-        return hash(str(self))
-
-    def __add__(self, other: "Cut") -> "Cut":
-        return Cut(self.leaves.union(other.leaves))
-
-    def size(self) -> int:
-        return len(self.leaves)
 
 
 def cut_enumeration(

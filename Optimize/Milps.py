@@ -4,7 +4,7 @@ import random
 
 from Parsers.BLIFGraph import *
 from Synthesis.CutEnumeration import cut_enumeration
-
+from Optimize.CutlessEnumeration import cutless_enumeration
 
 class milp_params:
     infinity: int = 100
@@ -67,7 +67,8 @@ def run_milps(
                 m.addConstr(i <= cp, f"cp_{n}")
 
         # cut selection
-        cuts = cut_enumeration(g, priority_cut_size, lut_size_limit)
+        # cuts = cut_enumeration(g, priority_cut_size, lut_size_limit)
+        cuts = cutless_enumeration(g)
         for n in g.nodes:
 
             # dangling nodes

@@ -3,6 +3,7 @@ from Synthesis.TimingLabel import TimingLabel
 from Formatter.PrettyGraph import *
 from Utils import *
 
+import subprocess
 import queue
 
 
