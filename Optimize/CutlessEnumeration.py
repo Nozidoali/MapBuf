@@ -3,7 +3,7 @@ from Utils import *
 from Synthesis.TimingLabel import TimingLabel
 
 
-def cutless_enumeration(network: BLIFGraph, cut_size_limit: int) -> dict:
+def cutless_enumeration(network: BLIFGraph, cut_size_limit: int = 6) -> dict:
     '''
     Cutless enumeration of cuts
     '''

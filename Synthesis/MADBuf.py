@@ -26,7 +26,7 @@ class MADBuf:
                 self.channel_to_node[c] = set()
             self.channel_to_node[c].add(n)
 
-        # initialize all the lables
+        # initialize all the labels
         self.labels: dict = {}
         for n in self.g.topological_traversal():
             if self.g.is_ci(n):
