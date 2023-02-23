@@ -1,0 +1,28 @@
+Digraph G {
+	splines=spline;
+//DHLS version: 0.1.1" [shape = "none" pos = "20,20!"]
+		"src" [type = "Entry", bbID= 1, in = "in1:1", out = "out1:1"];
+		"store_0" [type = "Operator", bbID= 1, op = "mc_store_op", bbID= 1, portId= 0, in = "in1:1 in2:0 ", out = "out1:1 out2:0 ", delay=0.000, latency=0, II=1];
+		"ret_0" [type = "Operator", bbID= 1, op = "ret_op", in = "in1:0 ", out = "out1:0 ", delay=0.000, latency=0, II=1];
+		"cst_0" [type = "Constant", bbID= 1, in = "in1:1", out = "out1:1", value = "0x00000000"];
+		"MC_dest" [type = "MC", bbID= 0, in = "in1:1*c0 in2:0*s0a in3:1*s0d ", out = "out1:0*e ", memory = "dest", bbcount = 1, ldcount = 0, stcount = 1];
+		"cst_1" [type = "Constant", bbID= 1, in = "in1:1", out = "out1:1", value = "0x00000001"];
+		"end_0" [type = "Exit", bbID= 0, in = "in1:0*e in2:0 ", out = "out1:0"];
+		"start_0" [type = "Entry", control= "true", bbID= 1, in = "in1:0", out = "out1:0"];
+		"forkC_1" [type = "Fork", bbID= 1, in = "in1:0", out = "out1:0 out2:0 out3:0 "];
+		"store_0" -> "MC_dest" [color = "darkgreen", mem_address = "true", from = "out2", to = "in2"];
+		"store_0" -> "MC_dest" [color = "darkgreen", mem_address = "false", from = "out1", to = "in3"];
+		"cst_1" -> "MC_dest" [color = "darkgreen", from = "out1", to = "in1"];
+		"MC_dest" -> "end_0" [color = "gold3", from = "out1", to = "in1"];
+	subgraph cluster_0 {
+	color = "darkgreen";
+		label = "block1";
+		"src" -> "store_0" [color = "red", from = "out1", to = "in1"];
+		"ret_0" -> "end_0" [color = "gold3", from = "out1", to = "in2"];
+		"cst_0" -> "store_0" [color = "red", from = "out1", to = "in2"];
+		"start_0" -> "forkC_1" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_1" -> "cst_0" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_1" -> "cst_1" [color = "gold3", from = "out2", to = "in1"];
+		"forkC_1" -> "ret_0" [color = "gold3", from = "out3", to = "in1"];
+	}
+}

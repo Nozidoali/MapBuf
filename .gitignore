@@ -5,6 +5,6 @@ __pycache__
 *.aig
 *.csv
 *.png
-*.dot
+*_buf.dot
 
 abc.rc
