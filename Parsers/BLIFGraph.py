@@ -273,7 +273,7 @@ class BLIFGraph:
 
     def retrieve_anchors(self) -> tuple:
         g: BLIFGraph = BLIFGraph()
-        node_to_channel: dict = {}
+        signal_to_channel: dict = {}
         nodes_in_component: dict = {}
 
         # anchor insertion:
@@ -381,7 +381,7 @@ class BLIFGraph:
                     g.node_funcs[ni] = ["1 1"]  # trivial wire's truth table
                     to_connect.remove(ni)
                     # channel is marked not at the input, but the output
-                    node_to_channel[ni] = c
+                    signal_to_channel[ni] = c
 
         # assign un-traversed node to the correct cluster
         for n in self.inputs:
@@ -409,7 +409,7 @@ class BLIFGraph:
 
         g.traverse()
 
-        return g, node_to_channel, nodes_in_component
+        return g, signal_to_channel, nodes_in_component
 
     #
     # graph modifications

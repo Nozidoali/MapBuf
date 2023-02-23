@@ -13,15 +13,15 @@ class MADBuf:
         # reference: https://peps.python.org/pep-0526/#global-and-local-variable-annotations
         # type declaration before assignment
         self.g: BLIFGraph
-        self.node_to_channel: dict
+        self.signal_to_channel: dict
         self.nodes_in_component: dict
         self.channel_to_node: dict = {}
-        self.g, self.node_to_channel, self.nodes_in_component = g.retrieve_anchors()
+        self.g, self.signal_to_channel, self.nodes_in_component = g.retrieve_anchors()
 
         # reverse index the channel to node using the node to channel:
         #
-        for n in self.node_to_channel:
-            c = self.node_to_channel[n]
+        for n in self.signal_to_channel:
+            c = self.signal_to_channel[n]
             if c not in self.channel_to_node:
                 self.channel_to_node[c] = set()
             self.channel_to_node[c].add(n)
@@ -38,8 +38,8 @@ class MADBuf:
 
         # parse the channel from the graph
         self.channel_is_buffered = {}
-        for n in self.node_to_channel:
-            c: Channel = self.node_to_channel[n]
+        for n in self.signal_to_channel:
+            c: Channel = self.signal_to_channel[n]
             self.channel_is_buffered[c] = False
 
         # for lazy fix
@@ -160,7 +160,7 @@ class MADBuf:
             while True:
                 updated = False
                 for h in leaves:
-                    if h in self.node_to_channel:
+                    if h in self.signal_to_channel:
                         continue
                     if h not in self.g.node_fanins:
                         continue
@@ -375,7 +375,7 @@ class MADBuf:
             # we update the best leaves only if the first element is in the node fanin
             best_leaves = set(list(leaves)[:])  # deep copy
 
-            if f in self.node_to_channel:
+            if f in self.signal_to_channel:
                 """
                 if f is on the channel:
                     then we can fix the timing violation by adding buffers
@@ -386,7 +386,7 @@ class MADBuf:
                 affected_nodes: set = set()
 
                 # buffer the channel of this node f
-                c = self.node_to_channel[f]
+                c = self.signal_to_channel[f]
                 self.buffer_of_buffer.add(c)
                 for h in self.channel_to_node[c]:
                     self.dirty_labels[h] = TimingLabel(0)
@@ -416,7 +416,7 @@ class MADBuf:
                 while True:
                     updated = False
                     for h in leaves:
-                        if h in self.node_to_channel:
+                        if h in self.signal_to_channel:
                             continue
                         if h not in self.g.node_fanins:
                             continue
@@ -484,9 +484,9 @@ class MADBuf:
         return l_opt
 
     def _node_is_buffered(self, n: str) -> bool:
-        if n not in self.node_to_channel:
+        if n not in self.signal_to_channel:
             return False
-        c: Channel = self.node_to_channel[n]
+        c: Channel = self.signal_to_channel[n]
         return self.channel_is_buffered[c]
 
     def _node_arrival_time(self, n: str) -> TimingLabel:

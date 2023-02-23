@@ -14,4 +14,6 @@ def cutless_enumeration(network: BLIFGraph, cut_size_limit: int = 6) -> dict:
         cuts[n] = [Cut([n])]
         
     
+
+
     return cuts

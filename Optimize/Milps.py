@@ -6,8 +6,6 @@ from Parsers.BLIFGraph import *
 from Synthesis.CutEnumeration import cut_enumeration
 from Optimize.CutlessEnumeration import cutless_enumeration
 
-class milp_params:
-    infinity: int = 100
 
 
 def run_milps(
@@ -18,7 +16,7 @@ def run_milps(
     lut_size_limit: int = 6,
 ):
 
-    g, node_to_channel, nodes_in_component = _g.retrieve_anchors()
+    g, signal_to_channel, nodes_in_component = _g.retrieve_anchors()
 
     try:
         # Create a new model
@@ -36,8 +34,8 @@ def run_milps(
         # channel constraints
         channel_to_var: dict = {}
         channels: set = set()
-        for n in node_to_channel:
-            c = node_to_channel[n]
+        for n in signal_to_channel:
+            c = signal_to_channel[n]
             channels.add(c)
 
         for c in channels:
@@ -96,9 +94,9 @@ def run_milps(
                 y = cut_selection_vars[cid]
 
                 # channel
-                if n in node_to_channel and insert_buffer:
+                if n in signal_to_channel and insert_buffer:
 
-                    c = node_to_channel[n]
+                    c = signal_to_channel[n]
                     x = channel_to_var[c]
                     for f in cut_set[cid].leaves:
                         d_j = signal_to_var[f]
