@@ -1,5 +1,6 @@
 from Optimize.Milps import *
 from Optimize.MilpConstructor import MilpConstructor
+from Optimize.OptimizeThroughput import *
 from Parsers.DynamaticDOT import *
 from Parsers.DummyBlif import *
 
@@ -33,8 +34,13 @@ def test_milp_constructor():
     constructor.add_cut_selection_constraints(cuts)
     constructor.add_channel_buffer_varibles(channels)
     constructor.export_lp('test_lp.lp')
-    
+
+def test_throughput_optimization():
+    optimizer = ThroughputOptimizer()
+
+    optimizer.read_dynamatic_lps('./Examples/gsum/dynamatic_lps/')
+
 if __name__ == "__main__":
     # test_cutless()
 
-    test_milp_constructor()
+    test_throughput_optimization()
