@@ -50,19 +50,8 @@ def insert_buffer_at(
     g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool
 ) -> pgv.Edge:
     (u, v) = e
-    g.add_node(name)
-    buffer = g.get_node(name)
-    buffer.attr["in"] = "in1:32"
-    buffer.attr["out"] = "out1:32"
-    buffer.attr["bbID"] = "3"
-    buffer.attr["slots"] = "1"
-    buffer.attr["transparent"] = "true" if transparent else "false"
-    buffer.attr["label"] = name
-    buffer.attr["shape"] = "box"
-    buffer.attr["style"] = "filled"
-    buffer.attr["fillcolor"] = "darkolivegreen3"
-    buffer.attr["height"] = 0.4
-    buffer.attr["type"] = "Buffer"
+    
+    buffer = create_buffer(g, name, transparent)
 
     g.add_edge(u, buffer)
     for key in e.attr:

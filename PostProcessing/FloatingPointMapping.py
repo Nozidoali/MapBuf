@@ -1,4 +1,5 @@
 import pygraphviz as pgv
+from Utils import *
 
 
 def get_node_name(n: pgv.Node) -> str:
@@ -39,7 +40,12 @@ def get_operation_type(n: str) -> str:
     assert "_" in n
 
     op_name = n.split("_")[0]
-    return f"{op_name}_op"
+
+    if op_name == 'fcmp':
+        return f"{op_name}_ult_op" # weird corner case
+    
+    else:
+        return f"{op_name}_op"
 
 
 def fix_floating_point_components(g: pgv.AGraph, mapping: dict = None):
@@ -89,6 +95,114 @@ def fix_floating_point_components(g: pgv.AGraph, mapping: dict = None):
             to_remove.append(n)
             to_remove.append(buffer)
             print("done")
+
+    for n in to_remove:
+        g.remove_node(n)
+
+
+def floating_point_operations():
+    return [
+        'fadd',
+        'fmul',
+        'fcmp'
+    ]
+    
+
+def is_fcmp(node_name: str) -> bool:
+    return 'fcmp' in node_name
+
+class floating_point_mapping_params:
+    reserved_index: int = 300
+
+def mapping_to_unfloating(g: pgv.agraph):
+
+    to_remove = []
+    curr_index: int = floating_point_mapping_params.reserved_index
+
+
+    for n in g.nodes():
+
+        node_name = get_node_name(n)
+        
+        
+        # indicates if we need to update the index at the end
+        curr_index_used: bool = False 
+
+
+        component_type, component_index = node_name.split('_')
+
+        if component_type not in floating_point_operations():
+            continue
+
+        # now we determine the mapping from / to
+        mapping_from: str = node_name
+        mapping_to: str
+        insert_buffer: bool
+
+        if is_fcmp(node_name):
+            mapping_to = f'icmp_{component_index}'
+            insert_buffer = False
+
+        else:
+            mapping_to = f'and_{curr_index}'
+            insert_buffer = True
+            curr_index_used = True
+
+
+        print(f"replacing {mapping_from} using {mapping_to} (buffer = {insert_buffer})", end="...")
+
+
+        # then, we add the new components to the graph 
+        # 
+        g.add_node(mapping_to)
+        new_node = g.get_node(mapping_to)
+
+        # copy all the other attributes, but update the operation type
+        copy_attr(n, new_node)
+        new_node.attr["op"] = get_operation_type(mapping_to)
+
+        input_node: pgv.Node = n
+        output_node: pgv.Node = n
+
+        if insert_buffer:
+            
+            output_node = create_buffer(g, f"Buffer_{curr_index}")
+            g.add_edge((new_node, output_node))
+
+        # substitute input
+        to_input = []
+        for u, v in g.in_edges(n):
+            to_input.append(u)
+
+        for u in to_input:
+            g.add_edge((u, new_node))
+            new_edge = g.get_edge(u, new_node)
+            old_edge = g.get_edge(u, n)
+            copy_attr(old_edge, new_edge)
+            g.remove_edge((u, n))
+
+
+        # substitute output
+        to_output = []
+        for u, v in g.out_edges(n):
+            to_output.append(v)
+
+        for v in to_output:
+            g.add_edge((output_node, v))
+            new_edge = g.get_edge(output_node, v)
+            old_edge = g.get_edge(n, v)
+            copy_attr(old_edge, new_edge)
+            g.remove_edge((n, v))
+
+
+        # add these nodes to the remove list, and we will remove after the for loop
+        # 
+        to_remove.append(n)
+
+        if curr_index_used:
+            curr_index += 1
+    
+        print("done")
 
     for n in to_remove:
         g.remove_node(n)
