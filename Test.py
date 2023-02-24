@@ -37,8 +37,11 @@ def test_milp_constructor():
 
 def test_throughput_optimization():
     optimizer = ThroughputOptimizer()
+    g:BLIFGraph = BLIFGraph('./Examples/gsum/gsum.blif')
 
-    optimizer.read_dynamatic_lps('./Examples/gsum/dynamatic_lps/')
+    optimizer.read_dynamatic_lps('./Examples/gsum/gsum.lp')
+    optimizer.add_timing_constraints(g)
+    # optimizer.run()
 
 if __name__ == "__main__":
     # test_cutless()

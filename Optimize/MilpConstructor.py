@@ -102,5 +102,11 @@ class MilpConstructor:
 
         self.model.write(lp_name)
 
+    def export_solution(self, sol_name: str):
+        assert sol_name.endswith('.sol')
+
+        self.model.write(sol_name)
+
+
     def optimize(self):
-        self.optimize()
+        self.model.optimize()
