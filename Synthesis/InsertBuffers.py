@@ -1,7 +1,6 @@
 import pygraphviz as pgv
 from Utils import *
 
-
 def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set):
     """
     buffers is the set of all the channels to place buffers at
@@ -45,24 +44,3 @@ def buffer_blackboxes(g: pgv.AGraph):
         name = edges_to_buffer[e]
         insert_buffer_at(g, e, name, False)
 
-
-def insert_buffer_at(
-    g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool
-) -> pgv.Edge:
-    (u, v) = e
-    
-    buffer = create_buffer(g, name, transparent)
-
-    g.add_edge(u, buffer)
-    for key in e.attr:
-        g.get_edge(u, buffer).attr[key] = e.attr[key]
-    g.get_edge(u, buffer).attr["to"] = "in1"
-
-    g.add_edge(buffer, v)
-    for key in e.attr:
-        g.get_edge(buffer, v).attr[key] = e.attr[key]
-    g.get_edge(buffer, v).attr["from"] = "out1"
-
-    g.remove_edge(e)
-
-    return g.get_edge(buffer, v)

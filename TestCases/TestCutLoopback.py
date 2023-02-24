@@ -1,9 +1,9 @@
 from TestCases.TestCases import TestCases
 from Utils import *
-from PostProcessing.FloatingPointMapping import *
-from Parsers.DynamaticDOT import read_dynamatic_dot, write_dynamatic_dot
 from PreProcessing.CutLoopBack import *
-class TestFloatingPointMapping(TestCases):
+from Parsers.DynamaticDOT import read_dynamatic_dot, write_dynamatic_dot
+
+class TestCutLoopback(TestCases):
 
     def __init__(self) -> None:
         super().__init__()
@@ -16,8 +16,4 @@ class TestFloatingPointMapping(TestCases):
         graph = read_dynamatic_dot(file_under_test)
         bbgraph = read_dynamatic_dot(bbgraph_under_test)
 
-        mapping_to_unfloating(graph)
-
         cut_loopback(graph, bbgraph)
-
-        write_dynamatic_dot(graph, 'gsum.dot')

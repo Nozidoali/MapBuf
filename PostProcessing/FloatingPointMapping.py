@@ -41,7 +41,7 @@ def get_operation_type(n: str) -> str:
 
     op_name = n.split("_")[0]
 
-    if op_name == 'fcmp':
+    if op_name == 'fcmp' or op_name == 'icmp':
         return f"{op_name}_ult_op" # weird corner case
     
     else:
@@ -162,12 +162,17 @@ def mapping_to_unfloating(g: pgv.agraph):
         new_node.attr["op"] = get_operation_type(mapping_to)
 
         input_node: pgv.Node = n
-        output_node: pgv.Node = n
+        output_node: pgv.Node = new_node
 
         if insert_buffer:
             
             output_node = create_buffer(g, f"Buffer_{curr_index}")
             g.add_edge((new_node, output_node))
+
+            new_edge = g.get_edge(new_node, output_node)
+            new_edge.attr['color'] = 'red'
+            new_edge.attr['from'] = 'out1'
+            new_edge.attr['to'] = 'in1'
 
         # substitute input
         to_input = []
@@ -176,9 +181,12 @@ def mapping_to_unfloating(g: pgv.agraph):
 
         for u in to_input:
             g.add_edge((u, new_node))
+
+            # copy edge attributes
             new_edge = g.get_edge(u, new_node)
             old_edge = g.get_edge(u, n)
             copy_attr(old_edge, new_edge)
+
             g.remove_edge((u, n))
 
 
@@ -189,9 +197,19 @@ def mapping_to_unfloating(g: pgv.agraph):
 
         for v in to_output:
             g.add_edge((output_node, v))
+            
             new_edge = g.get_edge(output_node, v)
             old_edge = g.get_edge(n, v)
             copy_attr(old_edge, new_edge)
+
+            # if the output node is a buffer, then we need to modify something here:
+            #   color = 
+            #   from = 'in1'
+            #   to = 
+            # otherwise we need additional buffers (one for each output pin)   
+            #
+            assert new_edge.attr['from'] == 'out1' 
+
             g.remove_edge((n, v))
 
 
