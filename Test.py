@@ -48,6 +48,6 @@ def test_throughput_optimization():
 if __name__ == "__main__":
     # test_cutless()
 
-    test = TestFloatingPointMapping()
+    test = TestThroughputOptimization()
 
     test.run()
