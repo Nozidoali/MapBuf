@@ -1,6 +1,26 @@
 from Parsers.BLIFGraph import BLIFGraph
 from Utils import *
 
+def tiny_blif() -> BLIFGraph:
+    """
+
+    n1  n2
+     \  /
+      n3
+      |
+
+    """
+    g: BLIFGraph = BLIFGraph()
+
+    g.create_pi("n1")
+    g.create_pi("n2")
+    g.create_and("n1", "n2", "n3")
+
+    g.create_po("n3")
+
+    g.traverse()
+
+    return g
 # A small test case
 def small_blif() -> BLIFGraph:
     """

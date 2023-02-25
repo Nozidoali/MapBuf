@@ -5,7 +5,7 @@ import gurobipy as gp
 import os
 from gurobipy import GRB
 from Parsers.BLIFGraph import *
-
+from Synthesis.CutEnumeration import *
 
 
 def optimize_throughput():
@@ -22,8 +22,7 @@ def parse_dynamatic_channel_name(var_name: str):
 
 class ThroughputOptimizer:
     def __init__(self) -> None:
-        self.constructor = None
-
+        self.constructor = MilpConstructor()
         self.channels: set = set()
         pass
 
@@ -50,8 +49,8 @@ class ThroughputOptimizer:
 
                     self.channels.add(f"{component_from}_{component_to}")
                 
-            self.constructor = MilpConstructor(lp_model)
-
+            
+        self.constructor = MilpConstructor(lp_model)
 
     def add_timing_constraints(self, g: BLIFGraph):
 
@@ -64,27 +63,30 @@ class ThroughputOptimizer:
             channel_name = f"{u}_{v}"
             channels.add(channel_name)
 
-        print(self.channels)
         for channel_name in self.channels:
             if channel_name not in channels:
 
                 if 'Buffer' not in channel_name:
-                    print(channel_name)
+                    # print(channel_name)
                     pass
 
 
 
-        cuts = cutless_enumeration(network)
+        cuts = cut_enumeration(network, priority_cut_size=3)
+        signal_to_cuts: dict = {}
+
+        # remove all the cuts for the inputs
+        for signal in g.nodes:
+            if signal in cuts:
+                signal_to_cuts[signal] = cuts[signal]
 
         self.constructor.add_timing_label_variables(network)
         self.constructor.add_input_delay_constraints(network)
         self.constructor.add_clock_period_constraints(network)
-        self.constructor.add_cut_selection_constraints(cuts)
+        self.constructor.add_cut_selection_constraints(signal_to_cuts)
         self.constructor.add_channel_buffer_varibles(self.channels)
-
-        self.constructor.export_lp('test_lp.lp')
 
 
     def run(self):
         self.constructor.optimize()
-        self.constructor.export_solution('test_lp.sol')
+

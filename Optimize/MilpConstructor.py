@@ -21,7 +21,7 @@ class MilpConstructor:
         for signal in g.signals:
             var_signal = self.model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
-            # remember this variable in the dict
+            # remember this variable in the dictionary
             self.signal_to_variable[signal] = var_signal
             
     def add_clock_period_constraints(self, g: BLIFGraph):
@@ -56,7 +56,7 @@ class MilpConstructor:
                 assert input_signal in self.signal_to_variable
 
                 var_input_signal = self.signal_to_variable[input_signal]
-                self.model.addConstr(var_input_signal >= 0, f"InputDelay_{input_signal}")
+                self.model.addConstr(var_input_signal == 0, f"InputDelay_{input_signal}")
         
 
     def add_channel_buffer_varibles(self, channels: list):
@@ -69,28 +69,30 @@ class MilpConstructor:
         
         for signal in signal_to_cuts:
 
+            # delay propagation
+            var_signal = self.signal_to_variable[signal]
+
             cut_set: list = signal_to_cuts[signal]
 
-            cut_selection_vars: list = []
             n_cuts = len(cut_set)
+
+            cut_selection_vars: list = []
             # for each cut in the set set
             for cut_index in range(n_cuts):
+
+                cut = cut_set[cut_index]
 
                 # cut selection variables
                 var_cut_selection = self.model.addVar(vtype=GRB.BINARY, name=f"Y({signal}->{cut_index})")
                 cut_selection_vars.append(var_cut_selection)
 
-            # delay propagation
-            var_signal = self.signal_to_variable[signal]
-
-            # one set of constraint for a cut
-            for cid in range(n_cuts):
-
-                y = cut_selection_vars[cid]
-
-                for leaf in cut_set[cid].leaves:
+                for leaf in cut.leaves:
                     var_leaf = self.signal_to_variable[leaf]
-                    self.model.addConstr(var_signal + (1 - y) * milp_params.infinity >= var_leaf + 1)
+                    self.model.addConstr(
+                        var_signal + 
+                        (1 - var_cut_selection) * milp_params.infinity 
+                            >= var_leaf + 1
+                    )
 
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
@@ -109,4 +111,12 @@ class MilpConstructor:
 
 
     def optimize(self):
+        self.export_lp('test_lp.lp')
         self.model.optimize()
+        self.export_solution('test_lp.sol')
+
+    def optimize_clock_period(self):
+        self.model.setObjective(self.var_cp, GRB.MINIMIZE)
+        self.export_lp('test_lp.lp')
+        self.model.optimize()
+        self.export_solution('test_lp.sol')

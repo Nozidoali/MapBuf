@@ -1,4 +1,4 @@
-from Optimize.Milps import *
+from Milps import *
 from Optimize.MilpConstructor import MilpConstructor
 from Optimize.OptimizeThroughput import *
 from Parsers.DynamaticDOT import *

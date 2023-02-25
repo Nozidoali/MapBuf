@@ -1,15 +1,15 @@
 from Parsers.BLIFGraph import BLIFGraph
 from Optimize.OptimizeThroughput import ThroughputOptimizer
+from Parsers.DummyBlif import *
 
-class TestThroughputOptimization:
+class TestMapping:
     def __init__(self) -> None:
         pass
 
     def run(self) -> None:
 
         optimizer = ThroughputOptimizer()
-        g:BLIFGraph = BLIFGraph('./Examples/gsum/gsum.blif')
+        g:BLIFGraph = small_blif()
 
-        # optimizer.read_dynamatic_lps('./Examples/gsum/gsum.lp')
         optimizer.add_timing_constraints(g)
         optimizer.constructor.optimize_clock_period()

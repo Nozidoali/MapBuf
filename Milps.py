@@ -6,6 +6,8 @@ from Parsers.BLIFGraph import *
 from Synthesis.CutEnumeration import cut_enumeration
 from Optimize.CutlessEnumeration import cutless_enumeration
 
+class milp_params:
+    infinity: int = 100
 
 
 def run_milps(
@@ -42,11 +44,6 @@ def run_milps(
             channel_to_var[c] = m.addVar(vtype=GRB.BINARY, name=f"X({c})")
 
         # Create target function
-        m.setObjective(
-            milp_params.infinity * cp
-            + sum([channel_to_var[c] for c in channel_to_var]),
-            GRB.MINIMIZE,
-        )
         m.setObjective(cp, GRB.MINIMIZE)
 
         # input delay = 0
@@ -66,7 +63,7 @@ def run_milps(
 
         # cut selection
         # cuts = cut_enumeration(g, priority_cut_size, lut_size_limit)
-        cuts = cutless_enumeration(g)
+        cuts = cut_enumeration(g, priority_cut_size=4)
         for n in g.nodes:
 
             # dangling nodes
@@ -77,7 +74,7 @@ def run_milps(
             cut_selection_vars: list = []
             n_cuts = len(cut_set)
 
-            # for each cut in the set set
+            # for each cut in the cut set
             for c in range(n_cuts):
 
                 # cut selection variables
@@ -144,53 +141,9 @@ def run_milps(
         return None
 
 
-# A small test case
-def small_blif() -> BLIFGraph:
-    """
-
-    n1  n2
-     \  /
-      n3_i
-      |
-      (c1)
-      |
-      n3_o n4
-       \  /
-        n5  n6
-         \  /
-          n7  n8
-           \ /
-            n9
-    """
-    g: BLIFGraph = BLIFGraph()
-
-    g.create_pi("n1")
-    g.create_pi("n2")
-    g.create_pi("n4")
-    g.create_pi("n6")
-    g.create_pi("n8")
-
-    g.create_po("n9")
-
-    c1 = Channel("A", "B", "data")
-
-    g.create_and("n1", "n2", f"{c1}__anchor__out")
-
-    g.create_pi(f"{c1}__anchor__in")
-    g.create_po(f"{c1}__anchor__out")
-
-    g.create_and(f"{c1}__anchor__in", "n4", "n5")
-    g.create_and("n5", "n6", "n7")
-    g.create_and("n7", "n8", "n9")
-
-    g.traverse()
-
-    return g
-
 
 if __name__ == "__main__":
-    # g = read_graph_from_blif("./benchmarks/gaussian/gaussian.blif")
-
-    g = small_blif()
+    g = BLIFGraph("./Examples/gsum/gsum.blif")
+    # g = BLIFGraph("./Examples/gaussian/gaussian.blif")
 
     run_milps(g, clock_period=3)

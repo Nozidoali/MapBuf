@@ -1,6 +1,6 @@
 from Utils.Utils import *
 from Parsers.BLIFGraph import *
-from Optimize.Milps import *
+from Milps import *
 from Synthesis.MADBuf import *
 from ExternalTools.AbcEnvironment import *
 
