@@ -6,6 +6,31 @@ def get_node_name(n: pgv.Node) -> str:
     return n.get_name().strip('"')
 
 
+def load_mapping_tuples(filename: str) -> dict:
+    # mapping is the dict, mapping[map_from] = map_to
+    mapping: dict = {}
+
+    try:
+        with open(filename, "r") as f:
+            for line in f:
+
+                # map_to: floating point operations, e.g. fadd/fmul
+                # map_from: AND operation component name.
+                #
+                map_to, map_from, insert_buffer_str = line.split(",")
+
+                map_from = map_from.strip()
+                map_to = map_to.strip()
+
+                insert_buffer: bool = insert_buffer_str == 'True'
+
+                mapping[map_from] = (map_to, insert_buffer)
+
+        return mapping
+
+    except:
+        return None
+
 def load_mapping_from_file(filename: str) -> dict:
 
     # mapping is the dict, mapping[map_from] = map_to
@@ -114,16 +139,19 @@ def is_fcmp(node_name: str) -> bool:
 class floating_point_mapping_params:
     reserved_index: int = 300
 
-def mapping_to_unfloating(g: pgv.agraph):
+def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
 
     to_remove = []
     curr_index: int = floating_point_mapping_params.reserved_index
 
+    store_mapping_to_file: bool = mapping_filename != None
+
+    if store_mapping_to_file:
+        f = open(mapping_filename, 'w')
 
     for n in g.nodes():
 
         node_name = get_node_name(n)
-        
         
         # indicates if we need to update the index at the end
         curr_index_used: bool = False 
@@ -148,6 +176,8 @@ def mapping_to_unfloating(g: pgv.agraph):
             insert_buffer = True
             curr_index_used = True
 
+        if store_mapping_to_file:
+            f.write(f"{mapping_from},{mapping_to},{insert_buffer}\n")
 
         print(f"replacing {mapping_from} using {mapping_to} (buffer = {insert_buffer})", end="...")
 

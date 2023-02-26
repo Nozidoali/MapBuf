@@ -110,9 +110,31 @@ class MilpConstructor:
         self.model.write(sol_name)
 
 
+    def print_throughput(self):
+        for var in self.model.getVars():
+
+            var_name: str = var.getAttr('VarName')
+            var_value = var.getAttr('X')
+
+            if var_name.startswith('x') and var_name[1:].isdigit():
+                print(f'throughput ({var_name}) = {var_value}')
+
+    def print_buffers(self):
+        for var in self.model.getVars():
+
+            var_name: str = var.getAttr('VarName')
+            var_value = var.getAttr('X')
+
+            if 'hasBuffer' in var_name and var_value > 0:
+                print(f'{var_name} = {var_value}')
+
+            
+
     def optimize(self):
         self.export_lp('test_lp.lp')
         self.model.optimize()
+        self.print_throughput()
+        self.print_buffers()
         self.export_solution('test_lp.sol')
 
     def optimize_clock_period(self):

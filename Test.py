@@ -1,15 +1,9 @@
-from Milps import *
 from Optimize.MilpConstructor import MilpConstructor
 from Optimize.OptimizeThroughput import *
 from Parsers.DynamaticDOT import *
 from Parsers.DummyBlif import *
 
 from TestCases import *
-
-def test_milp():
-    g: BLIFGraph = small_blif()
-    run_milps(g, clock_period=3)
-    
     
 def test_cutless():
     g: BLIFGraph = small_blif()
@@ -48,6 +42,6 @@ def test_throughput_optimization():
 if __name__ == "__main__":
     # test_cutless()
 
-    test = TestThroughputOptimization()
+    test = TestFloatingPointMapping()
 
     test.run()

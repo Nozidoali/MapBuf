@@ -67,7 +67,7 @@ class ThroughputOptimizer:
             if channel_name not in channels:
 
                 if 'Buffer' not in channel_name:
-                    # print(channel_name)
+                    print(channel_name)
                     pass
 
 

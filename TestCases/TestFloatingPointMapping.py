@@ -16,7 +16,8 @@ class TestFloatingPointMapping(TestCases):
         graph = read_dynamatic_dot(file_under_test)
         bbgraph = read_dynamatic_dot(bbgraph_under_test)
 
-        mapping_to_unfloating(graph)
+        mapping_to_unfloating(graph, mapping_filename = 'mapping/gsum.mapping')
+
 
         cut_loopback(graph, bbgraph)
 
