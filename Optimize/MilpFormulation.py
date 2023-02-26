@@ -112,13 +112,14 @@ def add_madbuf_constraints(
 
 def add_timing_constraints(
     model: gp.Model,
-    g: BLIFGraph,
+    network: BLIFGraph,
+    signal_to_cuts: dict,
+    signal_to_channel: dict,
     mappings: dict = None,
     clock_period: int = 100,
     verbose: bool = False,
 ):
 
-    network, signal_to_channel, node_in_component = g.retrieve_anchors()
 
     channels: set = set()
     for node in signal_to_channel:
@@ -127,16 +128,8 @@ def add_timing_constraints(
         channel_name = f"{u}_{v}"
         channels.add(channel_name)
 
-    cuts = cut_enumeration(network, priority_cut_size=10)
-    signal_to_cuts: dict = {}
-
-    # remove all the cuts for the inputs
-    for signal in g.nodes:
-        if signal in cuts:
-            signal_to_cuts[signal] = cuts[signal]
-
     signal_to_channel_var = get_signal_to_channel_variable_mapping(
-        model, g, mappings, verbose
+        model, network, signal_to_channel, mappings, verbose
     )
 
     # add the timing constraints

@@ -28,10 +28,7 @@ def parse_dynamatic_channel_name(var_name: str, mappings: dict = None):
     return component_from, component_to
 
 
-def get_out_edges(g: BLIFGraph, mappings: dict = None):
-    network: BLIFGraph
-    signal_to_channel: dict
-    network, signal_to_channel, node_in_component = g.retrieve_anchors()
+def get_out_edges(signal_to_channel: dict, mappings: dict = None):
 
     out_edges: dict = {}
 
@@ -72,22 +69,19 @@ def get_channel_to_var(model: gp.Model, mappings: dict = None):
 
 
 def get_signal_to_channel_variable_mapping(
-    model: gp.Model, g: BLIFGraph, mappings: dict = None, verbose: bool = False
+    model: gp.Model, network: BLIFGraph, 
+    signal_to_channel: dict, mappings: dict = None, verbose: bool = False
 ):
     """
     we need to find the variable names defined in dynamatic linear programs
 
     """
 
-    network: BLIFGraph
-    signal_to_channel: dict
-    network, signal_to_channel, node_in_component = g.retrieve_anchors()
-
     # we first get the channel to variable mapping
     channel_to_var = get_channel_to_var(model, mappings)
 
     # we precompute the out edges for each component
-    out_edges = get_out_edges(g, mappings)
+    out_edges = get_out_edges(signal_to_channel)
 
     # we prepare the set of all the floating point components
     unfloating_components = set()
