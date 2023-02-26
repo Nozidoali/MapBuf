@@ -17,6 +17,4 @@ class TestThroughputOptimization:
         optimizer.read_dynamatic_lps("./Examples/gsum/gsum.lp")
         optimizer.add_timing_constraints(g)
 
-        optimizer.constructor.optimize_clock_period()
-
         optimizer.constructor.optimize()

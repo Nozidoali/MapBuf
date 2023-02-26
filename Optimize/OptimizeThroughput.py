@@ -25,8 +25,6 @@ def parse_dynamatic_channel_name(var_name: str):
 class ThroughputOptimizer:
     def __init__(self) -> None:
         self.constructor = MilpConstructor()
-        self.channels: set = set()
-        pass
 
     def read_dynamatic_lps(self, lp_filename: str):
 
@@ -39,19 +37,69 @@ class ThroughputOptimizer:
 
             lp_model = gp.read(lp_filename, env=env)
 
-            for var in lp_model.getVars():
-                var_name = var.getAttr("VarName")
-                var_type = var.getAttr("VType")
-
-                if "hasBuffer" in var_name:
-
-                    component_from, component_to = parse_dynamatic_channel_name(
-                        var_name
-                    )
-
-                    self.channels.add(f"{component_from}_{component_to}")
-
         self.constructor = MilpConstructor(lp_model)
+
+    def match_dynamatic_vars(self, g: BLIFGraph):
+        """
+        we need to find the variable names defined in dynamatic linear programs
+
+        """
+        assert self.constructor.model is not None
+
+        network: BLIFGraph
+        node_to_channel: dict
+        network, node_to_channel, node_in_component = g.retrieve_anchors()
+
+        channel_to_var: dict = {}
+
+        for var in self.constructor.model.getVars():
+            var_name = var.getAttr("VarName")
+
+            if "_flop_ready" in var_name:
+                component_from, component_to = parse_dynamatic_channel_name(var_name)
+
+                c: Channel = Channel(
+                    u=component_from, 
+                    v=component_to,
+                    t=Constants._channel_ready_,
+                    idx=0
+                )
+
+                channel_to_var[c] = var
+
+            elif "_flop_valid" in var_name:
+                component_from, component_to = parse_dynamatic_channel_name(var_name)
+
+                c: Channel = Channel(
+                    u=component_from, 
+                    v=component_to,
+                    t=Constants._channel_valid_,
+                    idx=0
+                )
+
+                channel_to_var[c] = var
+
+        signal_to_channel_var: dict = {}
+
+        # now we do the matching
+        for signal in network.signals:
+
+            if signal in node_to_channel:
+                c: Channel = node_to_channel[signal]
+
+                # we don't have a seperate variable for the data channel
+                if c.t == Constants._channel_data_:
+                    c.t = Constants._channel_valid_
+
+                if c in channel_to_var:
+                    print(f"Matched {signal} to {c}")
+                    signal_to_channel_var[signal] = channel_to_var[c]
+
+                else:
+                    print(f"Warning: {signal} is not found in the dynamatic model")
+
+        return signal_to_channel_var
+
 
     def add_timing_constraints(self, g: BLIFGraph):
 
@@ -64,12 +112,6 @@ class ThroughputOptimizer:
             channel_name = f"{u}_{v}"
             channels.add(channel_name)
 
-        for channel_name in self.channels:
-            if channel_name not in channels:
-
-                if "Buffer" not in channel_name:
-                    print(channel_name)
-                    pass
 
         cuts = cut_enumeration(network, priority_cut_size=3)
         signal_to_cuts: dict = {}
@@ -79,11 +121,24 @@ class ThroughputOptimizer:
             if signal in cuts:
                 signal_to_cuts[signal] = cuts[signal]
 
-        self.constructor.add_timing_label_variables(network)
-        self.constructor.add_input_delay_constraints(network)
-        self.constructor.add_clock_period_constraints(network)
-        self.constructor.add_cut_selection_constraints(signal_to_cuts)
-        self.constructor.add_channel_buffer_varibles(self.channels)
 
+        signal_to_channel_var = self.match_dynamatic_vars(g)
+
+        # add the timing constraints
+        self.constructor.add_timing_label_variables(network)
+
+        # add the input delay constraints
+        self.constructor.add_input_delay_constraints(network)
+        
+        # add the clock period constraints
+        self.constructor.add_clock_period_constraints(network)
+        
+        # add the cut selection constraints
+        self.constructor.add_madbuf_constraints(
+            signal_to_cuts= signal_to_cuts,
+            signal_to_channel_var= signal_to_channel_var
+        )
+        
     def run(self):
         self.constructor.optimize()
+

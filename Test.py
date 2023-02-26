@@ -29,7 +29,7 @@ def test_milp_constructor():
     constructor.add_timing_label_variables(network)
     constructor.add_input_delay_constraints(network)
     constructor.add_clock_period_constraints(network)
-    constructor.add_cut_selection_constraints(cuts)
+    constructor.add_madbuf_constraints(cuts)
     constructor.add_channel_buffer_varibles(channels)
     constructor.export_lp("test_lp.lp")
 
@@ -46,6 +46,6 @@ def test_throughput_optimization():
 if __name__ == "__main__":
     # test_cutless()
 
-    test = TestFloatingPointMapping()
+    test = TestThroughputOptimization()
 
     test.run()

@@ -316,6 +316,14 @@ class BLIFGraph:
         for n in self.ris:
             g.ris.add(n)
 
+        # we only consider those anchors in the outputs
+        #   the anchor has the structure of:
+        #              out (v)
+        #              |
+        #              PO    PI
+        #                    |
+        #                    in (u)
+        #
         for n in self.outputs:
 
             c: Channel = retrieve_channel_from_anchor(n)
@@ -323,6 +331,7 @@ class BLIFGraph:
                 g.outputs.add(n)
                 continue
             if "__in" in n:
+
                 # trivial wire, connecting both input and output
                 # this is probably because the blackbox
                 # - Keep it!
@@ -366,9 +375,7 @@ class BLIFGraph:
                     print(f"{ni} is dangling")
                     exit(0)
                 else:
-                    # now we add a wire from n to ni
-                    #  - n -> ni
-                    # print(f'{n}->{ni}')
+                    # check n has fanins:
                     #
                     if n not in g.node_fanins:
                         # print(n) # for debug purpose
@@ -376,12 +383,17 @@ class BLIFGraph:
                             print(f"{n} is not defined")
                             exit()
 
+                    # now we add a wire from n to ni
+                    #  - n -> ni
+                    # print(f'{n}->{ni}')
+                    # 
                     g.nodes.add(ni)
                     g.node_fanins[ni] = set([n])  # fanins of a node is a unit set
                     g.node_funcs[ni] = ["1 1"]  # trivial wire's truth table
+                    signal_to_channel[ni] = c # channel is marked not at the input, but the output
+                    
                     to_connect.remove(ni)
-                    # channel is marked not at the input, but the output
-                    signal_to_channel[ni] = c
+
 
         # assign un-traversed node to the correct cluster
         for n in self.inputs:

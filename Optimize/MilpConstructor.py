@@ -1,10 +1,7 @@
 import gurobipy as gp
 from gurobipy import GRB
 from Parsers.BLIFGraph import *
-
-
-class milp_params:
-    infinity: int = 100
+from Optimize.MilpFormulation import *
 
 
 class MilpConstructor:
@@ -28,7 +25,13 @@ class MilpConstructor:
             # remember this variable in the dictionary
             self.signal_to_variable[signal] = var_signal
 
-    def add_clock_period_constraints(self, g: BLIFGraph):
+            # otherwise the variable names will not be found
+            #   reference:
+            #       https://stackoverflow.com/questions/66182055/pythongurobiattributeerror-index-out-of-range-for-attribute-varname
+            # 
+            self.model.update()
+
+    def add_clock_period_constraints(self, g: BLIFGraph, target_period: int = milp_params.infinity):
         """
         signal constraints:
             for each signal in the subject, the latency should be smaller than the target period
@@ -40,6 +43,11 @@ class MilpConstructor:
 
             self.model.addConstr(var_signal >= 0)
             self.model.addConstr(var_signal <= self.var_cp)
+
+        # set the target clock period here
+        self.model.addConstr(self.var_cp <= target_period)
+
+        self.model.update()
 
     def add_input_delay_constraints(self, g: BLIFGraph, input_delays: dict = None):
 
@@ -62,22 +70,38 @@ class MilpConstructor:
                 self.model.addConstr(
                     var_input_signal == 0, f"InputDelay_{input_signal}"
                 )
+        
+        self.model.update()
 
     def add_channel_buffer_varibles(self, channels: list):
         for channel_name in channels:
             var_channel = self.model.addVar(vtype=GRB.INTEGER, name=f"{channel_name}")
 
             self.channel_to_variable[channel_name] = var_channel
+        
+        self.model.update()
 
-    def add_cut_selection_constraints(self, signal_to_cuts: dict):
+
+    def add_madbuf_constraints(self, signal_to_cuts: dict, signal_to_channel_var: dict = None):
 
         for signal in signal_to_cuts:
 
             # delay propagation
             var_signal = self.signal_to_variable[signal]
 
-            cut_set: list = signal_to_cuts[signal]
+            # find the buffer variable
+            # buffer_var is None, when:
+            #  1. the signal is not in signal_to_channel_var
+            #  2. the signal is in signal_to_channel_var, but the value is None
+            #  3. the signal_to_channel_var is None
+            #
+            try: 
+                buffer_var = signal_to_channel_var[signal]
+            except:
+                buffer_var = None
 
+            # get the set of cuts that are precomputed for this signal
+            cut_set: list = signal_to_cuts[signal]
             n_cuts = len(cut_set)
 
             cut_selection_vars: list = []
@@ -92,12 +116,8 @@ class MilpConstructor:
                 )
                 cut_selection_vars.append(var_cut_selection)
 
-                for leaf in cut.leaves:
-                    var_leaf = self.signal_to_variable[leaf]
-                    self.model.addConstr(
-                        var_signal + (1 - var_cut_selection) * milp_params.infinity
-                        >= var_leaf + 1
-                    )
+                # @see MilpFormulation.py
+                add_timing_constraints(self.model, signal, cut, var_cut_selection)
 
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
