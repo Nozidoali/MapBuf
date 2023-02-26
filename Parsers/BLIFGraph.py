@@ -386,14 +386,15 @@ class BLIFGraph:
                     # now we add a wire from n to ni
                     #  - n -> ni
                     # print(f'{n}->{ni}')
-                    # 
+                    #
                     g.nodes.add(ni)
                     g.node_fanins[ni] = set([n])  # fanins of a node is a unit set
                     g.node_funcs[ni] = ["1 1"]  # trivial wire's truth table
-                    signal_to_channel[ni] = c # channel is marked not at the input, but the output
-                    
-                    to_connect.remove(ni)
+                    signal_to_channel[
+                        ni
+                    ] = c  # channel is marked not at the input, but the output
 
+                    to_connect.remove(ni)
 
         # assign un-traversed node to the correct cluster
         for n in self.inputs:

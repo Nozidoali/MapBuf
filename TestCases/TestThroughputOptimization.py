@@ -1,6 +1,7 @@
 from Parsers.BLIFGraph import BLIFGraph
-from Optimize.OptimizeThroughput import ThroughputOptimizer
 from PostProcessing.FloatingPointMapping import *
+from Optimize.MilpFormulation import *
+import gurobipy as gp
 
 
 class TestThroughputOptimization:
@@ -9,12 +10,16 @@ class TestThroughputOptimization:
 
     def run(self) -> None:
 
-        optimizer = ThroughputOptimizer()
         g: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
 
         mappings = load_mapping_tuples("./mapping/gsum.mapping")
-        
-        optimizer.read_dynamatic_lps("./Examples/gsum/gsum.lp")
-        optimizer.add_timing_constraints(g, mappings, clock_period=5, verbose=True)
 
-        optimizer.constructor.optimize()
+        with gp.Env(empty=True) as env:
+            env.start()
+
+            model = gp.read("./Examples/gsum/gsum.lp", env=env)
+            add_timing_constraints(model, g, mappings, clock_period=5, verbose=True)
+
+        model.write("test.lp")
+        model.optimize()
+        model.write("test.sol")

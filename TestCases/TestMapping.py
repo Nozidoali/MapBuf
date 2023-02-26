@@ -1,6 +1,7 @@
 from Parsers.BLIFGraph import BLIFGraph
-from Optimize.OptimizeThroughput import ThroughputOptimizer
 from Parsers.DummyBlif import *
+from Optimize.MilpFormulation import *
+import gurobipy as gp
 
 
 class TestMapping:
@@ -9,8 +10,8 @@ class TestMapping:
 
     def run(self) -> None:
 
-        optimizer = ThroughputOptimizer()
         g: BLIFGraph = small_blif()
 
-        optimizer.add_timing_constraints(g)
-        optimizer.constructor.optimize_clock_period()
+        model = gp.Model("test")
+        add_timing_constraints(g)
+        model.optimize()
