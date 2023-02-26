@@ -6,6 +6,7 @@ from Parsers.BLIFGraph import *
 from Synthesis.CutEnumeration import cut_enumeration
 from Optimize.CutlessEnumeration import cutless_enumeration
 
+
 class milp_params:
     infinity: int = 100
 
@@ -139,7 +140,6 @@ def run_milps(
     except AttributeError:
         print("Encountered an attribute error")
         return None
-
 
 
 if __name__ == "__main__":

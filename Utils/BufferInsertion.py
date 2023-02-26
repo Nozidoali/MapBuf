@@ -1,11 +1,12 @@
 import pygraphviz as pgv
 from Utils.Buffers import *
 
+
 def insert_buffer_at(
     g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool
 ) -> pgv.Edge:
     (u, v) = e
-    
+
     buffer = create_buffer(g, name, transparent)
 
     g.add_edge(u, buffer)

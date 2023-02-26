@@ -1,7 +1,7 @@
 import pygraphviz as pgv
 
 
-def create_buffer(g: pgv.AGraph, name:str, transparent:bool = False):
+def create_buffer(g: pgv.AGraph, name: str, transparent: bool = False):
     g.add_node(name)
     buffer = g.get_node(name)
     buffer.attr["in"] = "in1:32"

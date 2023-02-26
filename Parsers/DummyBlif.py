@@ -1,6 +1,7 @@
 from Parsers.BLIFGraph import BLIFGraph
 from Utils import *
 
+
 def tiny_blif() -> BLIFGraph:
     """
 
@@ -21,6 +22,8 @@ def tiny_blif() -> BLIFGraph:
     g.traverse()
 
     return g
+
+
 # A small test case
 def small_blif() -> BLIFGraph:
     """

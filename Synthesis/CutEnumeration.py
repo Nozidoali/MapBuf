@@ -1,10 +1,12 @@
 from Parsers.BLIFGraph import BLIFGraph
 from Utils import *
 
+
 def cuts_to_string(cuts: list) -> str:
-    cuts_str = ','.join([str(c) for c in cuts])
+    cuts_str = ",".join([str(c) for c in cuts])
 
     return cuts_str
+
 
 def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
     if len(cuts) == 0:
@@ -24,7 +26,7 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
 
     cutset = list(cutset)
     cutset.sort(key=lambda x: x.size(), reverse=True)
-    
+
     return cutset[:setsize]
 
 
@@ -34,11 +36,9 @@ def cut_enumeration(
     cuts: dict = {}
     for n in g.topological_traversal():
         cuts[n] = [Cut([n])]
-        
+
         if n in g.node_fanins:
             c = [cuts[f] for f in g.node_fanins[n]]
             cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
-            
+
     return cuts  # uniqify
-
-

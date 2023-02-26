@@ -4,13 +4,15 @@ from Parsers.DynamaticDOT import *
 from Parsers.DummyBlif import *
 
 from TestCases import *
-    
+
+
 def test_cutless():
     g: BLIFGraph = small_blif()
     network, _, _ = g.retrieve_anchors()
-    
+
     cutless_enumeration(network)
-    
+
+
 def test_milp_constructor():
     g: BLIFGraph = small_blif()
 
@@ -29,15 +31,17 @@ def test_milp_constructor():
     constructor.add_clock_period_constraints(network)
     constructor.add_cut_selection_constraints(cuts)
     constructor.add_channel_buffer_varibles(channels)
-    constructor.export_lp('test_lp.lp')
+    constructor.export_lp("test_lp.lp")
+
 
 def test_throughput_optimization():
     optimizer = ThroughputOptimizer()
-    g:BLIFGraph = BLIFGraph('./Examples/gsum/gsum.blif')
+    g: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
 
-    optimizer.read_dynamatic_lps('./Examples/gsum/gsum.lp')
+    optimizer.read_dynamatic_lps("./Examples/gsum/gsum.lp")
     optimizer.add_timing_constraints(g)
     # optimizer.run()
+
 
 if __name__ == "__main__":
     # test_cutless()

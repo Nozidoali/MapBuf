@@ -7,5 +7,3 @@ if __name__ == "__main__":
 
     optimizer = MADBuf(blif)
     buffers, maximum_timing = optimizer.run(clock_period=4)
-
-    
