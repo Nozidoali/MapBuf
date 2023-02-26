@@ -16,11 +16,11 @@ def test_cutless():
 def test_milp_constructor():
     g: BLIFGraph = small_blif()
 
-    network, node_to_channel, node_in_component = g.retrieve_anchors()
+    network, signal_to_channel, node_in_component = g.retrieve_anchors()
 
     channels: list = []
-    for node in node_to_channel:
-        channel = node_to_channel[node]
+    for node in signal_to_channel:
+        channel = signal_to_channel[node]
         channels.append(str(channel))
 
     constructor = MilpConstructor()

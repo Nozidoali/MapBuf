@@ -6,7 +6,7 @@ def get_node_name(n: pgv.Node) -> str:
     return n.get_name().strip('"')
 
 
-def load_mapping_tuples(filename: str) -> dict:
+def load_mapping_tuples(filename: str, index_by_floating: bool = True) -> dict:
     # mapping is the dict, mapping[map_from] = map_to
     mapping: dict = {}
 
@@ -21,10 +21,14 @@ def load_mapping_tuples(filename: str) -> dict:
 
                 map_from = map_from.strip()
                 map_to = map_to.strip()
+                insert_buffer_str = insert_buffer_str.strip()
 
                 insert_buffer: bool = insert_buffer_str == "True"
 
-                mapping[map_from] = (map_to, insert_buffer)
+                if index_by_floating:
+                    mapping[map_to] = (map_from, insert_buffer)
+                else:
+                    mapping[map_from] = (map_to, insert_buffer)
 
         return mapping
 
@@ -32,7 +36,7 @@ def load_mapping_tuples(filename: str) -> dict:
         return None
 
 
-def load_mapping_from_file(filename: str) -> dict:
+def load_mapping_from_file(filename: str, index_by_floating: bool = True) -> dict:
 
     # mapping is the dict, mapping[map_from] = map_to
     mapping: dict = {}

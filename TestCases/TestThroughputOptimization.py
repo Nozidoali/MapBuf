@@ -12,9 +12,9 @@ class TestThroughputOptimization:
         optimizer = ThroughputOptimizer()
         g: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
 
-        mappings = load_mapping_tuples("./mapping/gsum_mapping.mappings")
-
+        mappings = load_mapping_tuples("./mapping/gsum.mapping")
+        
         optimizer.read_dynamatic_lps("./Examples/gsum/gsum.lp")
-        optimizer.add_timing_constraints(g)
+        optimizer.add_timing_constraints(g, mappings, clock_period=5, verbose=True)
 
         optimizer.constructor.optimize()
