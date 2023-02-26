@@ -146,6 +146,9 @@ def get_signal_to_channel_variable_mapping(
                 signal_to_channel_var[signal] = matched_var
 
             else:
+                # TODO: we should not add this variable
+                # new_var = model.addVar(vtype=GRB.BINARY, name=f"new_{c.u}_{c.v}_{c.t}")
+                # signal_to_channel_var[signal] = new_var
 
                 if verbose:
                     print_red(f"Warning: {signal} is not found in the dynamatic model")

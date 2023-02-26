@@ -26,6 +26,7 @@ class TestThroughputOptimization:
 
 
         with gp.Env(empty=True) as env:
+            env.setParam("OutputFlag", 0)
             env.start()
 
             model = gp.read("./Examples/gsum/gsum.lp", env=env)
@@ -33,8 +34,21 @@ class TestThroughputOptimization:
             add_timing_constraints(model, network, 
                 signal_to_cuts, 
                 signal_to_channel, 
-                mappings, clock_period=5, verbose=True)
+                mappings, clock_period=6, verbose=False)
 
         model.write("test.lp")
         model.optimize()
+
+        num_buffers: int = 0
+
+        for variable in model.getVars():
+            var_name: str = variable.varName
+            if var_name.startswith("x") and var_name[1:].isdigit():
+                print(var_name, variable.x)
+
+            if 'slot' in var_name:
+                num_buffers += variable.x
+
+        print("Number of buffers:", num_buffers)
+
         model.write("test.sol")
