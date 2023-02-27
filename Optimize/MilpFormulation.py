@@ -87,6 +87,8 @@ def add_madbuf_constraints(
         #
         try:
             buffer_var = signal_to_channel_var[signal]
+            
+            print(f"signal {signal} is on channel {buffer_var.varName}")
         except:
             buffer_var = None
 
@@ -103,7 +105,7 @@ def add_madbuf_constraints(
             )
             cut_selection_vars.append(var_cut_selection)
 
-            add_delay_propagation_constraints(model, signal, cut, var_cut_selection)
+            add_delay_propagation_constraints(model, signal, cut, var_cut_selection, buffer_var)
 
         # at least one cut need to be chosen
         # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
@@ -131,7 +133,7 @@ def add_timing_constraints(
     signal_to_channel_var = get_signal_to_channel_variable_mapping(
         model, network, signal_to_channel, mappings, verbose
     )
-
+    
     # add the timing constraints
     add_timing_label_variables(model, network, clock_period=clock_period)
 

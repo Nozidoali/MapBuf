@@ -7,3 +7,7 @@ __pycache__
 *_buf.dot
 
 abc.rc
+
+*_buf.*
+
+test.*
