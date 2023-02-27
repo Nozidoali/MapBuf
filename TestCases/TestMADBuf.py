@@ -16,8 +16,10 @@ class TestMADBuf(TestCases):
         dot: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
         
         network, signal_to_channel, node_in_component = blif.retrieve_anchors()
-        # optimizer: MADBufBase = MADBufBase(network, signal_to_channel, node_in_component)
-        optimizer: MADBuf = MADBuf(blif)
+        
+        # these two methods work the same
+        optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
+        # optimizer: MADBuf = MADBuf(blif)
         
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
 
