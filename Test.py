@@ -7,6 +7,6 @@ from TestCases import *
 if __name__ == "__main__":
     # test_cutless()
 
-    test = TestThroughputOptimization()
+    test = TestMADBuf()
 
     test.run()

@@ -39,7 +39,7 @@ def edge_str(e: pgv.Edge) -> str:
     return f"\t\t{quote(u)} -> {quote(v)} [{edgeattr}];\n"
 
 
-def write_dynamatic_dot(g: pgv.AGraph, filename: str):
+def write_dynamatic_dot(g: pgv.AGraph, filename: str, node_in_component: dict = None):
 
     edges_to_define = set()
     for e in g.edges():

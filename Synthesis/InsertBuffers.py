@@ -2,7 +2,7 @@ import pygraphviz as pgv
 from Utils import *
 
 
-def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = None):
+def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = None, verbose: bool = False):
     """
     buffers is the set of all the channels to place buffers at
     """
@@ -29,19 +29,22 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
             n_slots_valid: int = 1
             n_slots_ready: int = n_slots - 1
             
-            print(f"{channel_valid} ({n_slots_valid}) and {channel_ready} ({n_slots_ready})")
+            if verbose:
+                print(f"{channel_valid} ({n_slots_valid}) and {channel_ready} ({n_slots_ready})")
             
         elif channel_valid in buffers:
             n_slots_valid: int = n_slots
             n_slots_ready: int = 0
             
-            print(f"{channel_valid} ({n_slots_valid})")
+            if verbose:
+                print(f"{channel_valid} ({n_slots_valid})")
             
         elif channel_ready in buffers:
             n_slots_valid: int = 0
             n_slots_ready: int = n_slots
             
-            print(f"{channel_ready} ({n_slots_ready})")
+            if verbose:
+                print(f"{channel_ready} ({n_slots_ready})")
         
         
         # now that we have the number of slots already, we insert buffers
