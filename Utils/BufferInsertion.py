@@ -3,11 +3,11 @@ from Utils.Buffers import *
 
 
 def insert_buffer_at(
-    g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool
+    g: pgv.AGraph, e: pgv.Edge, name: str, transparent: bool, n_slots: int = 1
 ) -> pgv.Edge:
     (u, v) = e
 
-    buffer = create_buffer(g, name, transparent)
+    buffer = create_buffer(g, name, transparent, n_slots)
 
     g.add_edge(u, buffer)
     for key in e.attr:

@@ -11,3 +11,5 @@ abc.rc
 *_buf.*
 
 test.*
+
+*.ilp

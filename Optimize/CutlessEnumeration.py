@@ -82,3 +82,19 @@ def cutless_enumeration(network: BLIFGraph, signal_to_channel: dict, priority_cu
             print(f"labels = {labels[signal]}, cuts = {len(cuts[signal])}, signal = {signal}")
 
     return cuts
+
+def cleanup_dangling_cuts(cuts: dict) -> dict:
+    signal_to_cuts: dict = {}
+
+    # remove all the cuts for the inputs
+    for signal in cuts:
+        cut_set = cuts[signal]
+        if len(cut_set) == 1:
+            cut: Cut = cut_set[0]
+            if cut.size() == 1:        
+                if signal in cut.leaves:
+                    continue
+        
+        signal_to_cuts[signal] = cuts[signal]
+        
+    return signal_to_cuts

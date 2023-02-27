@@ -12,7 +12,7 @@ class milp_params:
 
 
 def add_delay_propagation_constraints(
-    model: gp.Model, signal: str, cut: Cut, cut_var: gp.Var, buffer_var: gp.Var = None
+    model: gp.Model, signal: str, cut: Cut, cut_var: gp.Var = None, buffer_var: gp.Var = None
 ) -> gp.Constr:
 
     var_signal = model.getVarByName(f"TimingLabel_{signal}")
@@ -22,8 +22,14 @@ def add_delay_propagation_constraints(
         var_leaf = model.getVarByName(f"TimingLabel_{leaf}")
         assert var_leaf != None
 
-        if buffer_var == None:
+        if buffer_var == None and cut_var == None:
+            constr = var_signal >= var_leaf + 1
+            
+        elif buffer_var == None:
             constr = var_signal + (1 - cut_var) * milp_params.infinity >= var_leaf + 1
+
+        elif cut_var == None:
+            constr = var_signal + buffer_var * milp_params.infinity >= var_leaf + 1
 
         else:
             constr = (
@@ -94,22 +100,31 @@ def add_madbuf_constraints(
 
         # get the set of cuts that are precomputed for this signal
         cut_set: list = signal_to_cuts[signal]
+        
+        # special case where we only have one cut
+        if len(cut_set) == 1:
+            cut = cut_set[0]
+            add_delay_propagation_constraints(model, signal, cut, None, buffer_var)
+        
+        else:
+            
+            cut_selection_vars: list = []
+            # for each cut in the set set
+            for cut_index, cut in enumerate(cut_set):
 
-        cut_selection_vars: list = []
-        # for each cut in the set set
-        for cut_index, cut in enumerate(cut_set):
+                # cut selection variables
+                var_cut_selection = model.addVar(
+                    vtype=GRB.BINARY, name=f"Y({signal}_to_{cut_index})"
+                )
+                cut_selection_vars.append(var_cut_selection)
 
-            # cut selection variables
-            var_cut_selection = model.addVar(
-                vtype=GRB.BINARY, name=f"Y({signal}->{cut_index})"
-            )
-            cut_selection_vars.append(var_cut_selection)
+                add_delay_propagation_constraints(model, signal, cut, var_cut_selection, buffer_var)
 
-            add_delay_propagation_constraints(model, signal, cut, var_cut_selection, buffer_var)
+            assert len(cut_selection_vars) > 1
 
-        # at least one cut need to be chosen
-        # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
-        model.addConstr(sum(cut_selection_vars) == 1, f"cut_selection_at_{signal}")
+            # at least one cut need to be chosen
+            # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
+            model.addConstr(sum(cut_selection_vars) == 1, f"cut_selection_at_{signal}")
 
 
 def add_timing_constraints(
