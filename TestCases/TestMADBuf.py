@@ -26,4 +26,4 @@ class TestMADBuf(TestCases):
         insert_buffers_in_dfg(dot, buffers=buffers, verbose=False)
         buffer_blackboxes(dot)
 
-        write_dynamatic_dot(dot, "Examples/gsum/gsum_buf.dot", node_in_component)
+        write_dynamatic_dot(dot, "Examples/gsum/gsum_buf.dot")

@@ -39,7 +39,7 @@ def edge_str(e: pgv.Edge) -> str:
     return f"\t\t{quote(u)} -> {quote(v)} [{edgeattr}];\n"
 
 
-def write_dynamatic_dot(g: pgv.AGraph, filename: str, node_in_component: dict = None):
+def write_dynamatic_dot(g: pgv.AGraph, filename: str, preserve_basic_blocks: bool = True, verbose: bool = False):
 
     edges_to_define = set()
     for e in g.edges():
@@ -54,8 +54,31 @@ def write_dynamatic_dot(g: pgv.AGraph, filename: str, node_in_component: dict = 
         f.write("Digraph G {\n")
         f.write("\tsplines=spline;\n")
         # write header
-        for n in g.nodes():
-            f.write(node_str(n))
+        
+        if preserve_basic_blocks:
+            # write subgraphs
+            node_written: set = set()
+            for subgraph in g.subgraphs():
+                
+                subgraph_name = subgraph.get_name()
+                f.write(f"\tsubgraph cluster_{subgraph_name} {{\n")
+                f.write("\tcolor = \"darkgreen\";\n")
+                f.write(f"label = \"{subgraph_name}\";\n")
+                
+                for n in subgraph.nodes():
+                    f.write(node_str(n))
+                    node_written.add(n)
+                    
+                f.write("\t}\n")
+                    
+            for n in g.nodes():
+                if n not in node_written:
+                    f.write(node_str(n))
+                    
+                    
+        else:
+            for n in g.nodes():
+                f.write(node_str(n))
 
         for e in g.edges():
             f.write(edge_str(e))

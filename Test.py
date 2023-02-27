@@ -7,6 +7,6 @@ from TestCases import *
 if __name__ == "__main__":
     # test_cutless()
 
-    test = TestMADBuf()
+    test = TestDynamaticIO()
 
     test.run()
