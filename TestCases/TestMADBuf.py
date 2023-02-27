@@ -4,6 +4,7 @@ from Synthesis import *
 from Parsers import *
 from Synthesis import *
 from Optimize import *
+from PostProcessing import *
 
 class TestMADBuf(TestCases):
     def __init__(self) -> None:
@@ -25,5 +26,9 @@ class TestMADBuf(TestCases):
 
         insert_buffers_in_dfg(dot, buffers=buffers, verbose=False)
         buffer_blackboxes(dot)
+        
+        mapping = load_mapping_from_file("./mapping/gsum.map")
+        
+        fix_floating_point_components(dot, mapping)
 
-        write_dynamatic_dot(dot, "Examples/gsum/gsum_buf.dot")
+        write_dynamatic_dot(dot, "gsum.dot")

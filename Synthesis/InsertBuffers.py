@@ -2,13 +2,26 @@ import pygraphviz as pgv
 from Utils import *
 
 
-def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = None, verbose: bool = False):
+def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = None, preserve_basic_blocks: bool = True, verbose: bool = False):
     """
     buffers is the set of all the channels to place buffers at
     """
+    
+    if preserve_basic_blocks:
+        node_to_basic_block: dict = {}
+        for subgraph in g.subgraphs():
+            for e in subgraph.edges():
+                node_to_basic_block[e] = subgraph
+    
     buffer_idx = 0
     for e in g.edges():
         (u, v) = e
+        
+        # to find the right graph to insert this buffer
+        try:
+            graph = node_to_basic_block[e]
+        except:
+            graph = g
         
         channel_valid = Channel(u, v, Constants._channel_valid_, 0)
         channel_ready = Channel(u, v, Constants._channel_ready_, 0)
@@ -52,35 +65,50 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
         if channel_valid in buffers:
 
             # in case of we need to insert both opaque and transparet buffers on the same channel
-            _e = insert_buffer_at(g, e, f"{buffer_idx}", False, n_slots_valid)
+            _e = insert_buffer_at(graph, e, f"{buffer_idx}", False, n_slots_valid)
             buffer_idx += 1
 
             if channel_ready in buffers:
-                insert_buffer_at(g, _e, f"{buffer_idx}", True, n_slots_ready)
+                insert_buffer_at(graph, _e, f"{buffer_idx}", True, n_slots_ready)
                 buffer_idx += 1
 
         elif channel_ready in buffers:
-            insert_buffer_at(g, e, f"{buffer_idx}", True, n_slots_ready)
+            insert_buffer_at(graph, e, f"{buffer_idx}", True, n_slots_ready)
             buffer_idx += 1
 
 
-def buffer_blackboxes(g: pgv.AGraph):
+def buffer_blackboxes(g: pgv.AGraph, preserve_basic_blocks: bool = True, verbose: bool = False):
 
     edges_to_buffer: dict = {}
 
+    if preserve_basic_blocks:
+        node_to_basic_block: dict = {}
+        for subgraph in g.subgraphs():
+            for e in subgraph.edges():
+                node_to_basic_block[e] = subgraph
+                
     for u in g.nodes():
         n = u.get_name()
         if "add" not in n and "sub" not in n:
             continue
+        
         for e in g.out_edges(u):
+                
             _, v = e
             if "Buffer" not in v.get_name():
-                edges_to_buffer[e] = f"Buffer_{n}_{v.get_name()}"
+                edges_to_buffer[e] = f"{n}_{v.get_name()}"
         for e in g.in_edges(u):
             v, _ = e
             if "Buffer" not in v.get_name():
-                edges_to_buffer[e] = f"Buffer_{n}_{v.get_name()}"
+                edges_to_buffer[e] = f"{n}_{v.get_name()}"
 
     for e in edges_to_buffer:
+
+        # to find the right graph to insert this buffer
+        try:
+            graph = node_to_basic_block[e]
+        except:
+            graph = g
+            
         name = edges_to_buffer[e]
-        insert_buffer_at(g, e, name, False)
+        insert_buffer_at(graph, e, name, False)
