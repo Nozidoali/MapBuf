@@ -22,6 +22,7 @@ class TestThroughputOptimization:
 
         model = gp.read("./Examples/gsum/gsum.lp")
 
+        # Step 2: we add the timing constraints
         # we first remove the original timing constraints
         remove_timing_constraints(model, verbose=False)
 
@@ -49,7 +50,6 @@ class TestThroughputOptimization:
         dfg: pgv.AGraph = read_dynamatic_dot('./Examples/gsum/gsum.dot')        
         insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
         write_dynamatic_dot(dfg, './gsum_buf.dot')
-
 
         # Step 6: we write the solutions to a file
         model.write("test.sol")

@@ -15,6 +15,7 @@ def expand_cut_at(g: BLIFGraph, leaves: set, leaf: str):
         for h in new_leaves:
             if h not in g.node_fanins:
                 continue
+
             # here the plus 1 is because we haven't remove h from leaves yet!
             if len(new_leaves.union(g.node_fanins[h])) <= len(new_leaves) + 1:
                 new_leaves.remove(h)
@@ -89,9 +90,10 @@ def cleanup_dangling_cuts(cuts: dict) -> dict:
     # remove all the cuts for the inputs
     for signal in cuts:
         cut_set = cuts[signal]
+
         if len(cut_set) == 1:
             cut: Cut = cut_set[0]
-            if cut.size() == 1:        
+            if cut.size() == 1:
                 if signal in cut.leaves:
                     continue
         
