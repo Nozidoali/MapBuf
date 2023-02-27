@@ -25,16 +25,13 @@ class TestThroughputOptimization:
                 signal_to_cuts[signal] = cuts[signal]
 
 
-        with gp.Env(empty=True) as env:
-            env.setParam("OutputFlag", 0)
-            env.start()
 
-            model = gp.read("./Examples/gsum/gsum.lp", env=env)
+        model = gp.read("./Examples/gsum/gsum.lp")
 
-            add_timing_constraints(model, network, 
-                signal_to_cuts, 
-                signal_to_channel, 
-                mappings, clock_period=6, verbose=False)
+        add_timing_constraints(model, network, 
+            signal_to_cuts, 
+            signal_to_channel, 
+            mappings, clock_period=6, verbose=False)
 
         model.write("test.lp")
         model.optimize()
