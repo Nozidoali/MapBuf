@@ -5,9 +5,9 @@ MADBuf is the new addition to the family of buffer insertion algorithms in [Dyna
 
 ### Why precharacterization is inaccurate?
 
-Precharacterization-based algorithms mispredict LUT levels because they are unaware of the logic network during the technology mapping. When precharacterization, each elastic component is isolated from its loads and drives and logic clustering during technology mapping is forced to stop at the component's boundary.
+Precharacterization-based algorithms mispredict LUT levels because they are unaware of the logic network during the technology mapping. When precharacterization, each elastic component is isolated from its loads and drives, so logic clustering during technology mapping is forced to stop at the component's boundary.
 
-These effects are negligible if the target clock frequency is low and the number of logic levels inside a clock period is much longer than the boundary. However, in high-speed FPGA designs, a clock period fits only 5 LUT levels and the misprediction on both register outputs and register inputs may introduce at most 2 additional levels (40% of the clock period). As a result, existing algorithms either fail to meet the target clock period or have to leave a large margin for logic synthesis and physics synthesis.
+These effects are negligible if the target clock frequency is low and the number of logic levels inside a clock period is much longer than the number of LUT levels on the boundary. However, in high-speed FPGA designs, a clock period fits only 5 LUT levels and the misprediction on both register outputs and register inputs may introduce at most 2 additional levels (40% of the clock period). As a result, existing algorithms either easily fail to meet the target clock period or have to leave a large margin for logic synthesis and physics synthesis.
 
 ### How to eliminate mispredictions?
 
