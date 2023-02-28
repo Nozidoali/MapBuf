@@ -14,6 +14,8 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
                 node_to_basic_block[e] = subgraph
     
     buffer_idx = 0
+    edges_to_remove: set = set()
+
     for e in g.edges():
         (u, v) = e
         
@@ -33,20 +35,20 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
         try:
             n_slots = buffer_to_slots[channel_valid]
         except:
-            n_slots = 1
+            n_slots = None
 
         n_slots_valid: int = 0
         n_slots_ready: int = 0
         
         if channel_valid in buffers and channel_ready in buffers:
             n_slots_valid: int = 1
-            n_slots_ready: int = n_slots - 1
+            n_slots_ready: int = 1 if n_slots == None else n_slots - 1
             
             if verbose:
                 print(f"{channel_valid} ({n_slots_valid}) and {channel_ready} ({n_slots_ready})")
             
         elif channel_valid in buffers:
-            n_slots_valid: int = n_slots
+            n_slots_valid: int = 1 if n_slots == None else n_slots
             n_slots_ready: int = 0
             
             if verbose:
@@ -54,7 +56,7 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
             
         elif channel_ready in buffers:
             n_slots_valid: int = 0
-            n_slots_ready: int = n_slots
+            n_slots_ready: int = 1 if n_slots == None else n_slots
             
             if verbose:
                 print(f"{channel_ready} ({n_slots_ready})")
@@ -68,13 +70,23 @@ def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = N
             _e = insert_buffer_at(graph, e, f"{buffer_idx}", False, n_slots_valid)
             buffer_idx += 1
 
+            edges_to_remove.add(e)
+
             if channel_ready in buffers:
                 insert_buffer_at(graph, _e, f"{buffer_idx}", True, n_slots_ready)
                 buffer_idx += 1
 
+                edges_to_remove.add(_e)
+
         elif channel_ready in buffers:
             insert_buffer_at(graph, e, f"{buffer_idx}", True, n_slots_ready)
             buffer_idx += 1
+
+            edges_to_remove.add(e)
+
+    for e in edges_to_remove:
+        if e in g.edges():
+            g.remove_edge(e)
 
 
 def buffer_blackboxes(g: pgv.AGraph, preserve_basic_blocks: bool = True, verbose: bool = False):
@@ -89,7 +101,16 @@ def buffer_blackboxes(g: pgv.AGraph, preserve_basic_blocks: bool = True, verbose
                 
     for u in g.nodes():
         n = u.get_name()
-        if "add" not in n and "sub" not in n:
+        
+        if "_" not in n:
+            continue
+
+        if len(n.split("_")) != 2:
+            continue
+
+        component_type, component_index = n.split("_")
+
+        if component_type != "add" and component_type != "sub":
             continue
         
         for e in g.out_edges(u):
@@ -112,3 +133,6 @@ def buffer_blackboxes(g: pgv.AGraph, preserve_basic_blocks: bool = True, verbose
             
         name = edges_to_buffer[e]
         insert_buffer_at(graph, e, name, False)
+
+        if e in g.edges():
+            g.remove_edge(e)
