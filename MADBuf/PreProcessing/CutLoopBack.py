@@ -1,5 +1,5 @@
 import pygraphviz as pgv
-from Utils import *
+from MADBuf.Utils import *
 
 
 class cut_loopback_params:

@@ -1,6 +1,6 @@
 import os
 import subprocess
-from ExternalTools.Configuration import load_conf
+from MADBuf.ExternalTools.Configuration import load_conf
 
 """
 ===================== dot2hdl =====================

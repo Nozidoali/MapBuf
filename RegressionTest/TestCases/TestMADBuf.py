@@ -1,10 +1,5 @@
+from MADBuf import *
 from TestCases.TestCases import TestCases
-
-from Synthesis import *
-from Parsers import *
-from Synthesis import *
-from Optimize import *
-from PostProcessing import *
 
 class TestMADBuf(TestCases):
     def __init__(self) -> None:
@@ -30,5 +25,3 @@ class TestMADBuf(TestCases):
         mapping = load_mapping_from_file("./mapping/gsum.map")
         
         fix_floating_point_components(dot, mapping)
-
-        write_dynamatic_dot(dot, "gsum.dot")

@@ -1,4 +1,4 @@
-from Utils.Constants import Constants
+from MADBuf.Utils.Constants import Constants
 
 
 class Channel:

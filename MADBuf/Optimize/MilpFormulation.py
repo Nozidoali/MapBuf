@@ -1,10 +1,10 @@
 import gurobipy as gp
 from gurobipy import GRB
-from Parsers.BLIFGraph import *
-from Utils import *
+from MADBuf.Parsers.BLIFGraph import *
+from MADBuf.Utils import *
 
-from Synthesis.CutEnumeration import *
-from Optimize.Channels import *
+from MADBuf.Synthesis.CutEnumeration import *
+from MADBuf.Optimize.Channels import *
 
 
 class milp_params:

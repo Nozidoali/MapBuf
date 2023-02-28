@@ -1,10 +1,5 @@
+from MADBuf import *
 from TestCases.TestCases import TestCases
-
-from Synthesis import *
-from Parsers import *
-from Synthesis import *
-from Optimize import *
-
 class TestDynamaticIO(TestCases):
     def __init__(self) -> None:
         super().__init__()

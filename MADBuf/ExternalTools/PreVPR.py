@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from ExternalTools.Configuration import load_conf
+from MADBuf.ExternalTools.Configuration import load_conf
 
 
 def run_prevpr(

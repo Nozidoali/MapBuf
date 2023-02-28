@@ -1,5 +1,5 @@
 import pygraphviz as pgv
-from Utils import *
+from MADBuf.Utils import *
 
 
 def insert_buffers_in_dfg(g: pgv.AGraph, buffers: set, buffer_to_slots: dict = None, preserve_basic_blocks: bool = True, verbose: bool = False):

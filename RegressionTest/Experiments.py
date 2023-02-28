@@ -1,8 +1,4 @@
-from Utils.Utils import *
-from Parsers.BLIFGraph import *
-from Milps import *
-from Synthesis.MADBuf import *
-from ExternalTools.AbcEnvironment import *
+from MADBuf import *
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -60,7 +56,7 @@ def run_logic_synthesis():
             values = abc_opt(filein=filename, fileout=tmp_filename, opt=method)
             print(values)
 
-            g: BLIFGraph = read_graph_from_blif(tmp_filename)
+            g: BLIFGraph = BLIFGraph(tmp_filename)
 
             for solver in ["milp"]:
 
@@ -100,7 +96,7 @@ def run_cut_size():
 
     data = []
     filename = "test.blif"
-    g: BLIFGraph = read_graph_from_blif(filename)
+    g: BLIFGraph = BLIFGraph(filename)
 
     for method in ["milp"]:
 
@@ -138,7 +134,7 @@ def run():
         print(bmark)
 
         filename = f"./benchmarks/{bmark}/{bmark}.blif"
-        g: BLIFGraph = read_graph_from_blif(filename)
+        g: BLIFGraph = BLIFGraph(filename)
 
         # for method in ['milp', 'maps']:
         for method in ["milp"]:

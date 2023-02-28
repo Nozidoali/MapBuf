@@ -1,6 +1,4 @@
-from Parsers.BLIFGraph import BLIFGraph
-from Parsers.DynamaticDOT import read_dynamatic_dot, write_dynamatic_dot
-from Synthesis import *
+from MADBuf import *
 
 if __name__ == "__main__":
     blif = BLIFGraph("Examples/gaussian/gaussian.blif")

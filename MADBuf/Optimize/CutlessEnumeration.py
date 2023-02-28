@@ -1,6 +1,6 @@
-from Parsers.BLIFGraph import BLIFGraph
-from Synthesis.TimingLabel import TimingLabel
-from Utils import *
+from MADBuf.Parsers.BLIFGraph import BLIFGraph
+from MADBuf.Synthesis.TimingLabel import TimingLabel
+from MADBuf.Utils import *
 
 def expand_cut_at(g: BLIFGraph, leaves: set, leaf: str):
 

@@ -1,8 +1,5 @@
+from MADBuf import *
 from TestCases.TestCases import TestCases
-from Utils import *
-from PreProcessing.CutLoopBack import *
-from Parsers.DynamaticDOT import read_dynamatic_dot, write_dynamatic_dot
-
 
 class TestCutLoopback(TestCases):
     def __init__(self) -> None:

@@ -1,7 +1,7 @@
 import re
 import subprocess
 import os
-from ExternalTools.Configuration import load_conf
+from MADBuf.ExternalTools.Configuration import load_conf
 
 
 """

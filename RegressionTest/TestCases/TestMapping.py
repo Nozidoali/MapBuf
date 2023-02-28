@@ -1,10 +1,7 @@
-from Parsers.BLIFGraph import BLIFGraph
-from Parsers.DummyBlif import *
-from Optimize.MilpFormulation import *
-import gurobipy as gp
+from MADBuf import *
+from TestCases.TestCases import TestCases
 
-
-class TestMapping:
+class TestMapping(TestCases):
     def __init__(self) -> None:
         pass
 

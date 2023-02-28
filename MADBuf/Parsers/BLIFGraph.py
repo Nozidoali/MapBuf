@@ -1,8 +1,8 @@
 import pygraphviz as pgv
 import queue
 
-from Utils import *
-from Formatter.PrettyGraph import *
+from MADBuf.Utils import *
+from MADBuf.Formatter.PrettyGraph import *
 
 
 class BLIFGraph:

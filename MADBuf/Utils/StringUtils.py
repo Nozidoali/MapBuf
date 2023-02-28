@@ -1,6 +1,6 @@
 import re
-from Utils.Channel import *
-from Utils.Anchors import *
+from MADBuf.Utils.Channel import *
+from MADBuf.Utils.Anchors import *
 
 
 def remove_label(src: str) -> str:

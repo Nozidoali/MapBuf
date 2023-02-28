@@ -1,7 +1,7 @@
-from Parsers.BLIFGraph import BLIFGraph
-from Synthesis.TimingLabel import TimingLabel
-from Formatter.PrettyGraph import *
-from Utils import *
+from MADBuf.Parsers.BLIFGraph import BLIFGraph
+from MADBuf.Synthesis.TimingLabel import TimingLabel
+from MADBuf.Formatter.PrettyGraph import *
+from MADBuf.Utils import *
 
 import subprocess
 import queue

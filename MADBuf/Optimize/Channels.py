@@ -1,7 +1,7 @@
 import gurobipy as gp
 from gurobipy import GRB
-from Parsers.BLIFGraph import *
-from Utils import *
+from MADBuf.Parsers.BLIFGraph import *
+from MADBuf.Utils import *
 
 
 def parse_dynamatic_channel_name(var_name: str, mappings: dict = None):

@@ -1,4 +1,4 @@
-from Optimize.Channels import *
+from MADBuf.Optimize.Channels import *
 import gurobipy as gp
 
 def print_throughput_results(model: gp.Model):

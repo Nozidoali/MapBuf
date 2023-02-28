@@ -1,4 +1,4 @@
-from Optimize.MilpFormulation import *
+from MADBuf.Optimize.MilpFormulation import *
 
 class madbuf_constraints_params:
     

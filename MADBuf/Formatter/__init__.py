@@ -1,2 +1,2 @@
-from Formatter.PrettyGraph import *
-from Formatter.GetDifference import *
+from MADBuf.Formatter.PrettyGraph import *
+from MADBuf.Formatter.GetDifference import *

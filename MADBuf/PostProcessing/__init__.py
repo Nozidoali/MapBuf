@@ -1,3 +1,3 @@
-from PostProcessing.FixMultiplierWidth import *
-from PostProcessing.FloatingPointMapping import *
-from PostProcessing.RecoverThroughput import *
+from MADBuf.PostProcessing.FixMultiplierWidth import *
+from MADBuf.PostProcessing.FloatingPointMapping import *
+from MADBuf.PostProcessing.RecoverThroughput import *

@@ -1,5 +1,5 @@
-from Parsers.BLIFGraph import BLIFGraph
-from Utils import *
+from MADBuf.Parsers.BLIFGraph import BLIFGraph
+from MADBuf.Utils import *
 
 
 def tiny_blif() -> BLIFGraph:

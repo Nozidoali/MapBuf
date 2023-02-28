@@ -1,5 +1,5 @@
 import pygraphviz as pgv
-from Utils.Buffers import *
+from MADBuf.Utils.Buffers import *
 
 
 def insert_buffer_at(

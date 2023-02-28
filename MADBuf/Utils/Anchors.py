@@ -1,5 +1,5 @@
-from Utils.Constants import Constants
-from Utils.Channel import Channel
+from MADBuf.Utils.Constants import Constants
+from MADBuf.Utils.Channel import Channel
 
 
 def retrieve_channel_from_anchor(anchor: str) -> Channel:

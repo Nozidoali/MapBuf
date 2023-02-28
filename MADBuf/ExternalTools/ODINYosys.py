@@ -1,7 +1,7 @@
 import os
 import glob
 import subprocess
-from ExternalTools.Configuration import load_conf
+from MADBuf.ExternalTools.Configuration import load_conf
 
 """
 ===================== ODIN =====================

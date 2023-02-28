@@ -1,4 +1,4 @@
-from Utils import *
+from MADBuf.Utils import *
 
 """
 ===================== Verilog parsers =====================

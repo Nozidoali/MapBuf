@@ -1,5 +1,5 @@
-from Synthesis.MADBufBase import MADBufBase
-from Parsers import *
+from MADBuf.Synthesis.MADBufBase import MADBufBase
+from MADBuf.Parsers import *
 
 
 # Here we are trying to allow multiple ways to initialize the MADBuf class

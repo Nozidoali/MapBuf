@@ -1,6 +1,6 @@
-from Parsers import *
-from Optimize.MilpFormulation import *
-from Optimize.MADBufConstraints import *
+from MADBuf.Parsers import *
+from MADBuf.Optimize.MilpFormulation import *
+from MADBuf.Optimize.MADBufConstraints import *
 
 def add_timing_constraints(
     model: gp.Model,

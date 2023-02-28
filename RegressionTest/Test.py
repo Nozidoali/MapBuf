@@ -1,6 +1,3 @@
-from Parsers.DynamaticDOT import *
-from Parsers.DummyBlif import *
-
 from TestCases import *
 
 
