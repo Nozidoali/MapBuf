@@ -13,3 +13,5 @@ abc.rc
 test.*
 
 *.ilp
+
+*.egg-info
