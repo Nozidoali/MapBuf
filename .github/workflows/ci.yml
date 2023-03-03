@@ -15,7 +15,7 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
           cd ${{github.event.repository.name}}
-          ./install_apt_packages.sh
+          sudo ./install_apt_packages.sh
           pip3 install -e .
           cd RegressionTest
           python3 Test.py
