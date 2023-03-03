@@ -2,7 +2,7 @@
 ---
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Nozidoali/MADBuf.git)
-[![Actions Status](https://github.com/Nozidoali/MADBuf/workflows/linux.yml/badge.svg)](https://github.com/Nozidoali/MADBuf/actions)
+[![Actions Status](https://github.com/Nozidoali/MADBuf/workflows/linux/badge.svg)](https://github.com/Nozidoali/MADBuf/actions)
 
 
 MADBuf is the new addition to the family of buffer insertion algorithms in [Dynamatic](https://dynamatic.epfl.ch/) that considers technology mapping and logic synthesis in the timing constraints. Compared to its siblings, who precharacterize the combinational delays of each elastic component, MADBuf estimates propagation delays more accurately and places buffers more aggressively.
