@@ -5,6 +5,7 @@ __pycache__
 *.csv
 *.png
 *_buf.dot
+*_buf_*.dot
 
 abc.rc
 
@@ -17,3 +18,5 @@ test.*
 *.egg-info
 
 RegressionTest/*.dot
+
+scripts

@@ -9,7 +9,6 @@ class TestMADBuf(TestCases):
         
         blif: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
         
-        dot: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
 
         
         network, signal_to_channel, node_in_component = blif.retrieve_anchors()
@@ -20,6 +19,7 @@ class TestMADBuf(TestCases):
         
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
 
+        dot: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
         mapping_to_unfloating(dot, "./mapping/gsum.mapping")
         insert_buffers_in_dfg(dot, buffers=buffers, verbose=False)
         buffer_blackboxes(dot)
