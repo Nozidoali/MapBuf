@@ -1,3 +1,6 @@
 [submodule "vtr-verilog-to-routing"]
 	path = vtr-verilog-to-routing
 	url = https://github.com/verilog-to-routing/vtr-verilog-to-routing.git
+[submodule "dot2hdl"]
+	path = dot2hdl
+	url = https://github.com/Nozidoali/dot2hdl.git
