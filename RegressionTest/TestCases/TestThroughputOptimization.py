@@ -34,7 +34,7 @@ class TestThroughputOptimization:
         
         # now we solve the model under the time limit
         #
-        model.Params.timeLimit = 60
+        model.Params.timeLimit = 10
         model.optimize()
 
         # Step 4: retrieve the buffers results
@@ -45,6 +45,8 @@ class TestThroughputOptimization:
         dfg: pgv.AGraph = read_dynamatic_dot('./Examples/gsum/gsum.dot')        
         insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
         write_dynamatic_dot(dfg, './gsum_buf.dot')
+
+        subprocess.run('dot -Tpng ./gsum_buf.dot -o ./gsum_buf.png', shell=True)
 
         # Step 6: we write the solutions to a file
         model.write("test.sol")

@@ -128,11 +128,14 @@ def get_signal_to_channel_variable_mapping(
                 # bypass the buffer
                 c.v = out_edges[c.v]
 
+                # TODO: now we assume that the channel is always a valid signal
+                # and we don't consider the case where more than one buffer is on the channel
                 assert c in channel_to_var
                 matched_var = channel_to_var[c]
                 has_buffer = True
 
-                model.addConstr(matched_var == 1)
+                # we need to add a constraint to make sure the buffer is used
+                model.addConstr(matched_var >= 1)
 
                 # we don't need to consider the buffer channel
                 continue

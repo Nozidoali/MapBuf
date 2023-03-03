@@ -1,6 +1,7 @@
 from MADBuf.Parsers import *
 from MADBuf.Optimize.MilpFormulation import *
 from MADBuf.Optimize.MADBufConstraints import *
+from MADBuf.Optimize.BlackBox import *
 
 def add_timing_constraints(
     model: gp.Model,
@@ -12,7 +13,10 @@ def add_timing_constraints(
     verbose: bool = False,
 ):
 
+    if verbose:
+        print("Adding timing constraints...")
 
+        
     channels: set = set()
     for node in signal_to_channel:
         channel = signal_to_channel[node]
@@ -23,6 +27,9 @@ def add_timing_constraints(
     signal_to_channel_var = get_signal_to_channel_variable_mapping(
         model, network, signal_to_channel, mappings, verbose
     )
+
+    # add blackbox constraints
+    add_blackbox_constraints(model, verbose=verbose)
     
     # add the timing constraints
     add_timing_label_variables(model, network, clock_period=clock_period)
@@ -36,3 +43,5 @@ def add_timing_constraints(
         signal_to_cuts=signal_to_cuts,
         signal_to_channel_var=signal_to_channel_var,
     )
+
+    model.update()

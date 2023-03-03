@@ -33,6 +33,7 @@ def add_madbuf_constraints(
         else:
             
             cut_selection_vars: list = []
+            
             # for each cut in the set set
             for cut_index, cut in enumerate(cut_set):
 
