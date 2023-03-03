@@ -1,0 +1,25 @@
+name: CI
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        run: |
+          rm -rf ${{github.event.repository.name}}
+          git clone https://${{github.repository_owner}}:${{github.token}}@github.com/${{github.repository}}
+          git -C "${{github.workspace}}/${{github.event.repository.name}}" checkout ${{github.ref}}
+      - name: Python unittest
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          cd ${{github.event.repository.name}}
+          pip3 install -e .
+          cd RegressionTest
+          python3 Test.py
+
+      - name: Cleanup
+        run: |
+          rm -rf venv
+          rm -rf ${{github.event.repository.name}}
