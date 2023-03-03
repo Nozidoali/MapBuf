@@ -10,4 +10,4 @@ sudo apt-get install -y \
     python3-venv
 
 sudo apt-get install -y \
-    graphviz
+    graphviz-dev
