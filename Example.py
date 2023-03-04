@@ -1,6 +1,10 @@
 from MADBuf import *
 
-method = 'madbuf'
+import glob
+
+# method = 'madbuf'
+# method = 'milp'
+method = 'merge'
 
 if method == 'madbuf':
 
@@ -15,18 +19,15 @@ if method == 'madbuf':
     
     buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
 
-    dot: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
-    mapping_to_unfloating(dot, "./RegressionTest/mapping/gsum.mapping")
-    insert_buffers_in_dfg(dot, buffers=buffers, verbose=False)
-    buffer_blackboxes(dot)
+    dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+    mapping_to_unfloating(dfg, "./RegressionTest/mapping/gsum.mapping")
+    insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
+    buffer_blackboxes(dfg)
     
     mapping = load_mapping_from_file("./RegressionTest/mapping/gsum.map")
-    fix_floating_point_components(dot, mapping)
+    fix_floating_point_components(dfg, mapping)
 
-    write_dynamatic_dot(dot, "gsum_buf.dot")
-    subprocess.run('dot -Tpng ./gsum_buf.dot -o ./gsum_buf_madbuf.png', shell=True)
-
-else:
+elif method == 'milp':
 
     g: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
     network, signal_to_channel, node_in_component = g.retrieve_anchors()
@@ -43,10 +44,10 @@ else:
     remove_timing_constraints(model, verbose=False)
 
     # then we add the new timing constraints
-    add_timing_constraints(model, network, 
-        signal_to_cuts, 
-        signal_to_channel, 
-        mappings, clock_period=6, verbose=False)
+    # add_timing_constraints(model, network, 
+    #     signal_to_cuts, 
+    #     signal_to_channel, 
+    #     mappings, clock_period=60, verbose=True)
 
     # model.computeIIS()
     # model.write("test.ilp")
@@ -64,10 +65,40 @@ else:
 
     # Step 5: insert the buffers into the DFG
     dfg: pgv.AGraph = read_dynamatic_dot('./RegressionTest/Examples/gsum/gsum.dot')        
-    insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
-    write_dynamatic_dot(dfg, './gsum_buf.dot')
-
-    subprocess.run('dot -Tpng ./gsum_buf.dot -o ./gsum_buf.png', shell=True)
+    insert_buffers_in_dfg(dfg, buffers, buffer_to_slots, verbose=True)
 
     # Step 6: we write the solutions to a file
     model.write("test.sol")
+
+elif method == 'merge':
+
+    lps = glob.glob('./RegressionTest/Examples/gsum/dynamatic_lps/*.lp')
+
+    merge_mg_lps(lps, './RegressionTest/Examples/gsum/gsum.lp', verbose=True)
+
+    dfg: pgv.AGraph = read_dynamatic_dot('./RegressionTest/Examples/gsum/gsum.dot')        
+
+else:
+
+    # baseline
+
+    model = gp.read("./RegressionTest/Examples/gsum/gsum.lp")
+
+    model.optimize()
+
+    # Step 2: retrieve the buffers results
+    buffers = retrieve_buffers(model)
+    buffer_to_slots = retrieve_buffers_to_n_slots(model)
+
+    # Step 3: insert the buffers into the DFG
+    dfg: pgv.AGraph = read_dynamatic_dot('./RegressionTest/Examples/gsum/gsum.dot')        
+    insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
+
+    model.write("baseline.sol")
+
+if dfg is not None:
+
+    write_dynamatic_dot(dfg, f'./gsum_buf_{method}.dot')
+
+    subprocess.run(f'dot -Tpng ./gsum_buf_{method}.dot -o ./gsum_buf_{method}.png', shell=True)
+

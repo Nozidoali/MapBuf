@@ -130,12 +130,18 @@ def get_signal_to_channel_variable_mapping(
 
                 # TODO: now we assume that the channel is always a valid signal
                 # and we don't consider the case where more than one buffer is on the channel
-                assert c in channel_to_var
-                matched_var = channel_to_var[c]
-                has_buffer = True
+                if c.t == Constants._channel_valid_:
+
+                    assert c in channel_to_var
+                    matched_var = channel_to_var[c]
+                    has_buffer = True
 
                 # we need to add a constraint to make sure the buffer is used
                 model.addConstr(matched_var >= 1)
+
+                if verbose:
+                    var_name = matched_var.getAttr("VarName")
+                    print_green(f"Adding constraint: {var_name} >= 1")
 
                 # we don't need to consider the buffer channel
                 continue
