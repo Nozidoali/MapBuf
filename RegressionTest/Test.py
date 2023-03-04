@@ -9,9 +9,5 @@ registered_tests = [
 
 if __name__ == "__main__":
 
-    TestThroughputOptimization().run()
-
-    # for test in registered_tests:
-    #     test.run()
-    
-    
+    for test in registered_tests:
+        test.run()
