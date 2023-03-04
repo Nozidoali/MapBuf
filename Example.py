@@ -2,9 +2,9 @@ from MADBuf import *
 
 import glob
 
-# method = 'madbuf'
+method = 'madbuf'
 # method = 'milp'
-method = 'merge'
+# method = 'merge'
 
 if method == 'madbuf':
 

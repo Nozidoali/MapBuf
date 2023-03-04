@@ -1,25 +1,24 @@
 Digraph G {
 	splines=spline;
 //DHLS version: 0.1.1" [shape = "none" pos = "20,20!"]
-"_Buffer_58" [type=Buffer, in="in1:32", out="out1:32", bbID = 3, slots=1, transparent=false, label="_Buffer_58 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
 		"n" [type = "Entry", bbID= 1, in = "in1:32", out = "out1:32"];
 		"cst_0" [type = "Constant", bbID= 1, in = "in1:2", out = "out1:2", value = "0x00000002"];
 		"icmp_0" [type = "Operator", bbID= 1, op = "icmp_slt_op", in = "in1:32 in2:32 ", out = "out1:1 ", delay=1.907, latency=0, II=1];
 		"brCst_block2" [type = "Constant", bbID= 2, in = "in1:1", out = "out1:1", value = "0x1"];
 		"cst_1" [type = "Constant", bbID= 2, in = "in1:1", out = "out1:1", value = "0x00000001"];
 		"phi_3" [type = "Mux", bbID= 3, in = "in1?:1 in2:31 in3:31 ", out = "out1:31", delay=1.397];
-		"load_6" [type = "Operator", bbID= 3, op = "mc_load_op", bbID= 3, portId= 0, in = "in1:32 in2:31 ", out = "out1:32 out2:31 ", delay=1.412, latency=0, II=1];
+		"load_6" [type = "Operator", bbID= 3, op = "mc_load_op", bbID= 3, portId= 0, in = "in1:32 in2:31 ", out = "out1:32 out2:31 ", delay=1.412, latency=2, II=1];
 		"brCst_block3" [type = "Constant", bbID= 3, in = "in1:1", out = "out1:1", value = "0x1"];
 		"phi_8" [type = "Mux", bbID= 4, in = "in1?:1 in2:32 in3:32 ", out = "out1:32", delay=1.397];
 		"cst_2" [type = "Constant", bbID= 4, in = "in1:1", out = "out1:1", value = "0x00000000"];
 		"icmp_9" [type = "Operator", bbID= 4, op = "icmp_sgt_op", in = "in1:32 in2:32 ", out = "out1:1 ", delay=1.907, latency=0, II=1];
 		"cst_3" [type = "Constant", bbID= 5, in = "in1:32", out = "out1:32", value = "0xFFFFFFFF"];
 		"add_11" [type = "Operator", bbID= 5, op = "add_op", in = "in1:32 in2:32 ", out = "out1:32 ", delay=2.287, latency=0, II=1];
-		"load_14" [type = "Operator", bbID= 5, op = "mc_load_op", bbID= 5, portId= 1, in = "in1:32 in2:32 ", out = "out1:32 out2:32 ", delay=1.412, latency=0, II=1];
+		"load_14" [type = "Operator", bbID= 5, op = "mc_load_op", bbID= 5, portId= 1, in = "in1:32 in2:32 ", out = "out1:32 out2:32 ", delay=1.412, latency=2, II=1];
 		"icmp_15" [type = "Operator", bbID= 5, op = "icmp_sgt_op", in = "in1:32 in2:32 ", out = "out1:1 ", delay=1.907, latency=0, II=1];
 		"cst_4" [type = "Constant", bbID= 6, in = "in1:32", out = "out1:32", value = "0xFFFFFFFF"];
 		"add_17" [type = "Operator", bbID= 6, op = "add_op", in = "in1:32 in2:32 ", out = "out1:32 ", delay=2.287, latency=0, II=1];
-		"load_20" [type = "Operator", bbID= 6, op = "mc_load_op", bbID= 6, portId= 2, in = "in1:32 in2:32 ", out = "out1:32 out2:32 ", delay=1.412, latency=0, II=1];
+		"load_20" [type = "Operator", bbID= 6, op = "mc_load_op", bbID= 6, portId= 2, in = "in1:32 in2:32 ", out = "out1:32 out2:32 ", delay=1.412, latency=2, II=1];
 		"store_0" [type = "Operator", bbID= 6, op = "mc_store_op", bbID= 6, portId= 0, in = "in1:32 in2:32 ", out = "out1:32 out2:32 ", delay=0.672, latency=0, II=1];
 		"cst_5" [type = "Constant", bbID= 6, in = "in1:32", out = "out1:32", value = "0xFFFFFFFF"];
 		"add_23" [type = "Operator", bbID= 6, op = "add_op", in = "in1:32 in2:32 ", out = "out1:32 ", delay=2.287, latency=0, II=1];
@@ -88,23 +87,23 @@ Digraph G {
 		"start_0" [type = "Entry", control= "true", bbID= 1, in = "in1:0", out = "out1:0"];
 		"branchC_21" [type = "Branch", bbID= 1,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
 		"fork_22" [type = "Fork", bbID= 1, in = "in1:1", out = "out1:1 out2:1 "];
-		"phiC_17" [type = "Merge", bbID= 2, in = "in1:0 ", out = "out1:0", delay=1.412];
+		"phiC_17" [type = "Merge", bbID= 2, in = "in1:0 ", out = "out1:0", delay=0.000];
 		"forkC_23" [type = "Fork", bbID= 2, in = "in1:0", out = "out1:0 out2:0 out3:0 "];
 		"branchC_22" [type = "Branch", bbID= 2,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_18" [type = "CntrlMerge", bbID= 3, in = "in1:0 in2:0 ", out = "out1:0 out2?:1", delay=1.412];
+		"phiC_18" [type = "CntrlMerge", bbID= 3, in = "in1:0 in2:0 ", out = "out1:0 out2?:1", delay=0.000];
 		"forkC_24" [type = "Fork", bbID= 3, in = "in1:0", out = "out1:0 out2:0 "];
 		"branchC_23" [type = "Branch", bbID= 3,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_19" [type = "CntrlMerge", bbID= 4, in = "in1:0 in2:0 ", out = "out1:0 out2?:1", delay=1.412];
+		"phiC_19" [type = "CntrlMerge", bbID= 4, in = "in1:0 in2:0 ", out = "out1:0 out2?:1", delay=0.000];
 		"branchC_24" [type = "Branch", bbID= 4,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_20" [type = "Merge", bbID= 5, in = "in1:0 ", out = "out1:0", delay=1.412];
+		"phiC_20" [type = "Merge", bbID= 5, in = "in1:0 ", out = "out1:0", delay=0.000];
 		"branchC_25" [type = "Branch", bbID= 5,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_21" [type = "Merge", bbID= 6, in = "in1:0 ", out = "out1:0", delay=1.412];
+		"phiC_21" [type = "Merge", bbID= 6, in = "in1:0 ", out = "out1:0", delay=0.000];
 		"forkC_27" [type = "Fork", bbID= 6, in = "in1:0", out = "out1:0 out2:0 out3:0 "];
 		"branchC_26" [type = "Branch", bbID= 6,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_22" [type = "Merge", bbID= 7, in = "in1:0 in2:0 ", out = "out1:0", delay=1.412];
+		"phiC_22" [type = "Merge", bbID= 7, in = "in1:0 in2:0 ", out = "out1:0", delay=0.000];
 		"forkC_28" [type = "Fork", bbID= 7, in = "in1:0", out = "out1:0 out2:0 "];
 		"branchC_27" [type = "Branch", bbID= 7,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
-		"phiC_23" [type = "Merge", bbID= 8, in = "in1:0 in2:0 ", out = "out1:0", delay=1.412];
+		"phiC_23" [type = "Merge", bbID= 8, in = "in1:0 in2:0 ", out = "out1:0", delay=0.000];
 		"sink_0" [type = "Sink", bbID= 0, in = "in1:32"];
 		"sink_1" [type = "Sink", bbID= 0, in = "in1:1"];
 		"sink_2" [type = "Sink", bbID= 0, in = "in1:32"];
@@ -127,14 +126,19 @@ Digraph G {
 		"source_3" [type = "Source", bbID= 6, out = "out1:32"];
 		"source_4" [type = "Source", bbID= 6, out = "out1:32"];
 		"source_5" [type = "Source", bbID= 7, out = "out1:1"];
-	"_Buffer_50" [type=Buffer, in="in1:32", out="out1:32", bbID = 3, slots=1, transparent=false, label="_Buffer_50 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_51" [type=Buffer, in="in1:32", out="out1:32", bbID = 3, slots=1, transparent=false, label="_Buffer_51 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_52" [type=Buffer, in="in1:31", out="out1:31", bbID = 3, slots=1, transparent=false, label="_Buffer_52 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_53" [type=Buffer, in="in1:32", out="out1:32", bbID = 3, slots=1, transparent=false, label="_Buffer_53 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_54" [type=Buffer, in="in1:31", out="out1:31", bbID = 3, slots=1, transparent=false, label="_Buffer_54 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_55" [type=Buffer, in="in1:32", out="out1:32", bbID = 3, slots=1, transparent=false, label="_Buffer_55 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_56" [type=Buffer, in="in1:1", out="out1:1", bbID = 3, slots=1, transparent=false, label="_Buffer_56 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
-	"_Buffer_57" [type=Buffer, in="in1:1", out="out1:1", bbID = 3, slots=1, transparent=false, label="_Buffer_57 [1]",  shape=box, style=filled, fillcolor=darkolivegreen3, height = 0.4];
+		"load_6" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in3"];
+		"MC_A" -> "load_6" [color = "darkgreen", mem_address = "false", from = "out1", to = "in1"];
+		"load_14" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in4"];
+		"MC_A" -> "load_14" [color = "darkgreen", mem_address = "false", from = "out2", to = "in1"];
+		"load_20" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in5"];
+		"MC_A" -> "load_20" [color = "darkgreen", mem_address = "false", from = "out3", to = "in1"];
+		"store_0" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in6"];
+		"store_0" -> "MC_A" [color = "darkgreen", mem_address = "false", from = "out1", to = "in7"];
+		"store_1" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in8"];
+		"store_1" -> "MC_A" [color = "darkgreen", mem_address = "false", from = "out1", to = "in9"];
+		"cst_7" -> "MC_A" [color = "darkgreen", from = "out1", to = "in1"];
+		"cst_8" -> "MC_A" [color = "darkgreen", from = "out1", to = "in2"];
+		"MC_A" -> "end_0" [color = "gold3", from = "out4", to = "in1"];
 	subgraph cluster_0 {
 	color = "darkgreen";
 		label = "block1";
@@ -238,8 +242,7 @@ Digraph G {
 		"cst_3" -> "add_11" [color = "red", from = "out1", to = "in2"];
 		"add_11" -> "load_14" [color = "red", from = "out1", to = "in2"];
 		"load_14" -> "icmp_15" [color = "red", from = "out1", to = "in1"];
-		"icmp_15" -> "_Buffer_58" [color = "magenta", from = "out1", to = "in1"];
-		"_Buffer_58" -> "fork_17" [color = "magenta", from = "out1", to = "in1"];
+		"icmp_15" -> "fork_17" [color = "magenta", from = "out1", to = "in1"];
 		"phi_n13" -> "fork_9" [color = "red", from = "out1", to = "in1"];
 		"phi_n14" -> "fork_10" [color = "red", from = "out1", to = "in1"];
 		"phi_n15" -> "branch_13" [color = "red", from = "out1", to = "in1"];
@@ -294,20 +297,15 @@ Digraph G {
 		"source_3" -> "cst_4" [color = "red", from = "out1", to = "in1"];
 		"source_4" -> "cst_5" [color = "red", from = "out1", to = "in1"];
 	}
-		"branch_15" -> "_Buffer_51" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_51" -> "phi_8" [color = "blue", minlen = 3, from = "out1", to = "in3"];
+		"branch_15" -> "phi_8" [color = "blue", minlen = 3, from = "out1", to = "in3"];
 		"branch_15" -> "sink_7" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branch_16" -> "_Buffer_55" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_55" -> "phi_n6" [color = "blue", minlen = 3, from = "out1", to = "in2"];
+		"branch_16" -> "phi_n6" [color = "blue", minlen = 3, from = "out1", to = "in2"];
 		"branch_16" -> "sink_8" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branch_17" -> "_Buffer_54" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_54" -> "phi_n7" [color = "blue", minlen = 3, from = "out1", to = "in2"];
+		"branch_17" -> "phi_n7" [color = "blue", minlen = 3, from = "out1", to = "in2"];
 		"branch_17" -> "sink_9" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branch_18" -> "_Buffer_53" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_53" -> "phi_n8" [color = "blue", minlen = 3, from = "out1", to = "in2"];
+		"branch_18" -> "phi_n8" [color = "blue", minlen = 3, from = "out1", to = "in2"];
 		"branch_18" -> "sink_10" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branchC_26" -> "_Buffer_57" [color = "gold3", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_57" -> "phiC_19" [color = "gold3", minlen = 3, from = "out1", to = "in2"];
+		"branchC_26" -> "phiC_19" [color = "gold3", minlen = 3, from = "out1", to = "in2"];
 		"branchC_26" -> "sink_15" [color = "gold3", minlen = 3, from = "out2", to = "in1"];
 	subgraph cluster_6 {
 	color = "darkgreen";
@@ -331,14 +329,11 @@ Digraph G {
 		"forkC_28" -> "branchC_27" [color = "gold3", from = "out2", to = "in1"];
 		"source_5" -> "cst_6" [color = "red", from = "out1", to = "in1"];
 	}
-		"branch_19" -> "_Buffer_52" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_52" -> "phi_3" [color = "blue", minlen = 3, from = "out1", to = "in3"];
+		"branch_19" -> "phi_3" [color = "blue", minlen = 3, from = "out1", to = "in3"];
 		"branch_19" -> "sink_11" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branch_20" -> "_Buffer_50" [color = "blue", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_50" -> "phi_n1" [color = "blue", minlen = 3, from = "out1", to = "in2"];
+		"branch_20" -> "phi_n1" [color = "blue", minlen = 3, from = "out1", to = "in2"];
 		"branch_20" -> "sink_12" [color = "blue", minlen = 3, from = "out2", to = "in1"];
-		"branchC_27" -> "_Buffer_56" [color = "gold3", minlen = 3, from = "out1", to = "in1"];
-		"_Buffer_56" -> "phiC_18" [color = "gold3", minlen = 3, from = "out1", to = "in2"];
+		"branchC_27" -> "phiC_18" [color = "gold3", minlen = 3, from = "out1", to = "in2"];
 		"branchC_27" -> "phiC_23" [color = "gold3", minlen = 3, from = "out2", to = "in2"];
 	subgraph cluster_7 {
 	color = "darkgreen";
@@ -346,19 +341,4 @@ Digraph G {
 		"ret_0" -> "end_0" [color = "gold3", from = "out1", to = "in2"];
 		"phiC_23" -> "ret_0" [color = "gold3", from = "out1", to = "in1"];
 	}
-		"load_6" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in3"];
-		"MC_A" -> "load_6" [color = "darkgreen", mem_address = "false", from = "out1", to = "in1"];
-		"load_14" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in4"];
-		"MC_A" -> "load_14" [color = "darkgreen", mem_address = "false", from = "out2", to = "in1"];
-		"load_20" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in5"];
-		"MC_A" -> "load_20" [color = "darkgreen", mem_address = "false", from = "out3", to = "in1"];
-		"store_0" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in6"];
-		"store_0" -> "MC_A" [color = "darkgreen", mem_address = "false", from = "out1", to = "in7"];
-		"store_1" -> "MC_A" [color = "darkgreen", mem_address = "true", from = "out2", to = "in8"];
-		"store_1" -> "MC_A" [color = "darkgreen", mem_address = "false", from = "out1", to = "in9"];
-		"cst_7" -> "MC_A" [color = "darkgreen", from = "out1", to = "in1"];
-		"cst_8" -> "MC_A" [color = "darkgreen", from = "out1", to = "in2"];
-		"MC_A" -> "end_0" [color = "gold3", from = "out4", to = "in1"];
 }
-
-
