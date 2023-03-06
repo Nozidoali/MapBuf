@@ -9,6 +9,8 @@ def add_timing_constraints(
     signal_to_cuts: dict,
     signal_to_channel: dict,
     mappings: dict = None,
+    add_cutloopback_constraints_flag:bool = True,
+    add_blockbox_constraints_flag: bool = True,
     clock_period: int = 100,
     verbose: bool = False,
 ):
@@ -25,11 +27,12 @@ def add_timing_constraints(
         channels.add(channel_name)
 
     signal_to_channel_var = get_signal_to_channel_variable_mapping(
-        model, network, signal_to_channel, mappings, verbose
+        model, network, signal_to_channel, add_constraints=add_cutloopback_constraints_flag, mappings=mappings, verbose=verbose
     )
 
     # add blackbox constraints
-    add_blackbox_constraints(model, verbose=verbose)
+    if add_blockbox_constraints_flag:
+        add_blackbox_constraints(model, verbose=verbose)
     
     # add the timing constraints
     add_timing_label_variables(model, network, clock_period=clock_period)

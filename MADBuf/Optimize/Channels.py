@@ -70,7 +70,7 @@ def get_channel_to_var(model: gp.Model, mappings: dict = None):
 
 def get_signal_to_channel_variable_mapping(
     model: gp.Model, network: BLIFGraph, 
-    signal_to_channel: dict, mappings: dict = None, verbose: bool = False
+    signal_to_channel: dict, add_constraints:bool=True, mappings: dict = None, verbose: bool = False
 ):
     """
     we need to find the variable names defined in dynamatic linear programs
@@ -137,7 +137,8 @@ def get_signal_to_channel_variable_mapping(
                     has_buffer = True
 
                 # we need to add a constraint to make sure the buffer is used
-                model.addConstr(matched_var >= 1)
+                if add_constraints:
+                    model.addConstr(matched_var >= 1)
 
                 if verbose:
                     var_name = matched_var.getAttr("VarName")

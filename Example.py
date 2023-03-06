@@ -2,14 +2,13 @@ from MADBuf import *
 
 import glob
 
-method = 'madbuf'
-# method = 'milp'
+# method = 'madbuf'
+method = 'milp'
 # method = 'merge'
 
 if method == 'madbuf':
 
     blif: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
-
     
     network, signal_to_channel, node_in_component = blif.retrieve_anchors()
     
@@ -44,10 +43,12 @@ elif method == 'milp':
     remove_timing_constraints(model, verbose=False)
 
     # then we add the new timing constraints
-    # add_timing_constraints(model, network, 
-    #     signal_to_cuts, 
-    #     signal_to_channel, 
-    #     mappings, clock_period=60, verbose=True)
+    add_timing_constraints(model, network, 
+        signal_to_cuts, 
+        signal_to_channel, 
+        mappings,
+        add_cutloopback_constraints_flag=False, 
+        add_blockbox_constraints_flag=False, clock_period=6, verbose=True)
 
     # model.computeIIS()
     # model.write("test.ilp")
@@ -56,7 +57,7 @@ elif method == 'milp':
 
     # now we solve the model under the time limit
     #
-    model.Params.timeLimit = 600
+    model.Params.timeLimit = 60
     model.optimize()
 
     # Step 4: retrieve the buffers results
