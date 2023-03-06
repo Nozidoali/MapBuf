@@ -255,3 +255,9 @@ def read_graph_from_verilog(filename: str) -> VerilogGraph:
             else:
                 g.modules.add(line)
     return g
+
+def write_verilog_to_file(vgraph: VerilogGraph, filename: str):
+    verilog_str = str(vgraph)
+    
+    with open(filename, 'w') as f:
+        f.write(verilog_str)

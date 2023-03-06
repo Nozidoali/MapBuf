@@ -17,7 +17,6 @@ def add_timing_constraints(
 
     if verbose:
         print("Adding timing constraints...")
-
         
     channels: set = set()
     for node in signal_to_channel:
