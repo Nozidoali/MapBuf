@@ -46,8 +46,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
 
     for signal in g.signals:
         model.addVar(
-            vtype=GRB.INTEGER, name=f"TimingLabel_{signal}", lb=0, ub=clock_period
-        )  # delay variables
+            vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
         # otherwise the variable names will not be found
         #   reference:
@@ -55,6 +54,13 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
         #
         model.update()
 
+
+    for signal in g.signals:
+        model.addConstr(
+            model.getVarByName(f"TimingLabel_{signal}") <= clock_period)
+        
+    model.addConstr(model.getVarByName(f"CP") <= clock_period)
+    model.update()
 
 def add_input_delay_constraints(
     model: gp.Model, g: BLIFGraph, input_delays: dict = None

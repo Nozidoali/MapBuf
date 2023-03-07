@@ -46,9 +46,7 @@ elif method == 'milp':
     add_timing_constraints(model, network, 
         signal_to_cuts, 
         signal_to_channel, 
-        mappings,
-        add_cutloopback_constraints_flag=False, 
-        add_blockbox_constraints_flag=False, clock_period=6, verbose=True)
+        mappings, clock_period=6, verbose=True)
 
     # model.computeIIS()
     # model.write("test.ilp")
@@ -57,7 +55,7 @@ elif method == 'milp':
 
     # now we solve the model under the time limit
     #
-    model.Params.timeLimit = 60
+    model.Params.timeLimit = 1800
     model.optimize()
 
     # Step 4: retrieve the buffers results
