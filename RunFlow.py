@@ -7,10 +7,12 @@ skip_preprocessing_flag: bool = False
 skip_dot2hdl: bool = False
 skip_odin: bool = False
 
-# skip_dynamatic_flag: bool = True
-# skip_preprocessing_flag: bool = True
-# skip_dot2hdl: bool = True
-# skip_odin: bool = True
+# if True:
+if False:
+    skip_dynamatic_flag: bool = True
+    skip_preprocessing_flag: bool = True
+    skip_dot2hdl: bool = True
+    skip_odin: bool = True
 mut = 'dummy'
 
 server = 'sp'
@@ -48,14 +50,24 @@ if not skip_dynamatic_flag:
     run_server(f'rm -rf {mut_path}') # remove the existing source code 
 
     run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
-    
 
     # then we run dynamatic, and prepare the DOT file
     run_server(f"cd {mut_path}; dynamatic synthesis.tcl")
 
     # then we retrive the result and copy the DOT file back
     run(f'scp -r {server_path}/{mut} .', shell=True)
+    
+    # now we do a trick here to modify the bitwidth
+    f = open(f'{mut}/reports/{mut}.dot', 'r')
+    dotfile_content = f.read()
+    f.close()
+    
+    dotfile_content = dotfile_content.replace(':32', ":1")
 
+    f = open(f'{mut}/reports/{mut}.dot', 'w')
+    f.write(dotfile_content)
+    f.close()
+    
 # then we do preprocessing, including cut loop back and floating point conversions
 from MADBuf import *
 
@@ -149,6 +161,26 @@ for method in ['madbuf']:
 
         network, signal_to_channel, node_in_component = blif.retrieve_anchors()
         
+        if True:
+            write_blif_to_file(network, f"{mut}/reports/{mut}_out.blif")
+            
+            run_abc_techmap(f"{mut}/reports/{mut}_out.blif", f"{mut}/reports/{mut}_abc.blif", run_optimization=False)
+            
+            new_network = BLIFGraph(f"{mut}/reports/{mut}_abc.blif")
+            new_graph = new_network.export()
+
+            set_pretty_attributes(new_graph, nodes_in_component=None)
+            new_graph.write(f"{mut}/reports/{mut}_klut.dot")
+            subprocess.run(f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png", shell=True)
+        
+        if True:
+            graph = network.export()
+            
+            set_pretty_attributes(graph, nodes_in_component=node_in_component)
+            graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
+            subprocess.run(f"dot -Tpng {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.png", shell=True)
+
+
         # these two methods work the same
         optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
         # optimizer: MADBuf = MADBuf(blif)
@@ -156,7 +188,7 @@ for method in ['madbuf']:
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
         insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
         buffer_blackboxes(dfg)
-        
+
         print(buffers)
         
         write_dynamatic_dot(dfg, f'./{mut}/{mut}_{method}.dot')
