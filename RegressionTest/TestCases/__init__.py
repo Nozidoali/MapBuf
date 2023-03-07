@@ -6,3 +6,4 @@ from TestCases.TestMapping import *
 from TestCases.TestMADBuf import *
 from TestCases.TestDynamaticIO import *
 from TestCases.TestEvaluateLatency import *
+from TestCases.TestBLIFWriter import *

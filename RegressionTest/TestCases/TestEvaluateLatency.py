@@ -7,6 +7,5 @@ class TestMADBuf(TestCases):
 
     def run(self) -> None:
         
-        blif: BLIFGraph = BLIFGraph("../dummy/gsum.blif")
-        
+        blif: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
         
