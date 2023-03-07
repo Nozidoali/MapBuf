@@ -2,15 +2,15 @@ import os
 import sys
 from subprocess import run
 
-# skip_dynamatic_flag: bool = False
-# skip_preprocessing_flag: bool = False
-# skip_dot2hdl: bool = False
-# skip_odin: bool = False
+skip_dynamatic_flag: bool = False
+skip_preprocessing_flag: bool = False
+skip_dot2hdl: bool = False
+skip_odin: bool = False
 
-skip_dynamatic_flag: bool = True
-skip_preprocessing_flag: bool = True
-skip_dot2hdl: bool = True
-skip_odin: bool = True
+# skip_dynamatic_flag: bool = True
+# skip_preprocessing_flag: bool = True
+# skip_dot2hdl: bool = True
+# skip_odin: bool = True
 mut = 'dummy'
 
 server = 'sp'
@@ -34,7 +34,9 @@ if not skip_dynamatic_flag:
     run(f"rm -f {mut}/*.mapping", shell=True)
     run(f"rm -f {mut}/*.png", shell=True)
     run(f"rm -f {mut}/*.dot", shell=True)
-    
+    run(f"rm -f {mut}/*.sol", shell=True)
+    run(f"rm -f {mut}/*.lp", shell=True)
+        
     # here we check
     assert os.path.exists(mut)
     assert os.path.exists(os.path.join(mut, 'src')) # src 
@@ -43,15 +45,16 @@ if not skip_dynamatic_flag:
 
     # we send this to the server
     assert server_path.endswith('examples')
-    run_server(f'rm -rf {server_path}/{mut}') # remove the existing source code 
+    run_server(f'rm -rf {mut_path}') # remove the existing source code 
+
     run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
+    
 
     # then we run dynamatic, and prepare the DOT file
     run_server(f"cd {mut_path}; dynamatic synthesis.tcl")
 
     # then we retrive the result and copy the DOT file back
     run(f'scp -r {server_path}/{mut} .', shell=True)
-
 
 # then we do preprocessing, including cut loop back and floating point conversions
 from MADBuf import *
@@ -132,7 +135,7 @@ if not skip_odin:
     run(f'scp -r {server_path}/{mut} .', shell=True)
 
 # now we run ABC optimization
-run_abc_techmap(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
+run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
 
 # now it is our stuff!
 

@@ -5,3 +5,4 @@ from TestCases.TestThroughputOptimization import *
 from TestCases.TestMapping import *
 from TestCases.TestMADBuf import *
 from TestCases.TestDynamaticIO import *
+from TestCases.TestEvaluateLatency import *
