@@ -21,4 +21,10 @@ scripts
 
 Buffers
 
-dummy
+dummy/*
+!dummy/src
+
+!dummy/reports
+dummy/reports/*
+!dummy/reports/dummy.blif
+!dummy/reports/dummy.dot

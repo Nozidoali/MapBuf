@@ -48,6 +48,9 @@ class MADBufBase:
 
         # for stats
         self.n_channels: int = len(self.channel_is_buffered)
+        
+        # maintain the cut selection for each signal
+        self.signal_to_cut: dict = {}
 
     def run(
         self,
@@ -171,6 +174,9 @@ class MADBufBase:
                         break
                 if not updated:
                     break
+                
+        # leaves store the final cut selection
+        self.signal_to_cut[n] = leaves.copy()
 
         return l_opt
 
@@ -476,6 +482,9 @@ class MADBufBase:
                     if done:
                         break
 
+        # update the cut selection
+        self.signal_to_cut[n] = best_leaves
+
         # update dirty label here:
         if l_opt < self._node_arrival_time(n):
             self.dirty_labels[n] = l_opt
@@ -520,6 +529,12 @@ class MADBufBase:
             f"dot -Tpng {_n}.dot > {_n}.png",
             shell=True,
         )
+        
+    def export_cuts(self):
+        signal_to_cut: dict = {}
+        
+        
+        return signal_to_cut
 
 
 if __name__ == "__main__":
