@@ -209,14 +209,14 @@ for method in ["madbuf"]:
             )
 
         if True:
-            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut)
+            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut, nodes_in_component=node_in_component)
             lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
             subprocess.run(
-                f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
+                f"dot -Tpdf -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
                 shell=True,
             )
             subprocess.run(
-                f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
+                f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
                 shell=True,
             )
 

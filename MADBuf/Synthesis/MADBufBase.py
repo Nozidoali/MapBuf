@@ -105,6 +105,9 @@ class MADBufBase:
 
                 self._export_fanin_cone_to(n_max, critical_path_filename)
 
+        for signal in self.signal_to_cut:
+            assert len(self.signal_to_cut[signal]) <= Constants.lut_size_limit
+
         return (
             set([c for c in self.channel_is_buffered if self.channel_is_buffered[c]]),
             str(maximum_timing_label),
@@ -125,12 +128,15 @@ class MADBufBase:
         assert n in self.g.node_fanins
 
         leaves: set = set(list(self.g.node_fanins[n])[:])  # deep copy
+        best_cut: set = set(leaves)
+
         assert len(leaves) <= Constants.lut_size_limit and "failed to find initial cut"
         while len(leaves) <= Constants.lut_size_limit:
             arrival_times: list = [(self._node_arrival_time(f), f) for f in leaves]
             maximum_timing_label, f = max(arrival_times)
 
             l_opt = min(maximum_timing_label + 1, l_opt)
+            best_cut = set(leaves)
 
             if maximum_timing_label == TimingLabel(0):
                 return maximum_timing_label + 1
@@ -179,7 +185,7 @@ class MADBufBase:
                     break
 
         # leaves store the final cut selection
-        self.signal_to_cut[n] = leaves.copy()
+        self.signal_to_cut[n] = best_cut.copy()
 
         return l_opt
 
