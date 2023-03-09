@@ -69,8 +69,12 @@ def get_channel_to_var(model: gp.Model, mappings: dict = None):
 
 
 def get_signal_to_channel_variable_mapping(
-    model: gp.Model, network: BLIFGraph, 
-    signal_to_channel: dict, add_constraints:bool=True, mappings: dict = None, verbose: bool = False
+    model: gp.Model,
+    network: BLIFGraph,
+    signal_to_channel: dict,
+    add_constraints: bool = True,
+    mappings: dict = None,
+    verbose: bool = False,
 ):
     """
     we need to find the variable names defined in dynamatic linear programs

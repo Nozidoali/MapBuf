@@ -1,6 +1,7 @@
 from MADBuf import *
 from TestCases.TestCases import TestCases
 
+
 class TestThroughputOptimization:
     def __init__(self) -> None:
         pass
@@ -22,16 +23,21 @@ class TestThroughputOptimization:
         remove_timing_constraints(model, verbose=False)
 
         # then we add the new timing constraints
-        add_timing_constraints(model, network, 
-            signal_to_cuts, 
-            signal_to_channel, 
-            mappings, clock_period=6, verbose=False)
-    
+        add_timing_constraints(
+            model,
+            network,
+            signal_to_cuts,
+            signal_to_channel,
+            mappings,
+            clock_period=6,
+            verbose=False,
+        )
+
         # model.computeIIS()
         # model.write("test.ilp")
 
         model.write("test.lp")
-        
+
         # now we solve the model under the time limit
         #
         model.Params.timeLimit = 10
@@ -42,11 +48,11 @@ class TestThroughputOptimization:
         buffer_to_slots = retrieve_buffers_to_n_slots(model)
 
         # Step 5: insert the buffers into the DFG
-        dfg: pgv.AGraph = read_dynamatic_dot('./Examples/gsum/gsum.dot')        
+        dfg: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
         insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
-        write_dynamatic_dot(dfg, './gsum_buf.dot')
+        write_dynamatic_dot(dfg, "./gsum_buf.dot")
 
-        subprocess.run('dot -Tpng ./gsum_buf.dot -o ./gsum_buf.png', shell=True)
+        subprocess.run("dot -Tpng ./gsum_buf.dot -o ./gsum_buf.png", shell=True)
 
         # Step 6: we write the solutions to a file
         model.write("test.sol")

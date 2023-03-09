@@ -1,5 +1,6 @@
 import gurobipy as gp
 
+
 def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
     """
     merge multiple LPs into one
@@ -17,15 +18,15 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
 
         is_related_to_throughput = False
         for var in new_model.getVars():
-            if '_slots' in var.varName:
-                is_related_to_throughput = True
-                break
-            
-            if '_flop' in var.varName:
+            if "_slots" in var.varName:
                 is_related_to_throughput = True
                 break
 
-            if '_hasBuffer' in var.VarName:
+            if "_flop" in var.varName:
+                is_related_to_throughput = True
+                break
+
+            if "_hasBuffer" in var.VarName:
                 is_related_to_throughput = True
                 break
 
@@ -34,8 +35,7 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
 
         for var in new_model.getVars():
 
-            model.addVar(
-                vtype=var.vtype, name=var.VarName, lb=var.lb, ub=var.ub)
+            model.addVar(vtype=var.vtype, name=var.VarName, lb=var.lb, ub=var.ub)
 
             if verbose:
                 print(f"add variable {var.varName}")
@@ -60,7 +60,9 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
             model.addConstr(lhs, constr.Sense, constr.RHS)
 
             if verbose:
-                print(f"add constraint {new_model.getRow(constr)} {constr.Sense} {constr.RHS}")
+                print(
+                    f"add constraint {new_model.getRow(constr)} {constr.Sense} {constr.RHS}"
+                )
 
         model.update()
 
@@ -85,10 +87,8 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
             else:
                 objective.add(vars[i], -coeffs[i])
 
-
         model.setObjective(objective, sense=model.ModelSense)
         model.update()
-
 
     # Step 3: we write the merged LP
     model.write(output_file)

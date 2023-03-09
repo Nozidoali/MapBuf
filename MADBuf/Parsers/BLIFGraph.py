@@ -250,27 +250,6 @@ class BLIFGraph:
                 g.node_fanins[n].add(f)
         visited.add(n)
 
-    # export the graph to a DOT file
-    def export(self) -> pgv.AGraph:
-
-        G = pgv.AGraph(strict=False, directed=True)
-        for n in self.topological_traversal():
-            G.add_node(n, label=get_shortname(n))
-            if n in self.nodes:
-                for f in self.node_fanins[n]:
-                    G.add_edge(f, n)
-
-        # add link from RI to RO
-        for ro in self.ros:
-            ri = self.ro_to_ri[ro]
-            G.add_edge(ri, ro, style="dashed")
-
-        set_pretty_outputs(G, self.outputs)
-        set_pretty_inputs(G, self.inputs)
-        set_pretty_constants(G, self.const0, self.const1)
-
-        return G
-
     def retrieve_anchors(self) -> tuple:
         g: BLIFGraph = BLIFGraph()
         signal_to_channel: dict = {}

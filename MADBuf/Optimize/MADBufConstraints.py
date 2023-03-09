@@ -1,8 +1,10 @@
 from MADBuf.Optimize.MilpFormulation import *
 
+
 class madbuf_constraints_params:
-    
+
     skip_definite_cut_selection: bool = False
+
 
 def add_madbuf_constraints(
     model: gp.Model, signal_to_cuts: dict, signal_to_channel_var: dict = None
@@ -18,22 +20,22 @@ def add_madbuf_constraints(
         #
         try:
             buffer_var = signal_to_channel_var[signal]
-            
+
         except:
             buffer_var = None
 
         # get the set of cuts that are precomputed for this signal
         cut_set: list = signal_to_cuts[signal]
-        
+
         # special case where we only have one cut
         if len(cut_set) == 1 and madbuf_constraints_params.skip_definite_cut_selection:
             cut = cut_set[0]
             add_delay_propagation_constraints(model, signal, cut, None, buffer_var)
-        
+
         else:
-            
+
             cut_selection_vars: list = []
-            
+
             # for each cut in the set set
             for cut_index, cut in enumerate(cut_set):
 
@@ -43,11 +45,15 @@ def add_madbuf_constraints(
                 )
                 cut_selection_vars.append(var_cut_selection)
 
-                add_delay_propagation_constraints(model, signal, cut, var_cut_selection, buffer_var)
+                add_delay_propagation_constraints(
+                    model, signal, cut, var_cut_selection, buffer_var
+                )
 
-            assert len(cut_selection_vars) > 1 or not madbuf_constraints_params.skip_definite_cut_selection
+            assert (
+                len(cut_selection_vars) > 1
+                or not madbuf_constraints_params.skip_definite_cut_selection
+            )
 
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
             model.addConstr(sum(cut_selection_vars) == 1, f"cut_selection_at_{signal}")
-

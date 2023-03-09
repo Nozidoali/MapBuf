@@ -158,7 +158,7 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
 
         # indicates if we need to update the index at the end
         curr_index_used: bool = False
-        
+
         if "_" not in node_name:
             print(f"Warning: skiping floating point checking on node {node_name}")
             continue

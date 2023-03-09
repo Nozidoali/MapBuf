@@ -1,13 +1,15 @@
 import pygraphviz as pgv
 
 
-def create_buffer(g: pgv.AGraph, name: str, transparent: bool = False, n_slots: int = 1):
-    
+def create_buffer(
+    g: pgv.AGraph, name: str, transparent: bool = False, n_slots: int = 1
+):
+
     buffer_type = "t" if transparent else ""
-    
+
     buffer_label = f"Buffer_{name}[{n_slots}{buffer_type}]"
     buffer_name = f"Buffer_{name}"
-    
+
     g.add_node(buffer_name)
     buffer = g.get_node(buffer_name)
     buffer.attr["in"] = "in1:32"

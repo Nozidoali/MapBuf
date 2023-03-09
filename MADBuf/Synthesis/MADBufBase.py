@@ -1,6 +1,6 @@
 from MADBuf.Parsers.BLIFGraph import BLIFGraph
 from MADBuf.Synthesis.TimingLabel import TimingLabel
-from MADBuf.Formatter.PrettyGraph import *
+from MADBuf.Formatter import *
 from MADBuf.Utils import *
 
 import subprocess
@@ -8,14 +8,16 @@ import queue
 
 
 class MADBufBase:
-    def __init__(self, g: BLIFGraph, signal_to_channel: dict, nodes_in_components: dict) -> None:
+    def __init__(
+        self, g: BLIFGraph, signal_to_channel: dict, nodes_in_components: dict
+    ) -> None:
 
         # reference: https://peps.python.org/pep-0526/#global-and-local-variable-annotations
         # type declaration before assignment
         self.g: BLIFGraph = g
         self.signal_to_channel: dict = signal_to_channel
         self.nodes_in_component: dict = nodes_in_components
-        
+
         # reverse index the channel to node using the node to channel:
         #
         self.channel_to_node: dict = {}
@@ -48,7 +50,7 @@ class MADBufBase:
 
         # for stats
         self.n_channels: int = len(self.channel_is_buffered)
-        
+
         # maintain the cut selection for each signal
         self.signal_to_cut: dict = {}
 
@@ -103,9 +105,10 @@ class MADBufBase:
 
                 self._export_fanin_cone_to(n_max, critical_path_filename)
 
-        return set(
-            [c for c in self.channel_is_buffered if self.channel_is_buffered[c]]
-        ), str(maximum_timing_label)
+        return (
+            set([c for c in self.channel_is_buffered if self.channel_is_buffered[c]]),
+            str(maximum_timing_label),
+        )
 
     def _update_label(self, n: str) -> TimingLabel:
         """
@@ -174,7 +177,7 @@ class MADBufBase:
                         break
                 if not updated:
                     break
-                
+
         # leaves store the final cut selection
         self.signal_to_cut[n] = leaves.copy()
 
@@ -508,7 +511,7 @@ class MADBufBase:
     #   should be moved in to configuration files
     def _export_fanin_cone_to(self, n: str, filename: str):
         g: BLIFGraph = self.g.extract_fanin_cone(n)
-        G: pgv.AGraph = g.export()
+        G: pgv.AGraph = export_subject_graph(g)
         set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
         set_pretty_labels(G, self.labels)
         clear_pretty_labels(G)
@@ -521,7 +524,7 @@ class MADBufBase:
 
     def _export_entire_graph_to(self, filename: str):
         g: BLIFGraph = self.g
-        G: pgv.AGraph = g.export()
+        G: pgv.AGraph = export_subject_graph(g)
         set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
         _n = filename.replace(".dot", "") if filename.endswith(".dot") else filename
         G.write(f"{_n}.dot")
@@ -529,18 +532,8 @@ class MADBufBase:
             f"dot -Tpng {_n}.dot > {_n}.png",
             shell=True,
         )
-        
+
     def export_cuts(self):
         signal_to_cut: dict = {}
-        
-        
+
         return signal_to_cut
-
-
-if __name__ == "__main__":
-
-    # to test if all the channels are the indeed the channels in the gaussian DFG
-
-    # anchor test
-    m = MADBuf(filename="./examples/teeny/teeny.blif", clock_period=4)
-    m.run()

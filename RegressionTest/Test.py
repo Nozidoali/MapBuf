@@ -12,4 +12,3 @@ if __name__ == "__main__":
 
     for test in registered_tests:
         test.run()
-

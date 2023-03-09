@@ -1,6 +1,7 @@
 from MADBuf import *
 from TestCases.TestCases import TestCases
 
+
 class TestMapping(TestCases):
     def __init__(self) -> None:
         pass

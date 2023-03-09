@@ -8,20 +8,22 @@ skip_dot2hdl: bool = False
 skip_odin: bool = False
 
 if True:
-# if False:
+    # if False:
     skip_dynamatic_flag: bool = True
     skip_preprocessing_flag: bool = True
     skip_dot2hdl: bool = True
     skip_odin: bool = True
-mut = 'dummy'
+mut = "dummy"
 
-server = 'sp'
-path = '/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples'
-server_path = f'{server}:{path}' # points to the examples folder in dynamatic
-mut_path = f'{path}/{mut}'
+server = "sp"
+path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
+server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
+mut_path = f"{path}/{mut}"
 
-def run_server(command:str):
-    run(f'ssh {server} \"{command}\"', shell=True)
+
+def run_server(command: str):
+    run(f'ssh {server} "{command}"', shell=True)
+
 
 # we first create a folder called dummy and put the source inside
 # we assume that this is already done
@@ -38,84 +40,84 @@ if not skip_dynamatic_flag:
     run(f"rm -f {mut}/*.dot", shell=True)
     run(f"rm -f {mut}/*.sol", shell=True)
     run(f"rm -f {mut}/*.lp", shell=True)
-        
+
     # here we check
     assert os.path.exists(mut)
-    assert os.path.exists(os.path.join(mut, 'src')) # src 
-    assert os.path.exists(os.path.join(mut, 'src', f'{mut}.cpp')) # src 
-    assert os.path.exists(os.path.join(mut, 'src', f'{mut}.h')) # src 
+    assert os.path.exists(os.path.join(mut, "src"))  # src
+    assert os.path.exists(os.path.join(mut, "src", f"{mut}.cpp"))  # src
+    assert os.path.exists(os.path.join(mut, "src", f"{mut}.h"))  # src
 
     # we send this to the server
-    assert server_path.endswith('examples')
-    run_server(f'rm -rf {mut_path}') # remove the existing source code 
+    assert server_path.endswith("examples")
+    run_server(f"rm -rf {mut_path}")  # remove the existing source code
 
-    run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
+    run(f"scp -r {mut} {server_path}/", shell=True)  # copy the new source code
 
     # then we run dynamatic, and prepare the DOT file
     run_server(f"cd {mut_path}; dynamatic synthesis.tcl")
 
     # then we retrive the result and copy the DOT file back
-    run(f'scp -r {server_path}/{mut} .', shell=True)
-    
+    run(f"scp -r {server_path}/{mut} .", shell=True)
+
     # now we do a trick here to modify the bitwidth
-    f = open(f'{mut}/reports/{mut}.dot', 'r')
+    f = open(f"{mut}/reports/{mut}.dot", "r")
     dotfile_content = f.read()
     f.close()
-    
-    dotfile_content = dotfile_content.replace(':32', ":1")
 
-    f = open(f'{mut}/reports/{mut}.dot', 'w')
+    dotfile_content = dotfile_content.replace(":32", ":1")
+
+    f = open(f"{mut}/reports/{mut}.dot", "w")
     f.write(dotfile_content)
     f.close()
-    
+
 # then we do preprocessing, including cut loop back and floating point conversions
 from MADBuf import *
 
 if not skip_preprocessing_flag:
     # we first check the presence of bbgrpah and the data flow graph
-    graph = read_dynamatic_dot(f'{mut}/reports/{mut}.dot')
-    bbgraph = read_dynamatic_dot(f'{mut}/reports/{mut}_bbgraph.dot')
-    
+    graph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
+    bbgraph = read_dynamatic_dot(f"{mut}/reports/{mut}_bbgraph.dot")
+
     # Preprocessing 1: Cut loop back
     cut_loopback(graph, bbgraph)
-    
-    # Preprocessing 2: Floating point component mapping 
-    mapping_file = f'{mut}/{mut}.mapping'
+
+    # Preprocessing 2: Floating point component mapping
+    mapping_file = f"{mut}/{mut}.mapping"
     mapping_to_unfloating(graph, mapping_file)
-    
+
     run(f"mkdir {mut}/pre", shell=True)
-    write_dynamatic_dot(graph, f'{mut}/pre/{mut}.dot')
+    write_dynamatic_dot(graph, f"{mut}/pre/{mut}.dot")
     run(f"dot -Tpng {mut}/pre/{mut}.dot > {mut}/pre/{mut}.png", shell=True)
-        
+
 
 # now we send again the new graph to the server, and run the synthesis front end
-#   
+#
 if not skip_dot2hdl:
 
-    run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
+    run(f"scp -r {mut} {server_path}/", shell=True)  # copy the new source code
 
     # then we run dot2hdl, and prepare the Verilog and VHDL file
     run_server(f"cd {mut_path}/pre; dot2hdl {mut};")
 
     # then we retrive the result and copy the DOT file back
-    run(f'scp -r {server_path}/{mut} .', shell=True)
-    
+    run(f"scp -r {server_path}/{mut} .", shell=True)
+
     # now we need to run the anchor insertion algorithm
     #
 
     # we read the file generated from dot2hdl
-    vgraph = read_graph_from_verilog(f'{mut}/pre/{mut}.v')
+    vgraph = read_graph_from_verilog(f"{mut}/pre/{mut}.v")
 
     # we add anchors
     vgraph.insert_anchors()
 
-    run(f'mkdir {mut}/to_odin', shell=True)
+    run(f"mkdir {mut}/to_odin", shell=True)
 
-    write_verilog_to_file(vgraph, f'{mut}/to_odin/{mut}.v')
+    write_verilog_to_file(vgraph, f"{mut}/to_odin/{mut}.v")
 
 # Now it is time for ODIN_II
 if not skip_odin:
-    run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
+    run(f"scp -r {mut} {server_path}/", shell=True)  # copy the new source code
 
     root_dir = "/home/hanywang"
     vtr_path = "vtr-verilog-to-routing_bak"
@@ -124,7 +126,7 @@ if not skip_odin:
     odin_arch_path = os.path.join(root_dir, vtr_path, odin_arch)
     odin_path = os.path.join(root_dir, vtr_path, "build/ODIN_II/odin_II")
     verilog_files = os.path.join(root_dir, verilog_path, "*.v")
-    
+
     odin_command = " ".join(
         [
             odin_path,
@@ -139,12 +141,12 @@ if not skip_odin:
             "--show_yosys_log",
         ]
     )
-    
+
     # then we run ODIN_II, and prepare the BLIF
     run_server(f"cd {mut_path}/to_odin; {odin_command};")
 
     # then we retrive the result and copy the DOT file back
-    run(f'scp -r {server_path}/{mut} .', shell=True)
+    run(f"scp -r {server_path}/{mut} .", shell=True)
 
 # now we run ABC optimization
 run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
@@ -152,52 +154,83 @@ run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
 # now it is our stuff!
 
 # for method in ['madbuf', 'milp']:
-for method in ['madbuf']:
+for method in ["madbuf"]:
 
     # for MADBUF
-    if method == 'madbuf':
+    if method == "madbuf":
         blif: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
         dfg: pgv.AGraph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
 
         network, signal_to_channel, node_in_component = blif.retrieve_anchors()
-        
+
         # these two methods work the same
         optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
         # optimizer: MADBuf = MADBuf(blif)
-        
+
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
-        
+
         if False:
             write_blif_to_file(network, f"{mut}/reports/{mut}_out.blif")
-            
-            run_abc_techmap(f"{mut}/reports/{mut}_out.blif", f"{mut}/reports/{mut}_abc.blif", run_optimization=True)
-            
+
+            run_abc_techmap(
+                f"{mut}/reports/{mut}_out.blif",
+                f"{mut}/reports/{mut}_abc.blif",
+                run_optimization=True,
+            )
+
             new_network = BLIFGraph(f"{mut}/reports/{mut}_abc.blif")
-            new_graph = new_network.export()
+            new_graph = export_subject_graph(new_network)
 
             set_pretty_attributes(new_graph, nodes_in_component=None)
             new_graph.write(f"{mut}/reports/{mut}_klut.dot")
-            subprocess.run(f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf", shell=True)
-            subprocess.run(f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png", shell=True)
-        
-        if True:
-            graph = network.export()
-            
+            subprocess.run(
+                f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
+                shell=True,
+            )
+            subprocess.run(
+                f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
+                shell=True,
+            )
+
+        if False:
+            graph = export_subject_graph(network)
+
             set_pretty_attributes(graph, nodes_in_component=node_in_component)
             set_cut_colors(graph, network, signal_to_cut=optimizer.signal_to_cut)
-            graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
-            subprocess.run(f"dot -Tpdf {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.pdf", shell=True)
-            subprocess.run(f"dot -Tpng {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.png", shell=True)
 
+            graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
+            subprocess.run(
+                f"dot -Tpdf {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.pdf",
+                shell=True,
+            )
+            subprocess.run(
+                f"dot -Tpng {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.png",
+                shell=True,
+            )
+
+        if True:
+            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut)
+            lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
+            subprocess.run(
+                f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
+                shell=True,
+            )
+            subprocess.run(
+                f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
+                shell=True,
+            )
 
         insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
         buffer_blackboxes(dfg)
 
         print(buffers)
-        
-        write_dynamatic_dot(dfg, f'./{mut}/{mut}_{method}.dot')
 
-        subprocess.run(f'dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png', shell=True)
+        write_dynamatic_dot(dfg, f"./{mut}/{mut}_{method}.dot")
+
+        subprocess.run(
+            f"dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png",
+            shell=True,
+        )
 
     if method == "milp":
 
@@ -208,35 +241,38 @@ for method in ['madbuf']:
 
         cuts = cutless_enumeration(network, signal_to_channel)
         signal_to_cuts = cleanup_dangling_cuts(cuts)
-        
+
         # Step 1: we need to prepare the LPs
         # to this end, we run the buffer command on the server
-        # 
+        #
         if False:
-            run(f'scp -r {mut} {server_path}/', shell=True) # copy the new source code
+            run(f"scp -r {mut} {server_path}/", shell=True)  # copy the new source code
 
             # then we run dot2hdl, and prepare the Verilog and VHDL file
-            run_server(f"cd {mut_path}; buffers buffers -filename=reports/{mut} -period=4 -model_mode=mixed -solver=gurobi_cl;")
+            run_server(
+                f"cd {mut_path}; buffers buffers -filename=reports/{mut} -period=4 -model_mode=mixed -solver=gurobi_cl;"
+            )
 
             # then we retrive the result and copy the DOT file back
-            run(f'scp -r {server_path}/{mut} .', shell=True)
-        
-        model: gp.Model = gp.Model(f'{mut}')
-        
+            run(f"scp -r {server_path}/{mut} .", shell=True)
+
+        model: gp.Model = gp.Model(f"{mut}")
+
         # Step 2: we add the timing constraints
         # we first remove the original timing constraints
         remove_timing_constraints(model, verbose=False)
 
         # then we add the new timing constraints
         add_timing_constraints_for_latency_optimization(
-            model, 
-            network, 
-            signal_to_cuts, 
-            signal_to_channel, 
+            model,
+            network,
+            signal_to_cuts,
+            signal_to_channel,
             mappings,
-            add_cutloopback_constraints_flag=False, 
+            add_cutloopback_constraints_flag=False,
             clock_period=4,
-            verbose=True)
+            verbose=True,
+        )
 
         model.write(f"{mut}/test.lp")
 
@@ -254,7 +290,10 @@ for method in ['madbuf']:
 
         # Step 6: we write the solutions to a file
         model.write(f"{mut}/test.sol")
-        
-        write_dynamatic_dot(dfg, f'./{mut}/{mut}_{method}.dot')
 
-        subprocess.run(f'dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png', shell=True)
+        write_dynamatic_dot(dfg, f"./{mut}/{mut}_{method}.dot")
+
+        subprocess.run(
+            f"dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png",
+            shell=True,
+        )

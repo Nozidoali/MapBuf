@@ -2,6 +2,7 @@ from MADBuf.Parsers.BLIFGraph import BLIFGraph
 from MADBuf.Synthesis.TimingLabel import TimingLabel
 from MADBuf.Utils import *
 
+
 def expand_cut_at(g: BLIFGraph, leaves: set, leaf: str):
 
     new_leaves: set = set(list(leaves)[:])  # deep copy
@@ -63,15 +64,19 @@ def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
 
             leaves = expand_cut_at(g, leaves, f)
 
-
         labels[signal] = optimal_timing_label
         cuts[signal].append(Cut(leaves))
-
 
     return labels, cuts
 
 
-def cutless_enumeration(network: BLIFGraph, signal_to_channel: dict, priority_cut_size: int = 10, cut_size_limit: int = 6, verbose: bool = False) -> dict:
+def cutless_enumeration(
+    network: BLIFGraph,
+    signal_to_channel: dict,
+    priority_cut_size: int = 10,
+    cut_size_limit: int = 6,
+    verbose: bool = False,
+) -> dict:
     """
     Cutless enumeration of cuts
     """
@@ -80,9 +85,12 @@ def cutless_enumeration(network: BLIFGraph, signal_to_channel: dict, priority_cu
 
     if verbose:
         for signal in network.topological_traversal():
-            print(f"labels = {labels[signal]}, cuts = {len(cuts[signal])}, signal = {signal}")
+            print(
+                f"labels = {labels[signal]}, cuts = {len(cuts[signal])}, signal = {signal}"
+            )
 
     return cuts
+
 
 def cleanup_dangling_cuts(cuts: dict) -> dict:
     signal_to_cuts: dict = {}
@@ -96,7 +104,7 @@ def cleanup_dangling_cuts(cuts: dict) -> dict:
             if cut.size() == 1:
                 if signal in cut.leaves:
                     continue
-        
+
         signal_to_cuts[signal] = cuts[signal]
-        
+
     return signal_to_cuts

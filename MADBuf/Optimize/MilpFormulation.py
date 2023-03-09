@@ -12,7 +12,11 @@ class milp_params:
 
 
 def add_delay_propagation_constraints(
-    model: gp.Model, signal: str, cut: Cut, cut_var: gp.Var = None, buffer_var: gp.Var = None
+    model: gp.Model,
+    signal: str,
+    cut: Cut,
+    cut_var: gp.Var = None,
+    buffer_var: gp.Var = None,
 ) -> gp.Constr:
 
     var_signal = model.getVarByName(f"TimingLabel_{signal}")
@@ -24,7 +28,7 @@ def add_delay_propagation_constraints(
 
         if buffer_var == None and cut_var == None:
             constr = var_signal >= var_leaf + 1
-            
+
         elif buffer_var == None:
             constr = var_signal + (1 - cut_var) * milp_params.infinity >= var_leaf + 1
 
@@ -45,8 +49,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
     model.addVar(vtype=GRB.INTEGER, name=f"CP")
 
     for signal in g.signals:
-        model.addVar(
-            vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
+        model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
         # otherwise the variable names will not be found
         #   reference:
@@ -54,13 +57,12 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
         #
         model.update()
 
-
     for signal in g.signals:
-        model.addConstr(
-            model.getVarByName(f"TimingLabel_{signal}") <= clock_period)
-        
+        model.addConstr(model.getVarByName(f"TimingLabel_{signal}") <= clock_period)
+
     model.addConstr(model.getVarByName(f"CP") <= clock_period)
     model.update()
+
 
 def add_input_delay_constraints(
     model: gp.Model, g: BLIFGraph, input_delays: dict = None
@@ -83,4 +85,3 @@ def add_input_delay_constraints(
             model.addConstr(input_var == 0, f"InputDelay_{input_signal}")
 
     model.update()
-

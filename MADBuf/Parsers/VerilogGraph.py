@@ -128,9 +128,10 @@ class VerilogGraph:
 
     @staticmethod
     def _get_info_from_name(name: str) -> tuple:
-        return VerilogGraph._get_component_from_name(
-            name
-        ), VerilogGraph._get_type_from_name(name)
+        return (
+            VerilogGraph._get_component_from_name(name),
+            VerilogGraph._get_type_from_name(name),
+        )
 
     @staticmethod
     def _get_bitwidth_from_name(wire: str) -> str:
@@ -256,8 +257,9 @@ def read_graph_from_verilog(filename: str) -> VerilogGraph:
                 g.modules.add(line)
     return g
 
+
 def write_verilog_to_file(vgraph: VerilogGraph, filename: str):
     verilog_str = str(vgraph)
-    
-    with open(filename, 'w') as f:
+
+    with open(filename, "w") as f:
         f.write(verilog_str)

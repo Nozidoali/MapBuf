@@ -1,6 +1,7 @@
 from MADBuf import *
 from TestCases.TestCases import TestCases
 
+
 class TestFloatingPointMapping(TestCases):
     def __init__(self) -> None:
         super().__init__()
