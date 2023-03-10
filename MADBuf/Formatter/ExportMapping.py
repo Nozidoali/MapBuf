@@ -24,12 +24,39 @@ def collect_lut_rec(G: pgv.AGraph, g: BLIFGraph, cut: set, signal: str) -> set:
 
     return signals
 
-def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: dict) -> pgv.AGraph:
+def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: dict, labels: dict, node_name_mapping_file: str) -> pgv.AGraph:
+    """
+
+    Args:
+        graph (BLIFGraph): _description_
+        signal_to_cut (dict): _description_
+        nodes_in_component (dict): _description_
+        labels (dict): _description_
+        node_name_mapping_file (str): _description_
+
+    Returns:
+        pgv.AGraph: _description_
+    """
 
     G = pgv.AGraph(strict=False, directed=True)
+    
+    mapping_file = open(node_name_mapping_file, "w")
+    
+    node_index = 0
 
     for n in graph.topological_traversal():
-        G.add_node(n, label=get_shortname(n))
+        # G.add_node(n, label=get_shortname(n))
+        
+        # node name mapping
+        G.add_node(n, label=f"n{node_index}")
+        mapping_file.write(f"{n}->n{node_index}\n")
+        node_index += 1
+        
+        # timing labels
+        if n in labels:
+            G.get_node(n).attr['xlabel'] = labels[n]
+          
+    for n in graph.topological_traversal():
         if n in graph.nodes:
             for f in graph.node_fanins[n]:
                 G.add_edge(f, n)
@@ -44,31 +71,33 @@ def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: di
     set_pretty_constants(G, graph.const0, graph.const1)
     set_pretty_attributes(G, nodes_in_component=nodes_in_component, remove_rst=True)
 
-    n = random.choice(list(graph.nodes))
+    if True:
+        n = random.choice(list(graph.nodes))
+        n = 'n832'
 
-    cut = signal_to_cut[n]
+        cut = signal_to_cut[n]
 
-    signals = collect_lut_rec(G, graph, cut, n)
-    
-    colors = ['blue', 'red', 'green', 'yellow']
+        signals = collect_lut_rec(G, graph, cut, n)
+        
+        colors = ['blue', 'red', 'green', 'yellow']
 
-    for signal in signals:
-        node = G.get_node(signal)
-        node.attr["color"] = colors[0]
+        for signal in signals:
+            node = G.get_node(signal)
+            node.attr["color"] = colors[0]
+            node.attr["style"] = "filled"
+            node.attr["fillcolor"] = colors[0]
+
+        for leaf in cut:
+
+            node = G.get_node(leaf)
+            node.attr["color"] = colors[1]
+            node.attr["style"] = "filled"
+            node.attr["fillcolor"] = colors[1]
+
+        node = G.get_node(n)
+        node.attr["color"] = colors[2]
         node.attr["style"] = "filled"
-        node.attr["fillcolor"] = colors[0]
-
-    for leaf in cut:
-
-        node = G.get_node(leaf)
-        node.attr["color"] = colors[1]
-        node.attr["style"] = "filled"
-        node.attr["fillcolor"] = colors[1]
-
-    node = G.get_node(n)
-    node.attr["color"] = colors[2]
-    node.attr["style"] = "filled"
-    node.attr["fillcolor"] = colors[2]
+        node.attr["fillcolor"] = colors[2]
 
     return G
 

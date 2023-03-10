@@ -21,6 +21,10 @@ scripts
 
 Buffers
 
+.DS_Store
+
+*.log
+
 dummy/*
 !dummy/src
 

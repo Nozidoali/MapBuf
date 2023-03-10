@@ -149,12 +149,13 @@ if not skip_odin:
     run(f"scp -r {server_path}/{mut} .", shell=True)
 
 # now we run ABC optimization
-run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
+if not skip_odin:
+    run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
 
 # now it is our stuff!
 
 # for method in ['madbuf', 'milp']:
-for method in ["madbuf"]:
+for method in ["milp"]:
 
     # for MADBUF
     if method == "madbuf":
@@ -167,7 +168,7 @@ for method in ["madbuf"]:
         optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
         # optimizer: MADBuf = MADBuf(blif)
 
-        buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
+        buffers, maximum_timing = optimizer.run(clock_period=5, verbose=True)
 
         if False:
             write_blif_to_file(network, f"{mut}/reports/{mut}_out.blif")
@@ -209,7 +210,8 @@ for method in ["madbuf"]:
             )
 
         if True:
-            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut, nodes_in_component=node_in_component)
+            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut, nodes_in_component=node_in_component, labels=optimizer.labels, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+            subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
             lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
             subprocess.run(
                 f"dot -Tpdf -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
@@ -219,7 +221,7 @@ for method in ["madbuf"]:
                 f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
                 shell=True,
             )
-
+            
         insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
         buffer_blackboxes(dfg)
 
@@ -270,7 +272,7 @@ for method in ["madbuf"]:
             signal_to_channel,
             mappings,
             add_cutloopback_constraints_flag=False,
-            clock_period=4,
+            clock_period=5,
             verbose=True,
         )
 
