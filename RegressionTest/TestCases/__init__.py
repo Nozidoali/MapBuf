@@ -9,13 +9,14 @@ from TestCases.TestEvaluateLatency import *
 from TestCases.TestBLIFWriter import *
 
 from TestCases.Utils import *
+from TestCases.SubjectGraph import *
 
 registered_tests = [
     # TestMADBuf(),
     # TestCutLoopback(),
     # TestDynamaticIO(),
     # TestFloatingPointMapping(),
-    TestBLIFWriter(),   
+    TestSubjectGraph(),   
 ]
 
 class TestAll(TestCases):

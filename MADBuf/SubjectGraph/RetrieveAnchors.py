@@ -5,18 +5,33 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:48:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 18:49:41
+Last Modified time: 2023-03-11 18:59:53
 '''
 
 from MADBuf.SubjectGraph.BLIFGraph import *
 
 
 def retrieve_anchors(graph: BLIFGraph) -> tuple:
+    """Retrieve anchors from a BLIF graph
+
+    Args:
+        graph (BLIFGraph): the graph with anchors
+            the anchor has the structure of:
+                out (v)
+                |
+                PO    PI
+                        |
+                        in (u)
+
+    Returns:
+        tuple: the graph without anchors, and the anchors are removed from the 
+            graph's inputs and outputs
+    """
     g: BLIFGraph = BLIFGraph()
     signal_to_channel: dict = {}
     nodes_in_component: dict = {}
 
-    # anchor insertion:
+    # from anchor insertion:
     #   this is for BLIF input that was generated with channel anchors
     #   the anchor has the structure of:
     #              out             out
