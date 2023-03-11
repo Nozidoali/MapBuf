@@ -5,12 +5,15 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:48:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:57:35
+Last Modified time: 2023-03-11 20:10:27
 '''
 
 from MADBuf.Utils import *
 from MADBuf.Network.BLIFGraph import *
 from MADBuf.SubjectGraph.RetrieveAnchors import *
+from MADBuf.SubjectGraph.FindLoop import *
+
+import queue
 
 def retrieve_anchors(graph: BLIFGraph) -> tuple:
     """Retrieve anchors from a BLIF graph
@@ -170,7 +173,7 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
         exit()
 
     # detect if there is combinational loop in the gate level netlist
-    loop: list = g.find_loop()
+    loop: list = find_loop(g)
     if loop != None:
         loop_str: str = "\n -> ".join(loop)
         print(f"combinational loop detected: {loop_str}")

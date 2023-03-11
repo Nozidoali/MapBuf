@@ -5,11 +5,10 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 19:49:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:57:35
+Last Modified time: 2023-03-11 20:09:57
 '''
 
 from MADBuf.Network.BLIFGraph import *
-
 
 # extract the fanin cone of a graph
 def extract_fanin_cone(graph: BLIFGraph, n: str) -> BLIFGraph:

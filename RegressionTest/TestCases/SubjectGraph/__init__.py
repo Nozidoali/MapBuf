@@ -1,8 +1,10 @@
 from TestCases.SubjectGraph.Anchors import *
 from TestCases.TestCases import TestCases
+from TestCases.SubjectGraph.FindLoop import *
 
 registered_tests = [
     TestAnchors(),
+    TestFindLoop(),
 ]
 
 class TestSubjectGraph(TestCases):

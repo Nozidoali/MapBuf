@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:56:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:18:46
+Last Modified time: 2023-03-11 20:19:11
 '''
 
 from MADBuf import *
@@ -51,5 +51,30 @@ def generate_small_blif_with_anchors():
     g.create_and("n7", "n8", "n9")
 
     g.traverse()
+
+    return g
+
+
+def generate_blif_with_loop() -> BLIFGraph:
+    """
+    n1  n3 < n4
+    n2  n4 < n3
+
+    n3  n4 < n5
+    """
+    g: BLIFGraph = BLIFGraph()
+
+    g.create_pi("n1")
+    g.create_pi("n2")
+
+    g.create_po("n5")
+
+    # g.create_and("n1", "n2", "n3")
+    g.create_and("n3", "n4", "n5")
+    g.create_and("n1", "n3", "n4")
+    g.create_and("n2", "n4", "n3")
+
+    # we have to skip the topology check, since the loop will cause the check to fail
+    # g.traverse()
 
     return g

@@ -1,6 +1,12 @@
-import pygraphviz as pgv
-import queue
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
 
+'''
+Author: Hanyu Wang
+Created time: 2023-02-28 07:43:53
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-11 20:07:45
+'''
 
 class BLIFGraphBase:
     def __init__(self):
@@ -106,38 +112,6 @@ class BLIFGraphBase:
     def num_fanouts(self, n: str):
         return len(self.node_fanouts[n])
 
-    # reference: https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
-    def find_loop(self) -> list:
-        visited = set()
-        stack = []
-        for n in self.outputs:
-            if n not in visited:
-                l = self._find_loop_dfs(n, visited, stack)
-                if l != None:
-                    for i in range(len(l) - 1):
-                        if l[i + 1] not in self.node_fanins[l[i]]:
-                            print(f"{l[i+1]} is not a fanin of {l[i]}")
-                            exit(0)
-                    return l
-                assert len(stack) == 0
-        return None
-
-    # reference: https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
-    def _find_loop_dfs(self, n: str, visited: set, stack: list) -> list:
-        visited.add(n)
-        stack.append(n)
-        if n in self.node_fanins:
-            for f in self.node_fanins[n]:
-                if f not in visited:
-                    l = self._find_loop_dfs(f, visited, stack)
-                    if l != None:
-                        return l
-                if f in stack:
-                    ret = stack[stack.index(f) :]
-                    ret.append(f)
-                    return ret
-        stack.pop()
-        return None
 
     #
     # graph modifications
