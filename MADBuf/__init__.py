@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-02-28 07:45:38
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:46:31
+Last Modified time: 2023-03-11 20:55:31
 '''
 
 from MADBuf.Utils import *
@@ -17,3 +17,4 @@ from MADBuf.Optimize import *
 from MADBuf.PostProcessing import *
 from MADBuf.PreProcessing import *
 from MADBuf.Synthesis import *
+from MADBuf.DataFlowGraph import *
