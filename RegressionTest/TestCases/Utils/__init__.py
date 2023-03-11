@@ -1,4 +1,4 @@
-from TestCases.Utils.Anchors import *
+from RegressionTest.TestCases.Utils.RetrieveChannelFromAnchors import *
 from TestCases.TestCases import TestCases
 
 registered_tests = [

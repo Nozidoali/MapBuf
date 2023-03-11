@@ -1,4 +1,4 @@
-from MADBuf.Parsers import *
+from MADBuf.IO import *
 from MADBuf.Optimize.MilpFormulation import *
 from MADBuf.Optimize.MADBufConstraints import *
 from MADBuf.Optimize.BlackBox import *

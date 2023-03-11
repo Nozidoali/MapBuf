@@ -9,14 +9,14 @@ import queue
 
 class MADBufBase:
     def __init__(
-        self, g: BLIFGraph, signal_to_channel: dict, nodes_in_components: dict
+        self, g: BLIFGraph, signal_to_channel: dict, signals_in_component: dict
     ) -> None:
 
         # reference: https://peps.python.org/pep-0526/#global-and-local-variable-annotations
         # type declaration before assignment
         self.g: BLIFGraph = g
         self.signal_to_channel: dict = signal_to_channel
-        self.nodes_in_component: dict = nodes_in_components
+        self.signals_in_component: dict = signals_in_component
 
         # reverse index the channel to node using the node to channel:
         #
@@ -518,7 +518,7 @@ class MADBufBase:
     def _export_fanin_cone_to(self, n: str, filename: str):
         g: BLIFGraph = self.g.extract_fanin_cone(n)
         G: pgv.AGraph = export_subject_graph(g)
-        set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
+        set_pretty_attributes(G, self.signals_in_component, remove_rst=False)
         set_pretty_labels(G, self.labels)
         clear_pretty_labels(G)
         _n = filename.replace(".dot", "") if filename.endswith(".dot") else filename
@@ -531,7 +531,7 @@ class MADBufBase:
     def _export_entire_graph_to(self, filename: str):
         g: BLIFGraph = self.g
         G: pgv.AGraph = export_subject_graph(g)
-        set_pretty_attributes(G, self.nodes_in_component, remove_rst=False)
+        set_pretty_attributes(G, self.signals_in_component, remove_rst=False)
         _n = filename.replace(".dot", "") if filename.endswith(".dot") else filename
         G.write(f"{_n}.dot")
         subprocess.run(

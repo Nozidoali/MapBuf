@@ -24,13 +24,13 @@ def collect_lut_rec(G: pgv.AGraph, g: BLIFGraph, cut: set, signal: str) -> set:
 
     return signals
 
-def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: dict, labels: dict, node_name_mapping_file: str) -> pgv.AGraph:
+def export_mapping(graph: BLIFGraph, signal_to_cut: dict, signals_in_component: dict, labels: dict, node_name_mapping_file: str) -> pgv.AGraph:
     """
 
     Args:
         graph (BLIFGraph): _description_
         signal_to_cut (dict): _description_
-        nodes_in_component (dict): _description_
+        signals_in_component (dict): _description_
         labels (dict): _description_
         node_name_mapping_file (str): _description_
 
@@ -69,7 +69,7 @@ def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: di
     set_pretty_outputs(G, graph.outputs)
     set_pretty_inputs(G, graph.inputs)
     set_pretty_constants(G, graph.const0, graph.const1)
-    set_pretty_attributes(G, nodes_in_component=nodes_in_component, remove_rst=True)
+    set_pretty_attributes(G, signals_in_component=signals_in_component, remove_rst=True)
 
     # then we mark all the activated cuts
     activated_signals = queue.Queue()

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-11 18:18:27
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-11 19:15:42
+'''
+
 from MADBuf.SubjectGraph.BLIFGraph import *
 
 def on_input(g: BLIFGraph, line: str):

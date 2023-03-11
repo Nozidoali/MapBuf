@@ -16,7 +16,8 @@ registered_tests = [
     # TestCutLoopback(),
     # TestDynamaticIO(),
     # TestFloatingPointMapping(),
-    TestSubjectGraph(),   
+    TestSubjectGraph(),
+    TestUtils(),
 ]
 
 class TestAll(TestCases):

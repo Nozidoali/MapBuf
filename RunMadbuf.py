@@ -32,7 +32,7 @@ if False:
     new_network = BLIFGraph(f"{mut}/reports/{mut}_abc.blif")
     new_graph = export_subject_graph(new_network)
 
-    set_pretty_attributes(new_graph, nodes_in_component=None)
+    set_pretty_attributes(new_graph, signals_in_component=None)
     new_graph.write(f"{mut}/reports/{mut}_klut.dot")
     subprocess.run(
         f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
@@ -46,7 +46,7 @@ if False:
 if False:
     graph = export_subject_graph(network)
 
-    set_pretty_attributes(graph, nodes_in_component=node_in_component)
+    set_pretty_attributes(graph, signals_in_component=node_in_component)
     set_cut_colors(graph, network, signal_to_cut=optimizer.signal_to_cut)
 
     graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
@@ -63,7 +63,7 @@ if True:
     lut_graph = export_mapping(
         network, 
         signal_to_cut=optimizer.signal_to_cut, 
-        nodes_in_component=node_in_component, 
+        signals_in_component=node_in_component, 
         labels=optimizer.labels, 
         node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
 

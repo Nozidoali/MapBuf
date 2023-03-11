@@ -1,18 +1,18 @@
 from MADBuf.Synthesis.MADBufBase import MADBufBase
-from MADBuf.Parsers import *
+from MADBuf.IO import *
 from MADBuf.SubjectGraph import *
 
 
 # Here we are trying to allow multiple ways to initialize the MADBuf class
 #   MADBuf(g): then g is the blif file with the anchors
-#   MADBuf(network, signal_to_channel, nodes_in_components): then we have already retrieved the anchors
+#   MADBuf(network, signal_to_channel, signals_in_component): then we have already retrieved the anchors
 #
 class MADBuf(MADBufBase):
     def __init__(self, *args, **kwargs) -> None:
 
         if len(args) == 1:
-            network, signal_to_channel, nodes_in_components = retrieve_anchors(args[0])
-            MADBufBase.__init__(self, network, signal_to_channel, nodes_in_components)
+            network, signal_to_channel, signals_in_component = retrieve_anchors(args[0])
+            MADBufBase.__init__(self, network, signal_to_channel, signals_in_component)
 
         elif len(args) == 3:
             MADBufBase.__init__(self, *args)

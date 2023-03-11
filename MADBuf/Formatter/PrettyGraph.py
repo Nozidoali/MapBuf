@@ -3,14 +3,14 @@ from MADBuf.Utils import *
 
 
 def set_pretty_attributes(
-    G: pgv.AGraph, nodes_in_component: dict = None, remove_rst: bool = True
+    G: pgv.AGraph, signals_in_component: dict = None, remove_rst: bool = True
 ):
     # split the graph into subgraphs, clusterd by the components in the DFG
-    if nodes_in_component != None:
-        for c in nodes_in_component:
+    if signals_in_component != None:
+        for c in signals_in_component:
             # reference: https://stackoverflow.com/questions/60395151/subgraph-method-in-python-graphviz
             G.add_subgraph(
-                list(nodes_in_component[c]),
+                list(signals_in_component[c]),
                 name=f"cluster_{c}",
                 label=c,
                 color="darkgreen",

@@ -1,6 +1,6 @@
 import gurobipy as gp
 from gurobipy import GRB
-from MADBuf.Parsers import *
+from MADBuf.IO import *
 from MADBuf.Optimize.MilpFormulation import *
 from MADBuf.Optimize.MADBufConstraints import *
 

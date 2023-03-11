@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:48:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 18:59:53
+Last Modified time: 2023-03-11 19:16:33
 '''
 
 from MADBuf.SubjectGraph.BLIFGraph import *
@@ -16,20 +16,20 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
 
     Args:
         graph (BLIFGraph): the graph with anchors
-            the anchor has the structure of:
-                out (v)
-                |
-                PO    PI
-                        |
-                        in (u)
 
     Returns:
-        tuple: the graph without anchors, and the anchors are removed from the 
-            graph's inputs and outputs
+        tuple(new graph | signal_to_channel | signals_in_component): 
+            - new_graph: the graph without anchors, and the anchors are removed from the 
+                         graph's inputs and outputs
+            - signal_to_channel: a dictionary that maps a signal to its channel
+            - signals_in_component: a dictionary that maps a component to its signals
+
+    Example:
+        >>> network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
     """
     g: BLIFGraph = BLIFGraph()
     signal_to_channel: dict = {}
-    nodes_in_component: dict = {}
+    signals_in_component: dict = {}
 
     # from anchor insertion:
     #   this is for BLIF input that was generated with channel anchors
@@ -98,8 +98,8 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
             # retrieve the component information from the channel's name
             #
             component = c.v if c.t == Constants._channel_ready_ else c.u
-            if component not in nodes_in_component:
-                nodes_in_component[component] = set()
+            if component not in signals_in_component:
+                signals_in_component[component] = set()
 
             # BFS algorithm to collect all the components
             q = queue.Queue()
@@ -111,18 +111,18 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
                 if "rst" in _n or "clk" in _n:
                     continue
 
-                nodes_in_component[component].add(_n)
+                signals_in_component[component].add(_n)
 
                 if _n in graph.node_fanins:
                     for f in graph.node_fanins[_n]:
-                        if f not in nodes_in_component[component]:
+                        if f not in signals_in_component[component]:
                             q.put(f)
                 elif _n in graph.ros:
                     # two possible cases here:
                     #   - ROs: we need to cross the stage boundary
                     #   - PIs
                     _ni = graph.ro_to_ri[_n]
-                    if _ni not in nodes_in_component[component]:
+                    if _ni not in signals_in_component[component]:
                         q.put(_ni)
 
             ni = n.replace("__out", "__in")
@@ -158,9 +158,9 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
             continue
         component = c.u if c.t == Constants._channel_ready_ else c.v
         if "__in" in n:
-            if c.v not in nodes_in_component:
-                nodes_in_component[component] = set()
-            nodes_in_component[component].add(n)
+            if c.v not in signals_in_component:
+                signals_in_component[component] = set()
+            signals_in_component[component].add(n)
 
     # note that to_connect stores all the broken signal, which can be grouped into IO pairs
     # therefore, the dangling inputs should be all consumed by the outputs.
@@ -177,4 +177,4 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
 
     g.traverse()
 
-    return g, signal_to_channel, nodes_in_component
+    return g, signal_to_channel, signals_in_component

@@ -61,7 +61,7 @@ if True:
     """
     here we export the KLUT graph
     """
-    lut_graph = export_mapping(network, signal_to_cut=signal_to_cut, nodes_in_component=node_in_component, labels=signal_to_label, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+    lut_graph = export_mapping(network, signal_to_cut=signal_to_cut, signals_in_component=node_in_component, labels=signal_to_label, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
     fix_dangling_labels(
         lut_graph,
         node_in_component,
