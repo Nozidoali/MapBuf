@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 19:28:24
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:31:08
+Last Modified time: 2023-03-11 20:03:06
 '''
 
 from MADBuf import *
@@ -46,8 +46,11 @@ class TestBLIFReader(TestCases):
         f.write(blif_str)
         f.close()
 
-        g = BLIFGraph(tmp_file) # this will call the BLIFReader
+        g = BLIFGraph() 
+        read_blif(g, tmp_file)
 
-        assert g.num_nodes() == 9
+        assert g.num_nodes() == 4
+        assert g.num_pis() == 5
+        assert g.num_pos() == 1
 
         subprocess.run(f"rm -f {tmp_file}", shell=True)

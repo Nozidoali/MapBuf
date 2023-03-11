@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:18:27
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:45:34
+Last Modified time: 2023-03-11 20:05:38
 '''
 
 import os
@@ -88,6 +88,11 @@ def read_blif(graph: BLIFGraph, filename: str) -> None:
                 line = line.strip()[:-1] + next(f)
 
             if line.startswith("#"):
+                # we skip comments
+                continue
+
+            if line.strip() == "":
+                # we skip empty lines
                 continue
 
             if line.startswith(".model"):
