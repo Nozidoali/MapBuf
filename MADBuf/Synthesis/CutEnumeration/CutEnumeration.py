@@ -5,11 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:22:14
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:37:47
+Last Modified time: 2023-03-11 20:43:43
 '''
 
 
 from MADBuf.Synthesis.CutEnumeration.CutEnumerationImpl import *
+from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImpl import *
 
 def cut_enumeration(network: BLIFGraph, *args, **kwargs) -> dict:
     """Cut Enumeration
@@ -27,9 +28,18 @@ def cut_enumeration(network: BLIFGraph, *args, **kwargs) -> dict:
 
     lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
     priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
+    use_cutless = False if kwargs.get('cutless') is None else kwargs.get('cutless')
 
-    return cut_enumeration_impl(
-        g = network, 
-        priority_cut_size = priority_cut_size,
-        lut_size_limit = lut_size_limit
-    )
+    if use_cutless:
+        return cutless_enumeration_impl(
+            g = network, 
+            priority_cut_size = priority_cut_size,
+            lut_size_limit = lut_size_limit
+        )
+
+    else:
+        return cut_enumeration_impl(
+            g = network, 
+            priority_cut_size = priority_cut_size,
+            lut_size_limit = lut_size_limit
+        )
