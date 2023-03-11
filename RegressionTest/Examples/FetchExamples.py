@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 00:50:51
+Last Modified time: 2023-03-12 00:53:33
 '''
 
 import os
@@ -82,8 +82,6 @@ def all_examples():
     ]
 
 if __name__ == "__main__":
-
-    
 
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server = "sp"
