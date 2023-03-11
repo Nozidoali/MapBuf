@@ -73,25 +73,26 @@ def retrieve_buffers(model: gp.Model):
 
 
 def retrieve_cuts(model: gp.Model, signal_to_cuts: dict):
-    
+
     signal_to_cut: dict = {}
-    
+
     for variable in model.getVars():
         var_name: str = variable.varName
-        
+
         # then we check if the var_name indicates a cut selection variable
-        if var_name.startswith('Y') and '_to_' in var_name:
-            sel_name = var_name.replace('Y', '')[1:-1] # since we have the brackets
-            
-            signal_name, cut_idx = sel_name.split('_to_')
-            
+        if var_name.startswith("Y") and "_to_" in var_name:
+            sel_name = var_name.replace("Y", "")[1:-1]  # since we have the brackets
+
+            signal_name, cut_idx = sel_name.split("_to_")
+
             cuts = signal_to_cuts[signal_name]
-            
+
             cut = cuts[int(cut_idx)]
-            
+
             signal_to_cut[signal_name] = cut
-            
+
     return signal_to_cut
+
 
 def retrieve_timing_labels(model: gp.Model):
     signal_to_label: dict = {}
@@ -107,11 +108,19 @@ def retrieve_timing_labels(model: gp.Model):
 
     return signal_to_label
 
-def fix_dangling_labels(graph: pgv.AGraph, node_in_component: dict, signal_to_cut, signal_to_label, filename: str = None, verbose: bool = False):
-    
+
+def fix_dangling_labels(
+    graph: pgv.AGraph,
+    node_in_component: dict,
+    signal_to_cut,
+    signal_to_label,
+    filename: str = None,
+    verbose: bool = False,
+):
+
     # write this to a file
     f = open(filename, "w")
-    
+
     signal_to_component: dict = {}
     for c in node_in_component:
         nodes = node_in_component[c]
@@ -121,26 +130,32 @@ def fix_dangling_labels(graph: pgv.AGraph, node_in_component: dict, signal_to_cu
     for signal in signal_to_cut:
         cut: Cut = signal_to_cut[signal]
         assert signal in signal_to_label
-        
-        signal_name = graph.get_node(signal).attr['label']
-        
-        component = signal_to_component[signal] if signal in signal_to_component else ''
-        
-        f.write(f"{signal}[{signal_name}] ({component}) (label = {signal_to_label[signal]})\n")
-        
+
+        signal_name = graph.get_node(signal).attr["label"]
+
+        component = signal_to_component[signal] if signal in signal_to_component else ""
+
+        f.write(
+            f"{signal}[{signal_name}] ({component}) (label = {signal_to_label[signal]})\n"
+        )
+
         optimal_timing_label = int(signal_to_label[signal])
         timing_labels = []
         for leaf in cut.leaves:
-            
-            leaf_name = graph.get_node(leaf).attr['label']
-            leaf_component = signal_to_component[leaf] if leaf in signal_to_component else ''
-            
+
+            leaf_name = graph.get_node(leaf).attr["label"]
+            leaf_component = (
+                signal_to_component[leaf] if leaf in signal_to_component else ""
+            )
+
             timing_label = int(signal_to_label[leaf])
             timing_labels.append(timing_label)
-            f.write(f"\t :{leaf}[{leaf_name}] ({leaf_component}) (label = {signal_to_label[leaf]})\n")
-            
+            f.write(
+                f"\t :{leaf}[{leaf_name}] ({leaf_component}) (label = {signal_to_label[leaf]})\n"
+            )
+
         f.write("\n")
-        
+
         maximum_timing_label = max(timing_labels)
         if maximum_timing_label + 1 < optimal_timing_label:
             optimal_timing_label = maximum_timing_label + 1

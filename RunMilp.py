@@ -61,14 +61,21 @@ if True:
     """
     here we export the KLUT graph
     """
-    lut_graph = export_mapping(network, signal_to_cut=signal_to_cut, signals_in_component=node_in_component, labels=signal_to_label, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+    lut_graph = export_mapping(
+        network,
+        signal_to_cut=signal_to_cut,
+        signals_in_component=node_in_component,
+        labels=signal_to_label,
+        node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt",
+    )
     fix_dangling_labels(
         lut_graph,
         node_in_component,
-        signal_to_cut=signal_to_cut, 
-        signal_to_label=signal_to_label, 
+        signal_to_cut=signal_to_cut,
+        signal_to_label=signal_to_label,
         filename=f"{mut}/reports/{mut}_cut_timing.txt",
-        verbose=True)
+        verbose=True,
+    )
     subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
     lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
     subprocess.run(
@@ -79,7 +86,7 @@ if True:
         f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
         shell=True,
     )
-    
+
 # Step 5: insert the buffers into the DFG
 dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}.dot")
 insert_buffers_in_dfg(dfg, buffers, verbose=True)

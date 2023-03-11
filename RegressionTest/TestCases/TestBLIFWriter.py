@@ -4,8 +4,6 @@ from TestCases.TestCases import TestCases
 
 
 class TestBLIFWriter(TestCases):
-
-
     def test(self) -> None:
 
         blif: BLIFGraph = small_blif()

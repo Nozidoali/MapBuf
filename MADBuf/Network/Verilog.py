@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 20:56:42
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:03:21
-'''
+"""
 
 from MADBuf.Utils import *
+
 
 class Verilog:
     def __init__(self):
@@ -79,5 +80,3 @@ class Verilog:
             return 1
         width = int(width_str.split(":")[0].strip())
         return width + 1
-
-

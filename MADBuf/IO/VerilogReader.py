@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-07 05:52:02
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:16:15
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Network.Verilog import *
+
 
 def _on_top(graph: Verilog, line: str) -> str:
     assert line.startswith("module")
@@ -38,7 +39,6 @@ def _on_assign(graph: Verilog, line: str) -> str:
     u = edge[0].strip()
     v = edge[1].strip()
     graph.assigns.append((u, v))
-
 
 
 def _on_wire(graph: Verilog, line: str) -> str:
@@ -78,4 +78,3 @@ def read_verilog(filename: str) -> Verilog:
             else:
                 graph.modules.add(line)
     return graph
-

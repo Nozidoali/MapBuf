@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 18:18:27
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:05:38
-'''
+"""
 
 import os
 from MADBuf.SubjectGraph import *
+
 
 def on_input(g: BLIFGraph, line: str):
     for s in line.split()[1:]:
@@ -65,6 +66,7 @@ def on_subckt(g: BLIFGraph, line: str):
             g.inputs.add(s)
         if p in _g.inputs:
             g.outputs.add(s)
+
 
 def read_blif(graph: BLIFGraph, filename: str) -> None:
     """Read BLIF file and construct a BLIF graph

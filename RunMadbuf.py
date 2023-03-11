@@ -7,7 +7,7 @@ This is a script to run MADBuf on a single mut (module under test).
 """
 
 mut = "dummy"
-method = 'madbuf'
+method = "madbuf"
 
 blif: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
 dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}.dot")
@@ -61,11 +61,12 @@ if False:
 
 if True:
     lut_graph = export_mapping(
-        network, 
-        signal_to_cut=optimizer.signal_to_cut, 
-        signals_in_component=node_in_component, 
-        labels=optimizer.labels, 
-        node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+        network,
+        signal_to_cut=optimizer.signal_to_cut,
+        signals_in_component=node_in_component,
+        labels=optimizer.labels,
+        node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt",
+    )
 
     subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
 
@@ -78,7 +79,7 @@ if True:
         f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
         shell=True,
     )
-    
+
 insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
 buffer_blackboxes(dfg)
 

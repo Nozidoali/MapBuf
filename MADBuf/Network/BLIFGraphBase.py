@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-02-28 07:43:53
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:07:45
-'''
+"""
+
 
 class BLIFGraphBase:
     def __init__(self):
@@ -112,7 +113,6 @@ class BLIFGraphBase:
     def num_fanouts(self, n: str):
         return len(self.node_fanouts[n])
 
-
     #
     # graph modifications
     #
@@ -152,4 +152,3 @@ class BLIFGraphBase:
         self.ris.add(ri)
         self.ros.add(ro)
         self.ro_to_ri[ro] = ri
-

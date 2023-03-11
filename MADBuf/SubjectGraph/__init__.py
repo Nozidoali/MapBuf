@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 18:17:33
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:10:14
-'''
+"""
 
 from MADBuf.Network.BLIFGraph import *
 

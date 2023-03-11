@@ -3,8 +3,6 @@ from TestCases.TestCases import TestCases
 
 
 class TestCutLoopback(TestCases):
-
-
     def test(self) -> None:
 
         file_under_test = "./Examples/gsum/gsum.dot"

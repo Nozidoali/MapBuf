@@ -3,7 +3,6 @@ from TestCases.TestCases import TestCases
 
 
 class TestFloatingPointMapping(TestCases):
-
     def test(self) -> None:
 
         file_under_test = "./Examples/gsum/gsum.dot"

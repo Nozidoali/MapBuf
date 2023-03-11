@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 19:49:35
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:09:57
-'''
+"""
 
 from MADBuf.Network.BLIFGraph import *
 
@@ -20,7 +20,10 @@ def extract_fanin_cone(graph: BLIFGraph, n: str) -> BLIFGraph:
 
     return g
 
-def _extract_fanin_cone_rec(graph: BLIFGraph, n: str, g: BLIFGraph, visited: set) -> None:
+
+def _extract_fanin_cone_rec(
+    graph: BLIFGraph, n: str, g: BLIFGraph, visited: set
+) -> None:
     if n in visited:
         return
     if graph.is_ci(n):

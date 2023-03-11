@@ -1,6 +1,7 @@
 import pygraphviz as pgv
 from MADBuf.Utils import *
 
+
 def load_mapping_tuples(filename: str, index_by_floating: bool = True) -> dict:
     # mapping is the dict, mapping[map_from] = map_to
     mapping: dict = {}
@@ -54,4 +55,3 @@ def load_mapping_from_file(filename: str, index_by_floating: bool = True) -> dic
 
     except:
         return None
-

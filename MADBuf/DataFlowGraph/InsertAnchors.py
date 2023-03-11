@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 20:58:30
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:35:21
-'''
+"""
 
 from MADBuf.DataFlowGraph.InsertBuffer import *
 from MADBuf.Network.Verilog import *
+
 
 def insert_anchors(graph: Verilog) -> None:
     """Insert anchors for the channels in the Verilog graph.

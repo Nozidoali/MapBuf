@@ -1,13 +1,12 @@
-
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 20:07:40
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:11:27
-'''
+"""
 
 from MADBuf.Network.BLIFGraph import *
 
@@ -35,6 +34,7 @@ def find_loop(graph: BLIFGraph) -> list:
                 return l
             assert len(stack) == 0
     return None
+
 
 # reference: https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
 def _find_loop_dfs(graph: BLIFGraph, n: str, visited: set, stack: list) -> list:

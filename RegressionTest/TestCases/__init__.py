@@ -18,8 +18,8 @@ registered_tests = [
     TestDataFlowGraph(),
 ]
 
-class TestAll(TestCases):
 
+class TestAll(TestCases):
     def run(self):
         for test in registered_tests:
             test.test()

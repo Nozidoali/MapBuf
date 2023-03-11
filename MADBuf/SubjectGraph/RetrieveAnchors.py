@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 18:48:39
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:10:27
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Network.BLIFGraph import *
@@ -15,6 +15,7 @@ from MADBuf.SubjectGraph.FindLoop import *
 
 import queue
 
+
 def retrieve_anchors(graph: BLIFGraph) -> tuple:
     """Retrieve anchors from a BLIF graph
 
@@ -22,8 +23,8 @@ def retrieve_anchors(graph: BLIFGraph) -> tuple:
         graph (BLIFGraph): the graph with anchors
 
     Returns:
-        tuple(new graph | signal_to_channel | signals_in_component): 
-            - new_graph: the graph without anchors, and the anchors are removed from the 
+        tuple(new graph | signal_to_channel | signals_in_component):
+            - new_graph: the graph without anchors, and the anchors are removed from the
                          graph's inputs and outputs
             - signal_to_channel: a dictionary that maps a signal to its channel
             - signals_in_component: a dictionary that maps a component to its signals

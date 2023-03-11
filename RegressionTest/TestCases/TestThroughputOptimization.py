@@ -3,7 +3,6 @@ from TestCases.TestCases import TestCases
 
 
 class TestThroughputOptimization:
-
     def test(self) -> None:
 
         g: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
