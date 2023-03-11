@@ -16,7 +16,7 @@ def add_buffer(u: str, v: str, flop_ready: int = 0, flop_valid: int = 0):
     buffer_to_slots[Channel(u, v, Constants._channel_valid_)] = flop_valid + flop_ready
 
 
-dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
 
 
 add_buffer("fork_16", "phi_1", 0, 7)

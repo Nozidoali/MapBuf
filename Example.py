@@ -18,13 +18,13 @@ if method == "madbuf":
 
     buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
 
-    dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
     mapping_to_unfloating(dfg, "./RegressionTest/mapping/gsum.mapping")
     insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
     buffer_blackboxes(dfg)
 
     mapping = load_mapping_from_file("./RegressionTest/mapping/gsum.map")
-    fix_floating_point_components(dfg, mapping)
+    mapping_to_floating(dfg, mapping)
 
 elif method == "milp":
 
@@ -68,7 +68,7 @@ elif method == "milp":
     buffer_to_slots = retrieve_buffers_to_n_slots(model)
 
     # Step 5: insert the buffers into the DFG
-    dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
     insert_buffers_in_dfg(dfg, buffers, buffer_to_slots, verbose=True)
 
     # Step 6: we write the solutions to a file
@@ -80,7 +80,7 @@ elif method == "merge":
 
     merge_mg_lps(lps, "./RegressionTest/Examples/gsum/gsum.lp", verbose=True)
 
-    dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
 
 else:
 
@@ -95,7 +95,7 @@ else:
     buffer_to_slots = retrieve_buffers_to_n_slots(model)
 
     # Step 3: insert the buffers into the DFG
-    dfg: pgv.AGraph = read_dynamatic_dot("./RegressionTest/Examples/gsum/gsum.dot")
+    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
     insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
 
     model.write("baseline.sol")

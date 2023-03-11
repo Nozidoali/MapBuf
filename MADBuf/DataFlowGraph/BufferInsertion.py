@@ -5,12 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-02-28 07:44:09
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:51:57
+Last Modified time: 2023-03-11 21:36:24
 '''
 
 
 import pygraphviz as pgv
-from MADBuf.DataFlowGraph.Buffers import *
+from MADBuf.DataFlowGraph.InsertBuffer import *
 
 
 def insert_buffer_at(
@@ -33,7 +33,7 @@ def insert_buffer_at(
     """
     (u, v) = e
 
-    buffer = create_buffer(g, name, transparent, n_slots)
+    buffer = insert_buffer(g, name, transparent, n_slots)
 
     g.add_edge(u, buffer)
     for key in e.attr:

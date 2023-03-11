@@ -18,12 +18,12 @@ class TestMADBuf(TestCases):
 
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
 
-        dot: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
+        dot: pgv.AGraph = read_dfg("./Examples/gsum/gsum.dot")
         mapping_to_unfloating(dot, "./mapping/gsum.mapping")
         insert_buffers_in_dfg(dot, buffers=buffers, verbose=False)
         buffer_blackboxes(dot)
 
         mapping = load_mapping_from_file("./mapping/gsum.map")
-        fix_floating_point_components(dot, mapping)
+        mapping_to_floating(dot, mapping)
 
         write_dynamatic_dot(dot, "gsum.dot")

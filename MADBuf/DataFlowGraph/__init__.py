@@ -5,8 +5,9 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:20:58
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:52:02
+Last Modified time: 2023-03-11 21:53:51
 '''
 
 from MADBuf.DataFlowGraph.BufferInsertion import *
-from MADBuf.DataFlowGraph.Buffers import *
+from MADBuf.DataFlowGraph.InsertBuffer import *
+from MADBuf.DataFlowGraph.FloatingPointMapping import *

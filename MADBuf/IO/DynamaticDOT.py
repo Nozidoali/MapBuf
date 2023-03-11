@@ -90,7 +90,7 @@ def write_dynamatic_dot(
         f.write("}\n")
 
 
-def read_dynamatic_dot(filename: str):
+def read_dfg(filename: str):
     """
     Dynamatic DOT is in DOT format, the graph it stores is:
         - not strict: multiple edges can exist between two components

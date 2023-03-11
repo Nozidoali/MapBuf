@@ -7,6 +7,6 @@ class TestDynamaticIO(TestCases):
 
     def test(self) -> None:
 
-        dot = read_dynamatic_dot("./Examples/gsum/gsum.dot")
+        dot = read_dfg("./Examples/gsum/gsum.dot")
 
         write_dynamatic_dot(dot, "gsum.dot")

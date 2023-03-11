@@ -46,7 +46,7 @@ class TestThroughputOptimization:
         buffer_to_slots = retrieve_buffers_to_n_slots(model)
 
         # Step 5: insert the buffers into the DFG
-        dfg: pgv.AGraph = read_dynamatic_dot("./Examples/gsum/gsum.dot")
+        dfg: pgv.AGraph = read_dfg("./Examples/gsum/gsum.dot")
         insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
         write_dynamatic_dot(dfg, "./gsum_buf.dot")
 

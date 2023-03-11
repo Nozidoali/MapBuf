@@ -1,7 +1,7 @@
 import pygraphviz as pgv
 
 
-def create_buffer(
+def insert_buffer(
     g: pgv.AGraph, name: str, transparent: bool = False, n_slots: int = 1
 ):
 

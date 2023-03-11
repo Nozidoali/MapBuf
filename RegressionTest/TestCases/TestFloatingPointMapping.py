@@ -9,8 +9,8 @@ class TestFloatingPointMapping(TestCases):
         file_under_test = "./Examples/gsum/gsum.dot"
         bbgraph_under_test = "./Examples/gsum/gsum_bbgraph.dot"
 
-        graph = read_dynamatic_dot(file_under_test)
-        bbgraph = read_dynamatic_dot(bbgraph_under_test)
+        graph = read_dfg(file_under_test)
+        bbgraph = read_dfg(bbgraph_under_test)
 
         mapping_to_unfloating(graph, mapping_filename="mapping/gsum.mapping")
 

@@ -10,7 +10,7 @@ mut = "dummy"
 method = 'madbuf'
 
 blif: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
-dfg: pgv.AGraph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
+dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}.dot")
 
 network, signal_to_channel, node_in_component = retrieve_anchors(blif)
 

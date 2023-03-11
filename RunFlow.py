@@ -85,8 +85,8 @@ from MADBuf import *
 
 if not skip_preprocessing_flag:
     # we first check the presence of bbgrpah and the data flow graph
-    graph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
-    bbgraph = read_dynamatic_dot(f"{mut}/reports/{mut}_bbgraph.dot")
+    graph = read_dfg(f"{mut}/reports/{mut}.dot")
+    bbgraph = read_dfg(f"{mut}/reports/{mut}_bbgraph.dot")
 
     # Preprocessing 1: Cut loop back
     cut_loopback(graph, bbgraph)

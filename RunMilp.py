@@ -81,7 +81,7 @@ if True:
     )
     
 # Step 5: insert the buffers into the DFG
-dfg: pgv.AGraph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
+dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}.dot")
 insert_buffers_in_dfg(dfg, buffers, verbose=True)
 
 # Step 6: we write the solutions to a file
