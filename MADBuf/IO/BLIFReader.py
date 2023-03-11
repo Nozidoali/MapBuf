@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:18:27
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:26:24
+Last Modified time: 2023-03-11 19:45:34
 '''
 
-from MADBuf.SubjectGraph.BLIFGraph import *
 import os
+from MADBuf.SubjectGraph import *
 
 def on_input(g: BLIFGraph, line: str):
     for s in line.split()[1:]:
@@ -55,7 +55,7 @@ def on_gate(g: BLIFGraph, line: str, sop: list):
         g.node_funcs[fanout] = sop[:]  # slicing to trigger a deep copy
 
 
-def on_subckt(g: "BLIFGraph", line: str):
+def on_subckt(g: BLIFGraph, line: str):
     module: str = line.split()[1].strip()
     _g: BLIFGraph = g.submodules[module]
     for d in line.split()[2:]:

@@ -1,4 +1,4 @@
-from MADBuf.SubjectGraph.BLIFGraph import BLIFGraph
+from MADBuf.SubjectGraph.BLIFGraph import *
 from MADBuf.Utils import *
 
 
