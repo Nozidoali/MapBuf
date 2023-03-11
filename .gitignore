@@ -1,5 +1,8 @@
 __pycache__
 
+.vscode
+.pytest_cache
+
 *.sol
 *.aig
 *.csv

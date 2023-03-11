@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:26:33
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:34:00
+Last Modified time: 2023-03-11 21:27:34
 '''
 
 from MADBuf import *
@@ -13,10 +13,9 @@ from TestCases.TestCases import *
 from TestCases.Generators import *
 
 class TestCutEnumeration(TestCases):
-    def __init__(self) -> None:
-        super().__init__()
 
-    def run(self) -> None:
+
+    def test(self) -> None:
         blif = generate_tiny_blif()
         """
         

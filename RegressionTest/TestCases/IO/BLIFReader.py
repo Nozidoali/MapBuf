@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 19:28:24
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:03:06
+Last Modified time: 2023-03-11 21:27:34
 '''
 
 from MADBuf import *
@@ -37,11 +37,7 @@ def prepare_blif() -> BLIFGraph:
     return g
 
 class TestBLIFReader(TestCases):
-    def __init__(self):
-
-        super().__init__()
-
-    def run(self) -> None:
+    def test(self) -> None:
         f = open(tmp_file, "w")
         f.write(blif_str)
         f.close()

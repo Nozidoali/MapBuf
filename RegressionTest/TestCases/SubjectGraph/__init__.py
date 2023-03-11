@@ -8,10 +8,7 @@ registered_tests = [
 ]
 
 class TestSubjectGraph(TestCases):
-    def __init__(self):
-
-        super().__init__()
 
     def run(self):
         for test in registered_tests:
-            test.run()
+            test.test()

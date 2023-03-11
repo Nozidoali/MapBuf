@@ -7,9 +7,8 @@ registered_tests = [
 ]
 
 class TestSynthesis(TestCases):
-    def __init__(self) -> None:
-        super().__init__()
 
-    def run(self) -> None:
+
+    def test(self) -> None:
         for test in registered_tests:
-            test.run()
+            test.test()

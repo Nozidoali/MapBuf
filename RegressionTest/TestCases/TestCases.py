@@ -1,6 +1,4 @@
 class TestCases:
-    def __init__(self) -> None:
-        pass
 
-    def run(self) -> None:
+    def test(self) -> None:
         pass

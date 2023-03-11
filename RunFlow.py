@@ -116,7 +116,7 @@ if not skip_dot2hdl:
     #
 
     # we read the file generated from dot2hdl
-    vgraph = read_graph_from_verilog(f"{mut}/pre/{mut}.v")
+    vgraph = read_verilog(f"{mut}/pre/{mut}.v")
 
     # we add anchors
     vgraph.insert_anchors()

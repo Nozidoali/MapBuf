@@ -4,10 +4,9 @@ from TestCases.TestCases import TestCases
 
 
 class TestBLIFWriter(TestCases):
-    def __init__(self) -> None:
-        super().__init__()
 
-    def run(self) -> None:
+
+    def test(self) -> None:
 
         blif: BLIFGraph = small_blif()
 

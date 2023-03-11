@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-07 05:52:02
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:07:04
+Last Modified time: 2023-03-11 21:16:15
 '''
 
 from MADBuf.Utils import *
@@ -50,7 +50,7 @@ def _on_wire(graph: Verilog, line: str) -> str:
     graph.wires.append((signal, width))
 
 
-def read_graph_from_verilog(filename: str) -> Verilog:
+def read_verilog(filename: str) -> Verilog:
     """Read a Verilog file and return a Verilog object.
 
     Args:

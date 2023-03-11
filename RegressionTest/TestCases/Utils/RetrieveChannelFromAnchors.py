@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:26:57
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:01:37
+Last Modified time: 2023-03-11 21:27:34
 
 
 Functions involved in this test:
@@ -40,10 +40,8 @@ def run_normal_test_cases():
     assert retrieve_channel_from_anchor(f"module_name^a__b__valid__0__{Constants._anchor_marker_}__in") == Channel("a", "b", "valid", 0)
 
 class TestAnchors(TestCases):
-    def __init__(self):
 
-        super().__init__()
 
-    def run(self) -> None:
+    def test(self) -> None:
         run_simple_test_cases()
         run_normal_test_cases()

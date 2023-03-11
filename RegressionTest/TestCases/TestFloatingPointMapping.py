@@ -3,10 +3,8 @@ from TestCases.TestCases import TestCases
 
 
 class TestFloatingPointMapping(TestCases):
-    def __init__(self) -> None:
-        super().__init__()
 
-    def run(self) -> None:
+    def test(self) -> None:
 
         file_under_test = "./Examples/gsum/gsum.dot"
         bbgraph_under_test = "./Examples/gsum/gsum_bbgraph.dot"
