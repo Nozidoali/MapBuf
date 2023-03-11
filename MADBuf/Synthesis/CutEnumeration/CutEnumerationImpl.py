@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-02-28 07:43:53
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-11 20:36:03
+'''
+
+
 from MADBuf.Network.BLIFGraph import *
 from MADBuf.Utils import *
 
@@ -33,6 +44,17 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
 def cut_enumeration_impl(
     g: BLIFGraph, priority_cut_size: int = 20, lut_size_limit: int = 6
 ) -> dict:
+    """Cut Enumeration (implementation)
+
+    Args:
+        g (BLIFGraph): the graph to be enumerated
+        priority_cut_size (int, optional): the maximum number of cuts to be stored at each node. 
+                                            Defaults to 20.
+        lut_size_limit (int, optional): the LUT size. Defaults to 6.
+
+    Returns:
+        dict: _description_
+    """
     cuts: dict = {}
     for n in g.topological_traversal():
         cuts[n] = [Cut([n])]

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:22:14
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:30:27
+Last Modified time: 2023-03-11 20:37:47
 '''
 
 
@@ -17,12 +17,19 @@ def cut_enumeration(network: BLIFGraph, *args, **kwargs) -> dict:
     Args:
         network (BLIFGraph): the network to be enumerated
 
+    Keyword Args:
+        cut_size (int): the maximum size of the cut
+        num_cuts (int): the maximum number of cuts to be stored at each node
+
     Returns:
         dict: the dictionary of the cut enumeration
     """
 
-    cut_size = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
+    lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
+    priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
 
-    
-
-    return cut_enumeration_impl(network, cut_size)
+    return cut_enumeration_impl(
+        g = network, 
+        priority_cut_size = priority_cut_size,
+        lut_size_limit = lut_size_limit
+    )
