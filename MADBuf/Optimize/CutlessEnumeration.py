@@ -1,4 +1,4 @@
-from MADBuf.Parsers.BLIFGraph import BLIFGraph
+from MADBuf.SubjectGraph.BLIFGraph import BLIFGraph
 from MADBuf.Synthesis.TimingLabel import TimingLabel
 from MADBuf.Utils import *
 

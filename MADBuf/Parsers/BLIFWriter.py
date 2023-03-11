@@ -1,4 +1,4 @@
-from MADBuf.Parsers.BLIFGraph import BLIFGraph
+from MADBuf.SubjectGraph.BLIFGraph import BLIFGraph
 
 
 def write_blif_to_string(g: BLIFGraph) -> str:

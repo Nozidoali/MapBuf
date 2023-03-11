@@ -1,5 +1,5 @@
 from MADBuf.Utils import *
-from MADBuf.Parsers.BLIFGraph import *
+from MADBuf.SubjectGraph.BLIFGraph import *
 
 colors = ["yellow", "red", "green", "blue"]
 

@@ -1,5 +1,11 @@
 from MADBuf import *
 
+"""
+This is a script to run MADBuf on a single mut (module under test).
+
+    1. define the mut name (module under test)
+"""
+
 mut = "dummy"
 method = 'madbuf'
 
@@ -54,8 +60,15 @@ if False:
     )
 
 if True:
-    lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut, nodes_in_component=node_in_component, labels=optimizer.labels, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+    lut_graph = export_mapping(
+        network, 
+        signal_to_cut=optimizer.signal_to_cut, 
+        nodes_in_component=node_in_component, 
+        labels=optimizer.labels, 
+        node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
+
     subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
+
     lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
     subprocess.run(
         f"dot -Tpdf -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",

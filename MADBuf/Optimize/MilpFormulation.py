@@ -1,6 +1,6 @@
 import gurobipy as gp
 from gurobipy import GRB
-from MADBuf.Parsers.BLIFGraph import *
+from MADBuf.SubjectGraph.BLIFGraph import *
 from MADBuf.Utils import *
 
 from MADBuf.Synthesis.CutEnumeration import *
