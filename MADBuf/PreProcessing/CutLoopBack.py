@@ -1,12 +1,12 @@
 import pygraphviz as pgv
 from MADBuf.Utils import *
-
+from MADBuf.DataFlowGraph.BufferInsertion import *
 
 class cut_loopback_params:
     reserved_index: int = 100
 
 
-def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph):
+def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph, verbose: bool = False):
 
     subgraph_nodes = {}
     curr_index: int = cut_loopback_params.reserved_index
@@ -24,7 +24,9 @@ def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph):
 
         if edge.attr["color"] == "red":
             u, v = edge
-            print(f"found loopback {u.get_name()} -> {v.get_name()}")
+
+            if verbose:
+                print(f"found loopback {u.get_name()} -> {v.get_name()}")
 
             block_from = u.get_name()
             block_to = v.get_name()

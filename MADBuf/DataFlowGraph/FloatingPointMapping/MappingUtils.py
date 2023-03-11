@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:38:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:42:50
+Last Modified time: 2023-03-11 23:27:23
 '''
 
 import pygraphviz as pgv
@@ -17,7 +17,7 @@ class floating_point_mapping_params:
 
 
 def floating_point_operations():
-    return ["fadd", "fmul", "fcmp"]
+    return ["fadd", "fsub", "fmul", "fcmp"]
 
 
 def is_fcmp(node_name: str) -> bool:

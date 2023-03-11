@@ -45,8 +45,9 @@ def insert_anchors(graph: Verilog) -> None:
             continue
 
         # here are some of the cases where we don't need to break the channels:
-        #   1. Constants block
-        #
+        # 1. Constants block
+        # 2. Memory controller
+        # 3. Primary Inputs or Outputs (if the wire width is not defined)
 
         # if 'cst' in u or 'cst' in v:
         #     _assigns.append((u, v))

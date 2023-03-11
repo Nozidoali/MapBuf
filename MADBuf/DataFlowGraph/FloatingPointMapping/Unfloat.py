@@ -5,12 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:34:43
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:41:26
+Last Modified time: 2023-03-11 22:50:11
 '''
 from MADBuf.DataFlowGraph.InsertBuffer import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
 
-def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
+def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None, verbose: bool = False):
     """Mapping the graph to a graph without using floating point operations
 
     Args:
@@ -37,6 +37,10 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
             print(f"Warning: skiping floating point checking on node {node_name}")
             continue
 
+        if len(node_name.split("_")) != 2:
+            print(f"Warning: skiping floating point checking on node {node_name}")
+            continue
+
         component_type, component_index = node_name.split("_")
 
         if component_type not in floating_point_operations():
@@ -45,22 +49,22 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
         # now we determine the mapping from / to
         mapping_from: str = node_name
         mapping_to: str
-        insert_buffer: bool
+        buffer_inserted: bool
 
         if is_fcmp(node_name):
             mapping_to = f"icmp_{component_index}"
-            insert_buffer = False
+            buffer_inserted = False
 
         else:
             mapping_to = f"and_{curr_index}"
-            insert_buffer = True
+            buffer_inserted = True
             curr_index_used = True
 
         if store_mapping_to_file:
-            f.write(f"{mapping_from},{mapping_to},{insert_buffer}\n")
+            f.write(f"{mapping_from},{mapping_to},{buffer_inserted}\n")
 
         print(
-            f"replacing {mapping_from} using {mapping_to} (buffer = {insert_buffer})",
+            f"replacing {mapping_from} using {mapping_to} (buffer = {buffer_inserted})",
             end="...",
         )
 
@@ -78,7 +82,7 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None):
 
         if insert_buffer:
 
-            output_node = insert_buffer(g, f"Buffer_{curr_index}")
+            output_node = insert_buffer(g, f"{curr_index}")
             g.add_edge((new_node, output_node))
 
             new_edge = g.get_edge(new_node, output_node)

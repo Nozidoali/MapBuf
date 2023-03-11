@@ -8,7 +8,6 @@ def all_examples():
         'gsumif',
         'insertion_sort',
         'kmp',
-        'matching_2',
         'matrix',
         'mvt_float',
         'stencil_2d'

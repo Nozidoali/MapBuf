@@ -35,3 +35,5 @@ dummy/*
 dummy/reports/*
 !dummy/reports/dummy.blif
 !dummy/reports/dummy.dot
+
+tmp.py

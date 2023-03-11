@@ -37,9 +37,9 @@ def _wire_str(graph: Verilog) -> str:
 
 
 def verilog_to_string(graph: Verilog) -> str:
-    verilog_str = graph._top_str()
-    verilog_str += graph._wire_str()
-    verilog_str += graph._assign_str()
+    verilog_str = _top_str(graph)
+    verilog_str += _wire_str(graph)
+    verilog_str += _assign_str(graph)
     for module in graph.modules:
         verilog_str += module + "\n"
     verilog_str += "endmodule\n"

@@ -50,7 +50,7 @@ def _on_wire(graph: Verilog, line: str) -> str:
     graph.wires.append((signal, width))
 
 
-def read_verilog(filename: str) -> Verilog:
+def read_verilog(filename: str, verbose: bool = False) -> Verilog:
     """Read a Verilog file and return a Verilog object.
 
     Args:
@@ -67,6 +67,11 @@ def read_verilog(filename: str) -> Verilog:
                 break
             if line == "":
                 continue
+
+            if line.startswith("`"):
+                # skip macros
+                continue
+
             while not line.endswith(";"):
                 line = line + " " + next(f).strip()
             if line.startswith("assign"):
@@ -77,4 +82,5 @@ def read_verilog(filename: str) -> Verilog:
                 _on_top(graph, line)
             else:
                 graph.modules.add(line)
+
     return graph
