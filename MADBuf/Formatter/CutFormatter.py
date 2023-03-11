@@ -1,5 +1,6 @@
 from MADBuf.Utils import *
 from MADBuf.SubjectGraph import *
+import pygraphviz as pgv
 
 colors = ["yellow", "red", "green", "blue"]
 

@@ -1,5 +1,6 @@
 from MADBuf.Optimize.Channels import *
 import gurobipy as gp
+import pygraphviz as pgv
 
 
 def print_throughput_results(model: gp.Model):
