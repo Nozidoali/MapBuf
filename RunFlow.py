@@ -2,17 +2,27 @@ import os
 import sys
 from subprocess import run
 
+"""
+This script is used to process the source code using the external tools from server.
+
+To prepare the source code, we need to do the following steps:
+1. define the mut name (module under test)
+2. crreate a folder called mut
+3. put the source code inside the folder. The source code should be named as mut.cpp and mut.h, and the top module should be named as mut
+4. the synthesis.tcl should be in the same folder
+5. run this script
+
+Also, you may need to modify the following variables:
+1. server: the server name
+2. path: the path to the examples folder in dynamatic
+3. mut: the name of the module under test
+"""
+
 skip_dynamatic_flag: bool = False
 skip_preprocessing_flag: bool = False
 skip_dot2hdl: bool = False
 skip_odin: bool = False
 
-if True:
-    # if False:
-    skip_dynamatic_flag: bool = True
-    skip_preprocessing_flag: bool = True
-    skip_dot2hdl: bool = True
-    skip_odin: bool = True
 mut = "dummy"
 
 server = "sp"
@@ -153,176 +163,3 @@ if not skip_odin:
     run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
 
 # now it is our stuff!
-
-# for method in ['madbuf', 'milp']:
-for method in ["madbuf"]:
-
-    # for MADBUF
-    if method == "madbuf":
-        blif: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
-        dfg: pgv.AGraph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
-
-        network, signal_to_channel, node_in_component = blif.retrieve_anchors()
-
-        # these two methods work the same
-        optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
-        # optimizer: MADBuf = MADBuf(blif)
-
-        buffers, maximum_timing = optimizer.run(clock_period=5, verbose=True)
-
-        if False:
-            write_blif_to_file(network, f"{mut}/reports/{mut}_out.blif")
-
-            run_abc_techmap(
-                f"{mut}/reports/{mut}_out.blif",
-                f"{mut}/reports/{mut}_abc.blif",
-                run_optimization=True,
-            )
-
-            new_network = BLIFGraph(f"{mut}/reports/{mut}_abc.blif")
-            new_graph = export_subject_graph(new_network)
-
-            set_pretty_attributes(new_graph, nodes_in_component=None)
-            new_graph.write(f"{mut}/reports/{mut}_klut.dot")
-            subprocess.run(
-                f"dot -Tpdf {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
-                shell=True,
-            )
-            subprocess.run(
-                f"dot -Tpng {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
-                shell=True,
-            )
-
-        if False:
-            graph = export_subject_graph(network)
-
-            set_pretty_attributes(graph, nodes_in_component=node_in_component)
-            set_cut_colors(graph, network, signal_to_cut=optimizer.signal_to_cut)
-
-            graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
-            subprocess.run(
-                f"dot -Tpdf {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.pdf",
-                shell=True,
-            )
-            subprocess.run(
-                f"dot -Tpng {mut}/reports/{mut}_subject_graph.dot -o {mut}/reports/{mut}_subject_graph.png",
-                shell=True,
-            )
-
-        if True:
-            lut_graph = export_mapping(network, signal_to_cut=optimizer.signal_to_cut, nodes_in_component=node_in_component, labels=optimizer.labels, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
-            subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
-            lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
-            subprocess.run(
-                f"dot -Tpdf -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
-                shell=True,
-            )
-            subprocess.run(
-                f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
-                shell=True,
-            )
-            
-        insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
-        buffer_blackboxes(dfg)
-
-        print(buffers)
-
-        write_dynamatic_dot(dfg, f"./{mut}/{mut}_{method}.dot")
-
-        subprocess.run(
-            f"dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png",
-            shell=True,
-        )
-
-    if method == "milp":
-
-        g: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
-        network, signal_to_channel, node_in_component = g.retrieve_anchors()
-
-        mappings = load_mapping_tuples(f"./{mut}/{mut}.mapping")
-
-        cuts = cutless_enumeration(network, signal_to_channel)
-        signal_to_cuts = cleanup_dangling_cuts(cuts)
-
-        # Step 1: we need to prepare the LPs
-        # to this end, we run the buffer command on the server
-        #
-        if False:
-            run(f"scp -r {mut} {server_path}/", shell=True)  # copy the new source code
-
-            # then we run dot2hdl, and prepare the Verilog and VHDL file
-            run_server(
-                f"cd {mut_path}; buffers buffers -filename=reports/{mut} -period=4 -model_mode=mixed -solver=gurobi_cl;"
-            )
-
-            # then we retrive the result and copy the DOT file back
-            run(f"scp -r {server_path}/{mut} .", shell=True)
-
-        model: gp.Model = gp.Model(f"{mut}")
-
-        # Step 2: we add the timing constraints
-        # we first remove the original timing constraints
-        remove_timing_constraints(model, verbose=False)
-
-        # then we add the new timing constraints
-        add_timing_constraints_for_latency_optimization(
-            model,
-            network,
-            signal_to_cuts,
-            signal_to_channel,
-            mappings,
-            add_cutloopback_constraints_flag=False,
-            clock_period=5,
-            verbose=True,
-        )
-
-        model.write(f"{mut}/test.lp")
-
-        # now we solve the model under the time limit
-        #
-        model.Params.timeLimit = 60
-        model.optimize()
-
-        # Step 4: retrieve the buffers results
-        buffers = retrieve_buffers_for_latency_optimization(model)
-        signal_to_cut = retrieve_cuts(model, signal_to_cuts)
-        signal_to_label = retrieve_timing_labels(model)
-        
-        write_blif_to_file(network, f"{mut}/reports/{mut}_out.blif")
-
-        if True:
-            """
-            here we export the KLUT graph
-            """
-            lut_graph = export_mapping(network, signal_to_cut=signal_to_cut, nodes_in_component=node_in_component, labels=signal_to_label, node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt")
-            fix_dangling_labels(
-                lut_graph,
-                node_in_component,
-                signal_to_cut=signal_to_cut, 
-                signal_to_label=signal_to_label, 
-                filename=f"{mut}/reports/{mut}_cut_timing.txt",
-                verbose=True)
-            subprocess.run(f"rm -f {mut}/reports/{mut}_klut.dot", shell=True)
-            lut_graph.write(f"{mut}/reports/{mut}_klut.dot")
-            subprocess.run(
-                f"dot -Tpdf -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.pdf",
-                shell=True,
-            )
-            subprocess.run(
-                f"dot -Tpng -Kfdp {mut}/reports/{mut}_klut.dot -o {mut}/reports/{mut}_klut.png",
-                shell=True,
-            )
-            
-        # Step 5: insert the buffers into the DFG
-        dfg: pgv.AGraph = read_dynamatic_dot(f"{mut}/reports/{mut}.dot")
-        insert_buffers_in_dfg(dfg, buffers, verbose=True)
-
-        # Step 6: we write the solutions to a file
-        model.write(f"{mut}/test.sol")
-
-        write_dynamatic_dot(dfg, f"./{mut}/{mut}_{method}.dot")
-
-        subprocess.run(
-            f"dot -Tpng ./{mut}/{mut}_{method}.dot -o ./{mut}/{mut}_{method}.png",
-            shell=True,
-        )
