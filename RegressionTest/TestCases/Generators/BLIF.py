@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:56:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:02:36
+Last Modified time: 2023-03-11 19:18:46
 '''
 
 from MADBuf import *
@@ -28,6 +28,8 @@ def generate_small_blif_with_anchors():
             n9
     """
     g: BLIFGraph = BLIFGraph()
+
+    g.top_module = "small_blif"
 
     g.create_pi("n1")
     g.create_pi("n2")
