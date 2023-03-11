@@ -30,7 +30,7 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
     return cutset[:setsize]
 
 
-def cut_enumeration(
+def cut_enumeration_impl(
     g: BLIFGraph, priority_cut_size: int = 20, lut_size_limit: int = 6
 ) -> dict:
     cuts: dict = {}

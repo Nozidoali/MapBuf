@@ -11,6 +11,7 @@ from TestCases.TestBLIFWriter import *
 from TestCases.Utils import *
 from TestCases.SubjectGraph import *
 from TestCases.IO import *
+from TestCases.Synthesis import *
 
 registered_tests = [
     # TestMADBuf(),
@@ -20,6 +21,7 @@ registered_tests = [
     TestSubjectGraph(),
     TestUtils(),
     TestIO(),
+    TestSynthesis(),
 ]
 
 class TestAll(TestCases):
