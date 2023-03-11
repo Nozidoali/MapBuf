@@ -4,7 +4,7 @@ mut = "dummy"
 method = "milp"
 
 g: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
-network, signal_to_channel, node_in_component = g.retrieve_anchors()
+network, signal_to_channel, node_in_component = retrieve_anchors(g)
 
 mappings = load_mapping_tuples(f"./{mut}/{mut}.mapping")
 

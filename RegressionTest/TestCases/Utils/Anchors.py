@@ -1,10 +1,20 @@
-from MADBuf import *
-from TestCases import *
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
 
-"""
+'''
+Author: Hanyu Wang
+Created time: 2023-03-11 18:26:57
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-11 18:46:40
+
+
 Functions involved in this test:
     MADBuf.Utils.Constants.retrieve_channel_from_anchor
-"""
+'''
+
+
+from MADBuf import *
+from TestCases import *
 
 def run_simple_test_cases():
     assert retrieve_channel_from_anchor("a__b__data__0") == Channel("a", "b", "data", 0)

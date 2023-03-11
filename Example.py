@@ -10,7 +10,7 @@ if method == "madbuf":
 
     blif: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
 
-    network, signal_to_channel, node_in_component = blif.retrieve_anchors()
+    network, signal_to_channel, node_in_component = retrieve_anchors(blif)
 
     # these two methods work the same
     optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
@@ -29,7 +29,7 @@ if method == "madbuf":
 elif method == "milp":
 
     g: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
-    network, signal_to_channel, node_in_component = g.retrieve_anchors()
+    network, signal_to_channel, node_in_component = retrieve_anchors(g)
 
     mappings = load_mapping_tuples("./RegressionTest/mapping/gsum.mapping")
 

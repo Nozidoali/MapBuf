@@ -1,5 +1,6 @@
 from MADBuf.Synthesis.MADBufBase import MADBufBase
 from MADBuf.Parsers import *
+from MADBuf.SubjectGraph import *
 
 
 # Here we are trying to allow multiple ways to initialize the MADBuf class
@@ -10,7 +11,7 @@ class MADBuf(MADBufBase):
     def __init__(self, *args, **kwargs) -> None:
 
         if len(args) == 1:
-            network, signal_to_channel, nodes_in_components = args[0].retrieve_anchors()
+            network, signal_to_channel, nodes_in_components = retrieve_anchors(args[0])
             MADBufBase.__init__(self, network, signal_to_channel, nodes_in_components)
 
         elif len(args) == 3:
