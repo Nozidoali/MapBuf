@@ -45,6 +45,7 @@ def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
         optimal_timing_label = TimingLabel()
 
         leaves: set = set(list(g.node_fanins[signal])[:])  # deep copy
+        best_leaves: set = leaves.copy()  # deep copy
         cuts[signal].append(Cut(leaves))
 
         while len(leaves) <= cut_size_limit:
@@ -52,6 +53,7 @@ def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
             arrival_times: list = [(labels[f], f) for f in leaves]
             maximum_timing_label, f = max(arrival_times)
             optimal_timing_label = min(maximum_timing_label + 1, optimal_timing_label)
+            best_leaves = leaves.copy()
 
             if maximum_timing_label == TimingLabel(0):
                 break
@@ -65,7 +67,7 @@ def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
             leaves = expand_cut_at(g, leaves, f)
 
         labels[signal] = optimal_timing_label
-        cuts[signal].append(Cut(leaves))
+        cuts[signal].append(Cut(best_leaves))
 
     return labels, cuts
 
