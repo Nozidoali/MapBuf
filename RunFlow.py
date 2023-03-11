@@ -155,7 +155,7 @@ if not skip_odin:
 # now it is our stuff!
 
 # for method in ['madbuf', 'milp']:
-for method in ["milp"]:
+for method in ["madbuf"]:
 
     # for MADBUF
     if method == "madbuf":
