@@ -1,4 +1,4 @@
-from MADBuf.SubjectGraph.BLIFGraph import *
+from MADBuf.Network.BLIFGraph import *
 from MADBuf.Formatter.PrettyGraph import *
 import pygraphviz as pgv
 

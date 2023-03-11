@@ -5,10 +5,10 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 19:49:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:50:54
+Last Modified time: 2023-03-11 19:57:35
 '''
 
-from MADBuf.SubjectGraph.BLIFGraph import *
+from MADBuf.Network.BLIFGraph import *
 
 
 # extract the fanin cone of a graph

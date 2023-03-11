@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:48:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:55:38
+Last Modified time: 2023-03-11 19:57:35
 '''
 
 from MADBuf.Utils import *
-from MADBuf.SubjectGraph.BLIFGraph import *
+from MADBuf.Network.BLIFGraph import *
 from MADBuf.SubjectGraph.RetrieveAnchors import *
 
 def retrieve_anchors(graph: BLIFGraph) -> tuple:

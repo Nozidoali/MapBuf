@@ -5,10 +5,10 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 19:36:31
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:55:05
+Last Modified time: 2023-03-11 19:57:37
 '''
 
-from MADBuf.SubjectGraph.BLIFGraphBase import *
+from MADBuf.Network.BLIFGraphBase import *
 # from MADBuf.IO.BLIFReader import *
 
 class BLIFGraph(BLIFGraphBase):

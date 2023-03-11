@@ -1,6 +1,6 @@
 import gurobipy as gp
 from gurobipy import GRB
-from MADBuf.SubjectGraph.BLIFGraph import *
+from MADBuf.Network.BLIFGraph import *
 from MADBuf.Utils import *
 
 
