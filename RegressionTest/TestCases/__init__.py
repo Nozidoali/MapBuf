@@ -10,6 +10,7 @@ from TestCases.TestBLIFWriter import *
 
 from TestCases.Utils import *
 from TestCases.SubjectGraph import *
+from TestCases.IO import *
 
 registered_tests = [
     # TestMADBuf(),
@@ -18,6 +19,7 @@ registered_tests = [
     # TestFloatingPointMapping(),
     TestSubjectGraph(),
     TestUtils(),
+    TestIO(),
 ]
 
 class TestAll(TestCases):

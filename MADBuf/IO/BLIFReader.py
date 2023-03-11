@@ -5,10 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:18:27
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 19:15:42
+Last Modified time: 2023-03-11 19:26:24
 '''
 
 from MADBuf.SubjectGraph.BLIFGraph import *
+import os
 
 def on_input(g: BLIFGraph, line: str):
     for s in line.split()[1:]:
@@ -64,3 +65,90 @@ def on_subckt(g: "BLIFGraph", line: str):
             g.inputs.add(s)
         if p in _g.inputs:
             g.outputs.add(s)
+
+def read_blif(graph: BLIFGraph, filename: str) -> None:
+    """Read BLIF file and construct a BLIF graph
+
+    Args:
+        graph (BLIFGraph): the graph to be constructed
+        filename (str): the BLIF file name
+
+    Raises:
+        FileNotFoundError: if the file is not found
+    """
+
+    if os.path.exists(filename) == False:
+        raise FileNotFoundError(f"File {filename} not found")
+
+    modules: dict = {}
+    module: str = ""
+    with open(filename, "r") as f:
+        for line in f:
+            while line.strip().endswith("\\"):
+                line = line.strip()[:-1] + next(f)
+
+            if line.startswith("#"):
+                continue
+
+            if line.startswith(".model"):
+                module = line.split()[1].strip()
+                modules[module] = []
+
+                if graph.top_module == "":
+                    graph.top_module = module
+                continue
+
+            modules[module].append(line)
+
+    # sub modules
+    for module in modules:
+        if module == graph.top_module:
+            continue
+        _g: BLIFGraph = BLIFGraph()
+        for line in modules[module]:
+            if line.startswith(".input"):
+                on_input(_g, line)
+            if line.startswith(".output"):
+                on_output(_g, line)
+        graph.submodules[module] = _g
+
+    index: int = 0
+    while True:
+        assert index < len(modules[graph.top_module]) and "index out of range"
+        line = modules[graph.top_module][index]
+        if line.startswith(".end"):
+            break
+        elif line.startswith(".input"):
+            on_input(graph, line)
+            index += 1
+        elif line.startswith(".output"):
+            on_output(graph, line)
+            index += 1
+        elif line.startswith(".latch"):
+            on_latch(graph, line)
+            index += 1
+        elif line.startswith(".names"):
+            # also add the logic
+            sop: list = []
+            while True:
+                index += 1
+                _nextline: str = modules[graph.top_module][index].strip()
+                if len(_nextline) == 0:
+                    break
+                if _nextline.startswith("."):
+                    index -= 1  # we already reached the next useful line
+                    break
+                sop.append(_nextline)
+            on_gate(graph, line, sop)
+            index += 1
+        elif line.startswith(".subckt"):
+            on_subckt(graph, line)
+            index += 1
+        else:
+            # here there are several possible situations:
+            #   - comment: not possible because it is filtered out
+            #   - empty line: skip
+            index += 1
+            continue
+
+    graph.traverse()
