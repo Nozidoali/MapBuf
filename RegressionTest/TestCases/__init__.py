@@ -7,3 +7,22 @@ from TestCases.TestMADBuf import *
 from TestCases.TestDynamaticIO import *
 from TestCases.TestEvaluateLatency import *
 from TestCases.TestBLIFWriter import *
+
+from TestCases.Utils import *
+
+registered_tests = [
+    # TestMADBuf(),
+    # TestCutLoopback(),
+    # TestDynamaticIO(),
+    # TestFloatingPointMapping(),
+    TestBLIFWriter(),   
+]
+
+class TestAll(TestCases):
+    def __init__(self):
+
+        super().__init__()
+
+    def run(self):
+        for test in registered_tests:
+            test.run()
