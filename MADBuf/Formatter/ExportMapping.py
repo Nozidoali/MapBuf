@@ -2,7 +2,7 @@ import pygraphviz as pgv
 from MADBuf.Parsers.BLIFGraph import BLIFGraph
 from MADBuf.Formatter.PrettyGraph import *
 import random
-
+import queue
 def collect_lut_rec(G: pgv.AGraph, g: BLIFGraph, cut: set, signal: str) -> set:
     """
     mark the cut of a signal
@@ -71,7 +71,41 @@ def export_mapping(graph: BLIFGraph, signal_to_cut: dict, nodes_in_component: di
     set_pretty_constants(G, graph.const0, graph.const1)
     set_pretty_attributes(G, nodes_in_component=nodes_in_component, remove_rst=True)
 
-    if True:
+    # then we mark all the activated cuts
+    activated_signals = queue.Queue()
+    for n in graph.outputs:
+        activated_signals.put(n)
+        
+    for n in graph.ris:
+        activated_signals.put(n)
+        
+    is_marked = set()
+        
+    while not activated_signals.empty():
+        signal = activated_signals.get()
+        
+        if signal in is_marked:
+            continue
+        
+        
+        node = G.get_node(signal)
+        node.attr["color"] = 'green'
+        node.attr["style"] = "filled"
+        node.attr["fillcolor"] = 'green'
+        is_marked.add(signal)
+        
+        if signal not in signal_to_cut:
+            # probably here we reached the combinational inputs
+            continue
+        cut: Cut = signal_to_cut[signal]
+        for leaf in cut.leaves:
+            
+            # we mark also the edge here
+            # G.add_edge(leaf, signal, color='green', style='dashed')
+            
+            activated_signals.put(leaf)
+        
+    if False:
         n = random.choice(list(graph.nodes))
         n = 'n832'
 

@@ -93,6 +93,15 @@ def cutless_enumeration(
 
 
 def cleanup_dangling_cuts(cuts: dict) -> dict:
+    """_summary_
+
+    Args:
+        cuts (dict): a dictionary of cuts, indexed by the signal name, and each entry is a set of cuts (of type Cut).
+
+    Returns:
+        dict: a dictionary of cuts, indexed by the signal name, and each entry is a set of cuts (of type Cut).
+    """
+    
     signal_to_cuts: dict = {}
 
     # remove all the cuts for the inputs
