@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:46:43
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:58:25
+Last Modified time: 2023-03-12 10:17:37
 '''
 
 from MADBuf import *
@@ -22,3 +22,7 @@ class TestMappingToFloat(TestCases):
             dot = read_dfg(file)
 
             mapping_to_unfloating(dot)
+
+            # check if there are still floating point operations
+            for node in dot.nodes():
+                assert node not in floating_point_operations()
