@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:33:51
+Last Modified time: 2023-03-12 19:29:24
 '''
 
 from MADBuf import *
@@ -51,11 +51,16 @@ def submit_solution(*args, **kwargs):
     run_server(f"mkdir {mut_path}/src", **kwargs)  # create a new folder
 
 
-    run(f"scp -r {mut}/src {server_path}/{mut}/", shell=True)
+    run(f"scp {mut}/src/* {server_path}/{mut}/src", shell=True)
     run(f"scp {sol} {server_path}/{mut}/reports/{mut}.dot", shell=True)
-    run_server(f"write_hdl {mut_path} {mut_path}/reports/{mut}", **kwargs)
 
+    print("Running dot2hdl...", end=' ')
+    run_server(f"write_hdl {mut_path} {mut_path}/reports/{mut} &> /dev/null", **kwargs)
+    print("OK")
+
+    print("Running vsim...", end=' ')
     run_server(f"cd {path}/..; sh ./scripts/check.sh examples/{mut} {mut_path}/reports/{mut}.log > {mut_path}/reports/{mut}.rpt", **kwargs) 
+    print("OK")
 
     run(f"scp {server_path}/{mut}/reports/{mut}.rpt {mut}/reports/{mut}.rpt", shell=True)
 
@@ -104,7 +109,7 @@ if __name__ == '__main__':
             mut = mut,
             mut_path = mut_path,
             path = path,
-            method = 'baseline',
+            method = 'madbuf',
             server = server,
             server_path = server_path
         )

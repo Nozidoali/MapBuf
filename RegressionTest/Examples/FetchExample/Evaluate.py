@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:18:04
+Last Modified time: 2023-03-12 18:45:22
 '''
 from MADBuf import *
 
@@ -41,8 +41,8 @@ def evaluate(*args, **kwargs):
 
     buffers, maximum_timing = optimizer.run(clock_period=50, verbose=False)
 
-    # insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
-    # buffer_blackboxes(dfg)
+    insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
+    buffer_blackboxes(dfg)
 
     mapping = read_mapping(f"{mut}/reports/{mut}.mapping")
     mapping_to_floating(dfg, mappings=mapping, verbose=False)
