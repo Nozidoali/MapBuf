@@ -15,6 +15,5 @@ from MADBuf.ExternalTools import *
 from MADBuf.Formatter import *
 from MADBuf.Optimize import *
 from MADBuf.PostProcessing import *
-from MADBuf.PreProcessing import *
 from MADBuf.Synthesis import *
 from MADBuf.DataFlowGraph import *
