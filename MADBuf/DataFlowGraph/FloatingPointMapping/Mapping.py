@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:37:30
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 11:03:57
+Last Modified time: 2023-03-12 12:33:50
 '''
 
 class FloatingPointMapping():
@@ -35,5 +35,6 @@ def read_mapping(filename: str) -> FloatingPointMapping:
     with open(filename, "r") as f:
         for line in f:
             floating, unfloating, use_buffer = line.strip().split(",")
+            use_buffer = True if use_buffer == "True" else False
             mapping.add_mapping(floating, unfloating, use_buffer)
     return mapping

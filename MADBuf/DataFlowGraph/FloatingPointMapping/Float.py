@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:35:55
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 11:04:27
+Last Modified time: 2023-03-12 12:34:15
 '''
 
 from MADBuf.Utils import *
@@ -29,7 +29,7 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
     to_remove = []
     for n in g.nodes():
         if get_node_name(n) in mapping_to_floating:
-            _n = mapping_to_floating[n]
+            _n, use_buffer = mapping_to_floating[n]
             
             if verbose:
                 print(f"replacing {n} using {_n} ({get_operation_type(_n)})", end="...")
@@ -41,8 +41,10 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
             copy_attr(n, new_node)
             new_node.attr["op"] = get_operation_type(_n)
 
-            assert len(g.out_edges(n)) == 1
-            n, buffer = g.out_edges(n)[0]  # only 1 fanout: Buffer
+            # add buffer if needed
+            if use_buffer:
+                assert len(g.out_edges(n)) == 1
+                n, buffer = g.out_edges(n)[0]  # only 1 fanout: Buffer
 
             # substitute input
             to_input = []
