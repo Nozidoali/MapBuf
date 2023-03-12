@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 00:53:33
+Last Modified time: 2023-03-12 18:28:24
 '''
 
 import os
@@ -63,23 +63,20 @@ def fetch_examples(*arg, **kwargs):
 
 def all_examples():
     return [
-        # 'covariance_float',
-        'covariance',
-        'gaussian',
-        'gemver',
+        # 'covariance',
+        # 'gaussian',
+        # 'gemver',
         'gsum',
-        'gsumif',
-        # 'insertion_sort',
-        'kmp',
-        'matrix',
-        # 'mvt_float',
-        'mvt',
-        # 'stencil_2d',
-        'histogram',
-        'kernel_2mm',
-        'kernel_3mm',
-        'getTanh',
+        # 'gsumif',
+        # 'kmp',
+        # 'matrix',
+        # 'mvt',
+        # 'histogram',
+        # 'kernel_2mm',
+        # 'kernel_3mm',
+        # 'getTanh',
     ]
+
 
 if __name__ == "__main__":
 

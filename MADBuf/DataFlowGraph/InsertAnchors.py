@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:35:21
 """
 
-from MADBuf.DataFlowGraph.InsertBuffer import *
+from MADBuf.DataFlowGraph.BufferInsertion import *
 from MADBuf.Network.Verilog import *
 
 

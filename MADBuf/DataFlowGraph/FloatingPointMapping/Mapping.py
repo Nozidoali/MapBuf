@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:37:30
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 12:33:50
+Last Modified time: 2023-03-12 16:15:55
 '''
 
 class FloatingPointMapping():
@@ -21,12 +21,11 @@ class FloatingPointMapping():
     def add_mapping(self, floating: str, unfloating: str, use_buffer) -> None:
         self.mappings.append((floating, unfloating, use_buffer))
 
-    def export_mapping_to_floating(self, file: str) -> None:
+    def export_mapping_to_floating(self) -> None:
         mapping_to_floating = {}
-        with open(file, "w") as f:
-            for mapping in self.mappings:
-                floating, unfloating, use_buffer = mapping
-                mapping_to_floating[unfloating] = (floating, use_buffer)
+        for mapping in self.mappings:
+            floating, unfloating, use_buffer = mapping
+            mapping_to_floating[unfloating] = (floating, use_buffer)
 
         return mapping_to_floating
 

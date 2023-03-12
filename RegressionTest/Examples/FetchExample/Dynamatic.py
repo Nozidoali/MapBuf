@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:03:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 23:08:27
+Last Modified time: 2023-03-12 18:28:18
 '''
 
 import os
@@ -75,6 +75,7 @@ def dynamatic(*args, **kwargs):
         run(f"rm -rf {mut}/lps", shell=True)
         run(f"mkdir {mut}/lps", shell=True)
         run(f"scp {server_path}/{mut}/*.lp {mut}/lps/", shell=True)
+        run(f"scp {server_path}/{mut}/reports/{mut}_graph_buf.dot {mut}/reports/{mut}_baseline.dot", shell=True)
         
     # now we do a trick here to modify the bitwidth
     if unit_bitwidth == True:

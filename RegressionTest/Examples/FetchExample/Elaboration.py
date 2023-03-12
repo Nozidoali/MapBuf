@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:12:23
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 11:36:45
+Last Modified time: 2023-03-12 17:06:42
 '''
 
 from MADBuf import *
@@ -109,7 +109,7 @@ def elaborate(*args, **kwargs):
     # then we retrive the result and copy the DOT file back
     run(f"scp {server_path}/{mut}/to_odin/{mut}.blif {mut}/reports/", shell=True)
 
-    run_abc_strash(f"{mut}/to_odin/{mut}.blif", f"{mut}/reports/{mut}.blif")
+    run_abc_strash(f"{mut}/reports/{mut}.blif", f"{mut}/reports/{mut}.blif")
 
     # finally we do some cleanup
     run(f"rm -rf {mut}/to_odin", shell=True)
