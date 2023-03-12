@@ -5,21 +5,31 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:35:55
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:41:03
+Last Modified time: 2023-03-12 11:04:27
 '''
 
 from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
+from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
 
-def mapping_to_floating(g: pgv.AGraph, mapping: dict = None, verbose: bool = False):
+def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, verbose: bool = False):
+    """Mapping to floating point operations
 
-    if mapping == None:
+    Args:
+        g (pgv.AGraph): the graph with unfloating operations
+        mapping_to_floating (dict, optional): the dictionary of mapping_to_floating. Defaults to None.
+        verbose (bool, optional): verbosity. Defaults to False.
+    """
+
+    if mappings == None:
         return
+    
+    mapping_to_floating = mappings.export_mapping_to_floating()
 
     to_remove = []
     for n in g.nodes():
-        if get_node_name(n) in mapping:
-            _n = mapping[n]
+        if get_node_name(n) in mapping_to_floating:
+            _n = mapping_to_floating[n]
             
             if verbose:
                 print(f"replacing {n} using {_n} ({get_operation_type(_n)})", end="...")

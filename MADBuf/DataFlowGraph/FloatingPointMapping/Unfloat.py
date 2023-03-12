@@ -5,26 +5,26 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:34:43
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 22:50:11
+Last Modified time: 2023-03-12 12:08:26
 '''
 from MADBuf.DataFlowGraph.InsertBuffer import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
+from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
 
-def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None, verbose: bool = False):
+def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPointMapping:
     """Mapping the graph to a graph without using floating point operations
 
     Args:
         g (pgv.agraph): the graph to be mapped
-        mapping_filename (str, optional): the file to store the mapping relations. Defaults to None.
+
+    Returns:
+        FloatingPointMapping: the mapping from the original graph to the new graph
     """
 
     to_remove = []
     curr_index: int = floating_point_mapping_params.reserved_index
 
-    store_mapping_to_file: bool = mapping_filename != None
-
-    if store_mapping_to_file:
-        f = open(mapping_filename, "w")
+    mapping = FloatingPointMapping()
 
     for n in g.nodes():
 
@@ -60,8 +60,7 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None, verbose: 
             buffer_inserted = True
             curr_index_used = True
 
-        if store_mapping_to_file:
-            f.write(f"{mapping_from},{mapping_to},{buffer_inserted}\n")
+        mapping.add_mapping(mapping_from, mapping_to, buffer_inserted)
 
         print(
             f"replacing {mapping_from} using {mapping_to} (buffer = {buffer_inserted})",
@@ -138,3 +137,5 @@ def mapping_to_unfloating(g: pgv.agraph, mapping_filename: str = None, verbose: 
 
     for n in to_remove:
         g.remove_node(n)
+
+    return mapping

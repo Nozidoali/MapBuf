@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:12:23
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 00:05:46
+Last Modified time: 2023-03-12 11:36:45
 '''
 
 from MADBuf import *
@@ -41,7 +41,8 @@ def elaborate(*args, **kwargs):
 
     # Preprocessing 2: Floating point component mapping
     mapping_file = f"{mut}/reports/{mut}.mapping"
-    mapping_to_unfloating(graph, mapping_file)
+    mapping = mapping_to_unfloating(graph)
+    mapping.write(mapping_file)
 
     # Preprocessing 3: Fix the multiplier's width
     split_multiplier_bitwidth(graph, verbose=True)
