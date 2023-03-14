@@ -19,7 +19,7 @@ def cleanup(*args, **kwargs):
 
     print(f"Cleaning up {mut}")
         
-    run(f"rm -rf {mut}/reports", shell=True)
+    # run(f"rm -rf {mut}/reports", shell=True)
     run(f"rm -rf {mut}/pre", shell=True)
     run(f"rm -rf {mut}/.debug", shell=True)
     run(f"rm -rf {mut}/to_odin", shell=True)

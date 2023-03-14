@@ -39,3 +39,9 @@ dummy/reports/*
 tmp.py
 
 *.rpt
+
+# in case some one install using 
+#
+#   python setup.py install
+build
+*.egg
