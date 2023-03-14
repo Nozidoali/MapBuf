@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 17:06:32
+Last Modified time: 2023-03-14 20:49:15
 '''
 
 from MADBuf import *
@@ -56,6 +56,8 @@ def all_dac_examples():
         # 'matrix',
         # 'stencil_2d'
     ]
+
+import sys
     
 if __name__ == '__main__':
     
@@ -63,15 +65,27 @@ if __name__ == '__main__':
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
     
+    if len(sys.argv) == 1:
+        muts = all_examples()
+        method = 'madbuf'
     
-    for mut in all_dac_examples():
+    if len(sys.argv) == 2:
+        muts = [sys.argv[1]]
+        method = 'madbuf'
+    
+    if len(sys.argv) == 3:
+        muts = [sys.argv[1]]
+        method = sys.argv[2]
+        
+    for mut in muts:
+        print_blue(f"Processing {mut}...")
         mut_path = f"{path}/{mut}"
 
         cycles = submit_solution(
             mut = mut,
             mut_path = mut_path,
             path = path,
-            method = 'milp',
+            method = method,
             server = server,
             server_path = server_path
         )

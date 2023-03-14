@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 18:24:22
+Last Modified time: 2023-03-14 21:00:12
 '''
 
 from MADBuf import *
@@ -61,8 +61,8 @@ def evaluate_milp(*args, **kwargs):
         signal_to_cuts,
         signal_to_channel,
         mappings,
-        add_cutloopback_constraints_flag=True,
-        add_blockbox_constraints_flag= True,
+        add_cutloopback_constraints_flag=False,
+        add_blockbox_constraints_flag=False,
         clock_period=6,
         verbose=True,
     )
@@ -71,7 +71,7 @@ def evaluate_milp(*args, **kwargs):
 
     # now we solve the model under the time limit
     #
-    model.Params.timeLimit = 1200
+    model.Params.timeLimit = 30
 
     print_orange("Solving the model...")
     model.optimize()

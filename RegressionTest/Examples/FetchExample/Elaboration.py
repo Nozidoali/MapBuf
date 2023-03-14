@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:12:23
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 17:06:42
+Last Modified time: 2023-03-14 20:39:23
 '''
 
 from MADBuf import *
@@ -57,8 +57,7 @@ def elaborate(*args, **kwargs):
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
     run(f"scp -r {mut}/to_dot2hdl {server_path}/{mut}", shell=True)  # copy the new source code
 
-    # then we run dot2hdl, and prepare the Verilog and VHDL file
-
+    # then we run dot2hdl, and prepare the Verilog and VHDL files
     run_server(f"cd {mut_path}/to_dot2hdl; dot2hdl {mut} &> /dev/null;", **kwargs)
 
     # then we retrive the result and copy the Verilog file back
