@@ -5,12 +5,14 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:37:30
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 17:44:51
+Last Modified time: 2023-03-14 21:08:30
 '''
 
 class FloatingPointMapping():
     def __init__(self) -> None:
-        self.mappings = []
+
+        # each mapping is a tuple of (floating, unfloating, use_buffer)
+        self.mappings: list = [] 
 
     def write(self, file: str) -> None:
         with open(file, "w") as f:

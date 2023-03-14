@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:46:43
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 12:32:35
+Last Modified time: 2023-03-14 21:13:27
 '''
 
 from MADBuf import *
@@ -29,7 +29,10 @@ class TestMappingToFloat(TestCases):
 
             for mapping in mappings.mappings:
                 floating, unfloating, use_buffer = mapping
-                assert floating in floating_point_operations()
-                assert unfloating not in floating_point_operations()
+
+                if get_operation_name(floating) not in floating_point_operations():
+                    print(f"Warning: {floating} (type = {get_operation_type(floating)}) is not a floating point operation")
+                assert get_operation_name(floating) in floating_point_operations()
+                assert get_operation_name(unfloating) not in floating_point_operations()
 
             # check if the mapping is correct 
