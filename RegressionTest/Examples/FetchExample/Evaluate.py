@@ -39,7 +39,7 @@ def evaluate(*args, **kwargs):
     optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
     # optimizer: MADBuf = MADBuf(blif)
 
-    buffers, maximum_timing = optimizer.run(clock_period=50, verbose=False)
+    buffers, maximum_timing = optimizer.run(clock_period=5, verbose=False)
 
     insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
     buffer_blackboxes(dfg)

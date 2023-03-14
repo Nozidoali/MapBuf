@@ -1,7 +1,6 @@
+
 //------------------------------------------------------------------------
-// This code is adapted from the work of Jianyi Cheng
-// "Combining Dynamic & Static Scheduling in High-level Synthesis"
-//
+// Jianyi Cheng, DSS
 // https://zenodo.org/record/3561115
 //------------------------------------------------------------------------
 
@@ -9,19 +8,28 @@
 #include <stdlib.h>
 #include "gsumif.h"
 
+//float test (float d){
+//	return (((((d+(float)0.64)*d+(float)0.7)*d+(float)0.21)*d+(float)0.33)*d+(float)0.25)*d+(float)0.125;
+//}
+
 float gsumif (in_float_t a[1000]) {
 	int i;
  	float d;
 	float s= 0.0;
 
 	for (i=0; i<1000; i++){
-        d = a[i];
+        #pragma HLS PIPELINE
+        d = a[i];// + b[i];
 	      if (d >= 0){
 	      	float p;
 	      	if (i > 5)
+	      		//w: p = (d+(float)0.25)*d+(float)0.5;
 	      		p = ((d+(float)0.25)*d+(float)0.5)*d+(float)0.125;
+              //p = (((((d+(float)0.25)*d+(float)0.5)*d+(float)0.125)*d+(float)0.25)*d+(float)0.5)*d+(float)0.25;
             else
             	p = ((d+(float)0.64)*d+(float)0.7)*d+(float)0.21;
+            	//w: p = (d+(float)0.64)*d+(float)0.7;
+              //p = (((((d+(float)0.64)*d+(float)0.7)*d+(float)0.21)*d+(float)0.33)*d+(float)0.25)*d+(float)0.125;
             s+=p;
 	      }
 
@@ -45,8 +53,10 @@ int main(void){
 		}
 	}
 
+	//for(int i = 0; i < AMOUNT_OF_TEST; ++i){
 	int i = 0;
 	gsumif(a[i]);
+	//}
 }
 
 

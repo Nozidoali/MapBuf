@@ -8,4 +8,6 @@ typedef int out_int_t;
 
 #define TOT_DIM 1024
 
-void matrix (in_int_t in_a[TOT_DIM], in_int_t in_b[TOT_DIM], out_int_t out_c[TOT_DIM]);
+void 
+//__attribute__ ((noinline))  
+matrix (in_int_t in_a[TOT_DIM], in_int_t in_b[TOT_DIM], out_int_t out_c[TOT_DIM]);

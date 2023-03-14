@@ -12,7 +12,10 @@
 #define N_SHIFT 5
 
 // matrix multiplication of a A*B matrix
-void matrix (in_int_t in_a[TOT_DIM], in_int_t in_b[TOT_DIM], out_int_t out_c[TOT_DIM])
+void 
+//__attribute__ ((noinline))  
+matrix (in_int_t in_a[TOT_DIM], in_int_t in_b[TOT_DIM], out_int_t out_c[TOT_DIM])
+//void mm(int(* __restrict__ in_a)[A_COLS], int(* __restrict__ in_b)[B_COLS], int(* __restrict__ out_c)[B_COLS])
 {
     int i,j,k;
     for (i = 0; i < A_ROWS; i++)
@@ -47,8 +50,10 @@ int main(void){
         }
     }
 
+	//for(int i = 0; i < AMOUNT_OF_TEST; ++i){
     int i = 0;
-    matrix(in_a[i], in_b[i], out_c[i]);
+	matrix(in_a[i], in_b[i], out_c[i]);
+	//}
 }
 
 

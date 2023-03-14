@@ -41,7 +41,7 @@ def elaborate(*args, **kwargs):
 
     # Preprocessing 2: Floating point component mapping
     mapping_file = f"{mut}/reports/{mut}.mapping"
-    mapping = mapping_to_unfloating(graph)
+    mapping = mapping_to_unfloating(graph, verbose=True)
     mapping.write(mapping_file)
 
     # Preprocessing 3: Fix the multiplier's width
@@ -59,7 +59,7 @@ def elaborate(*args, **kwargs):
 
     # then we run dot2hdl, and prepare the Verilog and VHDL file
 
-    run_server(f"cd {mut_path}/to_dot2hdl; dot2hdl {mut};", **kwargs)
+    run_server(f"cd {mut_path}/to_dot2hdl; dot2hdl {mut} &> /dev/null;", **kwargs)
 
     # then we retrive the result and copy the Verilog file back
     run(f"scp {server_path}/{mut}/to_dot2hdl/{mut}.v {mut}/reports", shell=True)
@@ -98,8 +98,8 @@ def elaborate(*args, **kwargs):
             verilog_files,
             f"-o {mut}.blif",
             f"--top_module {mut}",
-            # "--show_yosys_log &> /dev/null",
-            "--show_yosys_log",
+            "--show_yosys_log &> /dev/null",
+            # "--show_yosys_log",
         ]
     )
 

@@ -51,7 +51,7 @@ def dynamatic(*args, **kwargs):
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
 
     run(f"scp -r {mut}/src {server_path}/{mut}", shell=True)  # copy the new source code
-    run(f"scp {mut}/synthesis.tcl {server_path}/{mut}", shell=True)  # copy the new source code
+    run(f"scp {mut}/synthesis.tcl {server_path}/{mut} &> /dev/null", shell=True)  # copy the new source code
 
     # then we run dynamatic, and prepare the DOT file
     run_server(f"cd {mut_path}; dynamatic synthesis.tcl", **kwargs)
@@ -68,6 +68,7 @@ def dynamatic(*args, **kwargs):
         buffer_cmd += f"-period={clock_period} "
         buffer_cmd += f"-model_mode=mixed "
         buffer_cmd += f"-solver=gurobi_cl "
+        buffer_cmd += f"&> /dev/null"
         run_server(f"cd {mut_path}; rm -rf *.lp", **kwargs)
         run_server(f"cd {mut_path}; {buffer_cmd}", **kwargs)
         

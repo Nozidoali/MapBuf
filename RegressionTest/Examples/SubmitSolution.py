@@ -98,7 +98,20 @@ def all_examples():
         # 'kernel_3mm',
         # 'getTanh',
     ]
-
+    
+def all_dac_examples():
+    return [
+        'covariance_float',
+        'gaussian',
+        'gemver',
+        'gsum',
+        'gsumif',
+        'insertion_sort',
+        'mvt_float',
+        'matrix',
+        'stencil_2d'
+    ]
+    
 if __name__ == '__main__':
     
     server = 'sp'
@@ -106,7 +119,7 @@ if __name__ == '__main__':
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
     
     
-    for mut in all_examples():
+    for mut in all_dac_examples():
         mut_path = f"{path}/{mut}"
 
         cycles = submit_solution(

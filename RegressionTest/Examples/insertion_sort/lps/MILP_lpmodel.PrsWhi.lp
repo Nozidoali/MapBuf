@@ -18,48 +18,48 @@ Subject to
   -S_BB_8 = 0
   -S_BB_8 + S_e_10 = 0
   NxS_e0 - N <= 0
-  -29 S_e_0 + NxS_e0 <= 0
-  -29 S_e_0 + NxS_e0 - N >= -29
-  -28 S_e_0 - N >= -29
+  -9 S_e_0 + NxS_e0 <= 0
+  -9 S_e_0 + NxS_e0 - N >= -9
+  -8 S_e_0 - N >= -9
   NxS_e2 - N <= 0
-  -29 S_e_2 + NxS_e2 <= 0
-  -29 S_e_2 + NxS_e2 - N >= -29
-  -28 S_e_2 - N >= -29
+  -9 S_e_2 + NxS_e2 <= 0
+  -9 S_e_2 + NxS_e2 - N >= -9
+  -8 S_e_2 - N >= -9
   NxS_e3 - N <= 0
-  -29 S_e_3 + NxS_e3 <= 0
-  -29 S_e_3 + NxS_e3 - N >= -29
-  -N >= -29
+  -9 S_e_3 + NxS_e3 <= 0
+  -9 S_e_3 + NxS_e3 - N >= -9
+  -N >= -9
   NxS_e4 - N <= 0
-  -29 S_e_4 + NxS_e4 <= 0
-  -29 S_e_4 + NxS_e4 - N >= -29
-  -3 S_e_4 - N >= -29
+  -9 S_e_4 + NxS_e4 <= 0
+  -9 S_e_4 + NxS_e4 - N >= -9
+  -2 S_e_4 - N >= -9
   NxS_e5 - N <= 0
-  -29 S_e_5 + NxS_e5 <= 0
-  -29 S_e_5 + NxS_e5 - N >= -29
-  -26 S_e_5 - N >= -29
+  -9 S_e_5 + NxS_e5 <= 0
+  -9 S_e_5 + NxS_e5 - N >= -9
+  -7 S_e_5 - N >= -9
   NxS_e7 - N <= 0
-  -29 S_e_7 + NxS_e7 <= 0
-  -29 S_e_7 + NxS_e7 - N >= -29
-  -3 S_e_7 - N >= -29
+  -9 S_e_7 + NxS_e7 <= 0
+  -9 S_e_7 + NxS_e7 - N >= -9
+  -2 S_e_7 - N >= -9
   NxS_e9 - N <= 0
-  -29 S_e_9 + NxS_e9 <= 0
-  -29 S_e_9 + NxS_e9 - N >= -29
-  -S_e_9 - N >= -29
+  -9 S_e_9 + NxS_e9 <= 0
+  -9 S_e_9 + NxS_e9 - N >= -9
+  -S_e_9 - N >= -9
   NxS_e10 - N <= 0
-  -29 S_e_10 + NxS_e10 <= 0
-  -29 S_e_10 + NxS_e10 - N >= -29
-  -28 S_e_10 - N >= -29
+  -9 S_e_10 + NxS_e10 <= 0
+  -9 S_e_10 + NxS_e10 - N >= -9
+  -8 S_e_10 - N >= -9
   S_e_9 = 1
 Bounds
   0 <= NxS_e0 <= 1
   0 <= NxS_e2 <= 1
-  0 <= NxS_e3 <= 29
-  0 <= NxS_e4 <= 26
-  0 <= NxS_e5 <= 3
-  0 <= NxS_e7 <= 26
-  0 <= NxS_e9 <= 28
+  0 <= NxS_e3 <= 9
+  0 <= NxS_e4 <= 7
+  0 <= NxS_e5 <= 2
+  0 <= NxS_e7 <= 7
+  0 <= NxS_e9 <= 8
   0 <= NxS_e10 <= 1
-  0 <= N <= 29
+  0 <= N <= 9
 General
   N
 Binary

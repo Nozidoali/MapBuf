@@ -1,7 +1,6 @@
+
 //------------------------------------------------------------------------
-// This code is adapted from the work of Jianyi Cheng
-// "Combining Dynamic & Static Scheduling in High-level Synthesis"
-//
+// Jianyi Cheng, DSS
 // https://zenodo.org/record/3561115
 //------------------------------------------------------------------------
 
@@ -9,6 +8,9 @@
 #include <stdlib.h>
 #include "gsum.h"
 
+//float test (float d){
+//	return (((((d+(float)0.64)*d+(float)0.7)*d+(float)0.21)*d+(float)0.33)*d+(float)0.25)*d+(float)0.125;
+//}
 
 float gsum (in_float_t a[1000]) {
 	int i;
@@ -17,7 +19,7 @@ float gsum (in_float_t a[1000]) {
 
 	for (i=0; i<1000; i++){
         #pragma HLS PIPELINE
-        d = a[i];
+        d = a[i];// + b[i];
 	      if (d >= 0)
 	      	// An if condition in the loop causes irregular computation.
 	      	// Static scheduler reserves time slot for each iteration
@@ -45,8 +47,10 @@ int main(void){
 		}
 	}
 
+	//for(int i = 0; i < AMOUNT_OF_TEST; ++i){
 	int i = 0;
 	gsum(a[i]);
+	//}
 }
 
 

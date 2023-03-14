@@ -4,10 +4,6 @@
 
 #define AMOUNT_OF_TEST 1
 
-#define N 16
-#define _N 256
-#define N_shift 4
-
 void gaussian (in_int_t c[N], inout_int_t A[_N]) {
 
     for(int j=1; j<=N-1; j++)
@@ -18,9 +14,13 @@ void gaussian (in_int_t c[N], inout_int_t A[_N]) {
             {
 
                 for(int k=1; k<=N-1; k++)
-                {
+
+                    {
+
                     A[(i<<N_shift) +k]=A[(i<<N_shift) + k]-c[j]*A[(j<<N_shift) + k];
-                }
+                    //A[(i*N_shift) +k]=A[(i*N_shift) + k]-c[j]*A[(j*N_shift) + k];
+
+                    }
 
 
             }
@@ -29,9 +29,10 @@ void gaussian (in_int_t c[N], inout_int_t A[_N]) {
     }
 
 int main(void){
-	in_int_t c[AMOUNT_OF_TEST][N];
-	in_int_t A[AMOUNT_OF_TEST][_N];
-
+	  in_int_t c[AMOUNT_OF_TEST][N];
+	  in_int_t A[AMOUNT_OF_TEST][_N];
+    
+	srand(13);
 	for(int i = 0; i < AMOUNT_OF_TEST; ++i){
     	for(int y = 0; y < N; ++y){
             c[i][y] = 1; //rand()%20;
@@ -41,6 +42,8 @@ int main(void){
 		}
 	}
 
-	int i = 0;
-	gaussian(c[i], A[i]);
+	//for(int i = 0; i < AMOUNT_OF_TEST; ++i){
+		int i = 0;
+		gaussian(c[i], A[i]);
+	//}
 }

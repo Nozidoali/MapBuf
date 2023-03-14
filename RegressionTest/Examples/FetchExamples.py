@@ -60,41 +60,87 @@ def fetch_examples(*arg, **kwargs):
     cleanup(*arg, **kwargs)
     dynamatic(*arg, **kwargs)
     elaborate(*arg, **kwargs)
+    
+def fetch_examples_from_project(*arg, **kwargs):
+    
+    if "mut" not in kwargs:
+        raise Exception("Please provide the module under test name")
+    
+    mut = kwargs["mut"]
+    
+    if "server" not in kwargs:
+        raise Exception("Please provide the server name")
+    
+    server = kwargs["server"]
+    
+    path = f"/home/hanywang/semester_project/benchmarks/{mut}"
+    
+    if not os.path.exists(f"{mut}/reports"):
+        run(f"mkdir {mut}/reports", shell=True)
+    run(f"scp {server}:{path}/{mut}.blif {mut}/reports/", shell=True)
+    run(f"scp {server}:{path}/{mut}.dot  {mut}/reports/{mut}_decoy.dot", shell=True)
+    
 
-def all_examples():
+def all_fpl_examples():
     return [
-        # 'covariance',
-        # 'gaussian',
-        # 'gemver',
+        'covariance',
+        'gaussian',
+        'gemver',
         'gsum',
-        # 'gsumif',
-        # 'kmp',
-        # 'matrix',
-        # 'mvt',
-        # 'histogram',
-        # 'kernel_2mm',
-        # 'kernel_3mm',
-        # 'getTanh',
+        'gsumif',
+        'kmp',
+        'matrix',
+        'mvt',
+        'histogram',
+        'kernel_2mm',
+        'kernel_3mm',
+        'getTanh',
     ]
 
+def all_dac_examples():
+    return [
+        'covariance_float',
+        'gaussian',
+        'gemver',
+        'gsum',
+        'gsumif',
+        'insertion_sort',
+        'mvt_float',
+        'matrix',
+        'stencil_2d'
+    ]
 
 if __name__ == "__main__":
 
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
+    dac_path = "/home/hanywang/DAC_benchmarks"
     server = "sp"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
     clock_period = 5
     unit_bitwidth = False
+    
+    src = 'dynamic'
+    
+    for mut in all_dac_examples():
+        run(f"scp {server}:{dac_path}/{mut}/src/{mut}.cpp {mut}/src", shell=True)
+        run(f"scp {server}:{dac_path}/{mut}/src/{mut}.h {mut}/src", shell=True)
 
-    for mut in all_examples():
+    for mut in all_dac_examples():
         mut_path = f"{path}/{mut}"
         
-        fetch_examples(
-            mut=mut, 
-            server_path=server_path,
-            server=server,
-            mut_path=mut_path,
-            clock_period=clock_period,
-            unit_bitwidth=unit_bitwidth,
-            run_milp=True,
-        )
+        if src == 'project':
+            fetch_examples_from_project(
+                mut = mut,
+                server = server
+            )
+        else:
+        
+            fetch_examples(
+                mut=mut, 
+                server_path=server_path,
+                server=server,
+                mut_path=mut_path,
+                clock_period=clock_period,
+                unit_bitwidth=unit_bitwidth,
+                run_milp=True,
+            )

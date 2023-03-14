@@ -12,12 +12,12 @@ Digraph G {
 		"block1" -> "block2" [color = "blue", freq = 1];
 		"block1" -> "block8" [color = "blue", freq = 0];
 		"block2" -> "block3" [color = "blue", freq = 1];
-		"block3" -> "block4" [color = "blue", freq = 29];
-		"block4" -> "block5" [color = "blue", freq = 229];
-		"block4" -> "block7" [color = "blue", freq = 3];
-		"block5" -> "block6" [color = "blue", freq = 203];
-		"block5" -> "block7" [color = "blue", freq = 26];
-		"block6" -> "block4" [color = "red", freq = 203];
-		"block7" -> "block3" [color = "red", freq = 28];
+		"block3" -> "block4" [color = "blue", freq = 9];
+		"block4" -> "block5" [color = "blue", freq = 31];
+		"block4" -> "block7" [color = "blue", freq = 2];
+		"block5" -> "block6" [color = "blue", freq = 24];
+		"block5" -> "block7" [color = "blue", freq = 7];
+		"block6" -> "block4" [color = "red", freq = 24];
+		"block7" -> "block3" [color = "red", freq = 8];
 		"block7" -> "block8" [color = "blue", freq = 1];
 }

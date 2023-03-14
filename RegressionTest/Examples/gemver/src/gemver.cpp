@@ -1,10 +1,12 @@
-//------------------------------------------------------------------------
-// This code is adapted from the Polybench suite
-//
-// http://polybench.sourceforge.net
-//------------------------------------------------------------------------
-
 #include "gemver.h"
+
+/**
+ * gemver.c: This file is part of the PolyBench/C 3.2 test suite.
+ *
+ *
+ * Contact: Louis-Noel Pouchet <pouchet@cse.ohio-state.edu>
+ * Web address: http://polybench.sourceforge.net
+ */
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -75,8 +77,10 @@ int main(void){
 		  }
 	}
 
-	int i = 0;
-	gemver(alpha[i], beta[i], A[i], u1[i], v1[i], u2[i], v2[i], w[i], x[i], y[i], z[i]);
+	//for(int i = 0; i < AMOUNT_OF_TEST; ++i){
+		int i = 0;
+		gemver(alpha[i], beta[i], A[i], u1[i], v1[i], u2[i], v2[i], w[i], x[i], y[i], z[i]);
+	//}
 }
 
 

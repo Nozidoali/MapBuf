@@ -6,4 +6,4 @@ typedef float out_float_t;
 #define _N 1024
 #define N_shift 5
 
-void covariance_float(inout_float_t data[_N], out_float_t symmat [_N], out_float_t mean[N]);
+void covariance_float(inout_float_t info[_N], out_float_t symmat [_N], out_float_t mean[N]);
