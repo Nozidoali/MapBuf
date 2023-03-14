@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:34:43
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 16:11:44
+Last Modified time: 2023-03-14 14:36:13
 '''
 from MADBuf.DataFlowGraph.BufferInsertion import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
@@ -79,7 +79,7 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
         input_node: pgv.Node = n
         output_node: pgv.Node = new_node
 
-        if insert_buffer:
+        if buffer_inserted:
 
             output_node = insert_buffer(g, f"{curr_index}")
             g.add_edge((new_node, output_node))
@@ -91,10 +91,7 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
 
         # substitute input
         to_input = []
-        for u, v in g.in_edges(n):
-            to_input.append(u)
-
-        for u in to_input:
+        for u in g.predecessors(n):
             g.add_edge((u, new_node))
 
             # copy edge attributes
@@ -103,29 +100,23 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
             copy_attr(old_edge, new_edge)
 
             g.remove_edge((u, n))
+            
+            if verbose:
+                print(f"replaced {u} -> {n} with {u} -> {new_node}")
 
         # substitute output
         to_output = []
-        for u, v in g.out_edges(n):
-            to_output.append(v)
-
-        for v in to_output:
+        for v in g.successors(n):
             g.add_edge((output_node, v))
 
             new_edge = g.get_edge(output_node, v)
             old_edge = g.get_edge(n, v)
             copy_attr(old_edge, new_edge)
 
-            # if the output node is a buffer, then we need to modify something here:
-            #   color =
-            #   from = 'in1'
-            #   to =
-            # otherwise we need additional buffers (one for each output pin)
-            #
-            assert new_edge.attr["from"] == "out1"
-
             g.remove_edge((n, v))
-
+            
+            if verbose:
+                print(f"replaced {n} -> {v} with {output_node} -> {v}")
         # add these nodes to the remove list, and we will remove after the for loop
         #
         to_remove.append(n)

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-13 09:34:17
+Last Modified time: 2023-03-14 14:19:53
 '''
 
 from MADBuf import *
@@ -88,7 +88,7 @@ def all_examples():
         # 'covariance',
         # 'gaussian',
         # 'gemver',
-        # 'gsum',
+        'gsum',
         # 'gsumif',
         # 'kmp',
         # 'matrix',
@@ -96,7 +96,7 @@ def all_examples():
         # 'histogram',
         # 'kernel_2mm',
         # 'kernel_3mm',
-        'getTanh',
+        # 'getTanh',
     ]
 
 if __name__ == '__main__':
@@ -113,7 +113,7 @@ if __name__ == '__main__':
             mut = mut,
             mut_path = mut_path,
             path = path,
-            method = 'decoy',
+            method = 'madbuf',
             server = server,
             server_path = server_path
         )

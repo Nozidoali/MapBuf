@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:35:55
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:11:04
+Last Modified time: 2023-03-14 14:23:48
 '''
 
 from MADBuf.Utils import *
@@ -32,7 +32,7 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
             _n, use_buffer = mapping_to_floating[n]
             
             if verbose:
-                print(f"replacing {n} using {_n} ({get_operation_type(_n)})", end="...")
+                print(f"replacing {n} (buffer={use_buffer}) using {_n} ({get_operation_type(_n)})", end="...")
 
             g.add_node(_n)
             new_node = g.get_node(_n)
@@ -50,27 +50,25 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
                 out_node = buffer
 
             # substitute input
-            to_input = []
-            for u, v in g.in_edges(in_node):
-                to_input.append(u)
-
-            for u in to_input:
+            for u in g.predecessors(in_node):
                 g.add_edge((u, new_node))
-                new_edge = g.get_edge(u, new_node)
                 old_edge = g.get_edge(u, in_node)
+                new_edge = g.get_edge(u, new_node)
                 copy_attr(old_edge, new_edge)
                 g.remove_edge((u, in_node))
 
-            to_output = []
-            for u, v in g.out_edges(out_node):
-                to_output.append(v)
+                if verbose:
+                    print(f"replaced {u} -> {in_node} with {u} -> {new_node}")
 
-            for v in to_output:
+            for v in g.successors(out_node):
                 g.add_edge((new_node, v))
-                new_edge = g.get_edge(new_node, v)
                 old_edge = g.get_edge(out_node, v)
+                new_edge = g.get_edge(new_node, v)
                 copy_attr(old_edge, new_edge)
                 g.remove_edge((out_node, v))
+
+                if verbose:
+                    print(f"replaced {out_node} -> {v} with {new_node} -> {v}")
 
             to_remove.append(in_node)
             if use_buffer:

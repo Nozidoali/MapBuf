@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:45:22
+Last Modified time: 2023-03-14 14:20:33
 '''
 from MADBuf import *
 
@@ -45,7 +45,7 @@ def evaluate(*args, **kwargs):
     buffer_blackboxes(dfg)
 
     mapping = read_mapping(f"{mut}/reports/{mut}.mapping")
-    mapping_to_floating(dfg, mappings=mapping, verbose=False)
+    mapping_to_floating(dfg, mappings=mapping, verbose=True)
     align_multiplier_bitwidth(dfg)
 
     write_dynamatic_dot(dfg, f"./{mut}/reports/{mut}_{method}.dot")
