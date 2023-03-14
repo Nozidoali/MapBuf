@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:26:33
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 21:50:53
+Last Modified time: 2023-03-14 21:54:40
 '''
 
 from MADBuf import *
@@ -59,4 +59,5 @@ class TestCutEnumeration(TestCases):
         assert cuts['n1'][0].size() == 1
         assert cuts['n2'][0].size() == 1
 
-        test_all_benchmarks()
+        test_cut_enumeration_on_all_benchmarks()
+        test_cutless_enumeration_on_all_benchmarks()
