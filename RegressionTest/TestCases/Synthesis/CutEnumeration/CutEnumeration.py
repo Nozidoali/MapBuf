@@ -5,15 +5,23 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:26:33
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:27:34
+Last Modified time: 2023-03-14 21:40:49
 '''
 
 from MADBuf import *
 from TestCases.TestCases import *
 from TestCases.Generators import *
 
-class TestCutEnumeration(TestCases):
+def test_all_benchmarks() -> None:
+    for file in dac_blif_files():
+        print(f"Testing cut enumeration on {file}...")
+        blif = read_blif(file)
+        signal_to_cuts = cut_enumeration(blif, num_cuts=2, cut_size=3)
 
+        # check if the cut enumeration is correct
+        check_cuts(blif, signal_to_cuts, num_cuts=2, cut_size=3, verbose=True)
+
+class TestCutEnumeration(TestCases):
 
     def test(self) -> None:
         blif = generate_tiny_blif()
@@ -41,3 +49,5 @@ class TestCutEnumeration(TestCases):
 
         assert cuts['n1'][0].size() == 1
         assert cuts['n2'][0].size() == 1
+
+        test_all_benchmarks()

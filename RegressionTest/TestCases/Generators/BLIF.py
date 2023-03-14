@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:56:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:31:21
+Last Modified time: 2023-03-14 21:18:22
 '''
 
 from MADBuf import *
@@ -99,3 +99,8 @@ def generate_tiny_blif() -> BLIFGraph:
     g.traverse()
 
     return g
+
+from TestCases.Generators.FPL import *
+def dac_blif_files():
+    for example in all_examples():
+        yield f"Examples/{example}/reports/{example}.blif"
