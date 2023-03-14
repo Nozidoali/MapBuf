@@ -1,109 +1,40 @@
 from MADBuf import *
 
-import glob
+import subprocess
 
-# method = 'madbuf'
-method = "milp"
-# method = 'merge'
+g: BLIFGraph = read_blif("dummy/reports/dummy.blif")
+network, signal_to_channel, node_in_component = retrieve_anchors(g)
 
-if method == "madbuf":
+signals = set()
+for component in ['phi_n1', 'phi_n0', 'and_1', 'fork_2']:
+    for signal in node_in_component[component]:
+        signals.add(signal)
 
-    blif: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
+graph = export_subject_graph(network, signals, 
+    remove_registers=True,
+    format_pos=True,
+    format_pis=True,
+    format_constants=True,
+    format_ffs=True
+)
 
-    network, signal_to_channel, node_in_component = retrieve_anchors(blif)
+color_cis(graph)
+color_cos(graph)
+fill_node_with_color(graph, node_in_component['and_1'], "#FFFFC4")
+fill_node_with_color(graph, node_in_component['phi_n1'], "#F0F0F0")
+fill_node_with_color(graph, node_in_component['phi_n0'], "#FFC0FF")
+fill_node_with_color(graph, node_in_component['fork_2'], "#C0FFFF")
 
-    # these two methods work the same
-    optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
-    # optimizer: MADBuf = MADBuf(blif)
+label_channels(graph, signal_to_channel)
+# reveal_names(graph, signals)
 
-    buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)
+highlight_fanin_cone(graph, "n952")
 
-    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
-    mapping_to_unfloating(dfg, "./RegressionTest/mapping/gsum.mapping")
-    insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
-    buffer_blackboxes(dfg)
+# set_pretty_attributes(graph, signals_in_component=node_in_component)
 
-    mapping = load_mapping_from_file("./RegressionTest/mapping/gsum.map")
-    mapping_to_floating(dfg, mapping)
+graph.rankdir = "TB"
+graph.ordering = "out"
+graph.write("dummy.dot")
 
-elif method == "milp":
-
-    g: BLIFGraph = BLIFGraph("./RegressionTest/Examples/gsum/gsum.blif")
-    network, signal_to_channel, node_in_component = retrieve_anchors(g)
-
-    mappings = load_mapping_tuples("./RegressionTest/mapping/gsum.mapping")
-
-    cuts = cutless_enumeration(network, signal_to_channel)
-    signal_to_cuts = cleanup_dangling_cuts(cuts)
-
-    model = gp.read("./RegressionTest/Examples/gsum/gsum.lp")
-
-    # Step 2: we add the timing constraints
-    # we first remove the original timing constraints
-    remove_timing_constraints(model, verbose=False)
-
-    # then we add the new timing constraints
-    add_timing_constraints(
-        model,
-        network,
-        signal_to_cuts,
-        signal_to_channel,
-        mappings,
-        clock_period=6,
-        verbose=True,
-    )
-
-    # model.computeIIS()
-    # model.write("test.ilp")
-
-    model.write("test.lp")
-
-    # now we solve the model under the time limit
-    #
-    model.Params.timeLimit = 1800
-    model.optimize()
-
-    # Step 4: retrieve the buffers results
-    buffers = retrieve_buffers(model)
-    buffer_to_slots = retrieve_buffers_to_n_slots(model)
-
-    # Step 5: insert the buffers into the DFG
-    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
-    insert_buffers_in_dfg(dfg, buffers, buffer_to_slots, verbose=True)
-
-    # Step 6: we write the solutions to a file
-    model.write("test.sol")
-
-elif method == "merge":
-
-    lps = glob.glob("./RegressionTest/Examples/gsum/dynamatic_lps/*.lp")
-
-    merge_mg_lps(lps, "./RegressionTest/Examples/gsum/gsum.lp", verbose=True)
-
-    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
-
-else:
-
-    # baseline
-
-    model = gp.read("./RegressionTest/Examples/gsum/gsum.lp")
-
-    model.optimize()
-
-    # Step 2: retrieve the buffers results
-    buffers = retrieve_buffers(model)
-    buffer_to_slots = retrieve_buffers_to_n_slots(model)
-
-    # Step 3: insert the buffers into the DFG
-    dfg: pgv.AGraph = read_dfg("./RegressionTest/Examples/gsum/gsum.dot")
-    insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
-
-    model.write("baseline.sol")
-
-if dfg is not None:
-
-    write_dynamatic_dot(dfg, f"./gsum_buf_{method}.dot")
-
-    subprocess.run(
-        f"dot -Tpng ./gsum_buf_{method}.dot -o ./gsum_buf_{method}.png", shell=True
-    )
+subprocess.run("dot -Tsvg dummy.dot -o dummy.svg", shell=True)
+subprocess.run("dot -Tpng dummy.dot -o dummy.png", shell=True)
