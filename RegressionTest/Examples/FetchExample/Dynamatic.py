@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:03:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:28:18
+Last Modified time: 2023-03-14 17:31:28
 '''
 
 import os
@@ -51,10 +51,10 @@ def dynamatic(*args, **kwargs):
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
 
     run(f"scp -r {mut}/src {server_path}/{mut}", shell=True)  # copy the new source code
-    run(f"scp {mut}/synthesis.tcl {server_path}/{mut} &> /dev/null", shell=True)  # copy the new source code
+    run(f"scp {mut}/synthesis.tcl {server_path}/{mut}", shell=True)  # copy the new source code
 
     # then we run dynamatic, and prepare the DOT file
-    run_server(f"cd {mut_path}; dynamatic synthesis.tcl", **kwargs)
+    run_server(f"cd {mut_path}; dynamatic synthesis.tcl &> /dev/null", **kwargs)
 
     # then we retrive the result and copy the DOT file back
     run(f"rm -rf {mut}/reports", shell=True)

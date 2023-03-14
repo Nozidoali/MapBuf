@@ -1,10 +1,20 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-07 05:52:02
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-14 17:54:22
+'''
+
 import gurobipy as gp
 from gurobipy import GRB
 from MADBuf.Network.BLIFGraph import *
 from MADBuf.Utils import *
+from MADBuf.DataFlowGraph import *
 
-
-def parse_dynamatic_channel_name(var_name: str, mappings: dict = None):
+def parse_dynamatic_channel_name(var_name: str, mappings: FloatingPointMapping = None):
 
     entries = var_name.split("_")
 
@@ -12,15 +22,16 @@ def parse_dynamatic_channel_name(var_name: str, mappings: dict = None):
     component_to = f"{entries[2]}_{entries[3]}"
 
     if mappings is not None:
-        if component_from in mappings:
-            (component_from, insert_buffer) = mappings[component_from]
+        maps = mappings.export_mapping_floating_to_unfloating()
+        if component_from in maps:
+            (component_from, buffer_inserted) = maps[component_from]
             component_type, component_index = component_from.split("_")
 
-            if insert_buffer:
+            if buffer_inserted:
                 component_from = f"Buffer_{component_index}"
 
-        if component_to in mappings:
-            component_to, insert_buffer = mappings[component_to]
+        if component_to in maps:
+            component_to, buffer_inserted = maps[component_to]
 
             # insert buffer does not influence the component_to
             pass
@@ -28,7 +39,7 @@ def parse_dynamatic_channel_name(var_name: str, mappings: dict = None):
     return component_from, component_to
 
 
-def get_out_edges(signal_to_channel: dict, mappings: dict = None):
+def get_out_edges(signal_to_channel: dict):
 
     out_edges: dict = {}
 
@@ -43,7 +54,7 @@ def get_out_edges(signal_to_channel: dict, mappings: dict = None):
     return out_edges
 
 
-def get_channel_to_var(model: gp.Model, mappings: dict = None):
+def get_channel_to_var(model: gp.Model, mappings: FloatingPointMapping = None):
 
     channel_to_var: dict = {}
     for var in model.getVars():
@@ -73,7 +84,7 @@ def get_signal_to_channel_variable_mapping(
     network: BLIFGraph,
     signal_to_channel: dict,
     add_constraints: bool = True,
-    mappings: dict = None,
+    mappings: FloatingPointMapping = None,
     verbose: bool = False,
 ):
     """
@@ -89,11 +100,15 @@ def get_signal_to_channel_variable_mapping(
 
     # we prepare the set of all the floating point components
     unfloating_components = set()
-    for floating in mappings:
-        unfloating, insert_buffer = mappings[floating]
 
-        if insert_buffer:
-            unfloating_components.add(unfloating)
+    # we skip if mappings does not exists at all
+    if mappings != None:
+        maps = mappings.export_mapping_floating_to_unfloating()
+        for floating in maps:
+            unfloating, insert_buffer = maps[floating]
+
+            if insert_buffer:
+                unfloating_components.add(unfloating)
 
     signal_to_channel_var: dict = {}
 
@@ -136,6 +151,10 @@ def get_signal_to_channel_variable_mapping(
                 # and we don't consider the case where more than one buffer is on the channel
                 if c.t == Constants._channel_valid_:
 
+                    if c not in channel_to_var:
+                        print_red(f"Channel {c} is not found in the dynamatic model")
+                        raise Exception("Channel not found in the dynamatic model")
+
                     assert c in channel_to_var
                     matched_var = channel_to_var[c]
                     has_buffer = True
@@ -158,13 +177,17 @@ def get_signal_to_channel_variable_mapping(
                     var_name = matched_var.getAttr("VarName")
                     # print_green(f"Matched: {signal} to {var_name}")
                 signal_to_channel_var[signal] = matched_var
-
+                
+                if verbose:
+                    # print_green(f"{signal} is found in the dynamatic model")
+                    pass
             else:
                 # TODO: we should not add this variable
                 # new_var = model.addVar(vtype=GRB.BINARY, name=f"new_{c.u}_{c.v}_{c.t}")
                 # signal_to_channel_var[signal] = new_var
 
                 if verbose:
-                    print_red(f"Warning: {signal} is not found in the dynamatic model")
+                    # print_red(f"Warning: {signal} is not found in the dynamatic model")
+                    pass
 
     return signal_to_channel_var

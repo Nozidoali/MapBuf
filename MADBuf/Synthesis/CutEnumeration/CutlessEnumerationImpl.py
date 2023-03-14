@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 07:41:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 20:41:50
+Last Modified time: 2023-03-14 18:05:46
 '''
 
 
@@ -87,14 +87,14 @@ def cutless_enumeration_impl(
     network: BLIFGraph,
     signal_to_channel: dict,
     priority_cut_size: int = 10,
-    cut_size_limit: int = 6,
+    lut_size_limit: int = 6,
     verbose: bool = False,
 ) -> dict:
     """
     Cutless enumeration of cuts
     """
 
-    labels, cuts = get_timing_labels(network, signal_to_channel, cut_size_limit)
+    labels, cuts = get_timing_labels(network, signal_to_channel, lut_size_limit)
 
     if verbose:
         for signal in network.topological_traversal():

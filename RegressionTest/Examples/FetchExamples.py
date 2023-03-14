@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 18:28:24
+Last Modified time: 2023-03-14 17:26:12
 '''
 
 import os
@@ -83,31 +83,31 @@ def fetch_examples_from_project(*arg, **kwargs):
 
 def all_fpl_examples():
     return [
-        'covariance',
-        'gaussian',
-        'gemver',
+        # 'covariance',
+        # 'gaussian',
+        # 'gemver',
         'gsum',
-        'gsumif',
-        'kmp',
-        'matrix',
-        'mvt',
-        'histogram',
-        'kernel_2mm',
-        'kernel_3mm',
-        'getTanh',
+        # 'gsumif',
+        # 'kmp',
+        # 'matrix',
+        # 'mvt',
+        # 'histogram',
+        # 'kernel_2mm',
+        # 'kernel_3mm',
+        # 'getTanh',
     ]
 
 def all_dac_examples():
     return [
-        'covariance_float',
-        'gaussian',
-        'gemver',
+        # 'covariance_float',
+        # 'gaussian',
+        # 'gemver',
         'gsum',
-        'gsumif',
-        'insertion_sort',
-        'mvt_float',
-        'matrix',
-        'stencil_2d'
+        # 'gsumif',
+        # 'insertion_sort',
+        # 'mvt_float',
+        # 'matrix',
+        # 'stencil_2d'
     ]
 
 if __name__ == "__main__":

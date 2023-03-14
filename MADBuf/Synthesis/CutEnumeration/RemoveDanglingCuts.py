@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-11 20:40:46
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-14 16:08:55
+'''
+
 from MADBuf.Utils import *
 
 def cleanup_dangling_cuts(cuts: dict) -> dict:

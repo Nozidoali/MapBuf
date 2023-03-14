@@ -45,3 +45,8 @@ tmp.py
 #   python setup.py install
 build
 *.egg
+
+# dont change these
+*.lp
+*.dot
+*.blif

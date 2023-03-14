@@ -7,10 +7,10 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
     """
 
     # Step 1: we read the first LP
-    model = gp.read(lp_files[0])
+    model = None
 
     # Step 2: we add the other LPs
-    for i in range(1, len(lp_files)):
+    for i in range(0, len(lp_files)):
         new_model = gp.read(lp_files[i])
 
         # there are some linear programs that we need to skip
@@ -31,6 +31,10 @@ def merge_mg_lps(lp_files: list, output_file: str, verbose: bool = False):
                 break
 
         if not is_related_to_throughput:
+            continue
+
+        if model is None:
+            model = new_model
             continue
 
         for var in new_model.getVars():

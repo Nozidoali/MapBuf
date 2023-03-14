@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:35:55
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 14:23:48
+Last Modified time: 2023-03-14 17:44:21
 '''
 
 from MADBuf.Utils import *
@@ -24,7 +24,7 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
     if mappings == None:
         return
     
-    mapping_to_floating = mappings.export_mapping_to_floating()
+    mapping_to_floating = mappings.export_mapping_unfloating_to_floating()
 
     to_remove = []
     for n in g.nodes():

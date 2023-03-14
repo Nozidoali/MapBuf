@@ -51,14 +51,14 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
     for signal in g.signals:
         model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
-        # otherwise the variable names will not be found
-        #   reference:
-        #       https://stackoverflow.com/questions/66182055/pythongurobiattributeerror-index-out-of-range-for-attribute-varname
-        #
-        model.update()
+    # otherwise the variable names will not be found
+    #   reference:
+    #       https://stackoverflow.com/questions/66182055/pythongurobiattributeerror-index-out-of-range-for-attribute-varname
+    #
+    model.update()
 
     for signal in g.signals:
-        model.addConstr(model.getVarByName(f"TimingLabel_{signal}") <= clock_period)
+        model.addConstr(model.getVarByName(f"TimingLabel_{signal}") <= model.getVarByName(f"CP"))
 
     model.addConstr(model.getVarByName(f"CP") <= clock_period)
     model.update()
