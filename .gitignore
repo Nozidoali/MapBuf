@@ -30,7 +30,6 @@ Buffers
 
 dummy/*
 !dummy/src
-
 !dummy/reports
 dummy/reports/*
 !dummy/reports/dummy.blif
@@ -50,3 +49,8 @@ build
 *.lp
 *.dot
 *.blif
+
+*.svg
+*.gv
+
+tmp.*

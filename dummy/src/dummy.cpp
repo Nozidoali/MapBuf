@@ -4,21 +4,15 @@
 #define AMOUNT_OF_TEST 1
 
 bool dummy(in_bool_t a, in_bool_t b, in_bool_t c, in_bool_t d) {
-
 	bool tmp1 = false;
 	bool tmp2 = false;
-
-	if (d)
-	{
+	if (d) {
 		tmp1 = a & c;
 		tmp2 = tmp1 ^ b;
 	}
-
-	else
-	{
+	else {
 		tmp2 = a & b;
 	}
-
 	return tmp1 ^ tmp2;
 }
 

@@ -66,5 +66,9 @@ def export_subject_graph(graph: BLIFGraph, singals_to_export: set = None, **kwar
 
     if "format_ffs" in kwargs and kwargs["format_ffs"] == True:
         set_pretty_registers(G)
+        
+    G.splines = "spline"
+    G.rankdir = "TB"
 
+    G.ordering = "out"
     return G

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 22:46:02
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 23:37:45
+Last Modified time: 2023-03-15 14:06:49
 '''
 
 import pygraphviz as pgv
@@ -30,7 +30,22 @@ def fill_node_with_color(graph: pgv.AGraph, nodes: set, color: str = "white"):
         graph.get_node(node).attr["style"] = "filled"
 
 
-def highlight_fanin_cone(graph: pgv.AGraph, node: str, color: str = "#EEEEEE"):
+def highlight_fanin_cone(graph: pgv.AGraph, color: str = "#EEEEEE", **kwargs):
+
+    if "node" in kwargs:
+        node = kwargs["node"]
+
+    elif "label" in kwargs:
+        label = kwargs["label"]
+        node = None
+
+        for n in graph.nodes():
+            if graph.get_node(n).attr["label"] == label:
+                node = n
+                break
+
+    else:
+        raise Exception("Either node or label must be specified")
 
     q = queue.Queue()
     visited = set()

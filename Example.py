@@ -10,13 +10,15 @@ for component in ['phi_n1', 'phi_n0', 'and_1', 'fork_2']:
     for signal in node_in_component[component]:
         signals.add(signal)
 
-graph = export_subject_graph(network, signals, 
+graph: pgv.AGraph = export_subject_graph(network, signals, 
     remove_registers=True,
     format_pos=True,
     format_pis=True,
     format_constants=True,
     format_ffs=True
 )
+
+# set_pretty_attributes(graph, node_in_component)
 
 color_cis(graph)
 color_cos(graph)
@@ -26,15 +28,15 @@ fill_node_with_color(graph, node_in_component['phi_n0'], "#FFC0FF")
 fill_node_with_color(graph, node_in_component['fork_2'], "#C0FFFF")
 
 label_channels(graph, signal_to_channel)
+assign_names(graph)
 # reveal_names(graph, signals)
 
-highlight_fanin_cone(graph, "n952")
+highlight_fanin_cone(graph, label="n38")
 
-# set_pretty_attributes(graph, signals_in_component=node_in_component)
-
-graph.rankdir = "TB"
-graph.ordering = "out"
 graph.write("dummy.dot")
 
 subprocess.run("dot -Tsvg dummy.dot -o dummy.svg", shell=True)
 subprocess.run("dot -Tpng dummy.dot -o dummy.png", shell=True)
+
+node_to_cuts = cut_enumeration(graph, cut_size=6, num_cuts=100)
+print(node_to_cuts)
