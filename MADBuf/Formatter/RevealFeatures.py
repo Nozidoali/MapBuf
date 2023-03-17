@@ -11,9 +11,9 @@ Last Modified time: 2023-03-15 14:24:19
 import pygraphviz as pgv
 from MADBuf.Utils import *
 
-def reveal_names(graph: pgv.AGraph, signals: set):
+def reveal_names(graph: pgv.AGraph, signals: set = None):
     for n in graph.nodes():
-        if n in signals:
+        if signals == None or n in signals:
             graph.get_node(n).attr["xlabel"] = n
             graph.get_node(n).attr["xlabelcolor"] = "red"
 

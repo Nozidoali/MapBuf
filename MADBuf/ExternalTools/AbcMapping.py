@@ -17,9 +17,6 @@ def run_abc_techmap(filein: str, fileout: str = None, run_optimization: bool = T
             command += "compress2rs;"
             command += "compress2rs;"
             command += "compress2rs;"
-        command += "compress2rs;"
-        command += "compress2rs;"
-        command += "compress2rs;"
         command += 'if -K 6; ps;" > {}'.format(tmp_filename)
     else:
         command = f'abc -c "read_blif {filein}; strash;'

@@ -7,3 +7,4 @@ from MADBuf.Optimize.BlackBox import *
 from MADBuf.Optimize.MergeMGs import *
 from MADBuf.Optimize.LatencyOptimization import *
 from MADBuf.Optimize.DelayOptimization import *
+from MADBuf.Optimize.EvaluateArea import *

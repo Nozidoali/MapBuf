@@ -31,8 +31,6 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
         print(f"network is {type(network)}")
         raise Exception('network must be a pgv.AGraph or a BLIFGraph')
 
-    lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
-    priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
     use_cutless = False if kwargs.get('cutless') is None else kwargs.get('cutless')
 
     if use_cutless:
@@ -46,12 +44,13 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
         
         return cutless_enumeration_impl(
             network = network, 
-            signal_to_channel= signal_to_channel,
-            priority_cut_size = priority_cut_size,
-            lut_size_limit = lut_size_limit
+            **kwargs
         )
 
     else:
+        
+        lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
+        priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
 
         return cut_enumeration_impl(
             g = network, 
