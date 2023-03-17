@@ -34,23 +34,17 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
     use_cutless = False if kwargs.get('cutless') is None else kwargs.get('cutless')
 
     if use_cutless:
-        if 'signal_to_channel' not in kwargs:
-            raise Exception('signal_to_channel is required for cutless enumeration')
-        
-        if not isinstance(network, BLIFGraph):
-            raise NotImplementedError('cutless enumeration is only implemented for BLIFGraph')
-
-        signal_to_channel = kwargs.get('signal_to_channel')
-        
         return cutless_enumeration_impl(
             network = network, 
             **kwargs
         )
 
     else:
-        
         lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
         priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
+        
+        if not isinstance(network, BLIFGraph):
+            raise NotImplementedError('cut enumeration is only implemented for BLIFGraph')
 
         return cut_enumeration_impl(
             g = network, 
