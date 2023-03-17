@@ -8,3 +8,4 @@ from MADBuf.Formatter.Colors import *
 from MADBuf.Formatter.Subgraph import *
 from MADBuf.Formatter.Channel import *
 from MADBuf.Formatter.RevealFeatures import *
+from MADBuf.Formatter.SetLabels import *

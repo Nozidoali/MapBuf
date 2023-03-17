@@ -40,7 +40,7 @@ def expand_cut_at(g: BLIFGraph, leaves: set, leaf: str):
     return new_leaves
 
 
-def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
+def get_timing_labels(g: BLIFGraph, signal_to_channel: dict = {}, cut_size_limit: int = 6):
 
     labels: dict = {}
     cuts: dict = {}
@@ -59,7 +59,18 @@ def get_timing_labels(g: BLIFGraph, signal_to_channel, cut_size_limit: int = 6):
         best_leaves: set = leaves.copy()  # deep copy
         cuts[signal].append(Cut(leaves))
 
-        while len(leaves) <= cut_size_limit:
+        # while len(leaves) <= cut_size_limit:
+        
+        # we should also consider the constants
+        while True:
+            num_leaves: int = 0
+            for f in leaves:
+                if f in g.const0 or f in g.const1:
+                    continue
+                num_leaves += 1
+            
+            if num_leaves > cut_size_limit:
+                break
 
             arrival_times: list = [(labels[f], f) for f in leaves]
             maximum_timing_label, f = max(arrival_times)

@@ -4,14 +4,14 @@ from MADBuf.Formatter.PrettyRegisters import *
 import pygraphviz as pgv
 
 # export the graph to a DOT file
-def export_subject_graph(graph: BLIFGraph, singals_to_export: set = None, **kwargs) -> pgv.AGraph:
+def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
     """export the subject grpah to a DOT file
 
     Args:
         graph (BLIFGraph): the original graph
-        singals_to_export (set, optional): the signals to export. Defaults to None.
 
     Keyword Args:
+        singals_to_export (set, optional): the signals to export. Defaults to None.
         remove_registers (bool, optional): remove registers. Defaults to False.
         format_pos (bool, optional): format POs. Defaults to True.
         format_pis (bool, optional): format PIs. Defaults to True.
@@ -21,6 +21,11 @@ def export_subject_graph(graph: BLIFGraph, singals_to_export: set = None, **kwar
     Returns:
         pgv.AGraph: the graph
     """
+    
+    if "singals_to_export" in kwargs:
+        singals_to_export = kwargs["singals_to_export"]
+    else:
+        singals_to_export = None
 
     G = pgv.AGraph(strict=False, directed=True)
     for n in graph.topological_traversal():

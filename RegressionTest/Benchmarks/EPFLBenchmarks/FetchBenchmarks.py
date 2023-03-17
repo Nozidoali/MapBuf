@@ -5,11 +5,9 @@ from MADBuf import *
 benchmarks = []
 
 for benchmark in glob.glob('benchmarks/arithmetic/*.blif'):
-    print(benchmark)
     benchmarks.append(benchmark)
     
 for benchmark in glob.glob('benchmarks/random_control/*.blif'):
-    print(benchmark)
     benchmarks.append(benchmark)
 
 f = open('benchmarks.txt', 'w')
@@ -25,6 +23,9 @@ with gp.Env(empty=True) as env:
         if 'hyp' in benchmark or 'mem_ctrl' in benchmark:
             continue
         
+        if 'router' not in benchmark:
+            continue
+        
         # values = run_abc_techmap(benchmark, fileout=None, run_optimization=False)
         # print(values)
         
@@ -32,6 +33,14 @@ with gp.Env(empty=True) as env:
         
         blif: BLIFGraph = read_blif(benchmark)
         
+        labels, cuts = get_timing_labels(blif)
+        graph = export_subject_graph(blif)
+        set_labels(graph, labels)
+        
+        benchmark = benchmark.split('/')[-1].split('.')[0]
+        print_red(f"writing to {benchmark}.dot")
+        graph.write(f'{benchmark}.dot')
+        subprocess.run("dot -Tpng -o {benchmark}.png {benchmark}.dot".format(benchmark=benchmark), shell=True)
             
         cuts = cut_enumeration(
             blif, 
