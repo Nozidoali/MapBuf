@@ -49,6 +49,7 @@ build
 *.lp
 *.dot
 *.blif
+!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.blif
 
 *.svg
 *.gv

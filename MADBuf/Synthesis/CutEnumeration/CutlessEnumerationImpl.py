@@ -93,6 +93,9 @@ def cutless_enumeration_impl(
     """
     Cutless enumeration of cuts
     """
+    
+    if signal_to_channel == None:
+        signal_to_channel = {}
 
     labels, cuts = get_timing_labels(network, signal_to_channel, lut_size_limit)
 
