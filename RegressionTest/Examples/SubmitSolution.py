@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 18:46:00
+Last Modified time: 2023-03-18 19:35:53
 '''
 
 from MADBuf import *
@@ -34,8 +34,8 @@ def submit_solution(*args, **kwargs):
     mut = kwargs["mut"]
 
     dfg = read_dfg(f"./{mut}/reports/{mut}_{method}.dot")
-    mapping = read_mapping(f"./{mut}/reports/{mut}.mapping")
     mapping_to_unfloating(dfg)
+    split_multiplier_bitwidth(dfg)
     values = evaluate_delay(dfg, mut)
 
     return cycles, values
@@ -76,6 +76,8 @@ if __name__ == '__main__':
     server = 'sp'
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
+
+    clock_period = 4
     
     if len(sys.argv) == 1:
         muts = all_examples()
@@ -100,7 +102,15 @@ if __name__ == '__main__':
             method = method,
             server = server,
             server_path = server_path,
-            clock_period = 3,
+            clock_period = clock_period,
+            add_cutloopback_constraints_flag = True,
+            add_blockbox_constraints_flag = True,
+            time_limit = 5*60,
         )
         
         print(f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders")
+
+        f = open(f"{mut}.txt", "a")
+
+        f.write(f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n")
+        f.close()

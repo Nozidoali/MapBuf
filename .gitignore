@@ -55,3 +55,7 @@ build
 *.gv
 
 tmp.*
+
+arch_dsp.v
+
+*.txt

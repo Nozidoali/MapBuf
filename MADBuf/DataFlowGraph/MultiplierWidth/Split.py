@@ -17,7 +17,7 @@ def split_multiplier_bitwidth(g: pgv.AGraph, verbose: bool = False) -> None:
 
     """
     for n in g.nodes():
-        if "mul_" in get_node_name(n):
+        if get_node_name(n).startswith("mul_"):
 
             # parse the previous attributes
             input_str = n.attr["in"].strip()
@@ -29,6 +29,9 @@ def split_multiplier_bitwidth(g: pgv.AGraph, verbose: bool = False) -> None:
             # set also the input bitwidth
             input_pins = input_str.split()
 
+
+            if len(input_pins) != 2:
+                print(f"Warning: multiplier {get_node_name(n)} has {len(input_pins)} inputs, not 2")
             assert len(input_pins) == 2 # the multiplier should have two inputs
 
             input_pin1 = input_pins[0]

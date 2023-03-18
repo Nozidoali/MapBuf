@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 11:00:47
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 18:47:34
+Last Modified time: 2023-03-18 19:41:59
 '''
 
 from subprocess import run
@@ -60,7 +60,11 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
         f"/tmp/eval/{top_module}.abc.blif", 
         f"/tmp/eval/{top_module}.vpr.blif"
     ])
-    
+
+    # fix the techlib name
+    fix_techlib(f"/tmp/eval/{top_module}.vpr.blif", f"/tmp/eval/{top_module}.vpr.fixed.blif")
+
+
     # SDC
     f = open("/tmp/eval/period.sdc", "w")
     f.write("create_clock -period 4 *\n")
@@ -73,7 +77,7 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
             os.environ["VTR_ROOT"] + '/vpr/vpr',
             os.environ["VTR_ROOT"] + '/vtr_flow/arch/timing/k6_frac_N10_frac_chain_mem32K_40nm.xml',
             top_module,
-            f"--circuit_file /tmp/eval/{top_module}.vpr.blif",
+            f"--circuit_file /tmp/eval/{top_module}.vpr.fixed.blif",
             "--sdc_file /tmp/eval/period.sdc",
             "--save_graphics on"
         ]

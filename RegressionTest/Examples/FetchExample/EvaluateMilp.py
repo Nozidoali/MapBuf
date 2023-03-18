@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 18:34:58
+Last Modified time: 2023-03-18 19:24:30
 '''
 
 from MADBuf import *
@@ -59,6 +59,17 @@ def evaluate_milp(*args, **kwargs):
     remove_timing_constraints(model, verbose=False)
 
     # then we add the new timing constraints
+
+    if "add_cutloopback_constraints_flag" in kwargs:
+        add_cutloopback_constraints_flag = kwargs["add_cutloopback_constraints_flag"]
+    else:
+        add_cutloopback_constraints_flag = False
+
+    if "add_blockbox_constraints_flag" in kwargs:
+        add_blockbox_constraints_flag = kwargs["add_blockbox_constraints_flag"]
+    else:
+        add_blockbox_constraints_flag = False
+
     print_orange("Adding timing constraints...")
     add_timing_constraints(
         model,
@@ -66,17 +77,22 @@ def evaluate_milp(*args, **kwargs):
         signal_to_cuts,
         signal_to_channel,
         mappings,
-        add_cutloopback_constraints_flag=False,
-        add_blockbox_constraints_flag=False,
+        add_cutloopback_constraints_flag=add_cutloopback_constraints_flag,
+        add_blockbox_constraints_flag=add_blockbox_constraints_flag,
         clock_period=clock_period,
         verbose=True,
     )
 
     model.write(f"{mut}/reports/{mut}.lp")
 
+    if "time_limit" in kwargs:
+        time_limit = kwargs["time_limit"]
+    else:
+        time_limit = 30
+
     # now we solve the model under the time limit
     #
-    model.Params.timeLimit = 30
+    model.Params.timeLimit = time_limit
 
     print_orange("Solving the model...")
     model.optimize()
