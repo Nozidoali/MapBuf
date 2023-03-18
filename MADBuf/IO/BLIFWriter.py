@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-09 16:39:58
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-19 00:41:28
+'''
+
 from MADBuf.SubjectGraph import *
 
 
@@ -62,7 +72,5 @@ def write_blif_to_file(g: BLIFGraph, filename: str):
     """
 
     f = open(filename, "w")
-
     f.write(write_blif_to_string(g))
-
     f.close()

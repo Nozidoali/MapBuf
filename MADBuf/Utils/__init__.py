@@ -15,3 +15,4 @@ from MADBuf.Utils.StopWatch import *
 from MADBuf.Utils.StringUtils import *
 from MADBuf.Utils.Anchors import *
 from MADBuf.Utils.Cuts import *
+from MADBuf.Utils.ArgParser import *

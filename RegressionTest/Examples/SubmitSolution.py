@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 19:47:41
+Last Modified time: 2023-03-18 20:00:35
 '''
 
 from MADBuf import *
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             clock_period = clock_period,
             add_cutloopback_constraints_flag = True,
             add_blockbox_constraints_flag = True,
-            time_limit = 5*60,
+            time_limit = 20*60,
         )
         
         print(f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders")

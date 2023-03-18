@@ -12,10 +12,10 @@ method = "madbuf"
 blif: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
 dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}.dot")
 
-network, signal_to_channel, node_in_component = retrieve_anchors(blif)
+network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
 
 # these two methods work the same
-optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
+optimizer: MADBuf = MADBuf(network, signal_to_channel, signals_in_component)
 # optimizer: MADBuf = MADBuf(blif)
 
 buffers, maximum_timing = optimizer.run(clock_period=5, verbose=True)
@@ -46,7 +46,7 @@ if False:
 if False:
     graph = export_subject_graph(network)
 
-    set_pretty_attributes(graph, signals_in_component=node_in_component)
+    set_pretty_attributes(graph, signals_in_component=signals_in_component)
     set_cut_colors(graph, network, signal_to_cut=optimizer.signal_to_cut)
 
     graph.write(f"{mut}/reports/{mut}_subject_graph.dot")
@@ -63,7 +63,7 @@ if True:
     lut_graph = export_mapping(
         network,
         signal_to_cut=optimizer.signal_to_cut,
-        signals_in_component=node_in_component,
+        signals_in_component=signals_in_component,
         labels=optimizer.labels,
         node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt",
     )

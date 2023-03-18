@@ -1,6 +1,14 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-19 00:19:11
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-19 00:19:34
+'''
+
 from MADBuf.Network import *
-from MADBuf.Utils import *
-import gurobipy as gp
 
 def retrieve_luts_helper(src: BLIFGraph, dst: BLIFGraph, signal_to_cut: dict, signal: str):
     if signal in dst.nodes:
@@ -50,6 +58,3 @@ def klut_mapping(g: BLIFGraph, signal_to_cut: dict) -> BLIFGraph:
         retrieve_luts_helper(g, network, signal_to_cut, signal)
     
     return network
-
-def evaluate_area(g: BLIFGraph, model: gp.Model):
-    pass

@@ -1,7 +1,26 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-02-28 07:44:09
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-18 22:40:01
+'''
+
 import gurobipy as gp
 
 
 def remove_timing_constraints(model: gp.Model, verbose: bool = False):
+    """Remove timing constraints from the model
+
+    Args:
+        model (gp.Model): the original model from Dynamatic
+        verbose (bool, optional): the verbose. Defaults to False.
+
+    we assume that the timing constraints are named as "timePath_*"
+    which is the default naming convention in Dynamatic        
+    """
     removed_variables = set()
     for var in model.getVars():
         if var.varName.startswith("timePath_"):

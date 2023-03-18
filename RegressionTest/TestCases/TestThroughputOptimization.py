@@ -6,7 +6,7 @@ class TestThroughputOptimization:
     def test(self) -> None:
 
         g: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
-        network, signal_to_channel, node_in_component = retrieve_anchors(g)
+        network, signal_to_channel, signals_in_component = retrieve_anchors(g)
 
         mappings = load_mapping_tuples("./mapping/gsum.mapping")
 

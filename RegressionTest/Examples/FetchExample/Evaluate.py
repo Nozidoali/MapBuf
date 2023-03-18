@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 18:34:32
+Last Modified time: 2023-03-18 22:18:23
 '''
 from MADBuf import *
 
@@ -33,10 +33,10 @@ def evaluate(*args, **kwargs):
 
     print(blif.num_nodes())
 
-    network, signal_to_channel, node_in_component = retrieve_anchors(blif)
+    network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
 
     # these two methods work the same
-    optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
+    optimizer: MADBuf = MADBuf(network, signal_to_channel, signals_in_component)
     # optimizer: MADBuf = MADBuf(blif)
 
     if "clock_period" not in kwargs:

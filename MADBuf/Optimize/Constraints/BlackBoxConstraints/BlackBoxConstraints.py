@@ -1,7 +1,16 @@
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-03 22:09:02
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-19 00:17:14
+'''
+
 import gurobipy as gp
 
-from MADBuf.Optimize.Channels import *
-
+from MADBuf.Optimize.Variables import *
 
 def add_blackbox_constraints(
     model: gp.Model, skip_inputs: bool = True, verbose: bool = False
@@ -11,7 +20,7 @@ def add_blackbox_constraints(
         var_name = var.getAttr("VarName")
 
         if var_name.endswith("_flop"):
-            component_from, component_to = parse_dynamatic_channel_name(var_name)
+            component_from, component_to = variable_name_to_components(var_name)
 
             for component in [component_from, component_to]:
 

@@ -4,7 +4,7 @@ mut = "dummy"
 method = "milp"
 
 g: BLIFGraph = BLIFGraph(f"{mut}/reports/{mut}.blif")
-network, signal_to_channel, node_in_component = retrieve_anchors(g)
+network, signal_to_channel, signals_in_component = retrieve_anchors(g)
 
 mappings = load_mapping_tuples(f"./{mut}/{mut}.mapping")
 
@@ -64,13 +64,13 @@ if True:
     lut_graph = export_mapping(
         network,
         signal_to_cut=signal_to_cut,
-        signals_in_component=node_in_component,
+        signals_in_component=signals_in_component,
         labels=signal_to_label,
         node_name_mapping_file=f"{mut}/reports/{mut}_mapping.txt",
     )
     fix_dangling_labels(
         lut_graph,
-        node_in_component,
+        signals_in_component,
         signal_to_cut=signal_to_cut,
         signal_to_label=signal_to_label,
         filename=f"{mut}/reports/{mut}_cut_timing.txt",

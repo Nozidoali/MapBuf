@@ -10,10 +10,10 @@ class TestMADBuf(TestCases):
 
         blif: BLIFGraph = BLIFGraph("./Examples/gsum/gsum.blif")
 
-        network, signal_to_channel, node_in_component = retrieve_anchors(blif)
+        network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
 
         # these two methods work the same
-        optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
+        optimizer: MADBuf = MADBuf(network, signal_to_channel, signals_in_component)
         # optimizer: MADBuf = MADBuf(blif)
 
         buffers, maximum_timing = optimizer.run(clock_period=4, verbose=False)

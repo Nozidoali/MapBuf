@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:38:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 21:13:19
+Last Modified time: 2023-03-18 22:23:27
 '''
 
 import pygraphviz as pgv
@@ -23,7 +23,10 @@ def floating_point_operations():
 def is_fcmp(node_name: str) -> bool:
     return "fcmp" in node_name
 
+def node_operation_is_floating(node_name: pgv.Node) -> bool:
+    node_operation = get_operation_name(node_name)
 
+    return node_operation in floating_point_operations()
 
 def get_node_name(n: pgv.Node) -> str:
     return n.get_name().strip('"')

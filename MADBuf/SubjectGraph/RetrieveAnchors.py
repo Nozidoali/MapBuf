@@ -19,6 +19,8 @@ import queue
 def retrieve_anchors(graph: BLIFGraph) -> tuple:
     """Retrieve anchors from a BLIF graph
 
+    >>> MADBuf/SubjectGraph/RetrieveAnchors.py
+
     Args:
         graph (BLIFGraph): the graph with anchors
 

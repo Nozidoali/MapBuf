@@ -1,10 +1,19 @@
-from MADBuf.IO import *
+#!/usr/bin/env python
+# -*- encoding=utf8 -*-
+
+'''
+Author: Hanyu Wang
+Created time: 2023-03-19 00:29:28
+Last Modified by: Hanyu Wang
+Last Modified time: 2023-03-19 00:31:04
+'''
+
+import gurobipy as gp
+from MADBuf.Network import *
 from MADBuf.DataFlowGraph import *
-
-from MADBuf.Optimize.MilpFormulation import *
-from MADBuf.Optimize.MADBufConstraints import *
-from MADBuf.Optimize.BlackBox import *
-
+from MADBuf.Optimize.Variables import *
+from MADBuf.Optimize.Constraints import *
+from MADBuf.Optimize.ModelUtils.SignalToVariable import *
 
 def add_timing_constraints(
     model: gp.Model,
@@ -31,7 +40,7 @@ def add_timing_constraints(
     if verbose:
         print_green(f"Found {len(channels)} channels")
 
-    signal_to_channel_var = get_signal_to_channel_variable_mapping(
+    signal_to_channel_var = get_signal_to_variable(
         model,
         network,
         signal_to_channel,
