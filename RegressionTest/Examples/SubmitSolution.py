@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 20:49:15
+Last Modified time: 2023-03-18 18:46:00
 '''
 
 from MADBuf import *
@@ -26,7 +26,19 @@ def submit_solution(*args, **kwargs):
     elif method == 'milp':
         evaluate_milp(**kwargs)
 
-    run_simulation(**kwargs)
+    cycles = run_simulation(**kwargs)
+
+    if 'mut' not in kwargs:
+        raise Exception("Please provide the module under test name")
+    
+    mut = kwargs["mut"]
+
+    dfg = read_dfg(f"./{mut}/reports/{mut}_{method}.dot")
+    mapping = read_mapping(f"./{mut}/reports/{mut}.mapping")
+    mapping_to_unfloating(dfg)
+    values = evaluate_delay(dfg, mut)
+
+    return cycles, values
 
 def all_examples():
     return [
@@ -81,13 +93,14 @@ if __name__ == '__main__':
         print_blue(f"Processing {mut}...")
         mut_path = f"{path}/{mut}"
 
-        cycles = submit_solution(
+        cycles, values = submit_solution(
             mut = mut,
             mut_path = mut_path,
             path = path,
             method = method,
             server = server,
-            server_path = server_path
+            server_path = server_path,
+            clock_period = 3,
         )
         
-        print(f"{mut} has {cycles} cycles")
+        print(f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders")

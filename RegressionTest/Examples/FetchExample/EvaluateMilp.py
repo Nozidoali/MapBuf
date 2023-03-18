@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 21:00:12
+Last Modified time: 2023-03-18 18:34:58
 '''
 
 from MADBuf import *
@@ -21,6 +21,11 @@ def evaluate_milp(*args, **kwargs):
         raise ValueError("You must specify the method")
     
     method = kwargs["method"]
+
+    if "clock_period" not in kwargs:
+        raise ValueError("You must specify the clock period")
+    
+    clock_period = kwargs["clock_period"]
 
     g: BLIFGraph = BLIFGraph()
     read_blif(g, f"{mut}/reports/{mut}.blif")
@@ -63,7 +68,7 @@ def evaluate_milp(*args, **kwargs):
         mappings,
         add_cutloopback_constraints_flag=False,
         add_blockbox_constraints_flag=False,
-        clock_period=6,
+        clock_period=clock_period,
         verbose=True,
     )
 

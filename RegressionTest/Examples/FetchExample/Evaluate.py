@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 14:20:33
+Last Modified time: 2023-03-18 18:34:32
 '''
 from MADBuf import *
 
@@ -39,7 +39,12 @@ def evaluate(*args, **kwargs):
     optimizer: MADBuf = MADBuf(network, signal_to_channel, node_in_component)
     # optimizer: MADBuf = MADBuf(blif)
 
-    buffers, maximum_timing = optimizer.run(clock_period=5, verbose=False)
+    if "clock_period" not in kwargs:
+        raise Exception("clock_period is not specified")
+    
+    clock_period = kwargs['clock_period']
+
+    buffers, maximum_timing = optimizer.run(clock_period=clock_period, verbose=False)
 
     insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
     buffer_blackboxes(dfg)

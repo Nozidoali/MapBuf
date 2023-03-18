@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 11:00:47
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 17:02:26
+Last Modified time: 2023-03-18 18:47:34
 '''
 
 from subprocess import run
@@ -19,7 +19,9 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
     run("cd /tmp && rm -rf eval", shell=True)
     run("cd /tmp && mkdir eval", shell=True)
     write_dynamatic_dot(dfg, f"/tmp/eval/{top_module}.dot")
-    run(f"cd /tmp/eval && dot2hdl {top_module}", shell=True)
+
+    dot2hdl_command = f"cd /tmp/eval && dot2hdl {top_module}"
+    run(dot2hdl_command, shell=True)
 
     if "ODIN_COMPONENTS" not in os.environ:
         raise Exception("ODIN_COMPONENTS is not set")
@@ -39,17 +41,19 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
             odin_components,
             f"-o /tmp/eval/{top_module}.blif",
             f"--top_module {top_module}",
-            # "--show_yosys_log &> /dev/null",
             "--show_yosys_log",
         ]
     )
 
+    print("Running ODIN")
     run(odin_command, shell=True)
 
     # run mapping
+    print("Running ABC")
     run_abc_strash(f"/tmp/eval/{top_module}.blif", f"/tmp/eval/{top_module}.abc.blif")
 
     # now we run pre-VPR
+    print("Running pre-VPR")
     run([
         "restore_multiclock_latch.pl",
         f"/tmp/eval/{top_module}.blif", 
@@ -57,8 +61,6 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
         f"/tmp/eval/{top_module}.vpr.blif"
     ])
     
-    # run 
-
     # SDC
     f = open("/tmp/eval/period.sdc", "w")
     f.write("create_clock -period 4 *\n")
@@ -77,4 +79,37 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
         ]
     )
 
+    print("Running VPR")
     run(f"cd /tmp/eval && {vpr_command}", shell=True)
+
+    # now we retrieve the clock period information from the set up timing report
+    f = open("/tmp/eval/report_timing.setup.rpt", "r")
+    delay = None
+    
+    for line in f:
+        if line.startswith('data arrival time'):
+            line = line.replace('data arrival time', '')
+            delay = float(line.strip())
+            break
+
+    f.close()
+
+    # run(f"rm -rf /tmp/eval", shell=True)
+
+    values: dict = {}
+
+    values["delay"] = delay
+    
+    f = open("/tmp/eval/vpr_stdout.log", "r")
+    
+    for line in f:
+        if '.latch' in line and ":" in line:
+            values['#FF'] = int(line.split(':')[1].strip())
+        
+        if '6-LUT' in line and ":" in line:
+            values['#LUT'] = int(line.split(':')[1].strip())
+
+        if 'adder' in line and ":" in line:
+            values['#ADD'] = int(line.split(':')[1].strip())
+
+    return values
