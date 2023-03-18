@@ -14,3 +14,4 @@ from MADBuf.DataFlowGraph.InsertAnchors import *
 from MADBuf.DataFlowGraph.MultiplierWidth import *
 from MADBuf.DataFlowGraph.CutLoopBack import *
 from MADBuf.DataFlowGraph.Checking import *
+from MADBuf.DataFlowGraph.EvaluateDelay import *
