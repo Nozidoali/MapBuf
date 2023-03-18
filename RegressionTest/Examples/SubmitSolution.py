@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 19:35:53
+Last Modified time: 2023-03-18 19:47:41
 '''
 
 from MADBuf import *
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
-    clock_period = 4
+    clock_period = 5
     
     if len(sys.argv) == 1:
         muts = all_examples()
@@ -90,6 +90,11 @@ if __name__ == '__main__':
     if len(sys.argv) == 3:
         muts = [sys.argv[1]]
         method = sys.argv[2]
+
+    if len(sys.argv) == 4:
+        muts = [sys.argv[1]]
+        method = sys.argv[2]
+        clock_period = int(sys.argv[3])
         
     for mut in muts:
         print_blue(f"Processing {mut}...")

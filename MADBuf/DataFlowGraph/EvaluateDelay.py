@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 11:00:47
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 19:41:59
+Last Modified time: 2023-03-18 19:45:46
 '''
 
 from subprocess import run
@@ -50,7 +50,7 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
 
     # run mapping
     print("Running ABC")
-    run_abc_strash(f"/tmp/eval/{top_module}.blif", f"/tmp/eval/{top_module}.abc.blif")
+    run_abc_techmap(f"/tmp/eval/{top_module}.blif", f"/tmp/eval/{top_module}.abc.blif")
 
     # now we run pre-VPR
     print("Running pre-VPR")
