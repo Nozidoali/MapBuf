@@ -4,3 +4,6 @@
 [submodule "dot2hdl"]
 	path = dot2hdl
 	url = https://github.com/Nozidoali/dot2hdl.git
+[submodule "components"]
+	path = components
+	url = https://github.com/Nozidoali/components.git
