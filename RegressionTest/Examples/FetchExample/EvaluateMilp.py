@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 11:18:29
+Last Modified time: 2023-03-19 13:53:00
 '''
 
 from MADBuf import *
@@ -83,6 +83,6 @@ def evaluate_milp(*args, **kwargs):
 
     dfg: pgv.AGraph = optimizer.get_solution()
 
-    write_dynamatic_dot(dfg, f"./{mut}/reports/{mut}_{method}.dot")
+    write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")
     run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)
 

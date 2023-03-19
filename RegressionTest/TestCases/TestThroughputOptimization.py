@@ -47,7 +47,7 @@ class TestThroughputOptimization:
         # Step 5: insert the buffers into the DFG
         dfg: pgv.AGraph = read_dfg("./Examples/gsum/gsum.dot")
         insert_buffers_in_dfg(dfg, buffers, buffer_to_slots)
-        write_dynamatic_dot(dfg, "./gsum_buf.dot")
+        write_dfg(dfg, "./gsum_buf.dot")
 
         subprocess.run("dot -Tpng ./gsum_buf.dot -o ./gsum_buf.png", shell=True)
 

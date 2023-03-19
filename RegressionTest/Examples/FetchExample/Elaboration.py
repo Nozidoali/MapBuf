@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:12:23
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 10:20:36
+Last Modified time: 2023-03-19 13:53:00
 '''
 
 from MADBuf import *
@@ -49,8 +49,8 @@ def elaborate(*args, **kwargs):
 
     run(f"rm -rf {mut}/to_dot2hdl", shell=True)
     run(f"mkdir {mut}/to_dot2hdl", shell=True)
-    write_dynamatic_dot(graph, f"{mut}/to_dot2hdl/{mut}.dot")
-    write_dynamatic_dot(graph, f"{mut}/reports/{mut}_decoy.dot")
+    write_dfg(graph, f"{mut}/to_dot2hdl/{mut}.dot")
+    write_dfg(graph, f"{mut}/reports/{mut}_decoy.dot")
     run(f"dot -Tpng {mut}/to_dot2hdl/{mut}.dot > {mut}/reports/{mut}_decoy.png", shell=True)
 
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code
@@ -73,7 +73,7 @@ def elaborate(*args, **kwargs):
     run(f"rm -rf {mut}/to_odin", shell=True)
     run(f"mkdir {mut}/to_odin", shell=True)
 
-    write_verilog_to_file(vgraph, f"{mut}/to_odin/{mut}.v")
+    write_verilog(vgraph, f"{mut}/to_odin/{mut}.v")
 
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder

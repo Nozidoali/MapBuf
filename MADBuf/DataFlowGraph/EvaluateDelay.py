@@ -21,7 +21,7 @@ def evaluate_delay(
 
     run("cd /tmp && rm -rf eval", shell=True)
     run("cd /tmp && mkdir eval", shell=True)
-    write_dynamatic_dot(dfg, f"/tmp/eval/{top_module}.dot")
+    write_dfg(dfg, f"/tmp/eval/{top_module}.dot")
 
     dot2hdl_command = f"cd /tmp/eval && dot2hdl {top_module}"
     run(dot2hdl_command, shell=True)

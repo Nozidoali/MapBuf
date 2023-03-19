@@ -7,4 +7,4 @@ class TestDynamaticIO(TestCases):
 
         dot = read_dfg("./Examples/gsum/gsum.dot")
 
-        write_dynamatic_dot(dot, "gsum.dot")
+        write_dfg(dot, "gsum.dot")

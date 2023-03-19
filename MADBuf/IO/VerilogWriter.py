@@ -46,7 +46,7 @@ def verilog_to_string(graph: Verilog) -> str:
     return verilog_str
 
 
-def write_verilog_to_file(vgraph: Verilog, filename: str):
+def write_verilog(vgraph: Verilog, filename: str):
     verilog_str = verilog_to_string(vgraph)
 
     with open(filename, "w") as f:

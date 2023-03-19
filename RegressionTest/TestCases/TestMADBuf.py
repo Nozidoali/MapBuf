@@ -26,4 +26,4 @@ class TestMADBuf(TestCases):
         mapping = load_mapping_from_file("./mapping/gsum.map")
         mapping_to_floating(dot, mapping)
 
-        write_dynamatic_dot(dot, "gsum.dot")
+        write_dfg(dot, "gsum.dot")

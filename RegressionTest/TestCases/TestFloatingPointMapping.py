@@ -15,4 +15,4 @@ class TestFloatingPointMapping(TestCases):
 
         cut_loopback(graph, bbgraph)
 
-        write_dynamatic_dot(graph, "gsum.dot")
+        write_dfg(graph, "gsum.dot")
