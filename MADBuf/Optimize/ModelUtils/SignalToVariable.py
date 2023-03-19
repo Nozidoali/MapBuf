@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 23:43:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:55:19
+Last Modified time: 2023-03-19 02:32:40
 '''
 
 from MADBuf.Optimize.Variables import *
@@ -15,7 +15,7 @@ from MADBuf.Network import *
 import gurobipy as gp
 import pygraphviz as pgv
 
-def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped: pgv.AGraph, mapping: FloatingPointMapping, **kwargs) -> dict:
+def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped: pgv.AGraph, mapping: FloatingPointMapping = None, **kwargs) -> dict:
 
     signal_to_variable: dict = {}
 
@@ -26,7 +26,10 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
     # we first get the channel to variable mapping
     channel_to_var = get_channel_mapped_to_variable(model, mapping)
 
-    unfloating_to_floating_mapping = mapping.export_mapping_unfloating_to_floating()
+    if mapping is not None:
+        unfloating_to_floating_mapping = mapping.export_mapping_unfloating_to_floating()
+    else:
+        unfloating_to_floating_mapping = {}
 
     # then we get the signal to channel mapping
 
@@ -106,7 +109,7 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
         else:
             # TODO: we should not add this variable
             # new_var = model.addVar(vtype=GRB.BINARY, name=f"new_{c.u}_{c.v}_{c.t}")
-            # signal_to_channel_var[signal] = new_var
+            # signal_to_variable[signal] = new_var
 
             if verbose:
                 # print_red(f"Warning: {signal} is not found in the dynamatic model")

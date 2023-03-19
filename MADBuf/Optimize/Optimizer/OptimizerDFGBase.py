@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 01:38:52
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:43:26
+Last Modified time: 2023-03-19 02:31:46
 '''
 
 from MADBuf.Utils import *
@@ -40,27 +40,6 @@ class DFGOptimizer(OptimizerBase):
             raise Exception('Data flow graph is not an AGraph')
         
         self.dfg = dfg
-
-        has_floating: bool = dfg_has_floating(dfg)
-
-        if not has_floating:
-            return
-
-        # get the mapping if any
-        mapping = get_value_from_kwargs(kwargs, [
-            'mapping',
-            'mappings',
-            'map',
-            'maps',
-        ], None)
-
-        if mapping is None:
-            raise Exception('Mapping is not specified')
-        
-        if isinstance(mapping, str):
-            self.mapping = read_mapping(mapping)
-        else:
-            self.mapping = mapping
             
         network, signal_to_channel, signals_in_component = retrieve_anchors(self.graph)
 
@@ -68,3 +47,25 @@ class DFGOptimizer(OptimizerBase):
         self.signal_to_channel = signal_to_channel
         self.signals_in_component = signals_in_component
         self.dfg_mapped = retrieve_data_flow_graph(signal_to_channel)
+
+        has_floating: bool = dfg_has_floating(dfg)
+
+        if has_floating:
+
+            # get the mapping if any
+            mapping = get_value_from_kwargs(kwargs, [
+                'mapping',
+                'mappings',
+                'map',
+                'maps',
+            ], None)
+
+            if mapping is None:
+                raise Exception('Mapping is not specified')
+        
+            if isinstance(mapping, str):
+                self.mapping = read_mapping(mapping)
+            else:
+                self.mapping = mapping
+        else:
+            self.mapping = None

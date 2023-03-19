@@ -12,32 +12,16 @@ __pycache__
 
 abc.rc
 
-test.*
-
-*.ilp
 
 *.egg-info
 
 RegressionTest/*.dot
 
 scripts
-
 Buffers
-
 .DS_Store
 
-*.log
 
-dummy/*
-!dummy/src
-!dummy/reports
-dummy/reports/*
-!dummy/reports/dummy.blif
-!dummy/reports/dummy.dot
-
-tmp.py
-
-*.rpt
 
 # in case some one install using 
 #
@@ -46,6 +30,11 @@ build
 *.egg
 
 # dont change these
+*.log
+*.rpt
+*.pdf
+*.txt
+*.ilp
 *.lp
 *.dot
 *.blif
@@ -54,8 +43,17 @@ build
 *.svg
 *.gv
 
+# temporary files
 tmp.*
+test.*
 
 arch_dsp.v
 
-*.txt
+# dummy
+RegressionTest/dummy/*
+!RegressionTest/dummy/src
+!RegressionTest/dummy/reports
+RegressionTest/dummy/reports/*
+!RegressionTest/dummy/reports/dummy.blif
+!RegressionTest/dummy/reports/dummy.dot
+

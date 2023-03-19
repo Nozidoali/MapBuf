@@ -41,7 +41,7 @@ class TestThroughputOptimization:
         model.optimize()
 
         # Step 4: retrieve the buffers results
-        buffers = retrieve_buffers(model)
+        buffers = retrieve_buffers_from_dynamatic_variables(model)
         buffer_to_slots = retrieve_buffers_to_n_slots(model)
 
         # Step 5: insert the buffers into the DFG

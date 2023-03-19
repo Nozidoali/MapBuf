@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:29:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:56:40
+Last Modified time: 2023-03-19 02:06:56
 '''
 
 import gurobipy as gp
@@ -41,7 +41,7 @@ def add_timing_constraints(
     if verbose:
         print_green(f"Found {len(channels)} channels")
 
-    signal_to_channel_var = get_signal_to_variable(
+    signal_to_variable = get_signal_to_variable(
         model,
         signal_to_channel,
         dfg,
@@ -64,7 +64,7 @@ def add_timing_constraints(
     add_madbuf_constraints(
         model=model,
         signal_to_cuts=signal_to_cuts,
-        signal_to_channel_var=signal_to_channel_var,
+        signal_to_variable=signal_to_variable,
     )
 
     model.update()

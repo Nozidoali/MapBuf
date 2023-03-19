@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:43:42
+Last Modified time: 2023-03-19 02:10:46
 '''
 
 from MADBuf.Utils import *
@@ -37,7 +37,7 @@ class ThroughputOptimizer(DFGOptimizer):
         run_gurobi_optimization(model=self.model, *args, **kwargs)
 
     def get_solution(self, *args, **kwargs):
-        buffers = retrieve_buffers(self.model)
+        buffers = retrieve_buffers_from_dynamatic_variables(self.model)
         buffer_slots = retrieve_buffers_to_n_slots(self.model)
         signal_to_cut = retrieve_cuts(self.model, self.signal_to_cuts)
         signal_to_label = retrieve_timing_labels(self.model)

@@ -5,11 +5,13 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:54:06
+Last Modified time: 2023-03-19 02:17:54
 '''
 
 from MADBuf.Optimize.Optimizer.ThroughputOptimizer import *
 from MADBuf.Optimize.Optimizer.DelayOptimizer import *
+from MADBuf.Optimize.Optimizer.LatencyOptimizer import *
+
 from MADBuf.Utils import *
 
 class MILPConstants:
@@ -59,7 +61,7 @@ class Optimizer:
             raise Exception('Target is not supported')
         
         if target == 'latency':
-            raise NotImplementedError
+            self.optimizer = LatencyOptimizer(*args, **kwargs)
         
         elif target == 'delay':
             self.optimizer = DelayOptimizer(*args, **kwargs)
