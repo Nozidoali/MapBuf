@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:51:35
+Last Modified time: 2023-03-19 01:13:04
 '''
 
 from MADBuf import *
@@ -30,6 +30,7 @@ def evaluate_milp(*args, **kwargs):
     g: BLIFGraph = BLIFGraph()
     read_blif(g, f"{mut}/reports/{mut}.blif")
     print_red(f"Found {g.num_nodes()} nodes in the {mut} network")
+    
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_anchors(g)
     print_red(f"Found {network.num_nodes()} nodes in the network")
@@ -57,12 +58,16 @@ def evaluate_milp(*args, **kwargs):
         clock_period=clock_period,
         target="throughput",
         lps=glob.glob(f"{mut}/lps/*.lp"),
+        verbose=False,
     )
 
     optimizer.run_optimization(
-        time_limit = 60,
+        time_limit = 10,
         cut_loopback = True,
         blackbox = True,
+        lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
+        ilp_filename = f"./{mut}/reports/{mut}_{method}.ilp",
+        solution_filename = f"./{mut}/reports/{mut}_{method}.sol",
     )
 
     dfg: pgv.AGraph = optimizer.get_solution()

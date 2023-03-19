@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:57:39
+Last Modified time: 2023-03-19 01:06:09
 '''
 
 from MADBuf.Utils import *
@@ -108,3 +108,17 @@ class ThroughputOptimizer(OptimizerBase):
             clock_period=self.clock_period,
             verbose=True,
         )
+
+        lp_filename = get_value_from_kwargs(kwargs, [
+            'lp_filename',
+            'lp_file',
+            'lp',
+        ], None)
+
+
+        if lp_filename is not None:
+            
+            if not lp_filename.endswith('.lp'):
+                raise Exception('LP filename should end with .lp')
+            
+            self.model.write(lp_filename)

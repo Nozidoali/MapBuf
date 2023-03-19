@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:44:26
+Last Modified time: 2023-03-19 01:18:33
 '''
 
 from MADBuf.Optimize.Optimizer.ThroughputOptimizer import *
@@ -21,6 +21,27 @@ class MILPConstants:
 class Optimizer:
     
     def __init__(self, *args, **kwargs):
+        """Optimizer
+
+        Keyword Arguments:
+            target:         {str} -- Target of optimization (default: {None})
+            top:            {str} -- Top module name (default: {None})
+            graph:          {BLIFGraph} -- Subject graph (default: {None})
+            dfg:            {pgv.AGraph} -- Data flow graph (default: {None})
+            mapping:        {FloatingPointMapping} -- Mapping of the subject (default: {None})
+            signal_to_cuts: {dict} -- Signal to cuts (default: {None})
+            verbose:        {bool} -- Verbose (default: {False})
+
+            # for throughput optimization
+            clock_period:   {float} -- Clock period (default: {None})
+            lps:            {list} -- List of linear programs (default: {None})
+
+        Raises:
+            Exception: _description_
+            Exception: _description_
+            NotImplementedError: _description_
+            NotImplementedError: _description_
+        """
 
         self.optimizer = None
     
@@ -44,6 +65,19 @@ class Optimizer:
             self.optimizer = ThroughputOptimizer(*args, **kwargs)
 
     def run_optimization(self, *args, **kwargs):
+        """Run optimization
+
+        Keyword Arguments:
+            verbose:            {bool} -- Verbose (default: {False})
+            time_limit:         {int} -- Time limit (default: {3600})
+            
+            ilp_filename:       {str} -- ILP filename (default: {None})
+            lp_filename:        {str} -- LP filename (default: {None})
+            sol_filename:       {str} -- Solution filename (default: {None})
+
+            cut_loopback:       {bool} -- Cut loopback (default: {False})
+            blackbox:           {bool} -- Blackbox (default: {False})
+        """
         self.optimizer.run_optimization(*args, **kwargs)
 
     def get_solution(self, *args, **kwargs):
