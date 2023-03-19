@@ -5,6 +5,7 @@ from TestCases.SubjectGraph import *
 from TestCases.IO import *
 from TestCases.Synthesis import *
 from TestCases.DataFlowGraph import *
+from TestCases.Formatter import *
 
 registered_tests = [
     # TestMADBuf(),
@@ -16,6 +17,7 @@ registered_tests = [
     TestIO(),
     TestSynthesis(),
     TestDataFlowGraph(),
+    TestFormatter(),
 ]
 
 
