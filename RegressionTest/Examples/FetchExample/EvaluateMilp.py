@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:13:04
+Last Modified time: 2023-03-19 11:18:29
 '''
 
 from MADBuf import *
@@ -27,8 +27,14 @@ def evaluate_milp(*args, **kwargs):
     
     clock_period = kwargs["clock_period"]
 
+    run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
+
     g: BLIFGraph = BLIFGraph()
-    read_blif(g, f"{mut}/reports/{mut}.blif")
+    if run_synthesis:
+        read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
+    else:
+        read_blif(g, f"{mut}/reports/{mut}.strash.blif")
+        
     print_red(f"Found {g.num_nodes()} nodes in the {mut} network")
     
     network: BLIFGraph
@@ -61,8 +67,13 @@ def evaluate_milp(*args, **kwargs):
         verbose=False,
     )
 
+    timeout = get_value_from_kwargs(kwargs, [
+        "timeout",
+        "time_limit",
+    ], 60)
+
     optimizer.run_optimization(
-        time_limit = 10,
+        time_limit = timeout,
         cut_loopback = True,
         blackbox = True,
         lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
@@ -73,5 +84,5 @@ def evaluate_milp(*args, **kwargs):
     dfg: pgv.AGraph = optimizer.get_solution()
 
     write_dynamatic_dot(dfg, f"./{mut}/reports/{mut}_{method}.dot")
-
+    run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)
 

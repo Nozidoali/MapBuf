@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 11:00:47
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 19:45:46
+Last Modified time: 2023-03-19 11:06:04
 '''
 
 from subprocess import run
@@ -14,7 +14,7 @@ from MADBuf.ExternalTools import *
 import pygraphviz as pgv
 import os
 
-def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
+def evaluate_delay(dfg: pgv.AGraph, top_module: str, run_synthesis: bool = False, verbose: bool = False):
     
     run("cd /tmp && rm -rf eval", shell=True)
     run("cd /tmp && mkdir eval", shell=True)
@@ -50,7 +50,7 @@ def evaluate_delay(dfg: pgv.AGraph, top_module: str, verbose: bool = False):
 
     # run mapping
     print("Running ABC")
-    run_abc_techmap(f"/tmp/eval/{top_module}.blif", f"/tmp/eval/{top_module}.abc.blif")
+    run_abc_techmap(f"/tmp/eval/{top_module}.blif", f"/tmp/eval/{top_module}.abc.blif", run_optimization=run_synthesis)
 
     # now we run pre-VPR
     print("Running pre-VPR")

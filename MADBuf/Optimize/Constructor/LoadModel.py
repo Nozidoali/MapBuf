@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 22:30:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 22:34:17
+Last Modified time: 2023-03-19 11:00:43
 '''
 
 import gurobipy as gp
@@ -20,6 +20,8 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
     Returns:
         gp.Model: the model
     """
+
+    gp.setParam("OutputFlag", 0)
     
     if isinstance(lp_files, str):
         model = gp.read(lp_files)

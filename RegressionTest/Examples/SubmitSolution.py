@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 16:18:44
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 20:00:35
+Last Modified time: 2023-03-19 12:10:12
 '''
 
 from MADBuf import *
@@ -36,26 +36,17 @@ def submit_solution(*args, **kwargs):
     dfg = read_dfg(f"./{mut}/reports/{mut}_{method}.dot")
     mapping_to_unfloating(dfg)
     split_multiplier_bitwidth(dfg)
-    values = evaluate_delay(dfg, mut)
+
+    run_synthesis = get_value_from_kwargs(kwargs, [
+        "run_synthesis",
+        "run_optimization"
+    ], False)
+    
+    values = evaluate_delay(dfg, mut, run_synthesis=run_synthesis)
 
     return cycles, values
 
-def all_examples():
-    return [
-        # 'covariance',
-        # 'gaussian',
-        # 'gemver',
-        'gsum',
-        # 'gsumif',
-        # 'kmp',
-        # 'matrix',
-        # 'mvt',
-        # 'histogram',
-        # 'kernel_2mm',
-        # 'kernel_3mm',
-        # 'getTanh',
-    ]
-    
+
 def all_dac_examples():
     return [
         # 'covariance_float',
@@ -77,19 +68,21 @@ if __name__ == '__main__':
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
-    clock_period = 5
     
     if len(sys.argv) == 1:
-        muts = all_examples()
+        muts = all_dac_examples()
         method = 'madbuf'
+        clock_period = 5
     
     if len(sys.argv) == 2:
         muts = [sys.argv[1]]
         method = 'madbuf'
+        clock_period = 5
     
     if len(sys.argv) == 3:
         muts = [sys.argv[1]]
         method = sys.argv[2]
+        clock_period = 5
 
     if len(sys.argv) == 4:
         muts = [sys.argv[1]]
@@ -110,7 +103,8 @@ if __name__ == '__main__':
             clock_period = clock_period,
             add_cutloopback_constraints_flag = True,
             add_blockbox_constraints_flag = True,
-            time_limit = 20*60,
+            time_limit = 2*60,
+            run_synthesis=True,
         )
         
         print(f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders")
