@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:22:14
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-15 16:01:25
+Last Modified time: 2023-03-19 01:25:28
 '''
 
 
@@ -34,17 +34,29 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
     use_cutless = False if kwargs.get('cutless') is None else kwargs.get('cutless')
 
     if use_cutless:
+        
+        if not isinstance(network, BLIFGraph):
+            raise NotImplementedError('cutless enumeration is only implemented for BLIFGraph')
+        
         return cutless_enumeration_impl(
             network = network, 
             **kwargs
         )
 
     else:
-        lut_size_limit = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
-        priority_cut_size = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
-        
-        if not isinstance(network, BLIFGraph):
-            raise NotImplementedError('cut enumeration is only implemented for BLIFGraph')
+
+        lut_size_limit = get_value_from_kwargs(kwargs, [
+            'lut_size_limit', 
+            'cut_size_limit', 
+            'lut_size',
+            'cut_size',
+        ], 6)
+
+        priority_cut_size = get_value_from_kwargs(kwargs, [
+            'priority_cut_size',
+            'num_cuts',
+        ], 20)
+
 
         return cut_enumeration_impl(
             g = network, 

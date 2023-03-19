@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 17:26:12
+Last Modified time: 2023-03-19 01:27:02
 '''
 
 import os
@@ -17,7 +17,7 @@ This script is used to process the source code using the external tools from ser
 
 To prepare the source code, we need to do the following steps:
 1. define the mut name (module under test)
-2. crreate a folder called mut
+2. create a folder called mut
 3. put the source code inside the folder. The source code should be named as mut.cpp and mut.h, and the top module should be named as mut
 4. the synthesis.tcl should be in the same folder
 5. run this script

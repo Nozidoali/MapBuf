@@ -10,7 +10,8 @@ for component in ['phi_n1', 'phi_n0', 'and_1', 'fork_2']:
     for signal in signals_in_component[component]:
         signals.add(signal)
 
-graph: pgv.AGraph = export_subject_graph(network, signals, 
+graph: pgv.AGraph = export_subject_graph(network,
+    signals_to_export=signals, 
     remove_registers=True,
     format_pos=True,
     format_pis=True,
@@ -39,4 +40,3 @@ subprocess.run("dot -Tsvg dummy.dot -o dummy.svg", shell=True)
 subprocess.run("dot -Tpng dummy.dot -o dummy.png", shell=True)
 
 node_to_cuts = cut_enumeration(graph, cut_size=6, num_cuts=100)
-print(node_to_cuts)
