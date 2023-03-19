@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 20:40:46
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-18 22:43:10
-'''
+"""
 
 from MADBuf.Utils import *
+
 
 def cleanup_dangling_cuts(cuts: dict) -> dict:
     """Cleanup dangling cuts.
@@ -25,7 +26,7 @@ def cleanup_dangling_cuts(cuts: dict) -> dict:
     Returns:
         dict: a dictionary of cuts, indexed by the signal name, and each entry is a set of cuts (of type Cut).
     """
-    
+
     signal_to_cuts: dict = {}
 
     # remove all the cuts for the inputs

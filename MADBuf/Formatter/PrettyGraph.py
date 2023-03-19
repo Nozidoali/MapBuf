@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-02-28 07:43:53
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 23:04:21
-'''
+"""
 
 import pygraphviz as pgv
 from MADBuf.Utils import *
 from MADBuf.Formatter.Subgraph import *
+
 
 def set_pretty_attributes(
     G: pgv.AGraph, signals_in_component: dict = None, remove_rst: bool = True

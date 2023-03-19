@@ -10,6 +10,8 @@ Last Modified time: 2023-03-11 19:59:08
 
 from MADBuf.Network.BLIF.BLIFGraphBase import *
 from MADBuf.Utils import *
+
+
 class BLIFGraph(BLIFGraphBase):
     def __init__(self, *args, **kwargs) -> None:
 

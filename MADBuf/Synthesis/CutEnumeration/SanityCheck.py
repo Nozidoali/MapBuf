@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-14 21:14:45
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 13:35:51
-'''
+"""
 
 from MADBuf.Network import *
 
 import queue
 
-def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, **kwargs) -> bool:
+
+def check_cuts(
+    network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, **kwargs
+) -> bool:
     """Check if the cuts are valid
 
     Args:
@@ -30,8 +33,8 @@ def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, 
         bool: True if the cuts are valid
     """
 
-    cut_size = 6 if kwargs.get('cut_size') is None else kwargs.get('cut_size')
-    num_cuts = 20 if kwargs.get('num_cuts') is None else kwargs.get('num_cuts')
+    cut_size = 6 if kwargs.get("cut_size") is None else kwargs.get("cut_size")
+    num_cuts = 20 if kwargs.get("num_cuts") is None else kwargs.get("num_cuts")
 
     # simple checks
     for signal in signal_to_cuts:
@@ -54,7 +57,7 @@ def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, 
         root = signal
         cuts = signal_to_cuts[signal]
         for cut in cuts:
-            
+
             q = queue.Queue()
             q.put(root)
 
@@ -72,7 +75,7 @@ def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, 
                     continue
 
                 # if len(visited_leaves) == len(cut.leaves):
-                    
+
                 #     if verbose:
                 #         print_green(f"Cut {cut} are all covered by {visited_leaves}")
 
@@ -87,5 +90,5 @@ def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, 
                     if fanin not in visited:
                         q.put(fanin)
                         visited.add(fanin)
-            
+
     return True

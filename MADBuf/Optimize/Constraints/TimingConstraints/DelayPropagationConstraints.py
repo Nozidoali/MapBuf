@@ -1,19 +1,21 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:07:10
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 00:08:38
-'''
+"""
 
 import gurobipy as gp
 from gurobipy import GRB
 from MADBuf.Utils import *
 
+
 class milp_params:
     infinity: int = 100
+
 
 def add_delay_propagation_constraints(
     model: gp.Model,

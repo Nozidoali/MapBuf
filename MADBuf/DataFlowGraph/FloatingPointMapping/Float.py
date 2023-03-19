@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 21:35:55
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 17:44:21
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
 
-def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, verbose: bool = False):
+
+def mapping_to_floating(
+    g: pgv.AGraph, mappings: FloatingPointMapping = None, verbose: bool = False
+):
     """Mapping to floating point operations
 
     Args:
@@ -23,16 +26,19 @@ def mapping_to_floating(g: pgv.AGraph, mappings: FloatingPointMapping = None, ve
 
     if mappings == None:
         return
-    
+
     mapping_to_floating = mappings.export_mapping_unfloating_to_floating()
 
     to_remove = []
     for n in g.nodes():
         if get_node_name(n) in mapping_to_floating:
             _n, use_buffer = mapping_to_floating[n]
-            
+
             if verbose:
-                print(f"replacing {n} (buffer={use_buffer}) using {_n} ({get_operation_type(_n)})", end="...")
+                print(
+                    f"replacing {n} (buffer={use_buffer}) using {_n} ({get_operation_type(_n)})",
+                    end="...",
+                )
 
             g.add_node(_n)
             new_node = g.get_node(_n)

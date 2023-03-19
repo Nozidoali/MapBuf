@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 21:34:43
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 14:36:13
-'''
+"""
 from MADBuf.DataFlowGraph.BufferInsertion import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
 from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
+
 
 def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPointMapping:
     """Mapping the graph to a graph without using floating point operations
@@ -100,7 +101,7 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
             copy_attr(old_edge, new_edge)
 
             g.remove_edge((u, n))
-            
+
             if verbose:
                 print(f"replaced {u} -> {n} with {u} -> {new_node}")
 
@@ -114,7 +115,7 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
             copy_attr(old_edge, new_edge)
 
             g.remove_edge((n, v))
-            
+
             if verbose:
                 print(f"replaced {n} -> {v} with {output_node} -> {v}")
         # add these nodes to the remove list, and we will remove after the for loop

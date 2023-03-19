@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 10:22:30
-'''
+"""
 
 import os
 import sys
@@ -43,56 +43,58 @@ from FetchExample import *
 def fetch_examples(*arg, **kwargs):
     if "mut" not in kwargs:
         raise Exception("Please provide the module under test name")
-    
+
     mut = kwargs["mut"]
 
     if "server_path" not in kwargs:
         raise Exception("Please provide the server path")
-    
+
     server_path = kwargs["server_path"]
-    assert server_path.endswith("examples") # just make sure we are in the right place
+    assert server_path.endswith("examples")  # just make sure we are in the right place
 
     if "mut_path" not in kwargs:
         raise Exception("Please provide the module under test path")
-    
+
     mut_path = kwargs["mut_path"]
 
     cleanup(*arg, **kwargs)
     dynamatic(*arg, **kwargs)
     elaborate(*arg, **kwargs)
-    
+
+
 def fetch_examples_from_project(*arg, **kwargs):
-    
+
     if "mut" not in kwargs:
         raise Exception("Please provide the module under test name")
-    
+
     mut = kwargs["mut"]
-    
+
     if "server" not in kwargs:
         raise Exception("Please provide the server name")
-    
+
     server = kwargs["server"]
-    
+
     path = f"/home/hanywang/semester_project/benchmarks/{mut}"
-    
+
     if not os.path.exists(f"{mut}/reports"):
         run(f"mkdir {mut}/reports", shell=True)
     run(f"scp {server}:{path}/{mut}.blif {mut}/reports/", shell=True)
     run(f"scp {server}:{path}/{mut}.dot  {mut}/reports/{mut}_decoy.dot", shell=True)
-    
+
 
 def all_dac_examples():
     return [
-        'covariance_float',
-        'gaussian',
-        'gemver',
-        'gsum',
-        'gsumif',
-        'insertion_sort',
-        'mvt_float',
-        'matrix',
-        'stencil_2d'
+        "covariance_float",
+        "gaussian",
+        "gemver",
+        "gsum",
+        "gsumif",
+        "insertion_sort",
+        "mvt_float",
+        "matrix",
+        "stencil_2d",
     ]
+
 
 if __name__ == "__main__":
 
@@ -102,25 +104,22 @@ if __name__ == "__main__":
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
     clock_period = 5
     unit_bitwidth = False
-    
-    src = 'dynamic'
-    
+
+    src = "dynamic"
+
     for mut in all_dac_examples():
         run(f"scp {server}:{dac_path}/{mut}/src/{mut}.cpp {mut}/src", shell=True)
         run(f"scp {server}:{dac_path}/{mut}/src/{mut}.h {mut}/src", shell=True)
 
     for mut in all_dac_examples():
         mut_path = f"{path}/{mut}"
-        
-        if src == 'project':
-            fetch_examples_from_project(
-                mut = mut,
-                server = server
-            )
+
+        if src == "project":
+            fetch_examples_from_project(mut=mut, server=server)
         else:
-        
+
             fetch_examples(
-                mut=mut, 
+                mut=mut,
                 server_path=server_path,
                 server=server,
                 mut_path=mut_path,

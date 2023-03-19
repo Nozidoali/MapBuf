@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:29:28
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:06:56
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Network import *
@@ -14,6 +14,7 @@ from MADBuf.DataFlowGraph import *
 from MADBuf.Optimize.Variables import *
 from MADBuf.Optimize.Constraints import *
 from MADBuf.Optimize.ModelUtils.SignalToVariable import *
+
 
 def add_timing_constraints(
     model: gp.Model,

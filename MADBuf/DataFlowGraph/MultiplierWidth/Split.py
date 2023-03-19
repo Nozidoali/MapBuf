@@ -29,10 +29,11 @@ def split_multiplier_bitwidth(g: pgv.AGraph, verbose: bool = False) -> None:
             # set also the input bitwidth
             input_pins = input_str.split()
 
-
             if len(input_pins) != 2:
-                print(f"Warning: multiplier {get_node_name(n)} has {len(input_pins)} inputs, not 2")
-            assert len(input_pins) == 2 # the multiplier should have two inputs
+                print(
+                    f"Warning: multiplier {get_node_name(n)} has {len(input_pins)} inputs, not 2"
+                )
+            assert len(input_pins) == 2  # the multiplier should have two inputs
 
             input_pin1 = input_pins[0]
             input_pin2 = input_pins[1]
@@ -43,7 +44,7 @@ def split_multiplier_bitwidth(g: pgv.AGraph, verbose: bool = False) -> None:
 
             # For the first pin
             input_idx1, input_width = input_pin1.split(":")
-            input_pin1_width = int(output_bitwidth/2)
+            input_pin1_width = int(output_bitwidth / 2)
             if input_pin1_width != int(input_width):
                 is_updated = True
             new_input_pins.append(f"{input_idx1}:{input_pin1_width}")
@@ -56,7 +57,9 @@ def split_multiplier_bitwidth(g: pgv.AGraph, verbose: bool = False) -> None:
             new_input_pins.append(f"{input_idx2}:{input_pin2_width}")
 
             if is_updated and verbose:
-                print(f"Updated multiplier {get_node_name(n)} from {input_str} to {new_input_pins}")
+                print(
+                    f"Updated multiplier {get_node_name(n)} from {input_str} to {new_input_pins}"
+                )
 
             new_input_str = " ".join(new_input_pins)
 

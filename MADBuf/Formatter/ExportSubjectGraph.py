@@ -17,11 +17,11 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
         format_pis (bool, optional): format PIs. Defaults to True.
         format_constants (bool, optional): format constants. Defaults to True.
         format_ffs (bool, optional): format FFs. Defaults to True.
-        
+
     Returns:
         pgv.AGraph: the graph
     """
-    
+
     if "singals_to_export" in kwargs:
         singals_to_export = kwargs["singals_to_export"]
     else:
@@ -34,7 +34,7 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
             continue
 
         G.add_node(n, label=get_shortname(n))
-        
+
         if n in graph.nodes:
             for f in graph.node_fanins[n]:
 
@@ -54,10 +54,10 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
                 continue
 
             ri = graph.ro_to_ri[ro]
-            
+
             if singals_to_export is not None and ri not in singals_to_export:
                 continue
-            
+
             G.add_edge(ri, ro, style="dashed")
 
     if "format_pos" in kwargs and kwargs["format_pos"] == True:
@@ -65,13 +65,13 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
 
     if "format_pis" in kwargs and kwargs["format_pis"] == True:
         set_pretty_inputs(G, graph.inputs)
-    
+
     if "format_constants" in kwargs and kwargs["format_constants"] == True:
         set_pretty_constants(G, graph.const0, graph.const1)
 
     if "format_ffs" in kwargs and kwargs["format_ffs"] == True:
         set_pretty_registers(G)
-        
+
     G.splines = "spline"
     G.rankdir = "TB"
 

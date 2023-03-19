@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-11 21:37:30
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 21:08:30
-'''
+"""
 
-class FloatingPointMapping():
+
+class FloatingPointMapping:
     def __init__(self) -> None:
 
         # each mapping is a tuple of (floating, unfloating, use_buffer)
-        self.mappings: list = [] 
+        self.mappings: list = []
 
     def write(self, file: str) -> None:
         with open(file, "w") as f:
@@ -38,7 +39,8 @@ class FloatingPointMapping():
             mapping_to_floating[floating] = (unfloating, use_buffer)
 
         return mapping_to_floating
-    
+
+
 def read_mapping(filename: str, verbose: bool = False) -> FloatingPointMapping:
     mapping = FloatingPointMapping()
     try:
@@ -49,7 +51,9 @@ def read_mapping(filename: str, verbose: bool = False) -> FloatingPointMapping:
                 mapping.add_mapping(floating, unfloating, use_buffer)
 
                 if verbose:
-                    print(f"Floating: {floating}, Unfloating: {unfloating}, Use Buffer: {use_buffer}")
+                    print(
+                        f"Floating: {floating}, Unfloating: {unfloating}, Use Buffer: {use_buffer}"
+                    )
         return mapping
     except:
         return None

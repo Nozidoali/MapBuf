@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:21:09
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 00:48:13
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Optimize.Variables import *
 from MADBuf.Utils import *
+
 
 def retrieve_buffers_to_n_slots(model: gp.Model):
     buffer_to_slots: dict = {}

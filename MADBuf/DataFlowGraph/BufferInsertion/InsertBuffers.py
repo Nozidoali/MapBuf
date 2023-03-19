@@ -3,6 +3,7 @@ from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.BufferInsertion.InsertBuffer import *
 from MADBuf.DataFlowGraph.BufferInsertion.BufferInsertion import *
 
+
 def insert_buffers_in_dfg(
     g: pgv.AGraph,
     buffers: set,

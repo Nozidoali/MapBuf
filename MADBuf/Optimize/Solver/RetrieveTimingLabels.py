@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:22:21
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 00:23:04
-'''
+"""
 
 import gurobipy as gp
 import pygraphviz as pgv
 
 from MADBuf.Utils import *
+
 
 def retrieve_timing_labels(model: gp.Model):
     signal_to_label: dict = {}
@@ -26,6 +27,7 @@ def retrieve_timing_labels(model: gp.Model):
             signal_to_label[signal_name] = variable.x
 
     return signal_to_label
+
 
 def fix_dangling_labels(
     graph: pgv.AGraph,

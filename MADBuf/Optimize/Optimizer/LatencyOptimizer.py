@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:47:12
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Optimize.Constructor import *
@@ -17,15 +17,15 @@ from MADBuf.Optimize.Solver import *
 from MADBuf.Optimize.Optimizer.OptimizerBase import *
 from MADBuf.Optimize.Optimizer.OptimizerDFGBase import *
 
-class LatencyOptimizer(DFGOptimizer):
 
+class LatencyOptimizer(DFGOptimizer):
     def __init__(self, *args, **kwargs) -> None:
-        
+
         super().__init__(*args, **kwargs)
 
         self.clock_period: int
         self.model: gp.Model
-        
+
         self.signal_to_variable: dict
 
         self.parse_clock_period(*args, **kwargs)
@@ -36,23 +36,19 @@ class LatencyOptimizer(DFGOptimizer):
 
     def get_solution(self, *args, **kwargs):
         buffers = retrieve_buffers_from_channel_variables(self.model)
-        
+
         dfg = self.dfg.copy()
         insert_buffers_in_dfg(dfg, buffers, verbose=True)
         return dfg
 
-    
     def parse_clock_period(self, *args, **kwargs):
-        
+
         # get the target clock period, if not specified, raise an exception
-        clock_period: int = get_value_from_kwargs(kwargs, [
-            'clock_period',
-            'cp'
-        ], None)
+        clock_period: int = get_value_from_kwargs(kwargs, ["clock_period", "cp"], None)
 
         if clock_period is None:
-            raise Exception('Clock period is not specified')
-        
+            raise Exception("Clock period is not specified")
+
         self.clock_period = clock_period
 
     def build_model(self, *args, **kwargs):
@@ -62,9 +58,11 @@ class LatencyOptimizer(DFGOptimizer):
         signal_to_variable: dict = add_channel_variables(
             self.model, self.graph, self.signal_to_channel
         )
-        
+
         # add the timing constraints
-        add_timing_label_variables(self.model, self.graph, clock_period=self.clock_period)
+        add_timing_label_variables(
+            self.model, self.graph, clock_period=self.clock_period
+        )
 
         # add the input delay constraints
         add_input_delay_constraints(self.model, self.graph)
@@ -86,16 +84,19 @@ class LatencyOptimizer(DFGOptimizer):
 
         self.model.update()
 
-        lp_filename = get_value_from_kwargs(kwargs, [
-            'lp_filename',
-            'lp_file',
-            'lp',
-        ], None)
-
+        lp_filename = get_value_from_kwargs(
+            kwargs,
+            [
+                "lp_filename",
+                "lp_file",
+                "lp",
+            ],
+            None,
+        )
 
         if lp_filename is not None:
-            
-            if not lp_filename.endswith('.lp'):
-                raise Exception('LP filename should end with .lp')
-            
+
+            if not lp_filename.endswith(".lp"):
+                raise Exception("LP filename should end with .lp")
+
             self.model.write(lp_filename)

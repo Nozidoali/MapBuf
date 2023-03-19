@@ -1,5 +1,5 @@
-
 import pygraphviz as pgv
+
 
 def set_labels(graph: pgv.AGraph, labels: dict) -> None:
     """Set labels for nodes in a graph

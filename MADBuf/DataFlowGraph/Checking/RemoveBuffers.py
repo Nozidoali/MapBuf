@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-14 13:49:27
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 13:59:16
-'''
+"""
 
 import pygraphviz as pgv
 
+
 def remove_buffers(dfg: pgv.AGraph) -> None:
-    
+
     to_remove = []
-    
+
     for node in dfg.nodes():
         if node.attr["type"] == "Buffer" or node.attr["type"] == "buffer":
             # dfg.remove_node(node)

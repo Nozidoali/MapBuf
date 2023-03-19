@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:46
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:17:54
-'''
+"""
 
 from MADBuf.Optimize.Optimizer.ThroughputOptimizer import *
 from MADBuf.Optimize.Optimizer.DelayOptimizer import *
@@ -14,15 +14,16 @@ from MADBuf.Optimize.Optimizer.LatencyOptimizer import *
 
 from MADBuf.Utils import *
 
+
 class MILPConstants:
     targets = [
-        'latency',
-        'delay',
-        'throughput',
+        "latency",
+        "delay",
+        "throughput",
     ]
 
+
 class Optimizer:
-    
     def __init__(self, *args, **kwargs):
         """Optimizer
 
@@ -49,24 +50,28 @@ class Optimizer:
         """
 
         self.optimizer = None
-    
-        target = get_value_from_kwargs(kwargs, [
-            'target',
-        ], None)
+
+        target = get_value_from_kwargs(
+            kwargs,
+            [
+                "target",
+            ],
+            None,
+        )
 
         if target is None:
-            raise Exception('Target is not specified')
-        
+            raise Exception("Target is not specified")
+
         if target not in MILPConstants.targets:
-            raise Exception('Target is not supported')
-        
-        if target == 'latency':
+            raise Exception("Target is not supported")
+
+        if target == "latency":
             self.optimizer = LatencyOptimizer(*args, **kwargs)
-        
-        elif target == 'delay':
+
+        elif target == "delay":
             self.optimizer = DelayOptimizer(*args, **kwargs)
-        
-        elif target == 'throughput':
+
+        elif target == "throughput":
             self.optimizer = ThroughputOptimizer(*args, **kwargs)
 
     def run_optimization(self, *args, **kwargs):
@@ -75,7 +80,7 @@ class Optimizer:
         Keyword Arguments:
             verbose:            {bool} -- Verbose (default: {False})
             time_limit:         {int} -- Time limit (default: {3600})
-            
+
             ilp_filename:       {str} -- ILP filename (default: {None})
             lp_filename:        {str} -- LP filename (default: {None})
             sol_filename:       {str} -- Solution filename (default: {None})

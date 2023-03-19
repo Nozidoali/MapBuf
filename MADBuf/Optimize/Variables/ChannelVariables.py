@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 02:05:00
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 13:26:02
-'''
+"""
 
 import gurobipy as gp
 from gurobipy import GRB
 from MADBuf.IO import *
+
 
 def add_channel_variables(
     model: gp.Model, g: BLIFGraph, signal_to_channel: dict

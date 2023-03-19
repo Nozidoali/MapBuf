@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-18 23:25:48
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-18 23:55:48
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.DataFlowGraph import *
 from MADBuf.Optimize.Variables import *
 
-def get_channel_mapped_to_variable(model: gp.Model, mappings: FloatingPointMapping = None) -> dict:
+
+def get_channel_mapped_to_variable(
+    model: gp.Model, mappings: FloatingPointMapping = None
+) -> dict:
     """(Channel Mapped) to the variable in the model
 
     We assume that:
@@ -28,7 +31,7 @@ def get_channel_mapped_to_variable(model: gp.Model, mappings: FloatingPointMappi
     Returns:
         dict: the mapping from channel to variable
     """
-    
+
     channel_to_var: dict = {}
     for var in model.getVars():
         var_name = var.getAttr("VarName")
@@ -42,7 +45,7 @@ def get_channel_mapped_to_variable(model: gp.Model, mappings: FloatingPointMappi
             #   ready -> ready
             #   valid -> valid
             #   data  -> valid
-            
+
             channel_type = (
                 Constants._channel_ready_
                 if "_flop_ready" in var_name

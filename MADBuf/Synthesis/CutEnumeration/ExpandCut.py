@@ -1,29 +1,30 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 12:27:59
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 12:28:27
-'''
+"""
 
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
 from MADBuf.Utils import *
 
+
 def expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
 
     # we can call it on multiple leaves
     new_leaves: set = set(list(leaves)[:])  # deep copy
 
-    if isinstance(leaves_to_expand, set):        
+    if isinstance(leaves_to_expand, set):
         for leaf in leaves_to_expand:
             new_leaves.remove(leaf)
             for h in g.node_fanins[leaf]:
                 new_leaves.add(h)
-        
+
     elif isinstance(leaves_to_expand, str):
         leaf = leaves_to_expand
 

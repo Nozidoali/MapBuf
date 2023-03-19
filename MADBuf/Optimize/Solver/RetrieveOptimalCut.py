@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:21:49
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 00:48:22
-'''
+"""
 
 import gurobipy as gp
+
 
 def retrieve_cuts(model: gp.Model, signal_to_cuts: dict):
 
@@ -30,4 +31,3 @@ def retrieve_cuts(model: gp.Model, signal_to_cuts: dict):
             signal_to_cut[signal_name] = cut
 
     return signal_to_cut
-

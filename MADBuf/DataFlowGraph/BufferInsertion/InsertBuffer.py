@@ -4,7 +4,7 @@ import pygraphviz as pgv
 def insert_buffer(
     g: pgv.AGraph, name: str, transparent: bool = False, n_slots: int = 1
 ):
-    
+
     if name.startswith("Buffer_"):
         name = name[7:]
 

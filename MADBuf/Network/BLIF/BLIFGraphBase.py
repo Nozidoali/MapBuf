@@ -10,7 +10,6 @@ Last Modified time: 2023-03-11 20:07:45
 
 
 class BLIFGraphBase:
-    
     def __init__(self):
 
         self.top_module = ""

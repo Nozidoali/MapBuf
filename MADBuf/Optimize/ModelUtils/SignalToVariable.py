@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-18 23:43:42
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:32:40
-'''
+"""
 
 from MADBuf.Optimize.Variables import *
 from MADBuf.Optimize.ModelUtils.ChannelToVariable import *
@@ -15,13 +15,24 @@ from MADBuf.Network import *
 import gurobipy as gp
 import pygraphviz as pgv
 
-def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped: pgv.AGraph, mapping: FloatingPointMapping = None, **kwargs) -> dict:
+
+def get_signal_to_variable(
+    model: gp.Model,
+    signal_to_channel: dict,
+    dfg_mapped: pgv.AGraph,
+    mapping: FloatingPointMapping = None,
+    **kwargs,
+) -> dict:
 
     signal_to_variable: dict = {}
 
-    verbose = get_value_from_kwargs(kwargs, [
-        'verbose',
-    ], False)
+    verbose = get_value_from_kwargs(
+        kwargs,
+        [
+            "verbose",
+        ],
+        False,
+    )
 
     # we first get the channel to variable mapping
     channel_to_var = get_channel_mapped_to_variable(model, mapping)
@@ -34,7 +45,7 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
     # then we get the signal to channel mapping
 
     if not isinstance(signal_to_channel, dict):
-        raise TypeError('signal_to_channel is not a dict')
+        raise TypeError("signal_to_channel is not a dict")
 
     for signal in signal_to_channel:
         c: Channel = signal_to_channel[signal]
@@ -49,7 +60,7 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
         # we skip all the channels inside floating point components
         if c.u in unfloating_to_floating_mapping:
             floating, buffer_inserted = unfloating_to_floating_mapping[c.u]
-            
+
             if buffer_inserted:
                 continue
 
@@ -102,7 +113,7 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
                 var_name = matched_var.getAttr("VarName")
                 # print_green(f"Matched: {signal} to {var_name}")
             signal_to_variable[signal] = matched_var
-            
+
             if verbose:
                 # print_green(f"{signal} is found in the dynamatic model")
                 pass

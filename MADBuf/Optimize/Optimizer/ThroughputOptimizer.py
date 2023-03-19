@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:10:46
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Optimize.Constructor import *
@@ -17,16 +17,16 @@ from MADBuf.Optimize.Solver import *
 from MADBuf.Optimize.Optimizer.OptimizerBase import *
 from MADBuf.Optimize.Optimizer.OptimizerDFGBase import *
 
-class ThroughputOptimizer(DFGOptimizer):
 
+class ThroughputOptimizer(DFGOptimizer):
     def __init__(self, *args, **kwargs) -> None:
-        
+
         super().__init__(*args, **kwargs)
 
         self.clock_period: int
         self.lps: list
         self.model: gp.Model
-        
+
         self.signal_to_variable: dict
 
         self.parse_clock_period(*args, **kwargs)
@@ -46,31 +46,31 @@ class ThroughputOptimizer(DFGOptimizer):
         insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
         return dfg
 
-    
     def parse_clock_period(self, *args, **kwargs):
-        
+
         # get the target clock period, if not specified, raise an exception
-        clock_period: int = get_value_from_kwargs(kwargs, [
-            'clock_period',
-            'cp'
-        ], None)
+        clock_period: int = get_value_from_kwargs(kwargs, ["clock_period", "cp"], None)
 
         if clock_period is None:
-            raise Exception('Clock period is not specified')
-        
+            raise Exception("Clock period is not specified")
+
         self.clock_period = clock_period
 
     def parse_lps(self, *args, **kwargs):
-        
+
         # get the LPs to be optimized, if not specified, raise an exception
-        lps: list = get_value_from_kwargs(kwargs, [
-            'lps',
-            'lp',
-            'dynamatic_lps',
-        ], None)
+        lps: list = get_value_from_kwargs(
+            kwargs,
+            [
+                "lps",
+                "lp",
+                "dynamatic_lps",
+            ],
+            None,
+        )
         if lps is None:
-            raise Exception('LPs are not specified')
-        
+            raise Exception("LPs are not specified")
+
         self.lps = lps
 
         model = load_model(self.lps, verbose=self.verbose)
@@ -87,15 +87,13 @@ class ThroughputOptimizer(DFGOptimizer):
 
     def build_model(self, *args, **kwargs):
 
-        cut_loopback = get_value_from_kwargs(kwargs, [
-            'cut_loopback',
-            'add_cutloopback_constraints_flag'
-        ], False)
-        
-        blackbox = get_value_from_kwargs(kwargs, [
-            'blackbox',
-            'add_cutloopback_constraints_flag'
-        ], False)
+        cut_loopback = get_value_from_kwargs(
+            kwargs, ["cut_loopback", "add_cutloopback_constraints_flag"], False
+        )
+
+        blackbox = get_value_from_kwargs(
+            kwargs, ["blackbox", "add_cutloopback_constraints_flag"], False
+        )
 
         add_timing_constraints(
             self.model,
@@ -110,16 +108,19 @@ class ThroughputOptimizer(DFGOptimizer):
             verbose=True,
         )
 
-        lp_filename = get_value_from_kwargs(kwargs, [
-            'lp_filename',
-            'lp_file',
-            'lp',
-        ], None)
-
+        lp_filename = get_value_from_kwargs(
+            kwargs,
+            [
+                "lp_filename",
+                "lp_file",
+                "lp",
+            ],
+            None,
+        )
 
         if lp_filename is not None:
-            
-            if not lp_filename.endswith('.lp'):
-                raise Exception('LP filename should end with .lp')
-            
+
+            if not lp_filename.endswith(".lp"):
+                raise Exception("LP filename should end with .lp")
+
             self.model.write(lp_filename)

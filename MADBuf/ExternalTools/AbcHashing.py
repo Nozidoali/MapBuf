@@ -15,12 +15,12 @@ def run_abc_strash(filein: str, fileout: str = None, run_optimization: bool = Fa
     command = f'abc -c "read_blif {filein}; strash;'
 
     if run_optimization:
-        command += 'compress2rs;'
-        command += 'compress2rs;'
-        command += 'compress2rs;'
-    
+        command += "compress2rs;"
+        command += "compress2rs;"
+        command += "compress2rs;"
+
     # placeholder for optimization
-    command += 'b;'
+    command += "b;"
 
     if fileout == None:
         command += f'if -K 2; ps;" > {tmp_filename}'

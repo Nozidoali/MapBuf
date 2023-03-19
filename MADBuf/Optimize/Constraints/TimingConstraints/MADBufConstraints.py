@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:13:09
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:06:56
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Optimize.Constraints.TimingConstraints.DelayPropagationConstraints import *

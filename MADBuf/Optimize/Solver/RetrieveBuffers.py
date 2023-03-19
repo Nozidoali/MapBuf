@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-19 00:21:26
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 02:11:02
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Utils import *
 from MADBuf.Optimize.Variables import *
+
 
 def retrieve_buffers_from_channel_variables(model: gp.Model):
 
