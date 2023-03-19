@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:09:57
 """
 
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 
 # extract the fanin cone of a graph
 def extract_fanin_cone(graph: BLIFGraph, n: str) -> BLIFGraph:

@@ -1,5 +1,5 @@
 import pygraphviz as pgv
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.Formatter.PrettyGraph import *
 import random
 import queue

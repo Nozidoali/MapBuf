@@ -5,12 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:09:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:09:50
+Last Modified time: 2023-03-19 13:11:55
 '''
 
 import gurobipy as gp
 from gurobipy import GRB
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 
 

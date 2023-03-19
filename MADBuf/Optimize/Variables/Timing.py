@@ -5,12 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:10:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:11:20
+Last Modified time: 2023-03-19 13:11:55
 '''
 
 import gurobipy as gp
 from gurobipy import GRB
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 
 def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int = None):

@@ -9,7 +9,7 @@ Last Modified time: 2023-03-11 20:10:27
 """
 
 from MADBuf.Utils import *
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.SubjectGraph.RetrieveAnchors import *
 from MADBuf.SubjectGraph.FindLoop import *
 

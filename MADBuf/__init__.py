@@ -9,6 +9,7 @@ Last Modified time: 2023-03-11 20:55:31
 """
 
 from MADBuf.Utils import *
+from MADBuf.Network import *
 from MADBuf.SubjectGraph import *
 from MADBuf.IO import *
 from MADBuf.ExternalTools import *
@@ -16,4 +17,5 @@ from MADBuf.Formatter import *
 from MADBuf.Optimize import *
 from MADBuf.PostProcessing import *
 from MADBuf.Synthesis import *
+from MADBuf.Views import *
 from MADBuf.DataFlowGraph import *

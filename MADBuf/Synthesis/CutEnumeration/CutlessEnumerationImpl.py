@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 07:41:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 18:05:46
+Last Modified time: 2023-03-19 13:13:15
 '''
 
 
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
 from MADBuf.Utils import *
 

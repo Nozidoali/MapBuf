@@ -1,5 +1,5 @@
 from MADBuf.Utils import *
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 
 
 def evaluate_latency(

@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:00:54
 """
 
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.Network.Verilog import *
 
 # the other packages are allowed to use the following packages

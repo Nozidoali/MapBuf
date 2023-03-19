@@ -8,8 +8,8 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 19:59:08
 """
 
-from MADBuf.Network.BLIFGraphBase import *
-
+from MADBuf.Network.BLIF.BLIFGraphBase import *
+from MADBuf.Utils import *
 class BLIFGraph(BLIFGraphBase):
     def __init__(self, *args, **kwargs) -> None:
 
@@ -17,4 +17,5 @@ class BLIFGraph(BLIFGraphBase):
             BLIFGraphBase.__init__(self)
 
         elif len(args) == 1:
-            raise NotImplementedError("Not implemented yet")
+            print_red(f"Warning: using unstable method")
+            self = args[0]

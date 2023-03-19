@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:11:27
 """
 
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 
 
 # reference: https://www.geeksforgeeks.org/detect-cycle-in-a-graph/

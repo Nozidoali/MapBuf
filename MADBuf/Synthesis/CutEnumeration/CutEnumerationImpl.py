@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-02-28 07:43:53
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-15 16:01:44
+Last Modified time: 2023-03-19 13:11:55
 '''
 
 
-from MADBuf.Network.BLIFGraph import *
+from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 import pygraphviz as pgv
 
