@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 23:43:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 23:56:14
+Last Modified time: 2023-03-19 00:55:19
 '''
 
 from MADBuf.Optimize.Variables import *
@@ -29,6 +29,10 @@ def get_signal_to_variable(model: gp.Model, signal_to_channel: dict, dfg_mapped:
     unfloating_to_floating_mapping = mapping.export_mapping_unfloating_to_floating()
 
     # then we get the signal to channel mapping
+
+    if not isinstance(signal_to_channel, dict):
+        raise TypeError('signal_to_channel is not a dict')
+
     for signal in signal_to_channel:
         c: Channel = signal_to_channel[signal]
 

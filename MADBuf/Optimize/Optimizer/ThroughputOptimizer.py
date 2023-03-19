@@ -5,16 +5,16 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:40:33
+Last Modified time: 2023-03-19 00:57:39
 '''
 
-from Optimize import OptimizerBase
 from MADBuf.Utils import *
 from MADBuf.Optimize.Constructor import *
 from MADBuf.Optimize.Constraints import *
 from MADBuf.Optimize.Variables import *
 from MADBuf.Optimize.ModelUtils import *
 from MADBuf.Optimize.Solver import *
+from MADBuf.Optimize.Optimizer.OptimizerBase import *
 
 class ThroughputOptimizer(OptimizerBase):
 
@@ -33,7 +33,7 @@ class ThroughputOptimizer(OptimizerBase):
 
     def run_optimization(self, *args, **kwargs):
         self.build_model(*args, **kwargs)
-        run_gurobi_optimization(*args, **kwargs)
+        run_gurobi_optimization(model=self.model, *args, **kwargs)
 
     def get_solution(self, *args, **kwargs):
         buffers = retrieve_buffers(self.model)
@@ -98,10 +98,11 @@ class ThroughputOptimizer(OptimizerBase):
 
         add_timing_constraints(
             self.model,
-            self.network,
+            self.graph,
+            self.dfg_mapped,
             self.signal_to_cuts,
             self.signal_to_channel,
-            self.mappings,
+            self.mapping,
             add_cutloopback_constraints_flag=cut_loopback,
             add_blockbox_constraints_flag=blackbox,
             clock_period=self.clock_period,

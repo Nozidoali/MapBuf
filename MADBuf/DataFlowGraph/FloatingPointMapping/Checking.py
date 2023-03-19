@@ -5,13 +5,13 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 22:21:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-18 22:24:55
+Last Modified time: 2023-03-19 00:49:22
 '''
 
 import pygraphviz as pgv
 from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
 
-def has_floating(dfg: pgv.AGraph) -> bool:
+def dfg_has_floating(dfg: pgv.AGraph) -> bool:
     """has floating point operation
 
     Args:

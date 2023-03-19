@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:44:40
+Last Modified time: 2023-03-19 00:51:35
 '''
 
 from MADBuf import *
@@ -46,10 +46,12 @@ def evaluate_milp(*args, **kwargs):
 
     signal_to_cuts = cleanup_dangling_cuts(cuts)
 
+    dfg= read_dfg(f"./{mut}/reports/{mut}.dot")
+
     optimizer = Optimizer(
         top=mut,
         graph=g,
-        dfg=network,
+        dfg=dfg,
         mappings=mappings,
         signal_to_cuts=signal_to_cuts,
         clock_period=clock_period,

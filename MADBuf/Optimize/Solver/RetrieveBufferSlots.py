@@ -5,8 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:21:09
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:21:17
+Last Modified time: 2023-03-19 00:48:13
 '''
+
+import gurobipy as gp
+from MADBuf.Optimize.Variables import *
+from MADBuf.Utils import *
 
 def retrieve_buffers_to_n_slots(model: gp.Model):
     buffer_to_slots: dict = {}
@@ -24,7 +28,7 @@ def retrieve_buffers_to_n_slots(model: gp.Model):
 
             num_buffers += variable.x
 
-            component_from, component_to = parse_dynamatic_channel_name(var_name)
+            component_from, component_to = variable_name_to_components(var_name)
             channel_type = Constants._channel_valid_
             channel = Channel(component_from, component_to, channel_type)
 

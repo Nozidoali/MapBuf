@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:56:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:00:38
+Last Modified time: 2023-03-19 00:53:23
 '''
 
 from MADBuf.Utils import *
@@ -38,6 +38,7 @@ class OptimizerBase:
         self.parse_dfg(*args, **kwargs)
         self.parse_graph(*args, **kwargs)
         self.parse_verbose(*args, **kwargs)
+        self.parse_signal_to_cuts(*args, **kwargs)
 
 
     def run_optimization(self, *args, **kwargs):
@@ -91,9 +92,12 @@ class OptimizerBase:
         if dfg is None:
             raise Exception('Data flow graph is not specified')
         
+        if not isinstance(dfg, pgv.AGraph):
+            raise Exception('Data flow graph is not an AGraph')
+        
         self.dfg = dfg
 
-        has_floating: bool = has_floating(dfg)
+        has_floating: bool = dfg_has_floating(dfg)
 
         if not has_floating:
             return

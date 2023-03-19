@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:29:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:31:04
+Last Modified time: 2023-03-19 00:56:40
 '''
 
 import gurobipy as gp
@@ -18,6 +18,7 @@ from MADBuf.Optimize.ModelUtils.SignalToVariable import *
 def add_timing_constraints(
     model: gp.Model,
     network: BLIFGraph,
+    dfg: pgv.AGraph,
     signal_to_cuts: dict,
     signal_to_channel: dict,
     mappings: FloatingPointMapping = None,
@@ -42,10 +43,10 @@ def add_timing_constraints(
 
     signal_to_channel_var = get_signal_to_variable(
         model,
-        network,
         signal_to_channel,
+        dfg,
         add_constraints=add_cutloopback_constraints_flag,
-        mappings=mappings,
+        mapping=mappings,
         verbose=verbose,
     )
 
