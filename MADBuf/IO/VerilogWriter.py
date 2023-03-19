@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:02:55
 """
 
-from MADBuf.Network.Verilog import *
+from MADBuf.Network import *
 
 
 def _top_str(graph: Verilog) -> str:

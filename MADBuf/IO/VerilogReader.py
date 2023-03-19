@@ -9,7 +9,7 @@ Last Modified time: 2023-03-11 21:16:15
 """
 
 from MADBuf.Utils import *
-from MADBuf.Network.Verilog import *
+from MADBuf.Network import *
 
 
 def _on_top(graph: Verilog, line: str) -> str:

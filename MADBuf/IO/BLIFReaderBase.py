@@ -9,7 +9,7 @@ Last Modified time: 2023-03-11 20:05:38
 """
 
 import os
-from MADBuf.SubjectGraph import *
+from MADBuf.Network import *
 
 
 def on_input(g: BLIFGraph, line: str):
