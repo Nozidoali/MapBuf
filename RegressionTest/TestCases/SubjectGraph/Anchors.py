@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:55:09
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:27:34
+Last Modified time: 2023-03-19 13:27:18
 '''
 
 from MADBuf import *
@@ -18,11 +18,12 @@ class TestAnchors(TestCases):
         
         blif = generate_small_blif_with_anchors()
         
+        network: BLIFGraph
         network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
 
         # we do not need to make sure all the signal in the network 
         # is in the signal_to_channel
-        for signal in network.signals:
+        for signal in network.topological_traversal():
             if signal in signal_to_channel:
 
                 # we check if the signal is pointing to a channel

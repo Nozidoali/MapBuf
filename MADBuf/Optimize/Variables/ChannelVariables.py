@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 02:05:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 02:06:56
+Last Modified time: 2023-03-19 13:26:02
 '''
 
 import gurobipy as gp
@@ -30,7 +30,7 @@ def add_channel_variables(
 
     model.update()
 
-    for signal in g.signals:
+    for signal in g.topological_traversal:
         if signal not in signal_to_channel:
             continue
 

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 21:14:45
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 21:45:51
+Last Modified time: 2023-03-19 13:35:51
 '''
 
 from MADBuf.Network import *
@@ -41,7 +41,7 @@ def check_cuts(network: BLIFGraph, signal_to_cuts: dict, verbose: bool = False, 
             assert cut.size() > 0
 
             for node in cut.leaves:
-                assert node in network.signals
+                assert node in network.topological_traversal()
 
     # check if the cut sizes are correct
     for signal in signal_to_cuts:

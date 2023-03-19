@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 02:06:26
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 02:06:56
+Last Modified time: 2023-03-19 13:26:02
 '''
 
 import gurobipy as gp
@@ -17,7 +17,7 @@ def add_latency_propagation_constraints(
     model: gp.Model, g: BLIFGraph, signal_to_variable: dict
 ):
 
-    for signal in g.signals:
+    for signal in g.topological_traversal:
 
         # we skip
         if signal not in g.node_fanins:

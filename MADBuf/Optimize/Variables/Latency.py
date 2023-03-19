@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 02:05:27
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 02:05:39
+Last Modified time: 2023-03-19 13:26:02
 '''
 
 import gurobipy as gp
@@ -20,7 +20,7 @@ def add_latency_labels(model: gp.Model, g: BLIFGraph):
 
     model.addVar(vtype=GRB.INTEGER, name=f"latency")
 
-    for signal in g.signals:
+    for signal in g.topological_traversal:
         model.addVar(
             vtype=GRB.INTEGER, name=f"LatencyLabel_{signal}", lb=0
         )  # delay variables
@@ -28,7 +28,7 @@ def add_latency_labels(model: gp.Model, g: BLIFGraph):
     model.update()
 
     # the latency is the maximum of all the latency labels
-    for signal in g.signals:
+    for signal in g.topological_traversal:
         model.addConstr(
             model.getVarByName(f"LatencyLabel_{signal}")
             <= model.getVarByName(f"latency")

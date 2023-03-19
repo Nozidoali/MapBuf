@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-19 00:10:39
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:11:55
+Last Modified time: 2023-03-19 13:26:02
 '''
 
 import gurobipy as gp
@@ -17,7 +17,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
 
     model.addVar(vtype=GRB.INTEGER, name=f"CP")
 
-    for signal in g.signals:
+    for signal in g.topological_traversal:
         model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
     # otherwise the variable names will not be found
@@ -26,7 +26,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
     #
     model.update()
 
-    for signal in g.signals:
+    for signal in g.topological_traversal:
         model.addConstr(model.getVarByName(f"TimingLabel_{signal}") <= model.getVarByName(f"CP"))
 
     if clock_period != None:

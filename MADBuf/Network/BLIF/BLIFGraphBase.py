@@ -10,6 +10,7 @@ Last Modified time: 2023-03-11 20:07:45
 
 
 class BLIFGraphBase:
+    
     def __init__(self):
 
         self.top_module = ""
@@ -20,14 +21,14 @@ class BLIFGraphBase:
         self.ros = set()
         self.ro_to_ri: dict = {}
 
-        self.signals = []
+        self.__signals = []
 
         self.const0 = set()
         self.const1 = set()
 
         # node fanins return the set of fanins of a node
         #  - note that only nodes can be looked up in this dictionary
-        #  - signals are not safe when directly looked up
+        #  - __signals are not safe when directly looked up
         self.node_fanins: dict = {}
         self.node_funcs: dict = {}
 
@@ -68,22 +69,22 @@ class BLIFGraphBase:
         return n in self.inputs or n in self.ros or n in self.const0 or n in self.const1
 
     def topological_traversal(self) -> set:
-        return self.signals
+        return self.__signals
 
-    # sort signals in a topological order
+    # sort __signals in a topological order
     # TODO: support runtime modification and maintain the topogical order
     def traverse(self):
-        self.signals = []
+        self.__signals = []
         for n in self.const0:
-            self.signals.append(n)
+            self.__signals.append(n)
         for n in self.const1:
-            self.signals.append(n)
+            self.__signals.append(n)
         for n in self.inputs:
-            assert n not in self.signals
-            self.signals.append(n)
+            assert n not in self.__signals
+            self.__signals.append(n)
         for n in self.ros:
-            assert n not in self.signals
-            self.signals.append(n)
+            assert n not in self.__signals
+            self.__signals.append(n)
         for n in self.outputs:
             self.trav_rec(n)
         for r in self.ris:
@@ -98,9 +99,9 @@ class BLIFGraphBase:
                 for f in self.node_fanins[n]:
                     self.node_fanouts[f].add(n)
 
-    # topological traversal, used to sort the signals in a topological order
+    # topological traversal, used to sort the __signals in a topological order
     def trav_rec(self, n: str):
-        if n in self.signals:
+        if n in self.__signals:
             return
 
         if n not in self.node_fanins:
@@ -108,7 +109,7 @@ class BLIFGraphBase:
             exit()
         for f in self.node_fanins[n]:
             self.trav_rec(f)
-        self.signals.append(n)
+        self.__signals.append(n)
 
     def num_fanouts(self, n: str):
         return len(self.node_fanouts[n])

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 20:26:33
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 21:54:40
+Last Modified time: 2023-03-19 13:38:19
 '''
 
 from MADBuf import *
@@ -23,7 +23,7 @@ def test_cut_enumeration_on_all_benchmarks() -> None:
 
 def test_cutless_enumeration_on_all_benchmarks() -> None:
     for file in dac_blif_files():
-        print(f"Testing cut enumeration on {file}...")
+        print(f"Testing cutless enumeration on {file}...")
         blif = read_blif(file)
         signal_to_cuts = cut_enumeration(blif, num_cuts=4, cut_size=3, cutless=True)
 
@@ -33,7 +33,7 @@ def test_cutless_enumeration_on_all_benchmarks() -> None:
 class TestCutEnumeration(TestCases):
 
     def test(self) -> None:
-        blif = generate_tiny_blif()
+        blif: BLIFGraph = generate_tiny_blif()
         """
         
         n1  n2
@@ -48,7 +48,7 @@ class TestCutEnumeration(TestCases):
         # we make sure that the cut enumeration is correct
         # by checking that the cut enumeration contains
         # all the signals in the blif
-        for signal in blif.signals:
+        for signal in blif.topological_traversal():
             assert signal in cuts
             
         # we also make sure that the cut enumeration
@@ -59,5 +59,5 @@ class TestCutEnumeration(TestCases):
         assert cuts['n1'][0].size() == 1
         assert cuts['n2'][0].size() == 1
 
-        test_cut_enumeration_on_all_benchmarks()
-        test_cutless_enumeration_on_all_benchmarks()
+        # test_cut_enumeration_on_all_benchmarks()
+        # test_cutless_enumeration_on_all_benchmarks()
