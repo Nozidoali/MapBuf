@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:56:42
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 00:53:23
+Last Modified time: 2023-03-19 01:56:39
 '''
 
 from MADBuf.Utils import *
@@ -21,21 +21,13 @@ class OptimizerBase:
     def __init__(self, *args, **kwargs) -> None:
 
         self.graph: BLIFGraph
-        self.signal_to_channel: dict
-        self.signals_in_component: dict
-        
         self.top_module_name: str
-
-        self.dfg: pgv.AGraph
-        self.dfg_mapped: pgv.AGraph
-        self.mapping: FloatingPointMapping
 
         self.signal_to_cuts: dict
 
         self.verbose: bool
 
         self.parse_top_module_name(*args, **kwargs)
-        self.parse_dfg(*args, **kwargs)
         self.parse_graph(*args, **kwargs)
         self.parse_verbose(*args, **kwargs)
         self.parse_signal_to_cuts(*args, **kwargs)
@@ -72,52 +64,8 @@ class OptimizerBase:
         if graph is None:
             raise Exception('Subject graph is not specified')
         
-        network, signal_to_channel, signals_in_component = retrieve_anchors(graph)
+        self.graph = graph
 
-        self.graph = network
-        
-        self.signal_to_channel = signal_to_channel
-        
-        self.signals_in_component = signals_in_component
-
-        self.dfg_mapped = retrieve_data_flow_graph(signal_to_channel)
-
-    def parse_dfg(self, *args, **kwargs):
-        # get the data flow graph, if not specified, raise an exception
-        dfg = get_value_from_kwargs(kwargs, [
-            'dfg',
-            'data_flow_graph',
-        ], None)
-
-        if dfg is None:
-            raise Exception('Data flow graph is not specified')
-        
-        if not isinstance(dfg, pgv.AGraph):
-            raise Exception('Data flow graph is not an AGraph')
-        
-        self.dfg = dfg
-
-        has_floating: bool = dfg_has_floating(dfg)
-
-        if not has_floating:
-            return
-
-        # get the mapping if any
-        mapping = get_value_from_kwargs(kwargs, [
-            'mapping',
-            'mappings',
-            'map',
-            'maps',
-        ], None)
-
-        if mapping is None:
-            raise Exception('Mapping is not specified')
-        
-        if isinstance(mapping, str):
-            self.mapping = read_mapping(mapping)
-        else:
-            self.mapping = mapping
-            
     def parse_signal_to_cuts(self, *args, **kwargs):
         # get the signal to cuts, if not specified, raise an exception
         signal_to_cuts = get_value_from_kwargs(kwargs, [

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:41
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:06:09
+Last Modified time: 2023-03-19 01:43:42
 '''
 
 from MADBuf.Utils import *
@@ -15,8 +15,9 @@ from MADBuf.Optimize.Variables import *
 from MADBuf.Optimize.ModelUtils import *
 from MADBuf.Optimize.Solver import *
 from MADBuf.Optimize.Optimizer.OptimizerBase import *
+from MADBuf.Optimize.Optimizer.OptimizerDFGBase import *
 
-class ThroughputOptimizer(OptimizerBase):
+class ThroughputOptimizer(DFGOptimizer):
 
     def __init__(self, *args, **kwargs) -> None:
         

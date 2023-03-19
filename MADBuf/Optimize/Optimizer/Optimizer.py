@@ -5,10 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 21:50:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:18:33
+Last Modified time: 2023-03-19 01:54:06
 '''
 
 from MADBuf.Optimize.Optimizer.ThroughputOptimizer import *
+from MADBuf.Optimize.Optimizer.DelayOptimizer import *
 from MADBuf.Utils import *
 
 class MILPConstants:
@@ -25,12 +26,14 @@ class Optimizer:
 
         Keyword Arguments:
             target:         {str} -- Target of optimization (default: {None})
-            top:            {str} -- Top module name (default: {None})
             graph:          {BLIFGraph} -- Subject graph (default: {None})
+            signal_to_cuts: {dict} -- Signal to cuts (default: {None})
+            top:            {str} -- Top module name (default: {None})
+            verbose:        {bool} -- Verbose (default: {False})
+
+            # for those who need dfg
             dfg:            {pgv.AGraph} -- Data flow graph (default: {None})
             mapping:        {FloatingPointMapping} -- Mapping of the subject (default: {None})
-            signal_to_cuts: {dict} -- Signal to cuts (default: {None})
-            verbose:        {bool} -- Verbose (default: {False})
 
             # for throughput optimization
             clock_period:   {float} -- Clock period (default: {None})
@@ -59,7 +62,7 @@ class Optimizer:
             raise NotImplementedError
         
         elif target == 'delay':
-            raise NotImplementedError
+            self.optimizer = DelayOptimizer(*args, **kwargs)
         
         elif target == 'throughput':
             self.optimizer = ThroughputOptimizer(*args, **kwargs)

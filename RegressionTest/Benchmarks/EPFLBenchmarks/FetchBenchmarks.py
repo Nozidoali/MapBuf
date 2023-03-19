@@ -40,37 +40,6 @@ with gp.Env(empty=True) as env:
             
         blif: BLIFGraph = read_blif(benchmark)
         
-        # labels, cuts = get_timing_labels(blif, {}, cut_size_limit=6)
-        # graph = export_subject_graph(blif)
-        # reveal_names(graph)
-        # set_labels(graph, labels)
-        
-        # start_node = 'M[2]'
-        # import queue
-        
-        # q = queue.Queue()
-        # q.put(start_node)
-        # while not q.empty():
-            
-        #     n = q.get()
-        #     root_label = int(labels[n].d)
-            
-        #     if n not in blif.node_fanins:
-        #         continue
-            
-        #     print(f"{n} ({root_label})")
-        #     cut: Cut = cuts[n][-1]
-        #     if n not in cuts:
-        #         continue
-            
-        #     for l in cut.leaves:
-                
-        #         leaf_label = int(labels[l].d)
-                
-        #         print(f"\t{l} ({leaf_label})")
-        #         if leaf_label == root_label -1:
-        #             q.put(l)
-            
         benchmark = benchmark.split('/')[-1].split('.')[0]
         # print_red(f"writing to {benchmark}.dot")
         # graph.write(f'{benchmark}.dot')
@@ -87,47 +56,24 @@ with gp.Env(empty=True) as env:
 
         signal_to_cuts = cleanup_dangling_cuts(cuts)
                 
-        # Step 1: we create the model
-        #
-        model: gp.Model = gp.Model(f"{benchmark}") # placeholder
-
-        add_timing_constraints_for_delay_optimization(
-            model,
-            blif,
-            signal_to_cuts,
-            verbose=True,
+        optimizer = Optimizer(
+            target="delay",
+            top=benchmark,
+            graph=blif,
+            signal_to_cuts=signal_to_cuts,
         )
 
-        # now we solve the model under the time limit
-        #
-        # model.Params.timeLimit = 200
+        optimizer.run_optimization(
+            time_limit = 10,
+        )
 
-        print_orange(f"Solving the model for {benchmark}...")
-        with gp.Env(empty=True) as env:
-            env.setParam('OutputFlag', 0)
-            env.start()
-            model.optimize()
-        print_blue(f"Model status: {model.status}")
+        cp, signal_to_cut = optimizer.get_solution()
 
-        if model.status == gp.GRB.INFEASIBLE or model.status == gp.GRB.INF_OR_UNBD:
-            print_red("Infeasible model")
-            model.computeIIS()
-        
-        if model.status == gp.GRB.TIME_LIMIT:
-            print_red("Time limit reached")
-        
-        if model.status == gp.GRB.OPTIMAL:
-            print_green("Optimal solution found")
-
-        if model.status == gp.GRB.UNBOUNDED:
-            print_red("Unbounded model")
-        
-        signal_to_cut = retrieve_cuts(model, signal_to_cuts)
-        
         klut: BLIFGraph = klut_mapping(blif, signal_to_cut)
         
         area = klut.num_nodes()
         
-        f.write(f"{benchmark},{model.objVal},{area},{model.status}\n")
+        print_red(f"cp: {cp}, area: {area}")
+        f.write(f"{benchmark},{cp},{area}\n")
 
     f.close()
