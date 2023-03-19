@@ -20,6 +20,8 @@ class BLIFGraphBase:
         self.ros = set()
         self.ro_to_ri: dict = {}
 
+        # __signals is a list of all the nodes in the network in the topological order
+        # this is private and should not be modified directly
         self.__signals = []
 
         self.const0 = set()
