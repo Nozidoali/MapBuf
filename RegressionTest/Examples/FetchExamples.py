@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:01:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 01:27:02
+Last Modified time: 2023-03-19 10:22:30
 '''
 
 import os
@@ -81,33 +81,17 @@ def fetch_examples_from_project(*arg, **kwargs):
     run(f"scp {server}:{path}/{mut}.dot  {mut}/reports/{mut}_decoy.dot", shell=True)
     
 
-def all_fpl_examples():
-    return [
-        # 'covariance',
-        # 'gaussian',
-        # 'gemver',
-        'gsum',
-        # 'gsumif',
-        # 'kmp',
-        # 'matrix',
-        # 'mvt',
-        # 'histogram',
-        # 'kernel_2mm',
-        # 'kernel_3mm',
-        # 'getTanh',
-    ]
-
 def all_dac_examples():
     return [
-        # 'covariance_float',
-        # 'gaussian',
-        # 'gemver',
+        'covariance_float',
+        'gaussian',
+        'gemver',
         'gsum',
-        # 'gsumif',
-        # 'insertion_sort',
-        # 'mvt_float',
-        # 'matrix',
-        # 'stencil_2d'
+        'gsumif',
+        'insertion_sort',
+        'mvt_float',
+        'matrix',
+        'stencil_2d'
     ]
 
 if __name__ == "__main__":

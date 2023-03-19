@@ -9,19 +9,21 @@ from MADBuf.ExternalTools.AbcEnvironment import abc_environment
 """
 
 
-def run_abc_strash(filein: str, fileout: str = None):
+def run_abc_strash(filein: str, fileout: str = None, run_optimization: bool = False):
     tmp_filename = "/tmp/abc.log"
 
+    command = f'abc -c "read_blif {filein}; strash;'
+
+    if run_optimization:
+        command += 'compress2rs;'
+        command += 'compress2rs;'
+        command += 'compress2rs;'
+
     if fileout == None:
-        command = (
-            'abc -c "read_blif {}; strash; compress2rs; if -K 2; ps;" > {}'.format(
-                filein, tmp_filename
-            )
-        )
+        command += f'if -K 2; ps;" > {tmp_filename}'
     else:
-        command = 'abc -c "read_blif {}; strash; compress2rs; if -K 2; ps; write_hie {} {};" > {}'.format(
-            filein, filein, fileout, tmp_filename
-        )
+        command += f'if -K 2; ps; write_hie {filein} {fileout};" > {tmp_filename}'
+
     with abc_environment():
         subprocess.run(command, shell=True)
 

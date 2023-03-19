@@ -12,10 +12,7 @@ __pycache__
 
 abc.rc
 
-
 *.egg-info
-
-RegressionTest/*.dot
 
 scripts
 Buffers
@@ -37,6 +34,8 @@ build
 *.ilp
 *.lp
 *.dot
+
+# Benchmarks
 *.blif
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.blif
 
@@ -57,3 +56,8 @@ RegressionTest/dummy/reports/*
 !RegressionTest/dummy/reports/dummy.blif
 !RegressionTest/dummy/reports/dummy.dot
 
+# Examples
+RegressionTest/Examples/*/reports
+RegressionTest/Examples/*/reports/*.v
+!RegressionTest/Examples/*/reports/*.blif
+!RegressionTest/Examples/*/reports/*.dot

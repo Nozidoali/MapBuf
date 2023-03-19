@@ -137,6 +137,174 @@ module gsum(
 	wire branchC_9_out2_ready;
 	wire branchC_9_out2_valid;
 
+	wire phi_18_clk;
+	wire phi_18_rst;
+	wire [0 : 0]phi_18_in1_data;
+	wire phi_18_in1_ready;
+	wire phi_18_in1_valid;
+	wire [31 : 0]phi_18_in2_data;
+	wire phi_18_in2_ready;
+	wire phi_18_in2_valid;
+	wire [31 : 0]phi_18_in3_data;
+	wire phi_18_in3_ready;
+	wire phi_18_in3_valid;
+	wire [31 : 0]phi_18_out1_data;
+	wire phi_18_out1_ready;
+	wire phi_18_out1_valid;
+
+	wire cst_7_clk;
+	wire cst_7_rst;
+	wire [0 : 0]cst_7_in1_data;
+	wire cst_7_in1_ready;
+	wire cst_7_in1_valid;
+	wire [0 : 0]cst_7_out1_data;
+	wire cst_7_out1_ready;
+	wire cst_7_out1_valid;
+
+	wire add_19_clk;
+	wire add_19_rst;
+	wire [9 : 0]add_19_in1_data;
+	wire add_19_in1_ready;
+	wire add_19_in1_valid;
+	wire [9 : 0]add_19_in2_data;
+	wire add_19_in2_ready;
+	wire add_19_in2_valid;
+	wire [9 : 0]add_19_out1_data;
+	wire add_19_out1_ready;
+	wire add_19_out1_valid;
+
+	wire cst_8_clk;
+	wire cst_8_rst;
+	wire [9 : 0]cst_8_in1_data;
+	wire cst_8_in1_ready;
+	wire cst_8_in1_valid;
+	wire [9 : 0]cst_8_out1_data;
+	wire cst_8_out1_ready;
+	wire cst_8_out1_valid;
+
+	wire icmp_20_clk;
+	wire icmp_20_rst;
+	wire [9 : 0]icmp_20_in1_data;
+	wire icmp_20_in1_ready;
+	wire icmp_20_in1_valid;
+	wire [9 : 0]icmp_20_in2_data;
+	wire icmp_20_in2_ready;
+	wire icmp_20_in2_valid;
+	wire [0 : 0]icmp_20_out1_data;
+	wire icmp_20_out1_ready;
+	wire icmp_20_out1_valid;
+
+	wire phi_n0_clk;
+	wire phi_n0_rst;
+	wire [9 : 0]phi_n0_in1_data;
+	wire phi_n0_in1_ready;
+	wire phi_n0_in1_valid;
+	wire [9 : 0]phi_n0_in2_data;
+	wire phi_n0_in2_ready;
+	wire phi_n0_in2_valid;
+	wire [9 : 0]phi_n0_out1_data;
+	wire phi_n0_out1_ready;
+	wire phi_n0_out1_valid;
+
+	wire fork_4_clk;
+	wire fork_4_rst;
+	wire [9 : 0]fork_4_in1_data;
+	wire fork_4_in1_ready;
+	wire fork_4_in1_valid;
+	wire [9 : 0]fork_4_out1_data;
+	wire fork_4_out1_ready;
+	wire fork_4_out1_valid;
+	wire [9 : 0]fork_4_out2_data;
+	wire fork_4_out2_ready;
+	wire fork_4_out2_valid;
+
+	wire branch_7_clk;
+	wire branch_7_rst;
+	wire [31 : 0]branch_7_in1_data;
+	wire branch_7_in1_ready;
+	wire branch_7_in1_valid;
+	wire [0 : 0]branch_7_in2_data;
+	wire branch_7_in2_ready;
+	wire branch_7_in2_valid;
+	wire [31 : 0]branch_7_out1_data;
+	wire branch_7_out1_ready;
+	wire branch_7_out1_valid;
+	wire [31 : 0]branch_7_out2_data;
+	wire branch_7_out2_ready;
+	wire branch_7_out2_valid;
+
+	wire branch_8_clk;
+	wire branch_8_rst;
+	wire [9 : 0]branch_8_in1_data;
+	wire branch_8_in1_ready;
+	wire branch_8_in1_valid;
+	wire [0 : 0]branch_8_in2_data;
+	wire branch_8_in2_ready;
+	wire branch_8_in2_valid;
+	wire [9 : 0]branch_8_out1_data;
+	wire branch_8_out1_ready;
+	wire branch_8_out1_valid;
+	wire [9 : 0]branch_8_out2_data;
+	wire branch_8_out2_ready;
+	wire branch_8_out2_valid;
+
+	wire fork_9_clk;
+	wire fork_9_rst;
+	wire [0 : 0]fork_9_in1_data;
+	wire fork_9_in1_ready;
+	wire fork_9_in1_valid;
+	wire [0 : 0]fork_9_out1_data;
+	wire fork_9_out1_ready;
+	wire fork_9_out1_valid;
+	wire [0 : 0]fork_9_out2_data;
+	wire fork_9_out2_ready;
+	wire fork_9_out2_valid;
+	wire [0 : 0]fork_9_out3_data;
+	wire fork_9_out3_ready;
+	wire fork_9_out3_valid;
+
+	wire phiC_7_clk;
+	wire phiC_7_rst;
+	wire [0 : 0]phiC_7_in1_data;
+	wire phiC_7_in1_ready;
+	wire phiC_7_in1_valid;
+	wire [0 : 0]phiC_7_in2_data;
+	wire phiC_7_in2_ready;
+	wire phiC_7_in2_valid;
+	wire [0 : 0]phiC_7_out1_data;
+	wire phiC_7_out1_ready;
+	wire phiC_7_out1_valid;
+	wire [0 : 0]phiC_7_out2_data;
+	wire phiC_7_out2_ready;
+	wire phiC_7_out2_valid;
+
+	wire branchC_12_clk;
+	wire branchC_12_rst;
+	wire [0 : 0]branchC_12_in1_data;
+	wire branchC_12_in1_ready;
+	wire branchC_12_in1_valid;
+	wire [0 : 0]branchC_12_in2_data;
+	wire branchC_12_in2_ready;
+	wire branchC_12_in2_valid;
+	wire [0 : 0]branchC_12_out1_data;
+	wire branchC_12_out1_ready;
+	wire branchC_12_out1_valid;
+	wire [0 : 0]branchC_12_out2_data;
+	wire branchC_12_out2_ready;
+	wire branchC_12_out2_valid;
+
+	wire source_5_clk;
+	wire source_5_rst;
+	wire [0 : 0]source_5_out1_data;
+	wire source_5_out1_ready;
+	wire source_5_out1_valid;
+
+	wire source_6_clk;
+	wire source_6_rst;
+	wire [9 : 0]source_6_out1_data;
+	wire source_6_out1_ready;
+	wire source_6_out1_valid;
+
 	wire phi_1_clk;
 	wire phi_1_rst;
 	wire [0 : 0]phi_1_in1_data;
@@ -325,6 +493,51 @@ module gsum(
 	wire [0 : 0]fork_16_out2_data;
 	wire fork_16_out2_ready;
 	wire fork_16_out2_valid;
+
+	wire ret_0_clk;
+	wire ret_0_rst;
+	wire [31 : 0]ret_0_in1_data;
+	wire ret_0_in1_ready;
+	wire ret_0_in1_valid;
+	wire [31 : 0]ret_0_out1_data;
+	wire ret_0_out1_ready;
+	wire ret_0_out1_valid;
+
+	wire phi_n4_clk;
+	wire phi_n4_rst;
+	wire [31 : 0]phi_n4_in1_data;
+	wire phi_n4_in1_ready;
+	wire phi_n4_in1_valid;
+	wire [31 : 0]phi_n4_out1_data;
+	wire phi_n4_out1_ready;
+	wire phi_n4_out1_valid;
+
+	wire end_0_clk;
+	wire end_0_rst;
+	wire [0 : 0]end_0_in1_data;
+	wire end_0_in1_ready;
+	wire end_0_in1_valid;
+	wire [31 : 0]end_0_in2_data;
+	wire end_0_in2_ready;
+	wire end_0_in2_valid;
+	wire [31 : 0]end_0_out1_data;
+	wire end_0_out1_ready;
+	wire end_0_out1_valid;
+
+	wire phiC_8_clk;
+	wire phiC_8_rst;
+	wire [0 : 0]phiC_8_in1_data;
+	wire phiC_8_in1_ready;
+	wire phiC_8_in1_valid;
+	wire [0 : 0]phiC_8_out1_data;
+	wire phiC_8_out1_ready;
+	wire phiC_8_out1_valid;
+
+	wire sink_0_clk;
+	wire sink_0_rst;
+	wire [0 : 0]sink_0_in1_data;
+	wire sink_0_in1_ready;
+	wire sink_0_in1_valid;
 
 	wire cst_3_clk;
 	wire cst_3_rst;
@@ -523,219 +736,6 @@ module gsum(
 	wire [31 : 0]source_4_out1_data;
 	wire source_4_out1_ready;
 	wire source_4_out1_valid;
-
-	wire phi_18_clk;
-	wire phi_18_rst;
-	wire [0 : 0]phi_18_in1_data;
-	wire phi_18_in1_ready;
-	wire phi_18_in1_valid;
-	wire [31 : 0]phi_18_in2_data;
-	wire phi_18_in2_ready;
-	wire phi_18_in2_valid;
-	wire [31 : 0]phi_18_in3_data;
-	wire phi_18_in3_ready;
-	wire phi_18_in3_valid;
-	wire [31 : 0]phi_18_out1_data;
-	wire phi_18_out1_ready;
-	wire phi_18_out1_valid;
-
-	wire cst_7_clk;
-	wire cst_7_rst;
-	wire [0 : 0]cst_7_in1_data;
-	wire cst_7_in1_ready;
-	wire cst_7_in1_valid;
-	wire [0 : 0]cst_7_out1_data;
-	wire cst_7_out1_ready;
-	wire cst_7_out1_valid;
-
-	wire add_19_clk;
-	wire add_19_rst;
-	wire [9 : 0]add_19_in1_data;
-	wire add_19_in1_ready;
-	wire add_19_in1_valid;
-	wire [9 : 0]add_19_in2_data;
-	wire add_19_in2_ready;
-	wire add_19_in2_valid;
-	wire [9 : 0]add_19_out1_data;
-	wire add_19_out1_ready;
-	wire add_19_out1_valid;
-
-	wire cst_8_clk;
-	wire cst_8_rst;
-	wire [9 : 0]cst_8_in1_data;
-	wire cst_8_in1_ready;
-	wire cst_8_in1_valid;
-	wire [9 : 0]cst_8_out1_data;
-	wire cst_8_out1_ready;
-	wire cst_8_out1_valid;
-
-	wire icmp_20_clk;
-	wire icmp_20_rst;
-	wire [9 : 0]icmp_20_in1_data;
-	wire icmp_20_in1_ready;
-	wire icmp_20_in1_valid;
-	wire [9 : 0]icmp_20_in2_data;
-	wire icmp_20_in2_ready;
-	wire icmp_20_in2_valid;
-	wire [0 : 0]icmp_20_out1_data;
-	wire icmp_20_out1_ready;
-	wire icmp_20_out1_valid;
-
-	wire phi_n0_clk;
-	wire phi_n0_rst;
-	wire [9 : 0]phi_n0_in1_data;
-	wire phi_n0_in1_ready;
-	wire phi_n0_in1_valid;
-	wire [9 : 0]phi_n0_in2_data;
-	wire phi_n0_in2_ready;
-	wire phi_n0_in2_valid;
-	wire [9 : 0]phi_n0_out1_data;
-	wire phi_n0_out1_ready;
-	wire phi_n0_out1_valid;
-
-	wire fork_4_clk;
-	wire fork_4_rst;
-	wire [9 : 0]fork_4_in1_data;
-	wire fork_4_in1_ready;
-	wire fork_4_in1_valid;
-	wire [9 : 0]fork_4_out1_data;
-	wire fork_4_out1_ready;
-	wire fork_4_out1_valid;
-	wire [9 : 0]fork_4_out2_data;
-	wire fork_4_out2_ready;
-	wire fork_4_out2_valid;
-
-	wire branch_7_clk;
-	wire branch_7_rst;
-	wire [31 : 0]branch_7_in1_data;
-	wire branch_7_in1_ready;
-	wire branch_7_in1_valid;
-	wire [0 : 0]branch_7_in2_data;
-	wire branch_7_in2_ready;
-	wire branch_7_in2_valid;
-	wire [31 : 0]branch_7_out1_data;
-	wire branch_7_out1_ready;
-	wire branch_7_out1_valid;
-	wire [31 : 0]branch_7_out2_data;
-	wire branch_7_out2_ready;
-	wire branch_7_out2_valid;
-
-	wire branch_8_clk;
-	wire branch_8_rst;
-	wire [9 : 0]branch_8_in1_data;
-	wire branch_8_in1_ready;
-	wire branch_8_in1_valid;
-	wire [0 : 0]branch_8_in2_data;
-	wire branch_8_in2_ready;
-	wire branch_8_in2_valid;
-	wire [9 : 0]branch_8_out1_data;
-	wire branch_8_out1_ready;
-	wire branch_8_out1_valid;
-	wire [9 : 0]branch_8_out2_data;
-	wire branch_8_out2_ready;
-	wire branch_8_out2_valid;
-
-	wire fork_9_clk;
-	wire fork_9_rst;
-	wire [0 : 0]fork_9_in1_data;
-	wire fork_9_in1_ready;
-	wire fork_9_in1_valid;
-	wire [0 : 0]fork_9_out1_data;
-	wire fork_9_out1_ready;
-	wire fork_9_out1_valid;
-	wire [0 : 0]fork_9_out2_data;
-	wire fork_9_out2_ready;
-	wire fork_9_out2_valid;
-	wire [0 : 0]fork_9_out3_data;
-	wire fork_9_out3_ready;
-	wire fork_9_out3_valid;
-
-	wire phiC_7_clk;
-	wire phiC_7_rst;
-	wire [0 : 0]phiC_7_in1_data;
-	wire phiC_7_in1_ready;
-	wire phiC_7_in1_valid;
-	wire [0 : 0]phiC_7_in2_data;
-	wire phiC_7_in2_ready;
-	wire phiC_7_in2_valid;
-	wire [0 : 0]phiC_7_out1_data;
-	wire phiC_7_out1_ready;
-	wire phiC_7_out1_valid;
-	wire [0 : 0]phiC_7_out2_data;
-	wire phiC_7_out2_ready;
-	wire phiC_7_out2_valid;
-
-	wire branchC_12_clk;
-	wire branchC_12_rst;
-	wire [0 : 0]branchC_12_in1_data;
-	wire branchC_12_in1_ready;
-	wire branchC_12_in1_valid;
-	wire [0 : 0]branchC_12_in2_data;
-	wire branchC_12_in2_ready;
-	wire branchC_12_in2_valid;
-	wire [0 : 0]branchC_12_out1_data;
-	wire branchC_12_out1_ready;
-	wire branchC_12_out1_valid;
-	wire [0 : 0]branchC_12_out2_data;
-	wire branchC_12_out2_ready;
-	wire branchC_12_out2_valid;
-
-	wire source_5_clk;
-	wire source_5_rst;
-	wire [0 : 0]source_5_out1_data;
-	wire source_5_out1_ready;
-	wire source_5_out1_valid;
-
-	wire source_6_clk;
-	wire source_6_rst;
-	wire [9 : 0]source_6_out1_data;
-	wire source_6_out1_ready;
-	wire source_6_out1_valid;
-
-	wire ret_0_clk;
-	wire ret_0_rst;
-	wire [31 : 0]ret_0_in1_data;
-	wire ret_0_in1_ready;
-	wire ret_0_in1_valid;
-	wire [31 : 0]ret_0_out1_data;
-	wire ret_0_out1_ready;
-	wire ret_0_out1_valid;
-
-	wire phi_n4_clk;
-	wire phi_n4_rst;
-	wire [31 : 0]phi_n4_in1_data;
-	wire phi_n4_in1_ready;
-	wire phi_n4_in1_valid;
-	wire [31 : 0]phi_n4_out1_data;
-	wire phi_n4_out1_ready;
-	wire phi_n4_out1_valid;
-
-	wire end_0_clk;
-	wire end_0_rst;
-	wire [0 : 0]end_0_in1_data;
-	wire end_0_in1_ready;
-	wire end_0_in1_valid;
-	wire [31 : 0]end_0_in2_data;
-	wire end_0_in2_ready;
-	wire end_0_in2_valid;
-	wire [31 : 0]end_0_out1_data;
-	wire end_0_out1_ready;
-	wire end_0_out1_valid;
-
-	wire phiC_8_clk;
-	wire phiC_8_rst;
-	wire [0 : 0]phiC_8_in1_data;
-	wire phiC_8_in1_ready;
-	wire phiC_8_in1_valid;
-	wire [0 : 0]phiC_8_out1_data;
-	wire phiC_8_out1_ready;
-	wire phiC_8_out1_valid;
-
-	wire sink_0_clk;
-	wire sink_0_rst;
-	wire [0 : 0]sink_0_in1_data;
-	wire sink_0_in1_ready;
-	wire sink_0_in1_valid;
 
 	wire MC_a_clk;
 	wire MC_a_rst;
@@ -1117,6 +1117,111 @@ module gsum(
 	assign sink_7_in1_valid = branchC_9_out2_valid;
 	assign branchC_9_out2_ready = sink_7_in1_ready;
 
+	assign phi_18_clk = clk;
+	assign phi_18_rst = rst;
+	assign branch_7_in1_data = phi_18_out1_data;
+	assign branch_7_in1_valid = phi_18_out1_valid;
+	assign phi_18_out1_ready = branch_7_in1_ready;
+
+	assign cst_7_clk = clk;
+	assign cst_7_rst = rst;
+	assign add_19_in2_data = cst_7_out1_data;
+	assign add_19_in2_valid = cst_7_out1_valid;
+	assign cst_7_out1_ready = add_19_in2_ready;
+
+	assign add_19_clk = clk;
+	assign add_19_rst = rst;
+	assign fork_4_in1_data = add_19_out1_data;
+	assign fork_4_in1_valid = add_19_out1_valid;
+	assign add_19_out1_ready = fork_4_in1_ready;
+
+	assign cst_8_clk = clk;
+	assign cst_8_rst = rst;
+	assign icmp_20_in2_data = cst_8_out1_data;
+	assign icmp_20_in2_valid = cst_8_out1_valid;
+	assign cst_8_out1_ready = icmp_20_in2_ready;
+
+	assign icmp_20_clk = clk;
+	assign icmp_20_rst = rst;
+	assign fork_9_in1_data = icmp_20_out1_data;
+	assign fork_9_in1_valid = icmp_20_out1_valid;
+	assign icmp_20_out1_ready = fork_9_in1_ready;
+
+	assign phi_n0_clk = clk;
+	assign phi_n0_rst = rst;
+	assign add_19_in1_data = phi_n0_out1_data;
+	assign add_19_in1_valid = phi_n0_out1_valid;
+	assign phi_n0_out1_ready = add_19_in1_ready;
+
+	assign fork_4_clk = clk;
+	assign fork_4_rst = rst;
+	assign icmp_20_in1_data = fork_4_out1_data;
+	assign icmp_20_in1_valid = fork_4_out1_valid;
+	assign fork_4_out1_ready = icmp_20_in1_ready;
+	assign branch_8_in1_data = fork_4_out2_data;
+	assign branch_8_in1_valid = fork_4_out2_valid;
+	assign fork_4_out2_ready = branch_8_in1_ready;
+
+	assign branch_7_clk = clk;
+	assign branch_7_rst = rst;
+	assign Buffer_100_in1_data = branch_7_out1_data;
+	assign Buffer_100_in1_valid = branch_7_out1_valid;
+	assign branch_7_out1_ready = Buffer_100_in1_ready;
+	assign phi_n4_in1_data = branch_7_out2_data;
+	assign phi_n4_in1_valid = branch_7_out2_valid;
+	assign branch_7_out2_ready = phi_n4_in1_ready;
+
+	assign branch_8_clk = clk;
+	assign branch_8_rst = rst;
+	assign Buffer_101_in1_data = branch_8_out1_data;
+	assign Buffer_101_in1_valid = branch_8_out1_valid;
+	assign branch_8_out1_ready = Buffer_101_in1_ready;
+	assign sink_6_in1_data = branch_8_out2_data;
+	assign sink_6_in1_valid = branch_8_out2_valid;
+	assign branch_8_out2_ready = sink_6_in1_ready;
+
+	assign fork_9_clk = clk;
+	assign fork_9_rst = rst;
+	assign branch_8_in2_data = fork_9_out1_data;
+	assign branch_8_in2_valid = fork_9_out1_valid;
+	assign fork_9_out1_ready = branch_8_in2_ready;
+	assign branch_7_in2_data = fork_9_out2_data;
+	assign branch_7_in2_valid = fork_9_out2_valid;
+	assign fork_9_out2_ready = branch_7_in2_ready;
+	assign branchC_12_in2_data = fork_9_out3_data;
+	assign branchC_12_in2_valid = fork_9_out3_valid;
+	assign fork_9_out3_ready = branchC_12_in2_ready;
+
+	assign phiC_7_clk = clk;
+	assign phiC_7_rst = rst;
+	assign branchC_12_in1_data = phiC_7_out1_data;
+	assign branchC_12_in1_valid = phiC_7_out1_valid;
+	assign phiC_7_out1_ready = branchC_12_in1_ready;
+	assign phi_18_in1_data = phiC_7_out2_data;
+	assign phi_18_in1_valid = phiC_7_out2_valid;
+	assign phiC_7_out2_ready = phi_18_in1_ready;
+
+	assign branchC_12_clk = clk;
+	assign branchC_12_rst = rst;
+	assign Buffer_102_in1_data = branchC_12_out1_data;
+	assign Buffer_102_in1_valid = branchC_12_out1_valid;
+	assign branchC_12_out1_ready = Buffer_102_in1_ready;
+	assign phiC_8_in1_data = branchC_12_out2_data;
+	assign phiC_8_in1_valid = branchC_12_out2_valid;
+	assign branchC_12_out2_ready = phiC_8_in1_ready;
+
+	assign source_5_clk = clk;
+	assign source_5_rst = rst;
+	assign cst_7_in1_data = source_5_out1_data;
+	assign cst_7_in1_valid = source_5_out1_valid;
+	assign source_5_out1_ready = cst_7_in1_ready;
+
+	assign source_6_clk = clk;
+	assign source_6_rst = rst;
+	assign cst_8_in1_data = source_6_out1_data;
+	assign cst_8_in1_valid = source_6_out1_valid;
+	assign source_6_out1_ready = cst_8_in1_ready;
+
 	assign phi_1_clk = clk;
 	assign phi_1_rst = rst;
 	assign branch_2_in1_data = phi_1_out1_data;
@@ -1236,6 +1341,33 @@ module gsum(
 	assign phi_2_in1_data = fork_16_out2_data;
 	assign phi_2_in1_valid = fork_16_out2_valid;
 	assign fork_16_out2_ready = phi_2_in1_ready;
+
+	assign ret_0_clk = clk;
+	assign ret_0_rst = rst;
+	assign end_0_in2_data = ret_0_out1_data;
+	assign end_0_in2_valid = ret_0_out1_valid;
+	assign ret_0_out1_ready = end_0_in2_ready;
+
+	assign phi_n4_clk = clk;
+	assign phi_n4_rst = rst;
+	assign ret_0_in1_data = phi_n4_out1_data;
+	assign ret_0_in1_valid = phi_n4_out1_valid;
+	assign phi_n4_out1_ready = ret_0_in1_ready;
+
+	assign end_0_clk = clk;
+	assign end_0_rst = rst;
+	assign end_out = end_0_out1_data;
+	assign end_0_out1_ready = end_ready;
+	assign end_valid = end_0_out1_valid;
+
+	assign phiC_8_clk = clk;
+	assign phiC_8_rst = rst;
+	assign sink_0_in1_data = phiC_8_out1_data;
+	assign sink_0_in1_valid = phiC_8_out1_valid;
+	assign phiC_8_out1_ready = sink_0_in1_ready;
+
+	assign sink_0_clk = clk;
+	assign sink_0_rst = rst;
 
 	assign cst_3_clk = clk;
 	assign cst_3_rst = rst;
@@ -1380,138 +1512,6 @@ module gsum(
 	assign cst_6_in1_data = source_4_out1_data;
 	assign cst_6_in1_valid = source_4_out1_valid;
 	assign source_4_out1_ready = cst_6_in1_ready;
-
-	assign phi_18_clk = clk;
-	assign phi_18_rst = rst;
-	assign branch_7_in1_data = phi_18_out1_data;
-	assign branch_7_in1_valid = phi_18_out1_valid;
-	assign phi_18_out1_ready = branch_7_in1_ready;
-
-	assign cst_7_clk = clk;
-	assign cst_7_rst = rst;
-	assign add_19_in2_data = cst_7_out1_data;
-	assign add_19_in2_valid = cst_7_out1_valid;
-	assign cst_7_out1_ready = add_19_in2_ready;
-
-	assign add_19_clk = clk;
-	assign add_19_rst = rst;
-	assign fork_4_in1_data = add_19_out1_data;
-	assign fork_4_in1_valid = add_19_out1_valid;
-	assign add_19_out1_ready = fork_4_in1_ready;
-
-	assign cst_8_clk = clk;
-	assign cst_8_rst = rst;
-	assign icmp_20_in2_data = cst_8_out1_data;
-	assign icmp_20_in2_valid = cst_8_out1_valid;
-	assign cst_8_out1_ready = icmp_20_in2_ready;
-
-	assign icmp_20_clk = clk;
-	assign icmp_20_rst = rst;
-	assign fork_9_in1_data = icmp_20_out1_data;
-	assign fork_9_in1_valid = icmp_20_out1_valid;
-	assign icmp_20_out1_ready = fork_9_in1_ready;
-
-	assign phi_n0_clk = clk;
-	assign phi_n0_rst = rst;
-	assign add_19_in1_data = phi_n0_out1_data;
-	assign add_19_in1_valid = phi_n0_out1_valid;
-	assign phi_n0_out1_ready = add_19_in1_ready;
-
-	assign fork_4_clk = clk;
-	assign fork_4_rst = rst;
-	assign icmp_20_in1_data = fork_4_out1_data;
-	assign icmp_20_in1_valid = fork_4_out1_valid;
-	assign fork_4_out1_ready = icmp_20_in1_ready;
-	assign branch_8_in1_data = fork_4_out2_data;
-	assign branch_8_in1_valid = fork_4_out2_valid;
-	assign fork_4_out2_ready = branch_8_in1_ready;
-
-	assign branch_7_clk = clk;
-	assign branch_7_rst = rst;
-	assign Buffer_100_in1_data = branch_7_out1_data;
-	assign Buffer_100_in1_valid = branch_7_out1_valid;
-	assign branch_7_out1_ready = Buffer_100_in1_ready;
-	assign phi_n4_in1_data = branch_7_out2_data;
-	assign phi_n4_in1_valid = branch_7_out2_valid;
-	assign branch_7_out2_ready = phi_n4_in1_ready;
-
-	assign branch_8_clk = clk;
-	assign branch_8_rst = rst;
-	assign Buffer_101_in1_data = branch_8_out1_data;
-	assign Buffer_101_in1_valid = branch_8_out1_valid;
-	assign branch_8_out1_ready = Buffer_101_in1_ready;
-	assign sink_6_in1_data = branch_8_out2_data;
-	assign sink_6_in1_valid = branch_8_out2_valid;
-	assign branch_8_out2_ready = sink_6_in1_ready;
-
-	assign fork_9_clk = clk;
-	assign fork_9_rst = rst;
-	assign branch_8_in2_data = fork_9_out1_data;
-	assign branch_8_in2_valid = fork_9_out1_valid;
-	assign fork_9_out1_ready = branch_8_in2_ready;
-	assign branch_7_in2_data = fork_9_out2_data;
-	assign branch_7_in2_valid = fork_9_out2_valid;
-	assign fork_9_out2_ready = branch_7_in2_ready;
-	assign branchC_12_in2_data = fork_9_out3_data;
-	assign branchC_12_in2_valid = fork_9_out3_valid;
-	assign fork_9_out3_ready = branchC_12_in2_ready;
-
-	assign phiC_7_clk = clk;
-	assign phiC_7_rst = rst;
-	assign branchC_12_in1_data = phiC_7_out1_data;
-	assign branchC_12_in1_valid = phiC_7_out1_valid;
-	assign phiC_7_out1_ready = branchC_12_in1_ready;
-	assign phi_18_in1_data = phiC_7_out2_data;
-	assign phi_18_in1_valid = phiC_7_out2_valid;
-	assign phiC_7_out2_ready = phi_18_in1_ready;
-
-	assign branchC_12_clk = clk;
-	assign branchC_12_rst = rst;
-	assign Buffer_102_in1_data = branchC_12_out1_data;
-	assign Buffer_102_in1_valid = branchC_12_out1_valid;
-	assign branchC_12_out1_ready = Buffer_102_in1_ready;
-	assign phiC_8_in1_data = branchC_12_out2_data;
-	assign phiC_8_in1_valid = branchC_12_out2_valid;
-	assign branchC_12_out2_ready = phiC_8_in1_ready;
-
-	assign source_5_clk = clk;
-	assign source_5_rst = rst;
-	assign cst_7_in1_data = source_5_out1_data;
-	assign cst_7_in1_valid = source_5_out1_valid;
-	assign source_5_out1_ready = cst_7_in1_ready;
-
-	assign source_6_clk = clk;
-	assign source_6_rst = rst;
-	assign cst_8_in1_data = source_6_out1_data;
-	assign cst_8_in1_valid = source_6_out1_valid;
-	assign source_6_out1_ready = cst_8_in1_ready;
-
-	assign ret_0_clk = clk;
-	assign ret_0_rst = rst;
-	assign end_0_in2_data = ret_0_out1_data;
-	assign end_0_in2_valid = ret_0_out1_valid;
-	assign ret_0_out1_ready = end_0_in2_ready;
-
-	assign phi_n4_clk = clk;
-	assign phi_n4_rst = rst;
-	assign ret_0_in1_data = phi_n4_out1_data;
-	assign ret_0_in1_valid = phi_n4_out1_valid;
-	assign phi_n4_out1_ready = ret_0_in1_ready;
-
-	assign end_0_clk = clk;
-	assign end_0_rst = rst;
-	assign end_out = end_0_out1_data;
-	assign end_0_out1_ready = end_ready;
-	assign end_valid = end_0_out1_valid;
-
-	assign phiC_8_clk = clk;
-	assign phiC_8_rst = rst;
-	assign sink_0_in1_data = phiC_8_out1_data;
-	assign sink_0_in1_valid = phiC_8_out1_valid;
-	assign phiC_8_out1_ready = sink_0_in1_ready;
-
-	assign sink_0_clk = clk;
-	assign sink_0_rst = rst;
 
 	assign MC_a_clk = clk;
 	assign MC_a_rst = rst;
@@ -1726,6 +1726,74 @@ module gsum(
 		.data_in_bus({{branchC_9_in2_data}, branchC_9_in1_data}), .valid_in_bus({branchC_9_in2_valid, branchC_9_in1_valid}), .ready_in_bus({branchC_9_in2_ready, branchC_9_in1_ready}), 
 		.data_out_bus({branchC_9_out2_data, branchC_9_out1_data}), .valid_out_bus({branchC_9_out2_valid, branchC_9_out1_valid}), .ready_out_bus({branchC_9_out2_ready, branchC_9_out1_ready}));
 
+	mux_node #(.INPUTS(3), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32), .COND_SIZE(1)) mux_node_phi_18
+		(.clk(phi_18_clk), .rst(phi_18_rst),
+		.data_in_bus({{31'b0, phi_18_in1_data}, phi_18_in3_data, phi_18_in2_data}), .valid_in_bus({phi_18_in1_valid, phi_18_in3_valid, phi_18_in2_valid}), .ready_in_bus({phi_18_in1_ready, phi_18_in3_ready, phi_18_in2_ready}), 
+		.data_out_bus({phi_18_out1_data}), .valid_out_bus({phi_18_out1_valid}), .ready_out_bus({phi_18_out1_ready}));
+
+	const_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) const_node_cst_7
+		(.clk(cst_7_clk), .rst(cst_7_rst),
+		.data_in_bus({1'd1}), .valid_in_bus({cst_7_in1_valid}), .ready_in_bus({cst_7_in1_ready}), 
+		.data_out_bus({cst_7_out1_data}), .valid_out_bus({cst_7_out1_valid}), .ready_out_bus({cst_7_out1_ready}));
+
+	add_op #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) add_op_add_19
+		(.clk(add_19_clk), .rst(add_19_rst),
+		.data_in_bus({add_19_in2_data, add_19_in1_data}), .valid_in_bus({add_19_in2_valid, add_19_in1_valid}), .ready_in_bus({add_19_in2_ready, add_19_in1_ready}), 
+		.data_out_bus({add_19_out1_data}), .valid_out_bus({add_19_out1_valid}), .ready_out_bus({add_19_out1_ready}));
+
+	const_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) const_node_cst_8
+		(.clk(cst_8_clk), .rst(cst_8_rst),
+		.data_in_bus({10'd1000}), .valid_in_bus({cst_8_in1_valid}), .ready_in_bus({cst_8_in1_ready}), 
+		.data_out_bus({cst_8_out1_data}), .valid_out_bus({cst_8_out1_valid}), .ready_out_bus({cst_8_out1_ready}));
+
+	icmp_ult_op #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(1)) icmp_ult_op_icmp_20
+		(.clk(icmp_20_clk), .rst(icmp_20_rst),
+		.data_in_bus({icmp_20_in2_data, icmp_20_in1_data}), .valid_in_bus({icmp_20_in2_valid, icmp_20_in1_valid}), .ready_in_bus({icmp_20_in2_ready, icmp_20_in1_ready}), 
+		.data_out_bus({icmp_20_out1_data}), .valid_out_bus({icmp_20_out1_valid}), .ready_out_bus({icmp_20_out1_ready}));
+
+	merge_node #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) merge_node_phi_n0
+		(.clk(phi_n0_clk), .rst(phi_n0_rst),
+		.data_in_bus({phi_n0_in2_data, phi_n0_in1_data}), .valid_in_bus({phi_n0_in2_valid, phi_n0_in1_valid}), .ready_in_bus({phi_n0_in2_ready, phi_n0_in1_ready}), 
+		.data_out_bus({phi_n0_out1_data}), .valid_out_bus({phi_n0_out1_valid}), .ready_out_bus({phi_n0_out1_ready}));
+
+	fork_node #(.INPUTS(1), .OUTPUTS(2), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) fork_node_fork_4
+		(.clk(fork_4_clk), .rst(fork_4_rst),
+		.data_in_bus({fork_4_in1_data}), .valid_in_bus({fork_4_in1_valid}), .ready_in_bus({fork_4_in1_ready}), 
+		.data_out_bus({fork_4_out2_data, fork_4_out1_data}), .valid_out_bus({fork_4_out2_valid, fork_4_out1_valid}), .ready_out_bus({fork_4_out2_ready, fork_4_out1_ready}));
+
+	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) branch_node_branch_7
+		(.clk(branch_7_clk), .rst(branch_7_rst),
+		.data_in_bus({{31'b0, branch_7_in2_data}, branch_7_in1_data}), .valid_in_bus({branch_7_in2_valid, branch_7_in1_valid}), .ready_in_bus({branch_7_in2_ready, branch_7_in1_ready}), 
+		.data_out_bus({branch_7_out2_data, branch_7_out1_data}), .valid_out_bus({branch_7_out2_valid, branch_7_out1_valid}), .ready_out_bus({branch_7_out2_ready, branch_7_out1_ready}));
+
+	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) branch_node_branch_8
+		(.clk(branch_8_clk), .rst(branch_8_rst),
+		.data_in_bus({{9'b0, branch_8_in2_data}, branch_8_in1_data}), .valid_in_bus({branch_8_in2_valid, branch_8_in1_valid}), .ready_in_bus({branch_8_in2_ready, branch_8_in1_ready}), 
+		.data_out_bus({branch_8_out2_data, branch_8_out1_data}), .valid_out_bus({branch_8_out2_valid, branch_8_out1_valid}), .ready_out_bus({branch_8_out2_ready, branch_8_out1_ready}));
+
+	fork_node #(.INPUTS(1), .OUTPUTS(3), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) fork_node_fork_9
+		(.clk(fork_9_clk), .rst(fork_9_rst),
+		.data_in_bus({fork_9_in1_data}), .valid_in_bus({fork_9_in1_valid}), .ready_in_bus({fork_9_in1_ready}), 
+		.data_out_bus({fork_9_out3_data, fork_9_out2_data, fork_9_out1_data}), .valid_out_bus({fork_9_out3_valid, fork_9_out2_valid, fork_9_out1_valid}), .ready_out_bus({fork_9_out3_ready, fork_9_out2_ready, fork_9_out1_ready}));
+
+	cntrlMerge_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) cntrlMerge_node_phiC_7
+		(.clk(phiC_7_clk), .rst(phiC_7_rst),
+		.data_in_bus({phiC_7_in2_data, phiC_7_in1_data}), .valid_in_bus({phiC_7_in2_valid, phiC_7_in1_valid}), .ready_in_bus({phiC_7_in2_ready, phiC_7_in1_ready}), 
+		.data_out_bus({phiC_7_out2_data, phiC_7_out1_data}), .valid_out_bus({phiC_7_out2_valid, phiC_7_out1_valid}), .ready_out_bus({phiC_7_out2_ready, phiC_7_out1_ready}));
+
+	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) branch_node_branchC_12
+		(.clk(branchC_12_clk), .rst(branchC_12_rst),
+		.data_in_bus({{branchC_12_in2_data}, branchC_12_in1_data}), .valid_in_bus({branchC_12_in2_valid, branchC_12_in1_valid}), .ready_in_bus({branchC_12_in2_ready, branchC_12_in1_ready}), 
+		.data_out_bus({branchC_12_out2_data, branchC_12_out1_data}), .valid_out_bus({branchC_12_out2_valid, branchC_12_out1_valid}), .ready_out_bus({branchC_12_out2_ready, branchC_12_out1_ready}));
+
+	source_node #(.INPUTS(0), .OUTPUTS(1), .DATA_OUT_SIZE(1))source_node_source_5
+		(.clk(source_5_clk), .rst(source_5_rst),
+		.data_out_bus({source_5_out1_data}), .valid_out_bus({source_5_out1_valid}), .ready_out_bus({source_5_out1_ready}));
+
+	source_node #(.INPUTS(0), .OUTPUTS(1), .DATA_OUT_SIZE(10))source_node_source_6
+		(.clk(source_6_clk), .rst(source_6_rst),
+		.data_out_bus({source_6_out1_data}), .valid_out_bus({source_6_out1_valid}), .ready_out_bus({source_6_out1_ready}));
+
 	mux_node #(.INPUTS(3), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32), .COND_SIZE(1)) mux_node_phi_1
 		(.clk(phi_1_clk), .rst(phi_1_rst),
 		.data_in_bus({{31'b0, phi_1_in1_data}, phi_1_in3_data, phi_1_in2_data}), .valid_in_bus({phi_1_in1_valid, phi_1_in3_valid, phi_1_in2_valid}), .ready_in_bus({phi_1_in1_ready, phi_1_in3_ready, phi_1_in2_ready}), 
@@ -1794,6 +1862,30 @@ module gsum(
 		(.clk(fork_16_clk), .rst(fork_16_rst),
 		.data_in_bus({fork_16_in1_data}), .valid_in_bus({fork_16_in1_valid}), .ready_in_bus({fork_16_in1_ready}), 
 		.data_out_bus({fork_16_out2_data, fork_16_out1_data}), .valid_out_bus({fork_16_out2_valid, fork_16_out1_valid}), .ready_out_bus({fork_16_out2_ready, fork_16_out1_ready}));
+
+	ret_op #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) ret_op_ret_0
+		(.clk(ret_0_clk), .rst(ret_0_rst),
+		.data_in_bus({ret_0_in1_data}), .valid_in_bus({ret_0_in1_valid}), .ready_in_bus({ret_0_in1_ready}), 
+		.data_out_bus({ret_0_out1_data}), .valid_out_bus({ret_0_out1_valid}), .ready_out_bus({ret_0_out1_ready}));
+
+	merge_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) merge_node_phi_n4
+		(.clk(phi_n4_clk), .rst(phi_n4_rst),
+		.data_in_bus({phi_n4_in1_data}), .valid_in_bus({phi_n4_in1_valid}), .ready_in_bus({phi_n4_in1_ready}), 
+		.data_out_bus({phi_n4_out1_data}), .valid_out_bus({phi_n4_out1_valid}), .ready_out_bus({phi_n4_out1_ready}));
+
+	end_node #(.INPUTS(1), .OUTPUTS(1), .MEMORY_INPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) end_node_end_0
+		(.clk(end_0_clk), .rst(end_0_rst),
+		.data_in_bus({end_0_in2_data}), .valid_in_bus({end_0_in2_valid}), .ready_in_bus({end_0_in2_ready}), .e_valid_bus({end_0_in1_valid}), .e_ready_bus({end_0_in1_ready}), 
+		.data_out_bus({end_0_out1_data}), .valid_out_bus({end_0_out1_valid}), .ready_out_bus({end_0_out1_ready}));
+
+	merge_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) merge_node_phiC_8
+		(.clk(phiC_8_clk), .rst(phiC_8_rst),
+		.data_in_bus({phiC_8_in1_data}), .valid_in_bus({phiC_8_in1_valid}), .ready_in_bus({phiC_8_in1_ready}), 
+		.data_out_bus({phiC_8_out1_data}), .valid_out_bus({phiC_8_out1_valid}), .ready_out_bus({phiC_8_out1_ready}));
+
+	sink_node #(.INPUTS(1), .OUTPUTS(0), .DATA_IN_SIZE(1))sink_node_sink_0
+		(.clk(sink_0_clk), .rst(sink_0_rst),
+		.data_in_bus({sink_0_in1_data}), .valid_in_bus({sink_0_in1_valid}), .ready_in_bus({sink_0_in1_ready}));
 
 	const_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) const_node_cst_3
 		(.clk(cst_3_clk), .rst(cst_3_rst),
@@ -1885,98 +1977,6 @@ module gsum(
 	source_node #(.INPUTS(0), .OUTPUTS(1), .DATA_OUT_SIZE(32))source_node_source_4
 		(.clk(source_4_clk), .rst(source_4_rst),
 		.data_out_bus({source_4_out1_data}), .valid_out_bus({source_4_out1_valid}), .ready_out_bus({source_4_out1_ready}));
-
-	mux_node #(.INPUTS(3), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32), .COND_SIZE(1)) mux_node_phi_18
-		(.clk(phi_18_clk), .rst(phi_18_rst),
-		.data_in_bus({{31'b0, phi_18_in1_data}, phi_18_in3_data, phi_18_in2_data}), .valid_in_bus({phi_18_in1_valid, phi_18_in3_valid, phi_18_in2_valid}), .ready_in_bus({phi_18_in1_ready, phi_18_in3_ready, phi_18_in2_ready}), 
-		.data_out_bus({phi_18_out1_data}), .valid_out_bus({phi_18_out1_valid}), .ready_out_bus({phi_18_out1_ready}));
-
-	const_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) const_node_cst_7
-		(.clk(cst_7_clk), .rst(cst_7_rst),
-		.data_in_bus({1'd1}), .valid_in_bus({cst_7_in1_valid}), .ready_in_bus({cst_7_in1_ready}), 
-		.data_out_bus({cst_7_out1_data}), .valid_out_bus({cst_7_out1_valid}), .ready_out_bus({cst_7_out1_ready}));
-
-	add_op #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) add_op_add_19
-		(.clk(add_19_clk), .rst(add_19_rst),
-		.data_in_bus({add_19_in2_data, add_19_in1_data}), .valid_in_bus({add_19_in2_valid, add_19_in1_valid}), .ready_in_bus({add_19_in2_ready, add_19_in1_ready}), 
-		.data_out_bus({add_19_out1_data}), .valid_out_bus({add_19_out1_valid}), .ready_out_bus({add_19_out1_ready}));
-
-	const_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) const_node_cst_8
-		(.clk(cst_8_clk), .rst(cst_8_rst),
-		.data_in_bus({10'd1000}), .valid_in_bus({cst_8_in1_valid}), .ready_in_bus({cst_8_in1_ready}), 
-		.data_out_bus({cst_8_out1_data}), .valid_out_bus({cst_8_out1_valid}), .ready_out_bus({cst_8_out1_ready}));
-
-	icmp_ult_op #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(1)) icmp_ult_op_icmp_20
-		(.clk(icmp_20_clk), .rst(icmp_20_rst),
-		.data_in_bus({icmp_20_in2_data, icmp_20_in1_data}), .valid_in_bus({icmp_20_in2_valid, icmp_20_in1_valid}), .ready_in_bus({icmp_20_in2_ready, icmp_20_in1_ready}), 
-		.data_out_bus({icmp_20_out1_data}), .valid_out_bus({icmp_20_out1_valid}), .ready_out_bus({icmp_20_out1_ready}));
-
-	merge_node #(.INPUTS(2), .OUTPUTS(1), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) merge_node_phi_n0
-		(.clk(phi_n0_clk), .rst(phi_n0_rst),
-		.data_in_bus({phi_n0_in2_data, phi_n0_in1_data}), .valid_in_bus({phi_n0_in2_valid, phi_n0_in1_valid}), .ready_in_bus({phi_n0_in2_ready, phi_n0_in1_ready}), 
-		.data_out_bus({phi_n0_out1_data}), .valid_out_bus({phi_n0_out1_valid}), .ready_out_bus({phi_n0_out1_ready}));
-
-	fork_node #(.INPUTS(1), .OUTPUTS(2), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) fork_node_fork_4
-		(.clk(fork_4_clk), .rst(fork_4_rst),
-		.data_in_bus({fork_4_in1_data}), .valid_in_bus({fork_4_in1_valid}), .ready_in_bus({fork_4_in1_ready}), 
-		.data_out_bus({fork_4_out2_data, fork_4_out1_data}), .valid_out_bus({fork_4_out2_valid, fork_4_out1_valid}), .ready_out_bus({fork_4_out2_ready, fork_4_out1_ready}));
-
-	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) branch_node_branch_7
-		(.clk(branch_7_clk), .rst(branch_7_rst),
-		.data_in_bus({{31'b0, branch_7_in2_data}, branch_7_in1_data}), .valid_in_bus({branch_7_in2_valid, branch_7_in1_valid}), .ready_in_bus({branch_7_in2_ready, branch_7_in1_ready}), 
-		.data_out_bus({branch_7_out2_data, branch_7_out1_data}), .valid_out_bus({branch_7_out2_valid, branch_7_out1_valid}), .ready_out_bus({branch_7_out2_ready, branch_7_out1_ready}));
-
-	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(10), .DATA_OUT_SIZE(10)) branch_node_branch_8
-		(.clk(branch_8_clk), .rst(branch_8_rst),
-		.data_in_bus({{9'b0, branch_8_in2_data}, branch_8_in1_data}), .valid_in_bus({branch_8_in2_valid, branch_8_in1_valid}), .ready_in_bus({branch_8_in2_ready, branch_8_in1_ready}), 
-		.data_out_bus({branch_8_out2_data, branch_8_out1_data}), .valid_out_bus({branch_8_out2_valid, branch_8_out1_valid}), .ready_out_bus({branch_8_out2_ready, branch_8_out1_ready}));
-
-	fork_node #(.INPUTS(1), .OUTPUTS(3), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) fork_node_fork_9
-		(.clk(fork_9_clk), .rst(fork_9_rst),
-		.data_in_bus({fork_9_in1_data}), .valid_in_bus({fork_9_in1_valid}), .ready_in_bus({fork_9_in1_ready}), 
-		.data_out_bus({fork_9_out3_data, fork_9_out2_data, fork_9_out1_data}), .valid_out_bus({fork_9_out3_valid, fork_9_out2_valid, fork_9_out1_valid}), .ready_out_bus({fork_9_out3_ready, fork_9_out2_ready, fork_9_out1_ready}));
-
-	cntrlMerge_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) cntrlMerge_node_phiC_7
-		(.clk(phiC_7_clk), .rst(phiC_7_rst),
-		.data_in_bus({phiC_7_in2_data, phiC_7_in1_data}), .valid_in_bus({phiC_7_in2_valid, phiC_7_in1_valid}), .ready_in_bus({phiC_7_in2_ready, phiC_7_in1_ready}), 
-		.data_out_bus({phiC_7_out2_data, phiC_7_out1_data}), .valid_out_bus({phiC_7_out2_valid, phiC_7_out1_valid}), .ready_out_bus({phiC_7_out2_ready, phiC_7_out1_ready}));
-
-	branch_node #(.INPUTS(2), .OUTPUTS(2), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) branch_node_branchC_12
-		(.clk(branchC_12_clk), .rst(branchC_12_rst),
-		.data_in_bus({{branchC_12_in2_data}, branchC_12_in1_data}), .valid_in_bus({branchC_12_in2_valid, branchC_12_in1_valid}), .ready_in_bus({branchC_12_in2_ready, branchC_12_in1_ready}), 
-		.data_out_bus({branchC_12_out2_data, branchC_12_out1_data}), .valid_out_bus({branchC_12_out2_valid, branchC_12_out1_valid}), .ready_out_bus({branchC_12_out2_ready, branchC_12_out1_ready}));
-
-	source_node #(.INPUTS(0), .OUTPUTS(1), .DATA_OUT_SIZE(1))source_node_source_5
-		(.clk(source_5_clk), .rst(source_5_rst),
-		.data_out_bus({source_5_out1_data}), .valid_out_bus({source_5_out1_valid}), .ready_out_bus({source_5_out1_ready}));
-
-	source_node #(.INPUTS(0), .OUTPUTS(1), .DATA_OUT_SIZE(10))source_node_source_6
-		(.clk(source_6_clk), .rst(source_6_rst),
-		.data_out_bus({source_6_out1_data}), .valid_out_bus({source_6_out1_valid}), .ready_out_bus({source_6_out1_ready}));
-
-	ret_op #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) ret_op_ret_0
-		(.clk(ret_0_clk), .rst(ret_0_rst),
-		.data_in_bus({ret_0_in1_data}), .valid_in_bus({ret_0_in1_valid}), .ready_in_bus({ret_0_in1_ready}), 
-		.data_out_bus({ret_0_out1_data}), .valid_out_bus({ret_0_out1_valid}), .ready_out_bus({ret_0_out1_ready}));
-
-	merge_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) merge_node_phi_n4
-		(.clk(phi_n4_clk), .rst(phi_n4_rst),
-		.data_in_bus({phi_n4_in1_data}), .valid_in_bus({phi_n4_in1_valid}), .ready_in_bus({phi_n4_in1_ready}), 
-		.data_out_bus({phi_n4_out1_data}), .valid_out_bus({phi_n4_out1_valid}), .ready_out_bus({phi_n4_out1_ready}));
-
-	end_node #(.INPUTS(1), .OUTPUTS(1), .MEMORY_INPUTS(1), .DATA_IN_SIZE(32), .DATA_OUT_SIZE(32)) end_node_end_0
-		(.clk(end_0_clk), .rst(end_0_rst),
-		.data_in_bus({end_0_in2_data}), .valid_in_bus({end_0_in2_valid}), .ready_in_bus({end_0_in2_ready}), .e_valid_bus({end_0_in1_valid}), .e_ready_bus({end_0_in1_ready}), 
-		.data_out_bus({end_0_out1_data}), .valid_out_bus({end_0_out1_valid}), .ready_out_bus({end_0_out1_ready}));
-
-	merge_node #(.INPUTS(1), .OUTPUTS(1), .DATA_IN_SIZE(1), .DATA_OUT_SIZE(1)) merge_node_phiC_8
-		(.clk(phiC_8_clk), .rst(phiC_8_rst),
-		.data_in_bus({phiC_8_in1_data}), .valid_in_bus({phiC_8_in1_valid}), .ready_in_bus({phiC_8_in1_ready}), 
-		.data_out_bus({phiC_8_out1_data}), .valid_out_bus({phiC_8_out1_valid}), .ready_out_bus({phiC_8_out1_ready}));
-
-	sink_node #(.INPUTS(1), .OUTPUTS(0), .DATA_IN_SIZE(1))sink_node_sink_0
-		(.clk(sink_0_clk), .rst(sink_0_rst),
-		.data_in_bus({sink_0_in1_data}), .valid_in_bus({sink_0_in1_valid}), .ready_in_bus({sink_0_in1_ready}));
 
 	MemCont #(.DATA_SIZE(32), .ADDRESS_SIZE(10), .BB_COUNT(1), .LOAD_COUNT(1), .STORE_COUNT(1))MemCont_MC_a
 		(.clk(MC_a_clk), .rst(MC_a_rst),
