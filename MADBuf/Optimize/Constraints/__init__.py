@@ -11,3 +11,4 @@ Last Modified time: 2023-03-19 02:15:01
 from MADBuf.Optimize.Constraints.TimingConstraints import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints import *
 from MADBuf.Optimize.Constraints.LatencyConstraints import *
+from MADBuf.Optimize.Constraints.MemoryConstraints import *

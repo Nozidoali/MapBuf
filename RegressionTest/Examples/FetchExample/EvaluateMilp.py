@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-20 14:38:07
+Last Modified time: 2023-03-20 22:06:16
 '''
 
 from MADBuf import *
@@ -71,12 +71,10 @@ def evaluate_milp(*args, **kwargs):
     ], 60)
 
     optimizer.run_optimization(
-        time_limit = timeout,
-        cut_loopback = True,
-        blackbox = True,
         lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
         ilp_filename = f"./{mut}/reports/{mut}_{method}.ilp",
         solution_filename = f"./{mut}/reports/{mut}_{method}.sol",
+        **kwargs
     )
 
     buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
