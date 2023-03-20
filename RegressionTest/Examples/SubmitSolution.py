@@ -59,15 +59,15 @@ def submit_solution(*args, **kwargs):
 
 def all_dac_examples():
     return [
-        # 'covariance_float',
-        # 'gaussian',
-        # 'gemver',
+        'covariance_float',
+        'gaussian',
+        'gemver',
         "gsum",
-        # 'gsumif',
-        # 'insertion_sort',
-        # 'mvt_float',
-        # 'matrix',
-        # 'stencil_2d'
+        'gsumif',
+        'insertion_sort',
+        'mvt_float',
+        'matrix',
+        'stencil_2d'
     ]
 
 
@@ -79,10 +79,12 @@ if __name__ == "__main__":
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
+    timout = 10 * 60 # 10 minutes
+
     if len(sys.argv) == 1:
         muts = all_dac_examples()
-        method = "madbuf"
-        clock_period = 5
+        method = "milp"
+        clock_period = 7
 
     if len(sys.argv) == 2:
         muts = [sys.argv[1]]
@@ -113,7 +115,7 @@ if __name__ == "__main__":
             clock_period=clock_period,
             add_cutloopback_constraints_flag=True,
             add_blockbox_constraints_flag=True,
-            time_limit=1 * 60,
+            time_limit=timout,
             run_synthesis=True,
         )
 
@@ -122,6 +124,13 @@ if __name__ == "__main__":
         )
 
         f = open(f"{mut}.txt", "a")
+
+        f.write(
+            f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
+        )
+        f.close()
+
+        f = open(f"all.txt", "a")
 
         f.write(
             f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"

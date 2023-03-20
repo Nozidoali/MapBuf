@@ -109,6 +109,21 @@ class ThroughputOptimizer(DFGOptimizer):
             verbose=True,
         )
 
+        # refine model: we should not buffer the channel between Memory Controller and Memory
+        always_zero_vars: set = set()
+        for signal in self.signal_to_variable:
+            variable = self.signal_to_variable[signal]
+
+            varname = variable.varName
+            if "MC" in varname:
+                always_zero_vars.add(variable)
+
+        for var in always_zero_vars:
+            self.model.addConstr(var == 0)
+
+        self.model.update()
+
+
         lp_filename = get_value_from_kwargs(
             kwargs,
             [
