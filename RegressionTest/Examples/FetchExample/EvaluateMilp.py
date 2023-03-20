@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:53:00
+Last Modified time: 2023-03-20 14:38:07
 '''
 
 from MADBuf import *
@@ -34,12 +34,10 @@ def evaluate_milp(*args, **kwargs):
         read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
     else:
         read_blif(g, f"{mut}/reports/{mut}.strash.blif")
-        
-    print_red(f"Found {g.num_nodes()} nodes in the {mut} network")
-    
+            
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_anchors(g)
-    print_red(f"Found {network.num_nodes()} nodes in the network")
+    print_blue(f"[i] Found {network.num_nodes()} nodes in the subject graph")
 
     mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=True)
 
@@ -81,7 +79,10 @@ def evaluate_milp(*args, **kwargs):
         solution_filename = f"./{mut}/reports/{mut}_{method}.sol",
     )
 
-    dfg: pgv.AGraph = optimizer.get_solution()
+    buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
+
+    dfg = read_dfg(f"./{mut}/reports/{mut}.dot")
+    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
 
     write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")
     run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)

@@ -9,7 +9,7 @@ def evaluate_latency(
     latency: dict = {}
 
     # initialization
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         latency[signal] = 0
 
     while True:

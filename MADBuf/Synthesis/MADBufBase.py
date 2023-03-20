@@ -88,7 +88,7 @@ class MADBufBase:
 
         # export critical path
         maximum_timing_label, n_max = max(
-            [(self._node_arrival_time(n), n) for n in self.g.signals]
+            [(self._node_arrival_time(n), n) for n in self.g.topological_traversal()]
         )
         print(f"[i] propagation delay = {str(maximum_timing_label)}")
         if maximum_timing_label > TimingLabel(clock_period):

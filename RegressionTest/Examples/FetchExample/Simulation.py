@@ -5,14 +5,14 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:13:06
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 16:44:35
+Last Modified time: 2023-03-20 13:24:39
 '''
 
 from FetchExample.Server import *
 import math
 import os
 
-def run_simulation(*args, **kwargs):
+def evaluate_num_cycles(*args, **kwargs):
 
     if "mut_path" not in kwargs:
         raise Exception("Please provide the module under test path")

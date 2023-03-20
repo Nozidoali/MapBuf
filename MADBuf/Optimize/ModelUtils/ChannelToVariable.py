@@ -13,7 +13,7 @@ from MADBuf.DataFlowGraph import *
 from MADBuf.Optimize.Variables import *
 
 
-def get_channel_mapped_to_variable(
+def get_unfloat_channel_to_variable(
     model: gp.Model, mappings: FloatingPointMapping = None
 ) -> dict:
     """(Channel Mapped) to the variable in the model

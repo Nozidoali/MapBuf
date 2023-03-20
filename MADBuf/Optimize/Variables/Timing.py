@@ -18,7 +18,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
 
     model.addVar(vtype=GRB.INTEGER, name=f"CP")
 
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
 
     # otherwise the variable names will not be found
@@ -27,7 +27,7 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
     #
     model.update()
 
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         model.addConstr(
             model.getVarByName(f"TimingLabel_{signal}") <= model.getVarByName(f"CP")
         )

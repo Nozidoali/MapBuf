@@ -31,7 +31,7 @@ def add_channel_variables(
 
     model.update()
 
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         if signal not in signal_to_channel:
             continue
 

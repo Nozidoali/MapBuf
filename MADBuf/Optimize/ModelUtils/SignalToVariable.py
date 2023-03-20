@@ -26,6 +26,8 @@ def get_signal_to_variable(
 
     signal_to_variable: dict = {}
 
+    constriants_to_add: set = set()
+
     verbose = get_value_from_kwargs(
         kwargs,
         [
@@ -34,8 +36,18 @@ def get_signal_to_variable(
         False,
     )
 
+    add_constraints = get_value_from_kwargs(
+        kwargs,
+        [
+            "add_constraints",
+            "add_cutloopback_constraints_flag",
+        ],
+        False,
+    )
+    print_green(f"Add Constraints for Cut Loopback Buffers: {add_constraints}")
+
     # we first get the channel to variable mapping
-    channel_to_var = get_channel_mapped_to_variable(model, mapping)
+    channel_to_var = get_unfloat_channel_to_variable(model, mapping)
 
     if mapping is not None:
         unfloating_to_floating_mapping = mapping.export_mapping_unfloating_to_floating()
@@ -95,13 +107,9 @@ def get_signal_to_variable(
                 matched_var = channel_to_var[c]
                 has_buffer = True
 
-            # we need to add a constraint to make sure the buffer is used
-            if "add_constraints" in kwargs and kwargs["add_constraints"]:
-                model.addConstr(matched_var >= 1)
-
-            if verbose:
-                var_name = matched_var.getAttr("VarName")
-                print_green(f"Adding constraint: {var_name} >= 1")
+                # we need to add a constraint to make sure the buffer is used
+                if add_constraints:
+                    constriants_to_add.add(matched_var)
 
             # we don't need to consider the buffer channel
             continue
@@ -125,5 +133,18 @@ def get_signal_to_variable(
             if verbose:
                 # print_red(f"Warning: {signal} is not found in the dynamatic model")
                 pass
+
+    if add_constraints:
+        # we add the constraints
+        for var in constriants_to_add:
+                var_name = var.getAttr("VarName")
+
+                print_orange(f"Adding Cut Loopback Buffer Constraints: {var_name} >= 1")
+                component_from, component_to = variable_name_to_components(var_name)
+                assert "branch" in component_from and "phi" in component_to
+                model.addConstr(var >= 1)
+
+
+
 
     return signal_to_variable

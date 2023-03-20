@@ -19,11 +19,9 @@ from MADBuf.Optimize.ModelUtils.SignalToVariable import *
 def add_timing_constraints(
     model: gp.Model,
     network: BLIFGraph,
-    dfg: pgv.AGraph,
     signal_to_cuts: dict,
     signal_to_channel: dict,
-    mappings: FloatingPointMapping = None,
-    add_cutloopback_constraints_flag: bool = True,
+    signal_to_variable: dict,
     add_blockbox_constraints_flag: bool = True,
     clock_period: int = 100,
     verbose: bool = False,
@@ -41,15 +39,6 @@ def add_timing_constraints(
 
     if verbose:
         print_green(f"Found {len(channels)} channels")
-
-    signal_to_variable = get_signal_to_variable(
-        model,
-        signal_to_channel,
-        dfg,
-        add_constraints=add_cutloopback_constraints_flag,
-        mapping=mappings,
-        verbose=verbose,
-    )
 
     # add blackbox constraints
     if add_blockbox_constraints_flag:

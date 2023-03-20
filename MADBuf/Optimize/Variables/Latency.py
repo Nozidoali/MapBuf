@@ -21,7 +21,7 @@ def add_latency_labels(model: gp.Model, g: BLIFGraph):
 
     model.addVar(vtype=GRB.INTEGER, name=f"latency")
 
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         model.addVar(
             vtype=GRB.INTEGER, name=f"LatencyLabel_{signal}", lb=0
         )  # delay variables
@@ -29,7 +29,7 @@ def add_latency_labels(model: gp.Model, g: BLIFGraph):
     model.update()
 
     # the latency is the maximum of all the latency labels
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
         model.addConstr(
             model.getVarByName(f"LatencyLabel_{signal}")
             <= model.getVarByName(f"latency")

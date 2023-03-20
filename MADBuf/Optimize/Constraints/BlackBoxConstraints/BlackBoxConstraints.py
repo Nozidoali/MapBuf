@@ -35,4 +35,4 @@ def add_blackbox_constraints(
                     model.addConstr(var >= 1)
 
                     if verbose:
-                        print(f"Blackbox: {var_name} >= 1")
+                        print_green(f"Adding Blackbox Buffer Constraints: {var_name} >= 1")

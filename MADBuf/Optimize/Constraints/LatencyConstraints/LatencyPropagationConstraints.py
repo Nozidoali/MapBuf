@@ -17,7 +17,7 @@ def add_latency_propagation_constraints(
     model: gp.Model, g: BLIFGraph, signal_to_variable: dict
 ):
 
-    for signal in g.topological_traversal:
+    for signal in g.topological_traversal():
 
         # we skip
         if signal not in g.node_fanins:

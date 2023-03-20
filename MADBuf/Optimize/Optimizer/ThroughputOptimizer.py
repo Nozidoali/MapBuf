@@ -17,7 +17,7 @@ from MADBuf.Optimize.Solver import *
 from MADBuf.Optimize.Optimizer.OptimizerBase import *
 from MADBuf.Optimize.Optimizer.OptimizerDFGBase import *
 
-
+from copy import deepcopy
 class ThroughputOptimizer(DFGOptimizer):
     def __init__(self, *args, **kwargs) -> None:
 
@@ -42,9 +42,10 @@ class ThroughputOptimizer(DFGOptimizer):
         signal_to_cut = retrieve_cuts(self.model, self.signal_to_cuts)
         signal_to_label = retrieve_timing_labels(self.model)
 
-        dfg = self.dfg.copy()
-        insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
-        return dfg
+        # dfg = duplicate_dfg(self.dfg)
+        # dfg = self.dfg.copy()
+        # insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
+        return buffers, buffer_slots, signal_to_cut, signal_to_label
 
     def parse_clock_period(self, *args, **kwargs):
 
@@ -78,12 +79,6 @@ class ThroughputOptimizer(DFGOptimizer):
 
         self.model = model
 
-        self.signal_to_variable = get_signal_to_variable(
-            model,
-            signal_to_channel=self.signal_to_channel,
-            dfg_mapped=self.dfg_mapped,
-            mapping=self.mapping,
-        )
 
     def build_model(self, *args, **kwargs):
 
@@ -92,17 +87,23 @@ class ThroughputOptimizer(DFGOptimizer):
         )
 
         blackbox = get_value_from_kwargs(
-            kwargs, ["blackbox", "add_cutloopback_constraints_flag"], False
+            kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
+        )
+
+        self.signal_to_variable = get_signal_to_variable(
+            self.model,
+            signal_to_channel=self.signal_to_channel,
+            dfg_mapped=self.dfg_mapped,
+            mapping=self.mapping,
+            add_constraints = cut_loopback
         )
 
         add_timing_constraints(
             self.model,
             self.graph,
-            self.dfg_mapped,
             self.signal_to_cuts,
             self.signal_to_channel,
-            self.mapping,
-            add_cutloopback_constraints_flag=cut_loopback,
+            self.signal_to_variable,
             add_blockbox_constraints_flag=blackbox,
             clock_period=self.clock_period,
             verbose=True,

@@ -21,20 +21,28 @@ def submit_solution(*args, **kwargs):
     method = kwargs["method"]
     print_blue(f"Running {method}...")
 
+    if "mut" not in kwargs:
+        raise Exception("Please provide the module under test name")
+
+    mut = kwargs["mut"]
+    print_blue(f"Module under test: {mut}")
+
     if method == "madbuf":
         evaluate(**kwargs)
 
     elif method == "milp":
         evaluate_milp(**kwargs)
 
-    cycles = run_simulation(**kwargs)
-
-    if "mut" not in kwargs:
-        raise Exception("Please provide the module under test name")
-
-    mut = kwargs["mut"]
-
+    # before running simulation, we need to check the correctness of the solution
+    dfg_ref = read_dfg(f"./{mut}/reports/{mut}.dot")
     dfg = read_dfg(f"./{mut}/reports/{mut}_{method}.dot")
+    print_blue("Checking equivalence...")
+    assert equivalence_checking(dfg_ref, dfg)
+    print_green("Equivalence checking passed!")
+
+    # 
+    cycles = evaluate_num_cycles(**kwargs)
+
     mapping_to_unfloating(dfg)
     split_multiplier_bitwidth(dfg)
 
@@ -42,6 +50,8 @@ def submit_solution(*args, **kwargs):
         kwargs, ["run_synthesis", "run_optimization"], False
     )
 
+    # evaluate delay
+    # we get the delay in ns, and the number of FFs, and the number of LUTs
     values = evaluate_delay(dfg, mut, run_synthesis=run_synthesis)
 
     return cycles, values

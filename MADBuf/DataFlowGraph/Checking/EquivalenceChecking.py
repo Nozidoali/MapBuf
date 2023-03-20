@@ -30,12 +30,15 @@ def is_same(n1: pgv.Node, n2: pgv.Node, verbose: bool = False) -> bool:
     return True
 
 
-def equivalence_checking(
-    dfg1: pgv.AGraph, dfg2: pgv.AGraph, verbose: bool = False
+def equivalence_checking_helper(
+    _dfg1: pgv.AGraph, _dfg2: pgv.AGraph, verbose: bool = False
 ) -> bool:
     """
     Check if two DFGs are equivalent
     """
+
+    dfg1 = _dfg1.copy()
+    dfg2 = _dfg2.copy()
 
     remove_buffers(dfg1)
     remove_buffers(dfg2)
@@ -72,3 +75,8 @@ def equivalence_checking(
                 return False
 
     return True
+
+def equivalence_checking(
+    dfg1: pgv.AGraph, dfg2: pgv.AGraph, verbose: bool = False
+) -> bool:
+    return equivalence_checking_helper(dfg1, dfg2, verbose) and equivalence_checking_helper(dfg2, dfg1, verbose)
