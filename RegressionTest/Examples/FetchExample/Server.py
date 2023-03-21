@@ -5,10 +5,10 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:07:19
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-12 21:02:36
+Last Modified time: 2023-03-21 13:27:30
 '''
 
-from subprocess import run
+import subprocess
 
 
 def run_server(command: str, *args, **kwargs):
@@ -22,4 +22,4 @@ def run_server(command: str, *args, **kwargs):
         timeout = kwargs["timeout"]
     else:
         timeout = None
-    run(f'ssh {server} "{command}"', shell=True, timeout=timeout)
+    subprocess.run(f'ssh {server} "{command}"', shell=True, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

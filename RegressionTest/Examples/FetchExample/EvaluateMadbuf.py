@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 00:34:35
+Last Modified time: 2023-03-21 13:21:47
 '''
 from MADBuf import *
 
@@ -15,7 +15,7 @@ This is a script to run MADBuf on a single mut (module under test).
     1. define the mut name (module under test)
 """
 
-def evaluate(*args, **kwargs):
+def evaluate_madbuf(*args, **kwargs):
     
     if 'mut' not in kwargs:
         raise Exception("mut is not specified")

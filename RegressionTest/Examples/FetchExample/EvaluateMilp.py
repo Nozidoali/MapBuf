@@ -5,12 +5,14 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 02:25:51
+Last Modified time: 2023-03-21 13:33:20
 '''
 
 from MADBuf import *
 
 def evaluate_milp(*args, **kwargs):
+
+    print_blue("\n\n[i] Evaluating MILP++\n")
 
     if "mut" not in kwargs:
         raise ValueError("You must specify the mutation")
@@ -37,9 +39,9 @@ def evaluate_milp(*args, **kwargs):
             
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
-    print_blue(f"[i] Found {network.num_nodes()} nodes in the subject graph")
+    print_green(f"Found {network.num_nodes()} nodes in the subject graph")
 
-    mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=True)
+    mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=False)
 
     max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)
 
@@ -73,6 +75,7 @@ def evaluate_milp(*args, **kwargs):
         "time_limit",
     ], 60)
 
+    print_blue(f"\n\nRunning optimization with timeout {timeout} seconds\n", flush=True)
     optimizer.run_optimization(
         lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
         ilp_filename = f"./{mut}/reports/{mut}_{method}.ilp",
@@ -83,8 +86,8 @@ def evaluate_milp(*args, **kwargs):
     buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
 
     dfg = read_dfg(f"./{mut}/reports/{mut}.dot")
-    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
+    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
 
     write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")
-    run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)
+    subprocess.run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)
 

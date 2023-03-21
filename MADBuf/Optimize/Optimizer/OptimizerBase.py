@@ -12,7 +12,7 @@ from MADBuf.Utils import *
 from MADBuf.SubjectGraph import *
 from MADBuf.DataFlowGraph import *
 
-
+import gurobipy as gp
 class OptimizerBase:
     """Optimizer Base Class
 
@@ -102,3 +102,7 @@ class OptimizerBase:
         )
 
         self.verbose = verbose
+
+        if not verbose:
+            # mute the gurobi output
+            gp.outputflag = 0

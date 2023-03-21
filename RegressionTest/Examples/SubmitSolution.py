@@ -13,46 +13,6 @@ from FetchExample import *
 from subprocess import run
 
 
-def submit_solution(*args, **kwargs):
-
-    if "method" not in kwargs:
-        raise Exception("method is not specified")
-
-    method = kwargs["method"]
-    print_blue(f"Running {method}...")
-
-    if "mut" not in kwargs:
-        raise Exception("Please provide the module under test name")
-
-    mut = kwargs["mut"]
-    print_blue(f"Module under test: {mut}")
-
-    if method == "madbuf":
-        evaluate(**kwargs)
-
-    elif method == "milp":
-        evaluate_milp(**kwargs)
-
-    # before running simulation, we need to check the correctness of the solution
-    dfg_ref = read_dfg(f"./{mut}/reports/{mut}.dot")
-    dfg = read_dfg(f"./{mut}/reports/{mut}_{method}.dot")
-    print_blue("Checking equivalence...")
-    assert equivalence_checking(dfg_ref, dfg)
-    print_green("Equivalence checking passed!")
-
-    cycles = evaluate_num_cycles(**kwargs)
-
-    run_synthesis = get_value_from_kwargs(
-        kwargs, ["run_synthesis", "run_optimization"], False
-    )
-
-    # evaluate delay
-    # we get the delay in ns, and the number of FFs, and the number of LUTs
-    values = evaluate_delay(dfg, mut, run_synthesis=run_synthesis)
-
-    return cycles, values
-
-
 def all_dac_examples():
     return [
         'gaussian',
