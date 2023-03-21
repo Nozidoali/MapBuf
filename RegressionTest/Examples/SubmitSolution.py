@@ -78,7 +78,7 @@ if __name__ == "__main__":
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
-    timout = 10*60 # 10 minutes
+    timout = 1*60 # 10 minutes
 
     if len(sys.argv) == 1:
         muts = all_dac_examples()

@@ -127,8 +127,8 @@ def get_timing_labels(
                 break
 
             if f in signal_to_channel:
-                # to record the cut no matter what
-                cuts[signal].append(Cut(leaves))
+                if curr_expansion_level == 0:
+                    cuts[signal].append(Cut(leaves))
 
             leaves_to_expand = set()
             for label, f in arrival_times:
