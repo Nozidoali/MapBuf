@@ -3,7 +3,7 @@ from MADBuf import *
 import subprocess
 
 g: BLIFGraph = read_blif("dummy/reports/dummy.blif")
-network, signal_to_channel, signals_in_component = retrieve_anchors(g)
+network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
 
 dfg = read_dfg("dummy/reports/dummy.dot")
 

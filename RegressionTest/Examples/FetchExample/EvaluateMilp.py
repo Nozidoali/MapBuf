@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-20 22:06:16
+Last Modified time: 2023-03-21 00:34:35
 '''
 
 from MADBuf import *
@@ -36,7 +36,7 @@ def evaluate_milp(*args, **kwargs):
         read_blif(g, f"{mut}/reports/{mut}.strash.blif")
             
     network: BLIFGraph
-    network, signal_to_channel, signals_in_component = retrieve_anchors(g)
+    network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
     print_blue(f"[i] Found {network.num_nodes()} nodes in the subject graph")
 
     mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=True)

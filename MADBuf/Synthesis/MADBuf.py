@@ -11,7 +11,7 @@ class MADBuf(MADBufBase):
     def __init__(self, *args, **kwargs) -> None:
 
         if len(args) == 1:
-            network, signal_to_channel, signals_in_component = retrieve_anchors(args[0])
+            network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(args[0])
             MADBufBase.__init__(self, network, signal_to_channel, signals_in_component)
 
         elif len(args) == 3:

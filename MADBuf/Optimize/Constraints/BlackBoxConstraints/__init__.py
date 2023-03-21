@@ -9,3 +9,4 @@ Last Modified time: 2023-03-19 00:18:16
 """
 
 from MADBuf.Optimize.Constraints.BlackBoxConstraints.BlackBoxConstraints import *
+from MADBuf.Optimize.Constraints.BlackBoxConstraints.DelayPropagation import *

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:53:00
+Last Modified time: 2023-03-21 00:34:35
 '''
 from MADBuf import *
 
@@ -33,7 +33,7 @@ def evaluate(*args, **kwargs):
 
     print(blif.num_nodes())
 
-    network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
+    network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(blif)
 
     # these two methods work the same
     optimizer: MADBuf = MADBuf(network, signal_to_channel, signals_in_component)

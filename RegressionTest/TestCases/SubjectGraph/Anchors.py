@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 18:55:09
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:27:18
+Last Modified time: 2023-03-21 00:34:35
 '''
 
 from MADBuf import *
@@ -19,7 +19,7 @@ class TestAnchors(TestCases):
         blif = generate_small_blif_with_anchors()
         
         network: BLIFGraph
-        network, signal_to_channel, signals_in_component = retrieve_anchors(blif)
+        network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(blif)
 
         # we do not need to make sure all the signal in the network 
         # is in the signal_to_channel
