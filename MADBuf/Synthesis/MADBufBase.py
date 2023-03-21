@@ -185,7 +185,7 @@ class MADBufBase:
                     break
 
         # leaves store the final cut selection
-        self.signal_to_cut[n] = Cut(best_cut.copy())
+        self.signal_to_cut[n] = Cut(n, best_cut.copy())
 
         return l_opt
 
@@ -492,7 +492,7 @@ class MADBufBase:
                         break
 
         # update the cut selection
-        self.signal_to_cut[n] = Cut(best_leaves)
+        self.signal_to_cut[n] = Cut(n, best_leaves)
 
         # update dirty label here:
         if l_opt < self._node_arrival_time(n):

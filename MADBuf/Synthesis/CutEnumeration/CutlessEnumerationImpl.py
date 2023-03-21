@@ -77,14 +77,14 @@ def get_timing_labels(
 
         if g.is_ci(signal):
             labels[signal] = TimingLabel(0)
-            cuts[signal] = [Cut([signal])]
+            cuts[signal] = [Cut(signal, [signal])]
             continue
 
         optimal_timing_label = TimingLabel()
 
         leaves: set = set(list(g.node_fanins[signal])[:])  # deep copy
         best_leaves: set = leaves.copy()  # deep copy
-        cuts[signal].append(Cut(leaves))
+        cuts[signal].append(Cut(signal, leaves))
 
         # while len(leaves) <= cut_size_limit:
         curr_expansion_level = 0
@@ -128,7 +128,7 @@ def get_timing_labels(
 
             if f in signal_to_channel:
                 if curr_expansion_level == 0:
-                    cuts[signal].append(Cut(leaves))
+                    cuts[signal].append(Cut(signal, leaves))
 
             leaves_to_expand = set()
             for label, f in arrival_times:
@@ -138,7 +138,7 @@ def get_timing_labels(
             leaves = expand_cut_at(g, leaves, leaves_to_expand)
 
         labels[signal] = optimal_timing_label
-        cuts[signal].append(Cut(best_leaves))
+        cuts[signal].append(Cut(signal, best_leaves))
 
     return labels, cuts
 

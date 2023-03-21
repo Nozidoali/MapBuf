@@ -114,7 +114,7 @@ if __name__ == "__main__":
             clock_period=clock_period,
             add_cutloopback_constraints_flag=False,
             add_blockbox_constraints_flag=False,
-            add_blackbox_delay_propagation_flag=False,
+            add_blackbox_delay_propagation_flag=True,
             time_limit=timout,
             run_synthesis=True,
             max_expansion_level=4

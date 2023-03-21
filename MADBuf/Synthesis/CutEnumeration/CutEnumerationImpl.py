@@ -49,13 +49,13 @@ def cut_enumeration_impl_helper(
         return
 
     if len(g.predecessors(n)) == 0:
-        cuts[n] = [Cut([n])]
+        cuts[n] = [Cut(n, [n])]
         return
 
     for l in g.predecessors(n):
         cut_enumeration_impl_helper(g, l, cuts, priority_cut_size, lut_size_limit)
 
-    cuts[n] = [Cut([n])]
+    cuts[n] = [Cut(n, [n])]
     c = [cuts[f] for f in g.predecessors(n)]
     cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
 
@@ -85,7 +85,7 @@ def cut_enumeration_impl(
     elif isinstance(g, BLIFGraph):
 
         for n in g.topological_traversal():
-            cuts[n] = [Cut([n])]
+            cuts[n] = [Cut(n, [n])]
 
             if n in g.node_fanins:
                 c = [cuts[f] for f in g.node_fanins[n]]

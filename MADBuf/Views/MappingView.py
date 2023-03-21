@@ -62,7 +62,7 @@ class MappingView(BLIFGraph):
 
             if self.is_ci(signal):
                 self.timing_labels[signal] = TimingLabel(0)
-                self.signal_to_cuts[signal] = [Cut([signal])]
+                self.signal_to_cuts[signal] = [Cut(signal, [signal])]
                 continue
 
             optimal_timing_label = TimingLabel()
@@ -106,7 +106,7 @@ class MappingView(BLIFGraph):
 
                 if f in self.signal_to_channel:
                     # to record the cut no matter what
-                    self.signal_to_cuts[signal].append(Cut(leaves))
+                    self.signal_to_cuts[signal].append(Cut(signal, leaves))
 
                 leaves_to_expand = set()
                 for label, f in arrival_times:
@@ -116,7 +116,7 @@ class MappingView(BLIFGraph):
                 leaves = expand_cut_at(self, leaves, leaves_to_expand)
 
             self.timing_labels[signal] = optimal_timing_label
-            self.signal_to_cuts[signal].append(Cut(best_leaves))
+            self.signal_to_cuts[signal].append(Cut(signal, best_leaves))
 
     def get_signal_to_cuts(self, **kwargs):
         return self.signal_to_cuts
