@@ -11,6 +11,7 @@ Last Modified time: 2023-03-19 02:06:56
 import gurobipy as gp
 from MADBuf.Network import *
 from MADBuf.Optimize.Constraints.TimingConstraints.DelayPropagationConstraints import *
+from MADBuf.Optimize.Constraints.TimingConstraints.WirePropagationConstraints import *
 
 
 class madbuf_constraints_params:
@@ -35,6 +36,22 @@ def add_madbuf_constraints(
 
         except:
             buffer_var = None
+
+        # here we have special cases for delay propagation on wire:
+        if madbuf_constraints_params.skip_trivial_depth_propagation:
+
+            if signal not in graph.node_fanins:
+                pass
+
+            elif len(graph.node_fanins[signal]) != 1:
+                pass
+
+            else:
+
+                # only one fanin
+                for fanin in graph.node_fanins[signal]:
+                    add_delay_propagation_constraints_on_wire(model, signal, fanin, buffer_var)
+                continue
 
         # get the set of cuts that are precomputed for this signal
         cut_set: list = signal_to_cuts[signal]
