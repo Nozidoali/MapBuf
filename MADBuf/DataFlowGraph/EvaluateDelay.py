@@ -8,23 +8,35 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 11:06:04
 """
 
-from subprocess import run
+import subprocess
 from MADBuf.IO import *
 from MADBuf.ExternalTools import *
+from MADBuf.DataFlowGraph.FloatingPointMapping import *
+from MADBuf.DataFlowGraph.MultiplierWidth import *
 import pygraphviz as pgv
 import os
-
+import time
 
 def evaluate_delay(
     dfg: pgv.AGraph, top_module: str, run_synthesis: bool = False, verbose: bool = False
 ):
+    
+    print_blue("\n\n[i] Evaluating delay...\n")
 
-    run("cd /tmp && rm -rf eval", shell=True)
-    run("cd /tmp && mkdir eval", shell=True)
+    mapping_to_unfloating(dfg)
+    split_multiplier_bitwidth(dfg)
+
+    subprocess.run("cd /tmp && rm -rf eval", shell=True)
+    subprocess.run("cd /tmp && mkdir eval", shell=True)
     write_dfg(dfg, f"/tmp/eval/{top_module}.dot")
 
     dot2hdl_command = f"cd /tmp/eval && dot2hdl {top_module}"
-    run(dot2hdl_command, shell=True)
+    print("Running dot2hdl", end="...", flush=True)
+    subprocess.run(dot2hdl_command, shell=True, stdout=subprocess.PIPE)
+    while not os.path.exists(f"/tmp/eval/{top_module}.v"):
+        time.sleep(1)
+    print_green("Done")
+    
 
     if "ODIN_COMPONENTS" not in os.environ:
         raise Exception("ODIN_COMPONENTS is not set")
@@ -48,27 +60,33 @@ def evaluate_delay(
         ]
     )
 
-    print("Running ODIN")
-    run(odin_command, shell=True)
+    print("Running ODIN", end="...", flush=True)
+    subprocess.run(odin_command, shell=True, stdout=subprocess.PIPE)
+    while not os.path.exists(f"/tmp/eval/{top_module}.blif"):
+        time.sleep(1)
+    print_green("Done")
 
-    # run mapping
-    print("Running ABC")
+    # subprocess.run mapping
+    print("Running ABC", end="...",flush=True)
     run_abc_techmap(
         f"/tmp/eval/{top_module}.blif",
         f"/tmp/eval/{top_module}.abc.blif",
         run_optimization=run_synthesis,
     )
+    print_green("Done")
 
-    # now we run pre-VPR
-    print("Running pre-VPR")
-    run(
-        [
+    # now we subprocess.run pre-VPR
+    print("Running pre-VPR", end="...", flush=True)
+    subprocess.run( " ".join( [
             "restore_multiclock_latch.pl",
             f"/tmp/eval/{top_module}.blif",
             f"/tmp/eval/{top_module}.abc.blif",
             f"/tmp/eval/{top_module}.vpr.blif",
-        ]
+        ]), shell=True, stdout=subprocess.PIPE
     )
+    while not os.path.exists(f"/tmp/eval/{top_module}.vpr.blif"):
+        time.sleep(1)
+    print_green("Done")
 
     # fix the techlib name
     fix_techlib(
@@ -94,8 +112,11 @@ def evaluate_delay(
         ]
     )
 
-    print("Running VPR")
-    run(f"cd /tmp/eval && {vpr_command}", shell=True)
+    print("Running VPR", end="...", flush=True)
+    subprocess.run(f"cd /tmp/eval && ({vpr_command})", shell=True, stdout=subprocess.PIPE)
+    while not os.path.exists(f"/tmp/eval/report_timing.setup.rpt"):
+        time.sleep(1)
+    print_green("Done")
 
     # now we retrieve the clock period information from the set up timing report
     f = open("/tmp/eval/report_timing.setup.rpt", "r")
@@ -109,7 +130,7 @@ def evaluate_delay(
 
     f.close()
 
-    # run(f"rm -rf /tmp/eval", shell=True)
+    # subprocess.run(f"rm -rf /tmp/eval", shell=True)
 
     values: dict = {}
 

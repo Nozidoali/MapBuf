@@ -35,11 +35,11 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
         curr_index_used: bool = False
 
         if "_" not in node_name:
-            print(f"Warning: skiping floating point checking on node {node_name}")
+            print_red(f"Warning: skiping floating point checking on node {node_name}")
             continue
 
         if len(node_name.split("_")) != 2:
-            print(f"Warning: skiping floating point checking on node {node_name}")
+            print_red(f"Warning: skiping floating point checking on node {node_name}")
             continue
 
         component_type, component_index = node_name.split("_")
@@ -63,10 +63,12 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
 
         mapping.add_mapping(mapping_from, mapping_to, buffer_inserted)
 
-        print(
-            f"replacing {mapping_from} using {mapping_to} (buffer = {buffer_inserted})",
-            end="...",
-        )
+        if verbose:
+            print(
+                f"replacing {mapping_from} using {mapping_to} (buffer = {buffer_inserted})",
+                end="...",
+            )
+
 
         # then, we add the new components to the graph
         #
@@ -125,7 +127,8 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
         if curr_index_used:
             curr_index += 1
 
-        print("done")
+        if verbose:
+            print_green("done")
 
     for n in to_remove:
         g.remove_node(n)

@@ -42,9 +42,6 @@ def submit_solution(*args, **kwargs):
 
     cycles = evaluate_num_cycles(**kwargs)
 
-    mapping_to_unfloating(dfg)
-    split_multiplier_bitwidth(dfg)
-
     run_synthesis = get_value_from_kwargs(
         kwargs, ["run_synthesis", "run_optimization"], False
     )
