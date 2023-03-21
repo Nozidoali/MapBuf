@@ -36,6 +36,7 @@ class DelayOptimizer(OptimizerBase):
 
         add_madbuf_constraints(
             model=self.model,
+            graph=self.graph,
             signal_to_cuts=self.signal_to_cuts,
         )
 

@@ -9,15 +9,17 @@ Last Modified time: 2023-03-19 02:06:56
 """
 
 import gurobipy as gp
+from MADBuf.Network import *
 from MADBuf.Optimize.Constraints.TimingConstraints.DelayPropagationConstraints import *
 
 
 class madbuf_constraints_params:
     skip_definite_cut_selection: bool = True
+    skip_trivial_depth_propagation: bool = True
 
 
 def add_madbuf_constraints(
-    model: gp.Model, signal_to_cuts: dict, signal_to_variable: dict = None
+    model: gp.Model, graph: BLIFGraph, signal_to_cuts: dict, signal_to_variable: dict = None
 ):
 
     for signal in signal_to_cuts:

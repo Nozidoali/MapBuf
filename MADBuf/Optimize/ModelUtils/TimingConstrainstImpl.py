@@ -53,6 +53,7 @@ def add_timing_constraints(
     # add the cut selection constraints
     add_madbuf_constraints(
         model=model,
+        graph=network,
         signal_to_cuts=signal_to_cuts,
         signal_to_variable=signal_to_variable,
     )
