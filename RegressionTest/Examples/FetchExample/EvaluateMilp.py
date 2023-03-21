@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 17:39:21
+Last Modified time: 2023-03-21 18:49:51
 '''
 
 from MADBuf import *
@@ -99,7 +99,7 @@ def evaluate_milp(*args, **kwargs):
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
 
     dfg = read_dfg(f"./{mut}/reports/{mut}.dot")
-    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=verbose)
+    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=True)
 
     print(f"Writting solution to {mut}/reports/{mut}_{method}.dot", end="... ", flush=True)
     write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")

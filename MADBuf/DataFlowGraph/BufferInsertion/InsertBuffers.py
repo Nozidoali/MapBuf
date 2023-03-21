@@ -3,6 +3,8 @@ from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.BufferInsertion.InsertBuffer import *
 from MADBuf.DataFlowGraph.BufferInsertion.BufferInsertion import *
 
+class insert_buffer_params:
+    consider_transparent_buffers_in_phi: bool = False
 
 def insert_buffers_in_dfg(
     g: pgv.AGraph,
@@ -52,28 +54,29 @@ def insert_buffers_in_dfg(
             n_slots_valid: int = 1
             n_slots_ready: int = 1 if n_slots == None else n_slots - 1
 
-            if verbose:
-                print(
-                    f"{channel_valid} ({n_slots_valid}) and {channel_ready} ({n_slots_ready})"
-                )
-
         elif channel_valid in buffers:
             n_slots_valid: int = 1 if n_slots == None else n_slots
             n_slots_ready: int = 0
-
-            if verbose:
-                print(f"{channel_valid} ({n_slots_valid})")
 
         elif channel_ready in buffers:
             n_slots_valid: int = 0
             n_slots_ready: int = 1 if n_slots == None else n_slots
 
-            if verbose:
-                print(f"{channel_ready} ({n_slots_ready})")
+        # Here we have a special case:
+        # in phi component, we already have a transparent buffer
+        # at the output of the phi component
+        if insert_buffer_params.consider_transparent_buffers_in_phi and "phi" in u:
+            if n_slots_ready == 0:
+                print_red(f"WARNING: transparent buffer on {u} -> {v} is lost")
+            n_slots_ready = n_slots_ready - 1 if n_slots_ready > 0 else 0
+
+        if verbose:
+            if n_slots_valid > 0 or n_slots_ready > 0:
+                print(f"{u} -> {v} : {n_slots_valid} + {n_slots_ready}t")
 
         # now that we have the number of slots already, we insert buffers
         #
-        if channel_valid in buffers:
+        if n_slots_valid > 0:
 
             # in case of we need to insert both opaque and transparet buffers on the same channel
             _e = insert_buffer_at(graph, e, f"{buffer_idx}", False, n_slots_valid)
@@ -81,13 +84,13 @@ def insert_buffers_in_dfg(
 
             edges_to_remove.add(e)
 
-            if channel_ready in buffers:
+            if n_slots_ready > 0:
                 insert_buffer_at(graph, _e, f"{buffer_idx}", True, n_slots_ready)
                 buffer_idx += 1
 
                 edges_to_remove.add(_e)
 
-        elif channel_ready in buffers:
+        elif n_slots_ready > 0:
             insert_buffer_at(graph, e, f"{buffer_idx}", True, n_slots_ready)
             buffer_idx += 1
 
