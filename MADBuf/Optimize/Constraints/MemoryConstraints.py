@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-20 21:45:53
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 14:52:20
+Last Modified time: 2023-03-21 15:16:50
 '''
 
 import gurobipy as gp
@@ -33,10 +33,9 @@ def add_memory_constraints(model: gp.Model, *args, **kwargs):
 
     print_green(f"Adding {len(always_zero_vars)} constraints for memory constraints")
     
-    if verbose:
-        for var in always_zero_vars:
-
+    for var in always_zero_vars:
+        if verbose:
             print_orange(f"Adding constraint for {var.varName} == 0")
-            model.addConstr(var == 0)
+        model.addConstr(var == 0)
 
     model.update()

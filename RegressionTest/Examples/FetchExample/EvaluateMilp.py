@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 14:16:47
+Last Modified time: 2023-03-21 17:39:21
 '''
 
 from MADBuf import *
@@ -56,7 +56,8 @@ def evaluate_milp(*args, **kwargs):
 
     max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)
 
-    cuts = cut_enumeration(
+    print(f"Running cut enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
+    signal_to_cuts = cut_enumeration(
         network, 
         signal_to_channel=signal_to_channel,
         priority_cut_size=20,
@@ -64,8 +65,7 @@ def evaluate_milp(*args, **kwargs):
         cutless=True,
         max_expansion_level=max_expansion_level,
     )
-
-    signal_to_cuts = cleanup_dangling_cuts(cuts)
+    print_green("Done", flush=True)
 
     dfg= read_dfg(f"./{mut}/reports/{mut}.dot")
 
@@ -96,9 +96,14 @@ def evaluate_milp(*args, **kwargs):
 
     buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
 
-    dfg = read_dfg(f"./{mut}/reports/{mut}.dot")
-    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
+    verbose = get_value_from_kwargs(kwargs, "verbose", False)
 
+    dfg = read_dfg(f"./{mut}/reports/{mut}.dot")
+    insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=verbose)
+
+    print(f"Writting solution to {mut}/reports/{mut}_{method}.dot", end="... ", flush=True)
     write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")
     subprocess.run(f"dot -Tpng {mut}/reports/{mut}_{method}.dot -o {mut}/reports/{mut}_{method}.png", shell=True)
+
+    print_green("Done")
 

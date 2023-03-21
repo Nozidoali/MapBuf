@@ -45,7 +45,7 @@ with gp.Env(empty=True) as env:
         # graph.write(f'{benchmark}.dot')
         # subprocess.run("dot -Tpng -o {benchmark}.png {benchmark}.dot".format(benchmark=benchmark), shell=True)
             
-        cuts = cut_enumeration(
+        signal_to_cuts = cut_enumeration(
             blif, 
             signal_to_channel=None,
             priority_cut_size=20,
@@ -53,8 +53,6 @@ with gp.Env(empty=True) as env:
             cutless=True,
             max_expansion_level=4
         )
-
-        signal_to_cuts = cleanup_dangling_cuts(cuts)
                 
         optimizer = Optimizer(
             target="delay",

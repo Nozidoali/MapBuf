@@ -7,10 +7,9 @@ network, signal_to_channel, signals_in_component = retrieve_information_from_sub
 
 dfg = read_dfg("dummy/reports/dummy.dot")
 
-cuts = cut_enumeration(
+signal_to_cuts = cut_enumeration(
     network, cut_size=6, num_cuts=100, cutless=True, signal_to_channel=signal_to_channel
 )
-signal_to_cuts = cleanup_dangling_cuts(cuts)
 
 optimizer = Optimizer(
     top="dummy",

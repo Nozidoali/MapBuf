@@ -74,7 +74,6 @@ def retrieve_buffers_from_dynamatic_variables(model: gp.Model, verbose: bool = F
 
             # and, we also need the buffer
 
-    if verbose:
-        print("Number of buffered channels: ", num_buffered_channels)
+    print("Number of buffered channels: ", text_orange(num_buffered_channels))
 
     return buffers

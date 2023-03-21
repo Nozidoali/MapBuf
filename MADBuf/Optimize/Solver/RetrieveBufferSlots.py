@@ -36,6 +36,6 @@ def retrieve_buffers_to_n_slots(model: gp.Model):
             # the slots are only for the valid channel
             buffer_to_slots[channel] = int(variable.x)
 
-    print("Number of buffers:", num_buffers)
+    print("Number of buffer slots:", text_orange(num_buffers))
 
     return buffer_to_slots

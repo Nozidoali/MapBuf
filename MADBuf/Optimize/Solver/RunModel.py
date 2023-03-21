@@ -50,25 +50,21 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
 
             model.write(ilp_filename)
 
+        exit(1)
         return
 
     if model.status == gp.GRB.TIME_LIMIT:
 
         num_solutions = model.SolCount
-
         print_red(f"Time limit reached, {num_solutions} solutions found")
-
         if num_solutions > 0:
             pass
-            
         else:
             milp_attempts = get_value_from_kwargs(
                 kwargs, ["milp_attempts", "milp_attempt"], 1
             )
-
             print_green(f"Remaining MILP attempts: {milp_attempts}")
             if milp_attempts > 0:
-
                 kwargs["milp_attempts"] = milp_attempts - 1
                 run_gurobi_optimization(model, **kwargs)
 
@@ -77,6 +73,7 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
 
     if model.status == gp.GRB.UNBOUNDED:
         print_red("Unbounded model")
+        exit(1)
         return
 
     solution_filename = get_value_from_kwargs(

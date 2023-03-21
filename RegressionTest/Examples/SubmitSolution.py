@@ -77,7 +77,7 @@ if __name__ == "__main__":
             server=server,
             server_path=server_path,
             clock_period=clock_period,
-            add_cutloopback_constraints_flag=False,
+            add_cutloopback_constraints_flag=True,
             add_blockbox_constraints_flag=False,
             add_blackbox_delay_propagation_flag=True,
             time_limit=timout,

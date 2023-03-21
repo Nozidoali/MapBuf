@@ -33,6 +33,27 @@ def expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
         for h in g.node_fanins[leaf]:
             new_leaves.add(h)
 
+    # Example:
+    # 
+    #  a, b
+    # 
+    #       c = f(a,b)
+    #       d = f(a,b)
+    #       e = f(a,b)
+    #
+    # initial leaves: c, d, e
+    # if we expand the cut at node c, then we get {a, b, d, e}, which is redundant
+    #
+    # however, this could cause a problem and skip the channels
+    #
+    # for instance, 
+    #  a, b
+    #
+    #       c = f(a)
+    #       d = f(a, b)
+    #       e = f(a, b)
+    #
+    # initial leaves: c, d, e
     while True:
         updated = False
         for h in new_leaves:
