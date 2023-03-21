@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 13:33:20
+Last Modified time: 2023-03-21 14:16:47
 '''
 
 from MADBuf import *
@@ -36,11 +36,22 @@ def evaluate_milp(*args, **kwargs):
         read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
     else:
         read_blif(g, f"{mut}/reports/{mut}.strash.blif")
-            
+
+
+    
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
-    print_green(f"Found {network.num_nodes()} nodes in the subject graph")
+    
+    values = evalute_subject_graph(g)
+    minimal_lut_level = None if 'lev' not in values else values['lev']
 
+    values = evalute_subject_graph(network)
+    maximal_lut_level = None if 'lev' not in values else values['lev']
+
+    print_stats(network)
+    print_green(f"\tMinimal LUT level: {minimal_lut_level}")
+    print_green(f"\tMaximal LUT level: {maximal_lut_level}")
+    
     mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=False)
 
     max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)

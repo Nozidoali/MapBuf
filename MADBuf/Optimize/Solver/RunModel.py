@@ -25,6 +25,7 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         kwargs, ["time_limit", "timeout", "time", "t"], 3600
     )
 
+
     # now we solve the model under the time limit
     #
     model.Params.timeLimit = time_limit
@@ -52,7 +53,24 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         return
 
     if model.status == gp.GRB.TIME_LIMIT:
-        print_red("Time limit reached")
+
+        num_solutions = model.SolCount
+
+        print_red(f"Time limit reached, {num_solutions} solutions found")
+
+        if num_solutions > 0:
+            pass
+            
+        else:
+            milp_attempts = get_value_from_kwargs(
+                kwargs, ["milp_attempts", "milp_attempt"], 1
+            )
+
+            print_green(f"Remaining MILP attempts: {milp_attempts}")
+            if milp_attempts > 0:
+
+                kwargs["milp_attempts"] = milp_attempts - 1
+                run_gurobi_optimization(model, **kwargs)
 
     if model.status == gp.GRB.OPTIMAL:
         print_green("Optimal solution found")

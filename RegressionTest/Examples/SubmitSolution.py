@@ -11,7 +11,7 @@ Last Modified time: 2023-03-19 12:37:16
 from MADBuf import *
 from FetchExample import *
 from subprocess import run
-
+import art
 
 def all_dac_examples():
     return [
@@ -30,6 +30,8 @@ def all_dac_examples():
 import sys
 
 if __name__ == "__main__":
+
+    art.tprint("MADBuf")
 
     server = "sp"
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
@@ -56,6 +58,12 @@ if __name__ == "__main__":
         muts = [sys.argv[1]]
         method = sys.argv[2]
         clock_period = int(sys.argv[3])
+    
+    if len(sys.argv) == 5:
+        muts = [sys.argv[1]]
+        method = sys.argv[2]
+        clock_period = int(sys.argv[3])
+        timout = int(sys.argv[4])
 
     for mut in muts:
         print_blue(f"Processing {mut}...")

@@ -7,3 +7,4 @@ from MADBuf.ExternalTools.FixTechnologyLibrary import *
 from MADBuf.ExternalTools.ODINYosys import *
 from MADBuf.ExternalTools.PreVPR import *
 from MADBuf.ExternalTools.VPR import *
+from MADBuf.ExternalTools.AbcEvaluation import *

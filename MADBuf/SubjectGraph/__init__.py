@@ -19,3 +19,5 @@ from MADBuf.SubjectGraph.RetrieveAnchors import *
 from MADBuf.SubjectGraph.FindLoop import *
 from MADBuf.SubjectGraph.RetrieveDFG import *
 from MADBuf.SubjectGraph.KLUTMapping import *
+from MADBuf.SubjectGraph.PrintStats import *
+from MADBuf.SubjectGraph.EvaluateLevel import *

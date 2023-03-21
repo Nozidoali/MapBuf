@@ -34,6 +34,8 @@ class ThroughputOptimizer(DFGOptimizer):
 
     def run_optimization(self, *args, **kwargs):
         self.build_model(*args, **kwargs)
+
+        print_blue(f"\n\n[i] Running MILP sovler\n")
         run_gurobi_optimization(model=self.model, *args, **kwargs)
 
     def get_solution(self, *args, **kwargs):
@@ -110,7 +112,7 @@ class ThroughputOptimizer(DFGOptimizer):
         )
 
         # refine model: we should not buffer the channel between Memory Controller and Memory
-        add_memory_constraints(self.model)
+        add_memory_constraints(self.model, **kwargs)
 
         add_blackbox_delay_propagation_flag = get_value_from_kwargs(
             kwargs,

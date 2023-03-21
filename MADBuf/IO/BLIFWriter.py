@@ -63,7 +63,7 @@ def write_blif_to_string(g: BLIFGraph) -> str:
     return blif_string
 
 
-def write_blif_to_file(g: BLIFGraph, filename: str):
+def write_blif(g: BLIFGraph, filename: str):
 
     """
     write the blif to a file
