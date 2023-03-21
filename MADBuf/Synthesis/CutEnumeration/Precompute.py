@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 15:28:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 18:33:36
+Last Modified time: 2023-03-21 19:50:28
 '''
 
 from MADBuf.Network import *
@@ -14,6 +14,14 @@ from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.ExpandCutBase import *
 from MADBuf.Synthesis.CutEnumeration.ZeroOrderCutExpansion import *
 from MADBuf.Synthesis.CutEnumeration.FirstOrderCutExpansion import *
+from MADBuf.Synthesis.CutEnumeration.AllBufferedCutExpansion import *
+
+class cut_preparation_params:
+
+    use_zero_order_cut: bool = True
+    use_first_order_cut: bool = True
+    use_all_buffered_cut: bool = True
+    use_infinite_order_cut: bool = True
 
 def precompute_timing_labels(
     g: BLIFGraph,
@@ -38,6 +46,7 @@ def precompute_timing_labels(
         print(f"Precompute timing labels, cut size limit = {cut_size_limit}")
 
     labels: dict = {}
+    all_buffered_labels: dict = {}
     signal_to_cuts: dict = {}
 
     channel_to_signals: dict = {}
@@ -49,44 +58,74 @@ def precompute_timing_labels(
 
     for signal in g.topological_traversal():
         signal_to_cuts[signal] = []
+        cuts = []
 
         if g.is_ci(signal):
             labels[signal] = TimingLabel(0)
+            all_buffered_labels[signal] = TimingLabel(0)
             signal_to_cuts[signal] = [Cut(signal, [signal])]
             continue
 
-        optimal_timing_label, zero_order_cut = zero_order_cut_expansion(
-            g,
-            signal=signal,
-            labels=labels,
-            signal_to_channel=signal_to_channel,
-            cut_size_limit=cut_size_limit,
-            max_expansion_level=max_expansion_level,
-        )
-        labels[signal] = optimal_timing_label
+        if cut_preparation_params.use_zero_order_cut:
+            optimal_timing_label, zero_order_cut = zero_order_cut_expansion(
+                g,
+                signal=signal,
+                labels=labels,
+                signal_to_channel=signal_to_channel,
+                cut_size_limit=cut_size_limit,
+                max_expansion_level=max_expansion_level,
+            )
+            labels[signal] = optimal_timing_label
 
-        # print(f"find cut: {str(zero_order_cut)}")
-        cuts = [zero_order_cut]
+            cuts.append(zero_order_cut)
 
-        first_order_timing_label, first_order_cut = first_order_cut_expansion(
-            g,
-            cut=zero_order_cut,
-            labels=labels,
-            signal_to_channel=signal_to_channel,
-            channel_to_signals=channel_to_signals,
-            cut_size_limit=cut_size_limit,
-            max_expansion_level=max_expansion_level,
-            verbose=verbose,
-        )
+        if cut_preparation_params.use_first_order_cut:
+            assert cut_preparation_params.use_zero_order_cut
+            
+            first_order_timing_label, first_order_cut = first_order_cut_expansion(
+                g,
+                cut=zero_order_cut,
+                labels=labels,
+                signal_to_channel=signal_to_channel,
+                channel_to_signals=channel_to_signals,
+                cut_size_limit=cut_size_limit,
+                max_expansion_level=max_expansion_level,
+                verbose=verbose,
+            )
 
-        if first_order_timing_label is not None:
-            if first_order_timing_label < optimal_timing_label:
+            if first_order_timing_label is not None:
+                if first_order_timing_label < optimal_timing_label:
 
-                cuts.append(first_order_cut)
+                    cuts.append(first_order_cut)
 
-        # infinite order cuts
-        cuts.append(Cut(signal, g.node_fanins[signal]))
+        if cut_preparation_params.use_infinite_order_cut:
+            # infinite order cuts
+            cuts.append(Cut(signal, g.node_fanins[signal]))
 
+        if cut_preparation_params.use_all_buffered_cut:
+            if signal in signal_to_channel:
+                all_buffered_labels[signal] = TimingLabel(0)
+
+                # we don't add cuts to these channel signals
+                pass
+
+            else:
+                # then we add the cuts assuming all the channels are buffered
+                all_buffered_timing_label, all_buffered_cut = all_buffered_cut_expansion(
+                    g,
+                    signal=signal,
+                    labels=all_buffered_labels,
+                    signal_to_channel=signal_to_channel,
+                    channel_to_signals=channel_to_signals,
+                    cut_size_limit=cut_size_limit,
+                    max_expansion_level=max_expansion_level,
+                    verbose=verbose,
+                )
+                if all_buffered_timing_label is not None:
+                    all_buffered_labels[signal] = all_buffered_timing_label
+                    if all_buffered_timing_label < optimal_timing_label:
+                        cuts.append(all_buffered_cut)
+                
         signal_to_cuts[signal] = cuts
         
         # unique cuts
