@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 00:34:35
+Last Modified time: 2023-03-21 02:25:51
 '''
 
 from MADBuf import *
@@ -41,12 +41,15 @@ def evaluate_milp(*args, **kwargs):
 
     mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=True)
 
+    max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)
+
     cuts = cut_enumeration(
         network, 
         signal_to_channel=signal_to_channel,
         priority_cut_size=20,
         lut_size_limit=6,
         cutless=True,
+        max_expansion_level=max_expansion_level,
     )
 
     signal_to_cuts = cleanup_dangling_cuts(cuts)

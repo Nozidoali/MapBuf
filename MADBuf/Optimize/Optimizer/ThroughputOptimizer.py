@@ -112,7 +112,16 @@ class ThroughputOptimizer(DFGOptimizer):
         # refine model: we should not buffer the channel between Memory Controller and Memory
         add_memory_constraints(self.model)
 
-        add_blackbox_delay_propapation_constraints(self.model, self.graph)
+        add_blackbox_delay_propagation_flag = get_value_from_kwargs(
+            kwargs,
+            [
+                "add_blackbox_delay_propagation_constraints_flag",
+            ],
+            False,
+        )
+
+        if add_blackbox_delay_propagation_flag:
+            add_blackbox_delay_propapation_constraints(self.model, self.graph)
 
         lp_filename = get_value_from_kwargs(
             kwargs,
