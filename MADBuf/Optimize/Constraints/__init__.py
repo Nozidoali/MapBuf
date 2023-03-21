@@ -12,3 +12,4 @@ from MADBuf.Optimize.Constraints.TimingConstraints import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints import *
 from MADBuf.Optimize.Constraints.LatencyConstraints import *
 from MADBuf.Optimize.Constraints.MemoryConstraints import *
+from MADBuf.Optimize.Constraints.CutBufferConstraints import *
