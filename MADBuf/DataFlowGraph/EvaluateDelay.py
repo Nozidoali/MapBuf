@@ -108,6 +108,9 @@ def evaluate_delay(
             top_module,
             f"--circuit_file /tmp/eval/{top_module}.vpr.fixed.blif",
             "--sdc_file /tmp/eval/period.sdc",
+            # "--criticality_exp 1.0",
+            # "--alpha_t 0.8",
+            # "--timing_tradeoff 0.1",
             "--save_graphics on",
         ]
     )

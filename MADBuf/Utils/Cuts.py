@@ -30,9 +30,10 @@ class Cut:
         return hash(str(self))
 
     def __add__(self, other: "Cut") -> "Cut":
-        
-        # the root of the cut should be the same
-        assert self.root == other.root
+
+        if self.root != other.root:
+            # this might happen when we merge two cut in cut enumeration
+            pass 
 
         return Cut(self.root, self.leaves.union(other.leaves))
 

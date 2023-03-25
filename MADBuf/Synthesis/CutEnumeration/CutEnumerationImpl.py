@@ -91,4 +91,10 @@ def cut_enumeration_impl(
                 c = [cuts[f] for f in g.node_fanins[n]]
                 cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
 
+    # the cuts we calculated may have wrong root
+    # we need to fix it
+    for n in cuts:
+        for c in cuts[n]:
+            c.root = n
+
     return cuts  # uniqify
