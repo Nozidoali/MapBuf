@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 13:36:18
+Last Modified time: 2023-03-25 22:53:30
 '''
 
 from MADBuf import *
@@ -47,7 +47,14 @@ def submit_solution(*args, **kwargs):
     assert equivalence_checking(dfg_ref, dfg)
     print_green("PASS")
 
-    cycles = evaluate_num_cycles(**kwargs)
+    # evaluate the number of cycles
+    check_cycles = get_value_from_kwargs(kwargs, [
+        "check_cycles_flag", "check_cycles", "check_cycle_flag", "check_cycle"
+    ], True)
+    if check_cycles:
+        cycles = evaluate_num_cycles(**kwargs)
+    else:
+        cycles = None
 
     run_synthesis = get_value_from_kwargs(
         kwargs, ["run_synthesis", "run_optimization"], False
@@ -55,6 +62,10 @@ def submit_solution(*args, **kwargs):
 
     # evaluate delay
     # we get the delay in ns, and the number of FFs, and the number of LUTs
-    values = evaluate_delay(dfg, mut, run_synthesis=run_synthesis)
+    check_timing = get_value_from_kwargs(kwargs, "check_timing_flag", True)
+    if check_timing:
+        values = evaluate_delay(dfg, mut, run_synthesis=run_synthesis)
+    else:
+        values = None
 
     return cycles, values

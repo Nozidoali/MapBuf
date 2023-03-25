@@ -78,27 +78,32 @@ if __name__ == "__main__":
             server_path=server_path,
             clock_period=clock_period,
             add_cutloopback_constraints_flag=True,
-            add_blockbox_constraints_flag=True,
-            add_blackbox_delay_propagation_flag=False,
+            add_blockbox_constraints_flag=False,
+            add_blackbox_delay_propagation_flag=True,
             time_limit=timout,
             run_synthesis=True,
-            max_expansion_level=4
+            max_expansion_level=4,
+            check_timing_flag=False,
+            check_cycle_flag=False,
         )
 
-        print(
-            f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders"
-        )
+        if cycles is None or values is None:
+            pass
+        else:
+            print(
+                f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders"
+            )
 
-        f = open(f"{mut}.txt", "a")
+            f = open(f"{mut}.txt", "a")
 
-        f.write(
-            f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
-        )
-        f.close()
+            f.write(
+                f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
+            )
+            f.close()
 
-        f = open(f"all.txt", "a")
+            f = open(f"all.txt", "a")
 
-        f.write(
-            f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
-        )
-        f.close()
+            f.write(
+                f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
+            )
+            f.close()
