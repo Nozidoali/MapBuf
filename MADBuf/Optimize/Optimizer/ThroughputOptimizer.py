@@ -105,6 +105,7 @@ class ThroughputOptimizer(DFGOptimizer):
             dfg_mapped=self.dfg_mapped,
             mapping=self.mapping,
             add_constraints=cut_loopback,
+            verbose=False
         )
 
         add_blackbox_delay_propagation_flag = get_value_from_kwargs(

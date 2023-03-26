@@ -47,14 +47,14 @@ def get_signal_to_variable(
     print_green(f"Add Constraints for Cut Loopback Buffers: {add_constraints}")
 
     # we first get the channel to variable mapping
-    channel_to_var = get_unfloat_channel_to_variable(model, mapping)
+    channel_to_var = get_channel_to_variable(model, mapping)
 
     if mapping is not None:
-        unfloating_to_floating_mapping = (
+        equivalent_to_functioning_mapping = (
             mapping.export_mapping_equivalent_to_functioning()
         )
     else:
-        unfloating_to_floating_mapping = {}
+        equivalent_to_functioning_mapping = {}
 
     # then we get the signal to channel mapping
 
@@ -71,12 +71,19 @@ def get_signal_to_variable(
         if c.t == Constants._channel_data_:
             c.t = Constants._channel_valid_
 
-        # we skip all the channels inside functioning_component point components
-        if c.u in unfloating_to_floating_mapping:
-            functioning_component, buffer_inserted = unfloating_to_floating_mapping[c.u]
+        if c.u in equivalent_to_functioning_mapping:
+            functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.u]
 
+            # we skip all the channels inside functioning_component point components
             if buffer_inserted:
                 continue
+
+        if c.v in equivalent_to_functioning_mapping:
+            functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.v]
+
+            # we do not skip all the channels inside functioning_component point components
+            if buffer_inserted:
+                pass
 
         # we skip all the channels that are connected already to the buffers
         #
@@ -128,12 +135,17 @@ def get_signal_to_variable(
                 # print_green(f"{signal} is found in the dynamatic model")
                 pass
         else:
+
+            # we don't need to consider the buffer channel
+            if "Buffer" in c.u:
+                continue
+
             # TODO: we should not add this variable
             # new_var = model.addVar(vtype=GRB.BINARY, name=f"new_{c.u}_{c.v}_{c.t}")
             # signal_to_variable[signal] = new_var
 
             if verbose:
-                # print_red(f"Warning: {signal} is not found in the dynamatic model")
+                print_red(f"Warning: {signal} is not found in the dynamatic model")
                 pass
 
     if add_constraints:

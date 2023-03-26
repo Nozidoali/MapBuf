@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 18:59:15
+Last Modified time: 2023-03-26 19:31:13
 '''
 
 from MADBuf import *
@@ -62,6 +62,9 @@ def evaluate_milp(*args, **kwargs):
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
 
+    write_blif(network, f"./{mut}/reports/{mut}_no_anchor.blif")
+    write_blif(g, f"./{mut}/reports/{mut}_anchor.blif")
+    
     write_topological_order(network, f"./{mut}/reports/{mut}_{method}.order")
     
     values = evalute_subject_graph(g)

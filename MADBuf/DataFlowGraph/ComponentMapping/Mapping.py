@@ -15,6 +15,13 @@ class ComponentMapping:
         # each mapping is a tuple of (functioning_component, equivalent_component, use_buffer)
         self.mappings: list = mappings.copy()
 
+    def show(self) -> None:
+        for mapping in self.mappings:
+            functioning_component, equivalent_component, use_buffer = mapping
+            print(
+                f"replacing {functioning_component} using {equivalent_component} (buffer = {use_buffer})"
+            )
+
     def write(self, file: str) -> None:
         with open(file, "w") as f:
             for mapping in self.mappings:

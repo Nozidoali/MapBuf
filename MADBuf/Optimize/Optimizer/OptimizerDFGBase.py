@@ -59,26 +59,24 @@ class DFGOptimizer(OptimizerBase):
 
         has_floating: bool = dfg_has_floating(dfg)
 
-        if has_floating:
 
-            # get the mapping if any
-            mapping = get_value_from_kwargs(
-                kwargs,
-                [
-                    "mapping",
-                    "mappings",
-                    "map",
-                    "maps",
-                ],
-                None,
-            )
+        # get the mapping if any
+        mapping = get_value_from_kwargs(
+            kwargs,
+            [
+                "mapping",
+                "mappings",
+                "map",
+                "maps",
+            ],
+            None,
+        )
 
-            if mapping is None:
-                raise Exception("Mapping is not specified")
+        if has_floating and mapping is None:
+            raise Exception("Floating nodes are detected, but no mapping is provided")
 
-            if isinstance(mapping, str):
-                self.mapping = read_mapping(mapping)
-            else:
-                self.mapping = mapping
+        if isinstance(mapping, str):
+            self.mapping = read_mapping(mapping)
         else:
-            self.mapping = None
+            self.mapping = mapping
+

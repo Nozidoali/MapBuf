@@ -2,3 +2,7 @@ fmul_16,and_300,True
 fadd_17,and_301,True
 fmul_42,and_302,True
 fadd_43,and_303,True
+icmp_19,add_19,False
+icmp_24,add_24,False
+icmp_45,add_45,False
+icmp_50,add_50,False
