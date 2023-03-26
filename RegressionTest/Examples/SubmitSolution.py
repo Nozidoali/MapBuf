@@ -80,6 +80,7 @@ if __name__ == "__main__":
             add_cutloopback_constraints_flag=False,
             add_blockbox_constraints_flag=False,
             add_blackbox_delay_propagation_flag=False,
+            add_cut_buffer_interaction_constraints_flag=False,
             time_limit=timout,
             run_synthesis=True,
             max_expansion_level=0,

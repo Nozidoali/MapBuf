@@ -23,6 +23,7 @@ def add_timing_constraints(
     signal_to_channel: dict,
     signal_to_variable: dict,
     add_blockbox_constraints_flag: bool = True,
+    add_cut_buffer_interaction_constraints_flag: bool = True,
     clock_period: int = 100,
     verbose: bool = False,
 ):
@@ -61,12 +62,13 @@ def add_timing_constraints(
         signal_to_variable=signal_to_variable,
     )
 
-    add_cut_buffer_interaction_constraints(
-        model=model,
-        graph=network,
-        signal_to_cuts=signal_to_cuts,
-        signal_to_variable=signal_to_variable,
-        verbose=verbose,
-    )
+    if add_cut_buffer_interaction_constraints_flag:
+        add_cut_buffer_interaction_constraints(
+            model=model,
+            graph=network,
+            signal_to_cuts=signal_to_cuts,
+            signal_to_variable=signal_to_variable,
+            verbose=verbose,
+        )
 
     model.update()

@@ -92,6 +92,10 @@ class ThroughputOptimizer(DFGOptimizer):
             kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
         )
 
+        cut_buffer_interaction = get_value_from_kwargs(
+            kwargs, ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"], False
+        )
+
         self.signal_to_variable = get_signal_to_variable(
             self.model,
             signal_to_channel=self.signal_to_channel,
@@ -107,6 +111,7 @@ class ThroughputOptimizer(DFGOptimizer):
             self.signal_to_channel,
             self.signal_to_variable,
             add_blockbox_constraints_flag=blackbox,
+            add_cut_buffer_interaction_constraints_flag=cut_buffer_interaction,
             clock_period=self.clock_period,
             verbose=False,
         )
