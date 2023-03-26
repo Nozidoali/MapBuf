@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-25 22:38:35
+Last Modified time: 2023-03-26 00:09:22
 '''
 
 from MADBuf import *
@@ -69,6 +69,7 @@ def evaluate_milp(*args, **kwargs):
 
     dfg= read_dfg(f"./{mut}/reports/{mut}.dot")
 
+    print(f"Initializing optimizer for {mut}...", end=' ', flush=True)
     optimizer = Optimizer(
         top=mut,
         graph=g,
@@ -80,6 +81,7 @@ def evaluate_milp(*args, **kwargs):
         lps=glob.glob(f"{mut}/lps/*.lp"),
         verbose=False,
     )
+    print_green("Done", flush=True)
 
     timeout = get_value_from_kwargs(kwargs, [
         "timeout",

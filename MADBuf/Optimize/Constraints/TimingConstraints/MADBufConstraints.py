@@ -86,3 +86,5 @@ def add_madbuf_constraints(
             # at least one cut need to be chosen
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
             model.addConstr(sum(cut_selection_vars) == 1, f"cut_selection_at_{signal}")
+
+    model.update()

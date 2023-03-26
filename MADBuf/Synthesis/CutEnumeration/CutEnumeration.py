@@ -11,6 +11,7 @@ Last Modified time: 2023-03-19 01:25:28
 
 from MADBuf.Synthesis.CutEnumeration.CutEnumerationImpl import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImpl import *
+from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImplOld import *
 
 
 def cut_enumeration(network, *args, **kwargs) -> dict:
@@ -65,8 +66,16 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
             20,
         )
 
-        return cut_enumeration_impl(
-            g=network,
-            priority_cut_size=priority_cut_size,
-            lut_size_limit=lut_size_limit,
-        )
+        if True:
+            return cutless_enumeration_impl_old(
+                g=network,
+                priority_cut_size=priority_cut_size,
+                lut_size_limit=lut_size_limit,
+            )
+
+        else:
+            return cut_enumeration_impl(
+                g=network,
+                priority_cut_size=priority_cut_size,
+                lut_size_limit=lut_size_limit,
+            )

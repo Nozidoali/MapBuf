@@ -118,6 +118,7 @@ class ThroughputOptimizer(DFGOptimizer):
             kwargs,
             [
                 "add_blackbox_delay_propagation_constraints_flag",
+                "add_blackbox_delay_propagation_flag",
             ],
             False,
         )

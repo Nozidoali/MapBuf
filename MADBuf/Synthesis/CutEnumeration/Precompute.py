@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 15:28:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 19:50:28
+Last Modified time: 2023-03-26 00:38:43
 '''
 
 from MADBuf.Network import *
@@ -19,9 +19,9 @@ from MADBuf.Synthesis.CutEnumeration.AllBufferedCutExpansion import *
 class cut_preparation_params:
 
     use_zero_order_cut: bool = True
-    use_first_order_cut: bool = True
-    use_all_buffered_cut: bool = True
+    use_first_order_cut: bool = False
     use_infinite_order_cut: bool = True
+    use_all_buffered_cut: bool = False
 
 def precompute_timing_labels(
     g: BLIFGraph,

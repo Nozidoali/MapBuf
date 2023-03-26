@@ -12,3 +12,4 @@ from MADBuf.Optimize.Constraints.TimingConstraints.RemoveTimingConstraints impor
 from MADBuf.Optimize.Constraints.TimingConstraints.DelayPropagationConstraints import *
 from MADBuf.Optimize.Constraints.TimingConstraints.MADBufConstraints import *
 from MADBuf.Optimize.Constraints.TimingConstraints.InputDelayConstraints import *
+from MADBuf.Optimize.Constraints.TimingConstraints.ClockPeriodConstraints import *

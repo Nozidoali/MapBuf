@@ -45,10 +45,13 @@ def add_timing_constraints(
         add_blackbox_constraints(model, verbose=verbose)
 
     # add the timing constraints
-    add_timing_label_variables(model, network, clock_period=clock_period)
+    add_timing_label_variables(model, network)
+
+    # add the clock period constraints
+    add_clock_period_constraints(model, network, clock_period=clock_period)
 
     # add the input delay constraints
-    add_input_delay_constraints(model, network)
+    # add_input_delay_constraints(model, network)
 
     # add the cut selection constraints
     add_madbuf_constraints(

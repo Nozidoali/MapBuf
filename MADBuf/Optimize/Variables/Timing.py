@@ -14,9 +14,7 @@ from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 
 
-def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int = None):
-
-    model.addVar(vtype=GRB.INTEGER, name=f"CP")
+def add_timing_label_variables(model: gp.Model, g: BLIFGraph):
 
     for signal in g.topological_traversal():
         model.addVar(vtype=GRB.INTEGER, name=f"TimingLabel_{signal}")  # delay variables
@@ -27,11 +25,3 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph, clock_period: int 
     #
     model.update()
 
-    for signal in g.topological_traversal():
-        model.addConstr(
-            model.getVarByName(f"TimingLabel_{signal}") <= model.getVarByName(f"CP")
-        )
-
-    if clock_period != None:
-        model.addConstr(model.getVarByName(f"CP") <= clock_period)
-    model.update()

@@ -77,14 +77,14 @@ if __name__ == "__main__":
             server=server,
             server_path=server_path,
             clock_period=clock_period,
-            add_cutloopback_constraints_flag=True,
+            add_cutloopback_constraints_flag=False,
             add_blockbox_constraints_flag=False,
-            add_blackbox_delay_propagation_flag=True,
+            add_blackbox_delay_propagation_flag=False,
             time_limit=timout,
             run_synthesis=True,
-            max_expansion_level=4,
+            max_expansion_level=0,
             check_timing_flag=False,
-            check_cycle_flag=False,
+            check_cycle_flag=True,
         )
 
         if cycles is None or values is None:

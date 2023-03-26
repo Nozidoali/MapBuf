@@ -31,6 +31,9 @@ class DelayOptimizer(OptimizerBase):
         # add the timing constraints
         add_timing_label_variables(self.model, self.graph)
 
+        # add the clock period constraints
+        add_clock_period_constraints(self.model, self.graph, self.clock_period)
+
         # add the input delay constraints
         add_input_delay_constraints(self.model, self.graph)
 

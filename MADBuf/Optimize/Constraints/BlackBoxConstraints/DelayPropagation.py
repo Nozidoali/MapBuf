@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 00:13:04
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 01:58:12
+Last Modified time: 2023-03-25 23:56:13
 '''
 
 import gurobipy as gp
@@ -14,6 +14,7 @@ from MADBuf.Network import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints.BlackBox import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints.CollectBlackBoxInputs import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints.CollectBlackBoxOutputs import *
+from MADBuf.Optimize.Constraints.BlackBoxConstraints.RemovePIConstraints import *
 
 def add_blackbox_delay_propapation_constraints(model: gp.Model, graph: BLIFGraph, *args, **kwargs):
     
@@ -46,7 +47,6 @@ def add_blackbox_delay_propapation_constraints(model: gp.Model, graph: BLIFGraph
             )
     
     primary_inputs_to_remove: set = set()
-    constraints_to_remove = []
 
     for blackbox in blackbox_outputs:
         if len(blackbox_outputs[blackbox]) == 0:
@@ -77,35 +77,9 @@ def add_blackbox_delay_propapation_constraints(model: gp.Model, graph: BLIFGraph
         model.addConstr(
             model.getVarByName(f"TimingLabel_{blackbox}_inputs") + BlackBoxParams.blackbox_delay <= model.getVarByName(f"TimingLabel_{blackbox}_outputs")
         )
-
-    
-    # now we remove the previous constraints
-    for constr in model.getConstrs():
-        row: gp.LinExpr = model.getRow(constr)
-
-        coeffs = []
-        var_names = []
-
-        rhs = constr.RHS
-        sense = constr.Sense
-
-        for i in range(row.size()):
-            coeffs.append(row.getCoeff(i))
-            var_names.append(row.getVar(i).VarName)
-
-        if len(var_names) != 1:
-            continue
-        if rhs != 0:
-            continue
-        if sense != '=':
-            continue
-        if var_names[0] not in primary_inputs_to_remove:
-            continue
         if verbose:
-            print_red(f"Removing constraint: {var_names[0]} == 0")
-        constraints_to_remove.append(constr)
+            print_orange(f"Adding constraint: {model.getVarByName(f'TimingLabel_{blackbox}_inputs').VarName} + {BlackBoxParams.blackbox_delay} <= {model.getVarByName(f'TimingLabel_{blackbox}_outputs').VarName}")
 
-    for constr in constraints_to_remove:
-        model.remove(constr)
+    remove_primary_inputs_constraints(model, primary_inputs_to_remove, verbose=verbose)
 
     model.update()

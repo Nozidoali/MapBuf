@@ -65,7 +65,7 @@ def insert_buffers_in_dfg(
         # Here we have a special case:
         # in phi component, we already have a transparent buffer
         # at the output of the phi component
-        if insert_buffer_params.consider_transparent_buffers_in_phi and "phi" in u:
+        if insert_buffer_params.consider_transparent_buffers_in_phi and Component(u).type == ComponentType.phi:
             if n_slots_ready == 0:
                 print_red(f"WARNING: transparent buffer on {u} -> {v} is lost")
             n_slots_ready = n_slots_ready - 1 if n_slots_ready > 0 else 0
