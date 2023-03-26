@@ -11,7 +11,7 @@ registered_tests = [
     # TestMADBuf(),
     # TestCutLoopback(),
     # TestDynamaticIO(),
-    # TestFloatingPointMapping(),
+    # TestComponentMapping(),
     TestSubjectGraph(),
     TestUtils(),
     TestIO(),

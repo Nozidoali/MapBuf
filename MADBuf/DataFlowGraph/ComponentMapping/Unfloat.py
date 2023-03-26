@@ -8,24 +8,24 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-14 14:36:13
 """
 from MADBuf.DataFlowGraph.BufferInsertion import *
-from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
-from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
+from MADBuf.DataFlowGraph.ComponentMapping.MappingUtils import *
+from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 
 
-def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPointMapping:
-    """Mapping the graph to a graph without using floating point operations
+def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> ComponentMapping:
+    """Mapping the graph to a graph without using functioning_component point operations
 
     Args:
         g (pgv.agraph): the graph to be mapped
 
     Returns:
-        FloatingPointMapping: the mapping from the original graph to the new graph
+        ComponentMapping: the mapping from the original graph to the new graph
     """
 
     to_remove = []
     curr_index: int = floating_point_mapping_params.reserved_index
 
-    mapping = FloatingPointMapping()
+    mapping = ComponentMapping()
 
     for n in g.nodes():
 
@@ -35,11 +35,11 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> FloatingPoint
         curr_index_used: bool = False
 
         if "_" not in node_name:
-            print_red(f"Warning: skiping floating point checking on node {node_name}")
+            print_red(f"Warning: skiping functioning_component point checking on node {node_name}")
             continue
 
         if len(node_name.split("_")) != 2:
-            print_red(f"Warning: skiping floating point checking on node {node_name}")
+            print_red(f"Warning: skiping functioning_component point checking on node {node_name}")
             continue
 
         component_type, component_index = node_name.split("_")

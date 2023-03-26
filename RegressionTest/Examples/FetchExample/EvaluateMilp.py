@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 05:03:16
+Last Modified time: 2023-03-26 18:50:57
 '''
 
 from MADBuf import *
@@ -14,29 +14,50 @@ def evaluate_milp(*args, **kwargs):
 
     print_blue("\n\n[i] Evaluating MILP++\n")
 
+    verbose = get_value_from_kwargs(kwargs, "verbose", False)
+
     if "mut" not in kwargs:
         raise ValueError("You must specify the mutation")
-    
     mut = kwargs["mut"]
 
     if "method" not in kwargs:
         raise ValueError("You must specify the method")
-    
     method = kwargs["method"]
 
     if "clock_period" not in kwargs:
         raise ValueError("You must specify the clock period")
-    
     clock_period = kwargs["clock_period"]
 
     run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
 
-    g: BLIFGraph = BLIFGraph()
+    # we regenerate the BLIF file
+    print_blue("\n\n[i] Generating BLIF file...\n", flush=True)
+
+    # we first check the presence of bbgrpah and the data flow graph
+    graph = read_dfg(f"{mut}/reports/{mut}.dot")
+    bbgraph = read_dfg(f"{mut}/reports/{mut}_bbgraph.dot")
+    
+    # Preprocessing 1: Cut loop back
+    cut_loopback(graph, bbgraph, verbose=verbose)
+
+    # Preprocessing 2: Floating point component mapping
+    mapping_file = f"{mut}/reports/{mut}.mapping"
+    mapping = mapping_to_unfloating(graph, verbose=verbose)
+    icmp_mapping = mapping_icmp_to_blackboxes(graph, verbose=True)
+    mapping = mapping + icmp_mapping
+    mapping.write(mapping_file)
+
+    # Preprocessing 3: Fix the multiplier's width
+    split_multiplier_bitwidth(graph, verbose=verbose)
+    
+    g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=True, run_strash=True, insert_anchors=True)
+    
+    # if run_synthesis:
+    #     read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
+    # else:
+    #     read_blif(g, f"{mut}/reports/{mut}.strash.blif")
+
     write_topological_order(g, f"./{mut}/reports/{mut}.order")
-    if run_synthesis:
-        read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
-    else:
-        read_blif(g, f"{mut}/reports/{mut}.strash.blif")
     
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
@@ -53,7 +74,7 @@ def evaluate_milp(*args, **kwargs):
     print_green(f"\tMinimal LUT level: {minimal_lut_level}")
     print_green(f"\tMaximal LUT level: {maximal_lut_level}")
     
-    mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=False)
+    mappings = read_mapping(f"./{mut}/reports/{mut}.mapping", verbose=verbose)
 
     max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)
 

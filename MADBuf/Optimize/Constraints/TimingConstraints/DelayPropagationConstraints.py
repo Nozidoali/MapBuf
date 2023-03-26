@@ -47,4 +47,4 @@ def add_delay_propagation_constraints(
                 >= var_leaf
             )
 
-        model.addConstr(constr)
+        model.addConstr(constr, f"DelayPropagation_{signal}")

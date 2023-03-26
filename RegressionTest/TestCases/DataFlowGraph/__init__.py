@@ -5,15 +5,15 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 21:44:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-11 21:48:28
+Last Modified time: 2023-03-26 17:56:20
 '''
 
 
 from TestCases.TestCases import *
-from TestCases.DataFlowGraph.FloatingPointMapping import *
+from TestCases.DataFlowGraph.ComponentMapping import *
 
 register_tests = [
-    TestFloatingPointMapping(),
+    TestComponentMapping(),
 ]
 
 class TestDataFlowGraph(TestCases):

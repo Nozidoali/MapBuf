@@ -9,17 +9,17 @@ Last Modified time: 2023-03-19 02:22:16
 """
 
 import pygraphviz as pgv
-from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
+from MADBuf.DataFlowGraph.ComponentMapping.MappingUtils import *
 
 
 def dfg_has_floating(dfg: pgv.AGraph) -> bool:
-    """has floating point operation
+    """has functioning_component point operation
 
     Args:
         dfg (pgv.AGraph): the data flow graph
 
     Returns:
-        bool: whether the data flow graph has floating point operation
+        bool: whether the data flow graph has functioning_component point operation
     """
     for node in dfg.nodes():
 

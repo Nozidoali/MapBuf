@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 00:13:04
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-25 23:56:13
+Last Modified time: 2023-03-26 18:55:27
 '''
 
 import gurobipy as gp
@@ -75,10 +75,10 @@ def add_blackbox_delay_propapation_constraints(model: gp.Model, graph: BLIFGraph
             continue
         # so we successfully find the inputs and outputs of the blackbox
         model.addConstr(
-            model.getVarByName(f"TimingLabel_{blackbox}_inputs") + BlackBoxParams.blackbox_delay <= model.getVarByName(f"TimingLabel_{blackbox}_outputs")
+            model.getVarByName(f"TimingLabel_{blackbox}_inputs") + BlackBoxParams.blackbox_propagation_delay <= model.getVarByName(f"TimingLabel_{blackbox}_outputs")
         )
         if verbose:
-            print_orange(f"Adding constraint: {model.getVarByName(f'TimingLabel_{blackbox}_inputs').VarName} + {BlackBoxParams.blackbox_delay} <= {model.getVarByName(f'TimingLabel_{blackbox}_outputs').VarName}")
+            print_orange(f"Adding constraint: {model.getVarByName(f'TimingLabel_{blackbox}_inputs').VarName} + {BlackBoxParams.blackbox_propagation_delay} <= {model.getVarByName(f'TimingLabel_{blackbox}_outputs').VarName}")
 
     remove_primary_inputs_constraints(model, primary_inputs_to_remove, verbose=verbose)
 

@@ -9,17 +9,17 @@ Last Modified time: 2023-03-14 17:44:21
 """
 
 from MADBuf.Utils import *
-from MADBuf.DataFlowGraph.FloatingPointMapping.MappingUtils import *
-from MADBuf.DataFlowGraph.FloatingPointMapping.Mapping import *
+from MADBuf.DataFlowGraph.ComponentMapping.MappingUtils import *
+from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 
 
 def mapping_to_floating(
-    g: pgv.AGraph, mappings: FloatingPointMapping = None, verbose: bool = False
+    g: pgv.AGraph, mappings: ComponentMapping = None, verbose: bool = False
 ):
-    """Mapping to floating point operations
+    """Mapping to functioning_component point operations
 
     Args:
-        g (pgv.AGraph): the graph with unfloating operations
+        g (pgv.AGraph): the graph with equivalent_component operations
         mapping_to_floating (dict, optional): the dictionary of mapping_to_floating. Defaults to None.
         verbose (bool, optional): verbosity. Defaults to False.
     """
@@ -27,7 +27,7 @@ def mapping_to_floating(
     if mappings == None:
         return
 
-    mapping_to_floating = mappings.export_mapping_unfloating_to_floating()
+    mapping_to_floating = mappings.export_mapping_equivalent_to_functioning()
 
     to_remove = []
     for n in g.nodes():

@@ -20,7 +20,7 @@ def get_signal_to_variable(
     model: gp.Model,
     signal_to_channel: dict,
     dfg_mapped: pgv.AGraph,
-    mapping: FloatingPointMapping = None,
+    mapping: ComponentMapping = None,
     **kwargs,
 ) -> dict:
 
@@ -50,7 +50,7 @@ def get_signal_to_variable(
     channel_to_var = get_unfloat_channel_to_variable(model, mapping)
 
     if mapping is not None:
-        unfloating_to_floating_mapping = mapping.export_mapping_unfloating_to_floating()
+        unfloating_to_floating_mapping = mapping.export_mapping_equivalent_to_functioning()
     else:
         unfloating_to_floating_mapping = {}
 
@@ -69,9 +69,9 @@ def get_signal_to_variable(
         if c.t == Constants._channel_data_:
             c.t = Constants._channel_valid_
 
-        # we skip all the channels inside floating point components
+        # we skip all the channels inside functioning_component point components
         if c.u in unfloating_to_floating_mapping:
-            floating, buffer_inserted = unfloating_to_floating_mapping[c.u]
+            functioning_component, buffer_inserted = unfloating_to_floating_mapping[c.u]
 
             if buffer_inserted:
                 continue

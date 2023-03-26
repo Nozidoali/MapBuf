@@ -36,7 +36,7 @@ class Optimizer:
 
             # for those who need dfg
             dfg:            {pgv.AGraph} -- Data flow graph (default: {None})
-            mapping:        {FloatingPointMapping} -- Mapping of the subject (default: {None})
+            mapping:        {ComponentMapping} -- Mapping of the subject (default: {None})
 
             # for throughput optimization
             clock_period:   {float} -- Clock period (default: {None})

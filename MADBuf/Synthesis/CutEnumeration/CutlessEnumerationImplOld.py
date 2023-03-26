@@ -11,6 +11,7 @@ Last Modified time: 2023-03-19 13:13:15
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
+from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
 from MADBuf.Utils import *
 
 
@@ -169,5 +170,7 @@ def cutless_enumeration_impl_old(network: BLIFGraph, **kwargs) -> dict:
             print(
                 f"labels = {labels[signal]}, cuts = {len(cuts[signal])}, signal = {signal}"
             )
+
+    cuts = cleanup_dangling_cuts(cuts)
 
     return cuts

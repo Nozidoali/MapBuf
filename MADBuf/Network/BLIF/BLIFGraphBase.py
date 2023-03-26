@@ -37,17 +37,17 @@ class BLIFGraphBase:
 
         self.submodules = {}
 
-    def is_po(self, n: str) -> bool:
-        return n in self.outputs
+    def is_po(self, signal: str) -> bool:
+        return signal in self.outputs
 
-    def is_pi(self, n: str) -> bool:
-        return n in self.inputs
+    def is_pi(self, signal: str) -> bool:
+        return signal in self.inputs
 
-    def is_ro(self, n: str) -> bool:
-        return n in self.register_outputs
+    def is_ro(self, signal: str) -> bool:
+        return signal in self.register_outputs
 
-    def is_ri(self, n: str) -> bool:
-        return n in self.register_inputs
+    def is_ri(self, signal: str) -> bool:
+        return signal in self.register_inputs
 
     def num_nodes(self) -> int:
         return len(self.nodes)
@@ -62,12 +62,12 @@ class BLIFGraphBase:
         return len(self.outputs)
 
     # the CO (combinational outputs are the primary outputs and the register inupts)
-    def is_co(self, n: str) -> bool:
-        return n in self.outputs or n in self.register_inputs
+    def is_co(self, signal: str) -> bool:
+        return signal in self.outputs or signal in self.register_inputs
 
     # the CI (combinational inptus are the primary inputs and the register outputs)
-    def is_ci(self, n: str) -> bool:
-        return n in self.inputs or n in self.register_outputs or n in self.const0 or n in self.const1
+    def is_ci(self, signal: str) -> bool:
+        return signal in self.inputs or signal in self.register_outputs or signal in self.const0 or signal in self.const1
 
     def topological_traversal(self) -> set:
         return self.__signals
@@ -99,51 +99,43 @@ class BLIFGraphBase:
     def ros(self):
         return sorted(self.register_outputs)
     
-    def fanins(self, n: str):
-        return sorted(self.node_fanins[n])
+    def fanins(self, signal: str):
+        return sorted(self.node_fanins[signal])
 
     # sort __signals in a topological order
     # TODO: support runtime modification and maintain the topogical order
     def traverse(self):
         self.__signals = []
-        for n in self.constant0s():
-            self.__signals.append(n)
-        for n in self.constant1s():
-            self.__signals.append(n)
-        for n in self.pis():
-            assert n not in self.__signals
-            self.__signals.append(n)
-        for n in self.ros():
-            assert n not in self.__signals
-            self.__signals.append(n)
-        for n in self.pos():
-            self.trav_rec(n)
-        for r in self.ris():
-            self.trav_rec(r)
+        for signal in self.cis():
+            assert signal not in self.__signals
+            self.__signals.append(signal)
+        for signal in self.cos():
+            self.trav_rec(signal)
 
-        for n in self.__signals:
-            self.node_fanouts[n] = set()
+        for signal in self.__signals:
+            self.node_fanouts[signal] = set()
 
         # prepare fanouts: this should be recomputed after each network modification
-        for n in self.__signals:
-            if n in self.node_fanins:
-                for f in self.fanins(n):
-                    self.node_fanouts[f].add(n)
+        for signal in self.__signals:
+            if signal in self.node_fanins:
+                for f in self.fanins(signal):
+                    self.node_fanouts[f].add(signal)
 
     # topological traversal, used to sort the __signals in a topological order
-    def trav_rec(self, n: str):
-        if n in self.__signals:
+    def trav_rec(self, signal: str):
+        if signal in self.__signals:
             return
-
-        if n not in self.node_fanins:
-            print(f"recursion stoped at node {n}")
+        
+        if signal not in self.node_fanins:
+            print(f"recursion stoped at node {signal}")
             exit()
-        for f in self.fanins(n):
+        for f in self.fanins(signal):
+            assert f != signal, f"node {signal} is its own fanin"
             self.trav_rec(f)
-        self.__signals.append(n)
+        self.__signals.append(signal)
 
-    def num_fanouts(self, n: str):
-        return len(self.node_fanouts[n])
+    def num_fanouts(self, signal: str):
+        return len(self.node_fanouts[signal])
 
     #
     # graph modifications

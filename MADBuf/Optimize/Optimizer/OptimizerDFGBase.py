@@ -23,7 +23,7 @@ class DFGOptimizer(OptimizerBase):
 
         self.dfg: pgv.AGraph
         self.dfg_mapped: pgv.AGraph
-        self.mapping: FloatingPointMapping
+        self.mapping: ComponentMapping
 
         self.parse_dfg(*args, **kwargs)
 

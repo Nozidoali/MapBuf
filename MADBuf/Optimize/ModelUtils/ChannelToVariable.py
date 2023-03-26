@@ -14,19 +14,19 @@ from MADBuf.Optimize.Variables import *
 
 
 def get_unfloat_channel_to_variable(
-    model: gp.Model, mappings: FloatingPointMapping = None
+    model: gp.Model, mappings: ComponentMapping = None
 ) -> dict:
     """(Channel Mapped) to the variable in the model
 
     We assume that:
-        1. the model is built from dynamatic, which has floating point operations
+        1. the model is built from dynamatic, which has functioning_component point operations
         2. the channel indexing the mapping is the unfloat version
 
     >>> MADBuf/Optimize/ModelUtils.py/ChannelToVariable.py
 
     Args:
         model (gp.Model): the model built from dynamatic
-        mappings (FloatingPointMapping, optional): the mappings. Defaults to None.
+        mappings (ComponentMapping, optional): the mappings. Defaults to None.
 
     Returns:
         dict: the mapping from channel to variable

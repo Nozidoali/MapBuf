@@ -37,7 +37,7 @@ if __name__ == "__main__":
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
-    timout = 5*60 # 10 minutes
+    timout = 0.5*60 # 10 minutes
 
     if len(sys.argv) == 1:
         muts = all_dac_examples()
@@ -69,6 +69,9 @@ if __name__ == "__main__":
         print_blue(f"Processing {mut}...")
         mut_path = f"{path}/{mut}"
 
+        # BlackBox parameters
+        BlackBoxParams.blackbox_propagation_delay = 4
+
         cycles, values = submit_solution(
             mut=mut,
             mut_path=mut_path,
@@ -79,15 +82,15 @@ if __name__ == "__main__":
             clock_period=clock_period,
             add_cutloopback_constraints_flag=False,
             add_blockbox_constraints_flag=False,
-            add_blackbox_delay_propagation_flag=False,
+            add_blackbox_delay_propagation_flag=True,
             add_cut_buffer_interaction_constraints_flag=False,
             time_limit=timout,
             run_synthesis=True,
             max_expansion_level=0,
-            check_timing_flag=False,
+            check_timing_flag=True,
             check_cycle_flag=True,
-            ext_lp_file=f"./{mut}/reports/{mut}_{method}.lp",
-            ext_cut_files=f"./{mut}/reports/{mut}.cuts",
+            # ext_lp_file=f"./{mut}/reports/{mut}_{method}.lp",
+            # ext_cut_files=f"./{mut}/reports/{mut}.cuts",
         )
 
         if cycles is None or values is None:
