@@ -16,8 +16,8 @@ class BLIFGraphBase:
         self.inputs = set()
         self.outputs = set()
         self.nodes = set()
-        self.ris = set()
-        self.ros = set()
+        self.register_inputs = set()
+        self.register_outputs = set()
         self.ro_to_ri: dict = {}
 
         # __signals is a list of all the nodes in the network in the topological order
@@ -44,16 +44,16 @@ class BLIFGraphBase:
         return n in self.inputs
 
     def is_ro(self, n: str) -> bool:
-        return n in self.ros
+        return n in self.register_outputs
 
     def is_ri(self, n: str) -> bool:
-        return n in self.ris
+        return n in self.register_inputs
 
     def num_nodes(self) -> int:
         return len(self.nodes)
 
     def num_latch(self) -> int:
-        return len(self.ros)
+        return len(self.register_outputs)
 
     def num_pis(self) -> int:
         return len(self.inputs)
@@ -63,41 +63,71 @@ class BLIFGraphBase:
 
     # the CO (combinational outputs are the primary outputs and the register inupts)
     def is_co(self, n: str) -> bool:
-        return n in self.outputs or n in self.ris
+        return n in self.outputs or n in self.register_inputs
 
     # the CI (combinational inptus are the primary inputs and the register outputs)
     def is_ci(self, n: str) -> bool:
-        return n in self.inputs or n in self.ros or n in self.const0 or n in self.const1
+        return n in self.inputs or n in self.register_outputs or n in self.const0 or n in self.const1
 
     def topological_traversal(self) -> set:
         return self.__signals
+    
+    def constants(self):
+        return sorted(self.const0 | self.const1)
+    
+    def cos(self):
+        return sorted(self.outputs | self.register_inputs)
+    
+    def cis(self):
+        return sorted(self.inputs | self.register_outputs| self.const0 | self.const1)
+    
+    def constant0s(self):
+        return sorted(self.const0)
+    
+    def constant1s(self):
+        return sorted(self.const1)
+    
+    def pis(self):
+        return sorted(self.inputs)
+    
+    def pos(self):
+        return sorted(self.outputs)
+    
+    def ris(self):
+        return sorted(self.register_inputs)
+    
+    def ros(self):
+        return sorted(self.register_outputs)
+    
+    def fanins(self, n: str):
+        return sorted(self.node_fanins[n])
 
     # sort __signals in a topological order
     # TODO: support runtime modification and maintain the topogical order
     def traverse(self):
         self.__signals = []
-        for n in self.const0:
+        for n in self.constant0s():
             self.__signals.append(n)
-        for n in self.const1:
+        for n in self.constant1s():
             self.__signals.append(n)
-        for n in self.inputs:
+        for n in self.pis():
             assert n not in self.__signals
             self.__signals.append(n)
-        for n in self.ros:
+        for n in self.ros():
             assert n not in self.__signals
             self.__signals.append(n)
-        for n in self.outputs:
+        for n in self.pos():
             self.trav_rec(n)
-        for r in self.ris:
+        for r in self.ris():
             self.trav_rec(r)
 
-        for n in self.topological_traversal():
+        for n in self.__signals:
             self.node_fanouts[n] = set()
 
         # prepare fanouts: this should be recomputed after each network modification
-        for n in self.topological_traversal():
+        for n in self.__signals:
             if n in self.node_fanins:
-                for f in self.node_fanins[n]:
+                for f in self.fanins(n):
                     self.node_fanouts[f].add(n)
 
     # topological traversal, used to sort the __signals in a topological order
@@ -108,7 +138,7 @@ class BLIFGraphBase:
         if n not in self.node_fanins:
             print(f"recursion stoped at node {n}")
             exit()
-        for f in self.node_fanins[n]:
+        for f in self.fanins(n):
             self.trav_rec(f)
         self.__signals.append(n)
 
@@ -127,12 +157,12 @@ class BLIFGraphBase:
         self.outputs.add(name)
 
     def create_ri(self, name: str):
-        assert name not in self.ris and "the register input to create already exists"
-        self.ris.add(name)
+        assert name not in self.register_inputs and "the register input to create already exists"
+        self.register_inputs.add(name)
 
     def create_ro(self, name: str):
-        assert name not in self.ros and "the register output to create already exists"
-        self.ros.add(name)
+        assert name not in self.register_outputs and "the register output to create already exists"
+        self.register_outputs.add(name)
 
     def create_node(self, name: str, fanins: set, func: list):
         assert name not in self.nodes and "the node to create already exists"
@@ -151,6 +181,6 @@ class BLIFGraphBase:
         self.create_node(name=fout, fanins=set([fin]), func=["1 1"])
 
     def create_latch(self, ri: str, ro: str):
-        self.ris.add(ri)
-        self.ros.add(ro)
+        self.register_inputs.add(ri)
+        self.register_outputs.add(ro)
         self.ro_to_ri[ro] = ri

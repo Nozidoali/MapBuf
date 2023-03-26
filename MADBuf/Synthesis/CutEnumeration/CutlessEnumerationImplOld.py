@@ -82,7 +82,7 @@ def __get_timing_labels(
 
         optimal_timing_label = TimingLabel()
 
-        leaves: set = set(list(g.node_fanins[signal])[:])  # deep copy
+        leaves: set = set(list(g.fanins(signal))[:])  # deep copy
         best_leaves: set = leaves.copy()  # deep copy
         cuts[signal].append(Cut(signal, leaves))
 
@@ -95,7 +95,7 @@ def __get_timing_labels(
             # we count the number of non-constant leaves
             num_leaves: int = 0
             for f in leaves:
-                if f in g.const0 or f in g.const1:
+                if f in g.const0 or f in g.constant1s():
                     continue
                 num_leaves += 1
 

@@ -23,7 +23,7 @@ def find_loop(graph: BLIFGraph) -> list:
     """
     visited = set()
     stack = []
-    for n in graph.outputs:
+    for n in graph.pos():
         if n not in visited:
             l = _find_loop_dfs(graph, n, visited, stack)
             if l != None:
@@ -41,7 +41,7 @@ def _find_loop_dfs(graph: BLIFGraph, n: str, visited: set, stack: list) -> list:
     visited.add(n)
     stack.append(n)
     if n in graph.node_fanins:
-        for f in graph.node_fanins[n]:
+        for f in graph.fanins(n):
             if f not in visited:
                 l = _find_loop_dfs(graph, f, visited, stack)
                 if l != None:

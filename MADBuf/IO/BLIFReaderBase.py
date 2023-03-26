@@ -25,8 +25,8 @@ def on_output(g: BLIFGraph, line: str):
 def on_latch(g: BLIFGraph, line: str):
     ri = line.split()[1].strip()
     ro = line.split()[2].strip()
-    g.ris.add(ri)
-    g.ros.add(ro)
+    g.register_inputs.add(ri)
+    g.register_outputs.add(ro)
     g.ro_to_ri[ro] = ri
 
 
@@ -62,9 +62,9 @@ def on_subckt(g: BLIFGraph, line: str):
     for d in line.split()[2:]:
         p: str = d.split("=")[0].strip()
         s: str = d.split("=")[1].strip()
-        if p in _g.outputs:
+        if p in _g.pos():
             g.inputs.add(s)
-        if p in _g.inputs:
+        if p in _g.pis():
             g.outputs.add(s)
 
 

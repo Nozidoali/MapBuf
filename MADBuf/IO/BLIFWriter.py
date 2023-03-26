@@ -26,14 +26,14 @@ def write_blif_to_string(g: BLIFGraph) -> str:
 
     blif_string += ".inputs "
 
-    for input in g.inputs:
+    for input in g.pis():
         blif_string += input + " "
 
     blif_string += "\n"
 
     blif_string += ".outputs "
 
-    for output in g.outputs:
+    for output in g.pos():
         blif_string += output + " "
 
     blif_string += "\n"
@@ -41,10 +41,10 @@ def write_blif_to_string(g: BLIFGraph) -> str:
     for ro in g.ro_to_ri:
         blif_string += ".latch\t" + g.ro_to_ri[ro] + " " + ro + " 2\n"
 
-    for node in g.const0:
+    for node in g.constant0s():
         blif_string += ".names\t" + node + "\n0\n"
 
-    for node in g.const1:
+    for node in g.constant1s():
         blif_string += ".names\t" + node + "\n1\n"
 
     for node in g.nodes:

@@ -43,13 +43,13 @@ def add_madbuf_constraints(
             if signal not in graph.node_fanins:
                 pass
 
-            elif len(graph.node_fanins[signal]) != 1:
+            elif len(graph.fanins(signal)) != 1:
                 pass
 
             else:
 
                 # only one fanin
-                for fanin in graph.node_fanins[signal]:
+                for fanin in graph.fanins(signal):
                     add_delay_propagation_constraints_on_wire(model, signal, fanin, buffer_var)
                 continue
 

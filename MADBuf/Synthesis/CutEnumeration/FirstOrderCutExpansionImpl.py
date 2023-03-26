@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 16:53:13
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 18:19:46
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 
@@ -23,7 +23,7 @@ class first_order_cut_params:
 def get_num_leaves(g: BLIFGraph, leaves: set) -> int:
     num_leaves: int = 0
     for f in leaves:
-        if f in g.const0 or f in g.const1:
+        if f in g.const0 or f in g.constant1s():
             continue
         num_leaves += 1
     return num_leaves
@@ -63,7 +63,7 @@ def first_order_cut_expansion_impl(g: BLIFGraph, cut: Cut, labels: dict, signal_
         # the signal is a constant
         return optimal_timing_label
     
-    if len(g.node_fanins[signal]) > cut_size_limit:
+    if len(g.fanins(signal)) > cut_size_limit:
         # this should NOT happen
         # the signal is a constant
         return optimal_timing_label
@@ -71,7 +71,7 @@ def first_order_cut_expansion_impl(g: BLIFGraph, cut: Cut, labels: dict, signal_
     
     curr_expansion_level = 0
 
-    leaves: set = g.node_fanins[signal].copy() # deep copy
+    leaves: set = g.fanins(signal).copy() # deep copy
     best_leaves: set = None
     
     # we should also consider the constants

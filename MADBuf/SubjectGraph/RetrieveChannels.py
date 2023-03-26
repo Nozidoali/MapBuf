@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 00:37:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 00:40:25
+Last Modified time: 2023-03-26 04:23:22
 '''
 
 
@@ -24,7 +24,7 @@ def retrieve_channels(graph: BLIFGraph) -> dict:
     #                    |
     #                    in (u)
     #
-    for signal in graph.outputs:
+    for signal in graph.pos():
 
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:

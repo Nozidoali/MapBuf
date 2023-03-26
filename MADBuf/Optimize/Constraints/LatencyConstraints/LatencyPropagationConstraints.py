@@ -25,7 +25,7 @@ def add_latency_propagation_constraints(
 
         if signal not in signal_to_variable:
 
-            for leaf in g.node_fanins[signal]:
+            for leaf in g.fanins(signal):
                 model.addConstr(
                     model.getVarByName(f"LatencyLabel_{leaf}")
                     <= model.getVarByName(f"LatencyLabel_{signal}")
@@ -35,9 +35,9 @@ def add_latency_propagation_constraints(
 
             # then we have a channel
             # and we have to consider the possibility that the channel is buffered
-            assert len(g.node_fanins[signal]) == 1
+            assert len(g.fanins(signal)) == 1
 
-            for leaf in g.node_fanins[signal]:
+            for leaf in g.fanins(signal):
 
                 model.addConstr(
                     signal_to_variable[signal]

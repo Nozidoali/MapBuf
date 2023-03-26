@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 01:12:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 02:11:08
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 import gurobipy as gp
@@ -50,7 +50,7 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
                 if '__anchor__in' in signal:
                     continue
 
-                if signal in graph.inputs:
+                if signal in graph.pis():
                     
                     if component_from not in blackbox_primary_input:
                         blackbox_primary_input[component_from] = set()
@@ -61,12 +61,12 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
                 if signal not in graph.node_fanins:
                     continue
 
-                if len(graph.node_fanins[signal]) != 1:
+                if len(graph.fanins(signal)) != 1:
                     continue
 
-                fanin = list(graph.node_fanins[signal])[0]
+                fanin = list(graph.fanins(signal))[0]
                 
-                if fanin in graph.inputs:
+                if fanin in graph.pis():
 
                     if component_from not in blackbox_primary_input:
                         blackbox_primary_input[component_from] = set()

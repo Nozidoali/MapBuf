@@ -127,7 +127,7 @@ class MADBufBase:
         l_opt: TimingLabel = self._node_arrival_time(n)
         assert n in self.g.node_fanins
 
-        leaves: set = set(list(self.g.node_fanins[n])[:])  # deep copy
+        leaves: set = set(list(self.g.fanins(n))[:])  # deep copy
         best_cut: set = set(leaves)
 
         assert len(leaves) <= Constants.lut_size_limit and "failed to find initial cut"
@@ -242,7 +242,7 @@ class MADBufBase:
         # this may or may not get the arrival time from labels (allowing dirty labels)
         l_opt: TimingLabel = self._node_arrival_time(n)
 
-        leaves: set = set(list(self.g.node_fanins[n])[:])  # deep copy
+        leaves: set = set(list(self.g.fanins(n))[:])  # deep copy
         assert len(leaves) <= Constants.lut_size_limit and "failed to find initial cut"
         while len(leaves) <= Constants.lut_size_limit:
             arrival_times: list = [(self._node_arrival_time(f), f) for f in leaves]
@@ -349,7 +349,7 @@ class MADBufBase:
 
         if (
             n not in self.g.node_fanins
-            or len(self.g.node_fanins[n]) > Constants.lut_size_limit
+            or len(self.g.fanins(n)) > Constants.lut_size_limit
         ):
             # we cannot find cut for n, l_opt is the best we can have
             return l_opt
@@ -357,7 +357,7 @@ class MADBufBase:
         # remember the last leaves
         best_leaves: set = set()
 
-        leaves: set = set(list(self.g.node_fanins[n])[:])  # deep copy
+        leaves: set = set(list(self.g.fanins(n))[:])  # deep copy
         while len(leaves) <= Constants.lut_size_limit:
 
             arrival_times: list = [(self._node_arrival_time(f), f) for f in leaves]

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 00:40:53
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 00:45:04
+Last Modified time: 2023-03-26 04:44:51
 '''
 
 from MADBuf.Utils import *
@@ -28,7 +28,7 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
     #
     # In this way, we guarantee that the channel is not optimized by ODIN or ABC
     to_connect = set()
-    for signal in graph.inputs:
+    for signal in graph.pis():
 
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:
@@ -37,12 +37,12 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
         else:
             to_connect.add(signal)  # now signal is not a PI, and need to be defined later
 
-    for signal in graph.const0:
+    for signal in graph.constant0s():
         g.const0.add(signal)
-    for signal in graph.const1:
+    for signal in graph.constant1s():
         g.const1.add(signal)
-    for signal in graph.ros:
-        g.ros.add(signal)
+    for signal in graph.ros():
+        g.create_ro(signal)
 
     for signal in graph.ro_to_ri:
         g.ro_to_ri[signal] = graph.ro_to_ri[signal]
@@ -50,12 +50,12 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
     # copy nodes
     for signal in graph.nodes:
         g.nodes.add(signal)
-        g.node_fanins[signal] = set(list(graph.node_fanins[signal])[:])
+        g.node_fanins[signal] = set(list(graph.fanins(signal))[:])
         g.node_funcs[signal] = graph.node_funcs[signal][:]
 
     # copy outputs (register inputs)
-    for signal in graph.ris:
-        g.ris.add(signal)
+    for signal in graph.ris():
+        g.create_ri(signal)
 
     # we only consider those anchors in the outputs
     #   the anchor has the structure of:
@@ -65,7 +65,7 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
     #                    |
     #                    in (u)
     #
-    for signal in graph.outputs:
+    for signal in graph.pos():
 
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:
@@ -90,7 +90,7 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
                 #
                 if signal not in g.node_fanins:
                     # print(signal) # for debug purpose
-                    if signal not in g.const0 and signal not in g.const1:
+                    if signal not in g.const0 and signal not in g.constant1s():
                         print(f"{signal} is not defined")
                         exit()
 

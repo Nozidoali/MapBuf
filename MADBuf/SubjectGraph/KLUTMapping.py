@@ -40,24 +40,24 @@ def klut_mapping(g: BLIFGraph, signal_to_cut: dict) -> BLIFGraph:
     network = BLIFGraph()
     network.top_module = g.top_module
 
-    for signal in g.inputs:
+    for signal in g.pis():
         network.create_pi(signal)
 
-    for signal in g.const0:
+    for signal in g.constant0s():
         network.const0.add(signal)
 
-    for signal in g.const1:
+    for signal in g.constant1s():
         network.const1.add(signal)
 
-    for signal in g.ros:
+    for signal in g.ros():
         network.create_ro(signal)
         network.ro_to_ri[signal] = g.ro_to_ri[signal]
 
-    for signal in g.outputs:
+    for signal in g.pos():
         network.create_po(signal)
         retrieve_luts_helper(g, network, signal_to_cut, signal)
 
-    for signal in g.ris:
+    for signal in g.ris():
         network.create_ri(signal)
         retrieve_luts_helper(g, network, signal_to_cut, signal)
 

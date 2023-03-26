@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-09 16:39:58
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:44:27
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 from MADBuf.Utils import *
@@ -28,7 +28,7 @@ def collect_lut_rec(g: BLIFGraph, cut: set, signal: str) -> set:
     if signal not in g.node_fanins:
         return {signal}
 
-    for leaf in g.node_fanins[signal]:
+    for leaf in g.fanins(signal):
         signals = signals.union(collect_lut_rec(g, cut, leaf))
 
     return signals

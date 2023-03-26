@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 15:28:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 00:38:43
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 from MADBuf.Network import *
@@ -100,7 +100,7 @@ def precompute_timing_labels(
 
         if cut_preparation_params.use_infinite_order_cut:
             # infinite order cuts
-            cuts.append(Cut(signal, g.node_fanins[signal]))
+            cuts.append(Cut(signal, g.fanins(signal)))
 
         if cut_preparation_params.use_all_buffered_cut:
             if signal in signal_to_channel:

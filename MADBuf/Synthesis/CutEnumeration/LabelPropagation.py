@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 17:27:58
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 18:16:48
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 from MADBuf.Network import *
@@ -19,7 +19,7 @@ def label_propagation(graph: BLIFGraph, arrival_time: callable, signal: str, cut
     
     optimal_timing_label = TimingLabel()
     
-    leaves: set = graph.node_fanins[signal].copy() # deep copy
+    leaves: set = graph.fanins(signal).copy() # deep copy
     best_leaves: set = leaves.copy()  # deep copy
     
     curr_expansion_level = 0
@@ -30,7 +30,7 @@ def label_propagation(graph: BLIFGraph, arrival_time: callable, signal: str, cut
         # we count the number of non-constant leaves
         num_leaves: int = 0
         for f in leaves:
-            if f in graph.const0 or f in graph.const1:
+            if f in graph.const0 or f in graph.constant1s():
                 continue
             num_leaves += 1
 

@@ -27,16 +27,16 @@ def _extract_fanin_cone_rec(
     if n in visited:
         return
     if graph.is_ci(n):
-        if n in graph.const0:
+        if n in graph.constant0s():
             g.const0.add(n)
-        if n in graph.const1:
+        if n in graph.constant1s():
             g.const1.add(n)
         else:
             g.inputs.add(n)
     else:
         g.nodes.add(n)
-        g.node_fanins[n] = set()
-        for f in graph.node_fanins[n]:
+        g.fanins(n) = set()
+        for f in graph.fanins(n):
             _extract_fanin_cone_rec(graph, f, g, visited)
-            g.node_fanins[n].add(f)
+            g.fanins(n).add(f)
     visited.add(n)

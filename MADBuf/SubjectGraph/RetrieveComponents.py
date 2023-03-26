@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 00:32:30
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 00:40:39
+Last Modified time: 2023-03-26 04:34:33
 '''
 
 from MADBuf.Utils import *
@@ -25,7 +25,7 @@ def retrieve_components(graph: BLIFGraph) -> dict:
     #                    |
     #                    in (u)
     #
-    for signal in graph.outputs:
+    for signal in graph.pos():
 
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:
@@ -59,7 +59,7 @@ def retrieve_components(graph: BLIFGraph) -> dict:
                     for f in graph.node_fanins[_n]:
                         if f not in signals_in_component[component]:
                             q.put(f)
-                elif _n in graph.ros:
+                elif _n in graph.ros():
                     # two possible cases here:
                     #   - ROs: we need to cross the stage boundary
                     #   - PIs
@@ -68,7 +68,7 @@ def retrieve_components(graph: BLIFGraph) -> dict:
                         q.put(_ni)
 
     # assign un-traversed node to the correct cluster
-    for signal in graph.inputs:
+    for signal in graph.pis():
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:
             continue

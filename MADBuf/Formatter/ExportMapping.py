@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 07:41:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:44:43
+Last Modified time: 2023-03-26 04:44:24
 '''
 
 import pygraphviz as pgv
@@ -30,7 +30,7 @@ def collect_lut_rec(G: pgv.AGraph, g: BLIFGraph, cut: set, signal: str) -> set:
 
     signals.add(signal)
 
-    for leaf in g.node_fanins[signal]:
+    for leaf in g.fanins(signal):
 
         signals = signals.union(collect_lut_rec(G, g, cut, leaf))
 
@@ -77,11 +77,11 @@ def export_mapping(
 
     for n in graph.topological_traversal():
         if n in graph.nodes:
-            for f in graph.node_fanins[n]:
+            for f in graph.fanins(n):
                 G.add_edge(f, n)
 
     # add link from RI to RO
-    for ro in graph.ros:
+    for ro in graph.ros():
         ri = graph.ro_to_ri[ro]
         G.add_edge(ri, ro, style="dashed")
 
@@ -92,10 +92,10 @@ def export_mapping(
 
     # then we mark all the activated cuts
     activated_signals = queue.Queue()
-    for n in graph.outputs:
+    for n in graph.pos():
         activated_signals.put(n)
 
-    for n in graph.ris:
+    for n in graph.ris():
         activated_signals.put(n)
 
     is_marked = set()

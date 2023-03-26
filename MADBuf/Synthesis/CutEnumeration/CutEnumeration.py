@@ -42,7 +42,14 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
                 "cutless enumeration is only implemented for BLIFGraph"
             )
 
-        return cutless_enumeration_impl(network=network, **kwargs)
+        if True:
+            return cutless_enumeration_impl_old(
+                network=network,
+                **kwargs,
+            )
+
+        else:
+            return cutless_enumeration_impl(network=network, **kwargs)
 
     else:
 
@@ -66,16 +73,8 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
             20,
         )
 
-        if True:
-            return cutless_enumeration_impl_old(
-                g=network,
-                priority_cut_size=priority_cut_size,
-                lut_size_limit=lut_size_limit,
-            )
-
-        else:
-            return cut_enumeration_impl(
-                g=network,
-                priority_cut_size=priority_cut_size,
-                lut_size_limit=lut_size_limit,
-            )
+        return cut_enumeration_impl(
+            g=network,
+            priority_cut_size=priority_cut_size,
+            lut_size_limit=lut_size_limit,
+        )

@@ -37,7 +37,7 @@ class MappingView(BLIFGraph):
         # we count the number of non-constant leaves
         num_leaves: int = 0
         for f in leaves:
-            if f in self.const0 or f in self.const1:
+            if f in self.const0 or f in self.constant1s():
                 continue
             num_leaves += 1
         return num_leaves
@@ -67,7 +67,7 @@ class MappingView(BLIFGraph):
 
             optimal_timing_label = TimingLabel()
 
-            leaves: set = set(list(self.node_fanins[signal])[:])  # deep copy
+            leaves: set = set(list(self.fanins(signal))[:])  # deep copy
             best_leaves: set = leaves.copy()  # deep copy
 
             # while len(leaves) <= cut_size_limit:

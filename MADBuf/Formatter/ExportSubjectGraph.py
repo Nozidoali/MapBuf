@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-18 10:47:57
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:44:49
+Last Modified time: 2023-03-26 04:44:13
 '''
 
 from MADBuf.Network.BLIF import *
@@ -46,7 +46,7 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
         G.add_node(n, label=get_shortname(n))
 
         if n in graph.nodes:
-            for f in graph.node_fanins[n]:
+            for f in graph.fanins(n):
 
                 if singals_to_export is not None and f not in singals_to_export:
                     continue
@@ -58,7 +58,7 @@ def export_subject_graph(graph: BLIFGraph, **kwargs) -> pgv.AGraph:
         pass
 
     else:
-        for ro in graph.ros:
+        for ro in graph.ros():
 
             if singals_to_export is not None and ro not in singals_to_export:
                 continue
