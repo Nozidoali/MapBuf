@@ -23,7 +23,7 @@ class Cut:
     def __str__(self) -> str:
         leaves = list(self.leaves)
         leaves.sort()  # alphabetic order
-        return self.root+"->"+str(",".join(leaves))
+        return self.root + "->" + str(",".join(leaves))
 
     def __hash__(self) -> int:
         # two cuts are teh same if they have the same root and the same leaves
@@ -33,7 +33,7 @@ class Cut:
 
         if self.root != other.root:
             # this might happen when we merge two cut in cut enumeration
-            pass 
+            pass
 
         return Cut(self.root, self.leaves.union(other.leaves))
 

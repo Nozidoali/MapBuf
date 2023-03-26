@@ -19,16 +19,23 @@ class ComponentMapping:
         with open(file, "w") as f:
             for mapping in self.mappings:
                 functioning_component, equivalent_component, use_buffer = mapping
-                f.write(f"{functioning_component},{equivalent_component},{use_buffer}\n")
+                f.write(
+                    f"{functioning_component},{equivalent_component},{use_buffer}\n"
+                )
 
-    def add_mapping(self, functioning_component: str, equivalent_component: str, use_buffer) -> None:
+    def add_mapping(
+        self, functioning_component: str, equivalent_component: str, use_buffer
+    ) -> None:
         self.mappings.append((functioning_component, equivalent_component, use_buffer))
 
     def export_mapping_equivalent_to_functioning(self) -> None:
         mapping_to_floating = {}
         for mapping in self.mappings:
             functioning_component, equivalent_component, use_buffer = mapping
-            mapping_to_floating[equivalent_component] = (functioning_component, use_buffer)
+            mapping_to_floating[equivalent_component] = (
+                functioning_component,
+                use_buffer,
+            )
 
         return mapping_to_floating
 
@@ -36,10 +43,13 @@ class ComponentMapping:
         mapping_to_floating = {}
         for mapping in self.mappings:
             functioning_component, equivalent_component, use_buffer = mapping
-            mapping_to_floating[functioning_component] = (equivalent_component, use_buffer)
+            mapping_to_floating[functioning_component] = (
+                equivalent_component,
+                use_buffer,
+            )
 
         return mapping_to_floating
-    
+
     def __add__(self, other: "ComponentMapping") -> "ComponentMapping":
         new_mappings: list = []
 
@@ -50,13 +60,16 @@ class ComponentMapping:
 
             # could be mapped again
             if equivalent_component in others_mapping:
-                new_equivalent_component, new_use_buffer = others_mapping[equivalent_component]
+                new_equivalent_component, new_use_buffer = others_mapping[
+                    equivalent_component
+                ]
 
                 equivalent_component = new_equivalent_component
                 use_buffer = use_buffer or new_use_buffer
 
-            new_mappings.append((functioning_component, equivalent_component, use_buffer))
-
+            new_mappings.append(
+                (functioning_component, equivalent_component, use_buffer)
+            )
 
         this_mapping = self.export_mapping_equivalent_to_functioning()
 
@@ -67,7 +80,9 @@ class ComponentMapping:
             if functioning_component in this_mapping:
                 continue
 
-            new_mappings.append((functioning_component, equivalent_component, use_buffer))
+            new_mappings.append(
+                (functioning_component, equivalent_component, use_buffer)
+            )
 
         new_mapping = ComponentMapping(new_mappings)
 
@@ -79,9 +94,15 @@ def read_mapping(filename: str, verbose: bool = False) -> ComponentMapping:
     try:
         with open(filename, "r") as f:
             for line in f:
-                functioning_component, equivalent_component, use_buffer = line.strip().split(",")
+                (
+                    functioning_component,
+                    equivalent_component,
+                    use_buffer,
+                ) = line.strip().split(",")
                 use_buffer = True if use_buffer == "True" else False
-                mapping.add_mapping(functioning_component, equivalent_component, use_buffer)
+                mapping.add_mapping(
+                    functioning_component, equivalent_component, use_buffer
+                )
 
                 if verbose:
                     print(

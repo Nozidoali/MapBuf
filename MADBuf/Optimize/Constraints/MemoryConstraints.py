@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-20 21:45:53
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-21 15:16:50
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Optimize.Variables import *
 from MADBuf.Utils import *
 
+
 def add_memory_constraints(model: gp.Model, *args, **kwargs):
-    
+
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
 
     always_zero_vars: set = set()
@@ -32,7 +33,7 @@ def add_memory_constraints(model: gp.Model, *args, **kwargs):
                 always_zero_vars.add(var)
 
     print_green(f"Adding {len(always_zero_vars)} constraints for memory constraints")
-    
+
     for var in always_zero_vars:
         if verbose:
             print_orange(f"Adding constraint for {var.varName} == 0")

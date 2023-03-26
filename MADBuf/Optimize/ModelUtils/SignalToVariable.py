@@ -50,7 +50,9 @@ def get_signal_to_variable(
     channel_to_var = get_unfloat_channel_to_variable(model, mapping)
 
     if mapping is not None:
-        unfloating_to_floating_mapping = mapping.export_mapping_equivalent_to_functioning()
+        unfloating_to_floating_mapping = (
+            mapping.export_mapping_equivalent_to_functioning()
+        )
     else:
         unfloating_to_floating_mapping = {}
 
@@ -137,12 +139,12 @@ def get_signal_to_variable(
     if add_constraints:
         # we add the constraints
         for var in constriants_to_add:
-                var_name = var.getAttr("VarName")
+            var_name = var.getAttr("VarName")
 
-                if verbose:
-                    print_orange(f"Adding Cut Loopback Buffer Constraints: {var_name} >= 1")
-                component_from, component_to = variable_name_to_components(var_name)
-                assert "branch" in component_from and "phi" in component_to
-                model.addConstr(var >= 1)
+            if verbose:
+                print_orange(f"Adding Cut Loopback Buffer Constraints: {var_name} >= 1")
+            component_from, component_to = variable_name_to_components(var_name)
+            assert "branch" in component_from and "phi" in component_to
+            model.addConstr(var >= 1)
 
     return signal_to_variable

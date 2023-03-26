@@ -76,7 +76,10 @@ def equivalence_checking_helper(
 
     return True
 
+
 def equivalence_checking(
     dfg1: pgv.AGraph, dfg2: pgv.AGraph, verbose: bool = False
 ) -> bool:
-    return equivalence_checking_helper(dfg1, dfg2, verbose) and equivalence_checking_helper(dfg2, dfg1, verbose)
+    return equivalence_checking_helper(
+        dfg1, dfg2, verbose
+    ) and equivalence_checking_helper(dfg2, dfg1, verbose)

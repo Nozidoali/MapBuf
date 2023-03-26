@@ -3,8 +3,10 @@ from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.BufferInsertion.InsertBuffer import *
 from MADBuf.DataFlowGraph.BufferInsertion.BufferInsertion import *
 
+
 class insert_buffer_params:
     consider_transparent_buffers_in_phi: bool = False
+
 
 def insert_buffers_in_dfg(
     g: pgv.AGraph,
@@ -65,7 +67,10 @@ def insert_buffers_in_dfg(
         # Here we have a special case:
         # in phi component, we already have a transparent buffer
         # at the output of the phi component
-        if insert_buffer_params.consider_transparent_buffers_in_phi and Component(u).type == ComponentType.phi:
+        if (
+            insert_buffer_params.consider_transparent_buffers_in_phi
+            and Component(u).type == ComponentType.phi
+        ):
             if n_slots_ready == 0:
                 print_red(f"WARNING: transparent buffer on {u} -> {v} is lost")
             n_slots_ready = n_slots_ready - 1 if n_slots_ready > 0 else 0

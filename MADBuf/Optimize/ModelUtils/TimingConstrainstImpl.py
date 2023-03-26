@@ -24,6 +24,7 @@ def add_timing_constraints(
     signal_to_variable: dict,
     add_blockbox_constraints_flag: bool = True,
     add_cut_buffer_interaction_constraints_flag: bool = True,
+    add_blackbox_delay_propagation_flag: bool = True,
     clock_period: int = 100,
     verbose: bool = False,
 ):
@@ -70,5 +71,8 @@ def add_timing_constraints(
             signal_to_variable=signal_to_variable,
             verbose=verbose,
         )
+
+    if add_blackbox_delay_propagation_flag:
+        add_blackbox_delay_propapation_constraints(model, graph=network)
 
     model.update()

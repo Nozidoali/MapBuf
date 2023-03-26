@@ -18,6 +18,8 @@ from MADBuf.Optimize.Optimizer.OptimizerBase import *
 from MADBuf.Optimize.Optimizer.OptimizerDFGBase import *
 
 from copy import deepcopy
+
+
 class ThroughputOptimizer(DFGOptimizer):
     def __init__(self, *args, **kwargs) -> None:
 
@@ -81,7 +83,6 @@ class ThroughputOptimizer(DFGOptimizer):
 
         self.model = model
 
-
     def build_model(self, *args, **kwargs):
 
         cut_loopback = get_value_from_kwargs(
@@ -93,7 +94,9 @@ class ThroughputOptimizer(DFGOptimizer):
         )
 
         cut_buffer_interaction = get_value_from_kwargs(
-            kwargs, ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"], False
+            kwargs,
+            ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"],
+            False,
         )
 
         self.signal_to_variable = get_signal_to_variable(
@@ -101,23 +104,8 @@ class ThroughputOptimizer(DFGOptimizer):
             signal_to_channel=self.signal_to_channel,
             dfg_mapped=self.dfg_mapped,
             mapping=self.mapping,
-            add_constraints = cut_loopback
+            add_constraints=cut_loopback,
         )
-
-        add_timing_constraints(
-            self.model,
-            self.graph,
-            self.signal_to_cuts,
-            self.signal_to_channel,
-            self.signal_to_variable,
-            add_blockbox_constraints_flag=blackbox,
-            add_cut_buffer_interaction_constraints_flag=cut_buffer_interaction,
-            clock_period=self.clock_period,
-            verbose=False,
-        )
-
-        # refine model: we should not buffer the channel between Memory Controller and Memory
-        add_memory_constraints(self.model, **kwargs)
 
         add_blackbox_delay_propagation_flag = get_value_from_kwargs(
             kwargs,
@@ -128,8 +116,21 @@ class ThroughputOptimizer(DFGOptimizer):
             False,
         )
 
-        if add_blackbox_delay_propagation_flag:
-            add_blackbox_delay_propapation_constraints(self.model, self.graph)
+        add_timing_constraints(
+            self.model,
+            self.graph,
+            self.signal_to_cuts,
+            self.signal_to_channel,
+            self.signal_to_variable,
+            add_blockbox_constraints_flag=blackbox,
+            add_cut_buffer_interaction_constraints_flag=cut_buffer_interaction,
+            add_blackbox_delay_propagation_flag=add_blackbox_delay_propagation_flag,
+            clock_period=self.clock_period,
+            verbose=False,
+        )
+
+        # refine model: we should not buffer the channel between Memory Controller and Memory
+        add_memory_constraints(self.model, **kwargs)
 
         lp_filename = get_value_from_kwargs(
             kwargs,

@@ -48,7 +48,9 @@ def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph, verbose: bool = False):
                         _, node_to = out_edge
                         if "phi" in node_to.get_name():
                             if node_to in subgraph_nodes[block_to]:
-                                print(f"... cut loopback {node} -> {node_to}")
+
+                                if verbose:
+                                    print(f"... cut loopback {node} -> {node_to}")
 
                                 # now we need to insert buffers
                                 #

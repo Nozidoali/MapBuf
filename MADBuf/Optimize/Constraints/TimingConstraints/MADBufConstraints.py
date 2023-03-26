@@ -20,7 +20,10 @@ class madbuf_constraints_params:
 
 
 def add_madbuf_constraints(
-    model: gp.Model, graph: BLIFGraph, signal_to_cuts: dict, signal_to_variable: dict = None
+    model: gp.Model,
+    graph: BLIFGraph,
+    signal_to_cuts: dict,
+    signal_to_variable: dict = None,
 ):
 
     for signal in signal_to_cuts:
@@ -50,7 +53,9 @@ def add_madbuf_constraints(
 
                 # only one fanin
                 for fanin in graph.fanins(signal):
-                    add_delay_propagation_constraints_on_wire(model, signal, fanin, buffer_var)
+                    add_delay_propagation_constraints_on_wire(
+                        model, signal, fanin, buffer_var
+                    )
                 continue
 
         # get the set of cuts that are precomputed for this signal

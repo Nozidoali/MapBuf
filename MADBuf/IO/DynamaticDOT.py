@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-02-28 07:44:09
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 13:52:48
-'''
+"""
 
 import pygraphviz as pgv
 
@@ -47,6 +47,3 @@ def edge_str(e: pgv.Edge) -> str:
     u, v = e
     edgeattr = ", ".join(attributes)
     return f"\t\t{quote(u)} -> {quote(v)} [{edgeattr}];\n"
-
-
-

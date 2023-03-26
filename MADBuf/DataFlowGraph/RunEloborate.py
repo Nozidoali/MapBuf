@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-26 16:41:56
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 17:40:23
-'''
+"""
 
 import subprocess
 import time
@@ -18,12 +18,13 @@ from MADBuf.DataFlowGraph.InsertAnchors import *
 from MADBuf.ExternalTools import *
 from MADBuf.Synthesis import *
 
+
 def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
 
     mut = get_value_from_kwargs(kwargs, ["mut", "top", "top_module"], None)
     if mut is None:
         raise Exception("mut is not set")
-    
+
     subprocess.run("cd /tmp && rm -rf eval", shell=True)
     subprocess.run("cd /tmp && mkdir eval", shell=True)
     write_dfg(dfg, f"/tmp/eval/{mut}.dot")
@@ -35,7 +36,9 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
         time.sleep(1)
     print_green("Done")
 
-    insert_anchors_flag = get_value_from_kwargs(kwargs, ["insert_anchors", "anchors"], False)
+    insert_anchors_flag = get_value_from_kwargs(
+        kwargs, ["insert_anchors", "anchors"], False
+    )
     if insert_anchors_flag:
         # we read the file generated from dot2hdl
         print("Inserting anchors", end="...", flush=True)
@@ -43,7 +46,7 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
         insert_anchors(vgraph)
         write_verilog(vgraph, f"/tmp/eval/{mut}.v")
         print_green("Done")
-        
+
     if "ODIN_COMPONENTS" not in os.environ:
         raise Exception("ODIN_COMPONENTS is not set")
 
@@ -65,7 +68,7 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
             "--show_yosys_log",
         ]
     )
-    
+
     print("Running ODIN", end="...", flush=True)
     subprocess.run(odin_command, shell=True, stdout=subprocess.PIPE)
     # subprocess.run(odin_command, shell=True)
@@ -75,11 +78,19 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
 
     run_strash = get_value_from_kwargs(kwargs, ["run_strash", "strash"], False)
     if run_strash:
-        run_optimization = get_value_from_kwargs(kwargs, ["run_optimization", "run_opt"], False)
-        print(f"Running ABC, run_optimization = {run_optimization}", end="...", flush=True)
-        run_abc_strash(f"/tmp/eval/{mut}.blif", f"/tmp/eval/{mut}.blif", run_optimization=run_optimization)
+        run_optimization = get_value_from_kwargs(
+            kwargs, ["run_optimization", "run_opt"], False
+        )
+        print(
+            f"Running ABC, run_optimization = {run_optimization}", end="...", flush=True
+        )
+        run_abc_strash(
+            f"/tmp/eval/{mut}.blif",
+            f"/tmp/eval/{mut}.blif",
+            run_optimization=run_optimization,
+        )
         print_green("Done")
-        
+
     filename = get_value_from_kwargs(kwargs, ["filename", "file", "output_file"], None)
     if filename is not None:
         subprocess.run(f"cp /tmp/eval/{mut}.blif {filename}", shell=True)
@@ -90,7 +101,7 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
     if loop:
         print_red("There is a loop in the graph")
         print_red(loop)
-        
+
     assert find_loop(g) == None, "There is a loop in the graph"
 
     return g

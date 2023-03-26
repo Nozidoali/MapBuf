@@ -67,38 +67,43 @@ class BLIFGraphBase:
 
     # the CI (combinational inptus are the primary inputs and the register outputs)
     def is_ci(self, signal: str) -> bool:
-        return signal in self.inputs or signal in self.register_outputs or signal in self.const0 or signal in self.const1
+        return (
+            signal in self.inputs
+            or signal in self.register_outputs
+            or signal in self.const0
+            or signal in self.const1
+        )
 
     def topological_traversal(self) -> set:
         return self.__signals
-    
+
     def constants(self):
         return sorted(self.const0 | self.const1)
-    
+
     def cos(self):
         return sorted(self.outputs | self.register_inputs)
-    
+
     def cis(self):
-        return sorted(self.inputs | self.register_outputs| self.const0 | self.const1)
-    
+        return sorted(self.inputs | self.register_outputs | self.const0 | self.const1)
+
     def constant0s(self):
         return sorted(self.const0)
-    
+
     def constant1s(self):
         return sorted(self.const1)
-    
+
     def pis(self):
         return sorted(self.inputs)
-    
+
     def pos(self):
         return sorted(self.outputs)
-    
+
     def ris(self):
         return sorted(self.register_inputs)
-    
+
     def ros(self):
         return sorted(self.register_outputs)
-    
+
     def fanins(self, signal: str):
         return sorted(self.node_fanins[signal])
 
@@ -125,7 +130,7 @@ class BLIFGraphBase:
     def trav_rec(self, signal: str):
         if signal in self.__signals:
             return
-        
+
         if signal not in self.node_fanins:
             print(f"recursion stoped at node {signal}")
             exit()
@@ -149,11 +154,17 @@ class BLIFGraphBase:
         self.outputs.add(name)
 
     def create_ri(self, name: str):
-        assert name not in self.register_inputs and "the register input to create already exists"
+        assert (
+            name not in self.register_inputs
+            and "the register input to create already exists"
+        )
         self.register_inputs.add(name)
 
     def create_ro(self, name: str):
-        assert name not in self.register_outputs and "the register output to create already exists"
+        assert (
+            name not in self.register_outputs
+            and "the register output to create already exists"
+        )
         self.register_outputs.add(name)
 
     def create_node(self, name: str, fanins: set, func: list):

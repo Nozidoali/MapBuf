@@ -46,7 +46,11 @@ class DFGOptimizer(OptimizerBase):
 
         self.dfg = dfg
 
-        network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(self.graph)
+        (
+            network,
+            signal_to_channel,
+            signals_in_component,
+        ) = retrieve_information_from_subject_graph_with_anchors(self.graph)
 
         self.graph = network
         self.signal_to_channel = signal_to_channel

@@ -24,4 +24,3 @@ def add_timing_label_variables(model: gp.Model, g: BLIFGraph):
     #       https://stackoverflow.com/questions/66182055/pythongurobiattributeerror-index-out-of-range-for-attribute-varname
     #
     model.update()
-

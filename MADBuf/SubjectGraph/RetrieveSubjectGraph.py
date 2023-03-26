@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 00:40:53
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:44:51
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Network import *
@@ -16,7 +16,7 @@ from MADBuf.SubjectGraph.FindLoop import *
 def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
 
     g: BLIFGraph = BLIFGraph()
-    
+
     # from anchor insertion:
     #   this is for BLIF input that was generated with channel anchors
     #   the anchor has the structure of:
@@ -35,7 +35,9 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
             g.inputs.add(signal)
             continue
         else:
-            to_connect.add(signal)  # now signal is not a PI, and need to be defined later
+            to_connect.add(
+                signal
+            )  # now signal is not a PI, and need to be defined later
 
     for signal in graph.constant0s():
         g.const0.add(signal)

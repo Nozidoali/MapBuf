@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 15:28:35
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:44:24
-'''
+"""
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
@@ -16,12 +16,14 @@ from MADBuf.Synthesis.CutEnumeration.ZeroOrderCutExpansion import *
 from MADBuf.Synthesis.CutEnumeration.FirstOrderCutExpansion import *
 from MADBuf.Synthesis.CutEnumeration.AllBufferedCutExpansion import *
 
+
 class cut_preparation_params:
 
     use_zero_order_cut: bool = True
     use_first_order_cut: bool = False
     use_infinite_order_cut: bool = True
     use_all_buffered_cut: bool = False
+
 
 def precompute_timing_labels(
     g: BLIFGraph,
@@ -41,7 +43,7 @@ def precompute_timing_labels(
     Returns:
         tuple (dict, dict): (labels, cuts)
     """
-    
+
     if verbose:
         print(f"Precompute timing labels, cut size limit = {cut_size_limit}")
 
@@ -81,7 +83,7 @@ def precompute_timing_labels(
 
         if cut_preparation_params.use_first_order_cut:
             assert cut_preparation_params.use_zero_order_cut
-            
+
             first_order_timing_label, first_order_cut = first_order_cut_expansion(
                 g,
                 cut=zero_order_cut,
@@ -111,7 +113,10 @@ def precompute_timing_labels(
 
             else:
                 # then we add the cuts assuming all the channels are buffered
-                all_buffered_timing_label, all_buffered_cut = all_buffered_cut_expansion(
+                (
+                    all_buffered_timing_label,
+                    all_buffered_cut,
+                ) = all_buffered_cut_expansion(
                     g,
                     signal=signal,
                     labels=all_buffered_labels,
@@ -125,9 +130,9 @@ def precompute_timing_labels(
                     all_buffered_labels[signal] = all_buffered_timing_label
                     if all_buffered_timing_label < optimal_timing_label:
                         cuts.append(all_buffered_cut)
-                
+
         signal_to_cuts[signal] = cuts
-        
+
         # unique cuts
         signal_to_cuts[signal] = list(set(signal_to_cuts[signal]))
 

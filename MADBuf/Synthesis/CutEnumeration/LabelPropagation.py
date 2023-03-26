@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 17:27:58
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:44:24
-'''
+"""
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
@@ -15,15 +15,21 @@ from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.ExpandCutBase import *
 
 
-def label_propagation(graph: BLIFGraph, arrival_time: callable, signal: str, cut_size_limit: int, max_expansion_level: int):
-    
+def label_propagation(
+    graph: BLIFGraph,
+    arrival_time: callable,
+    signal: str,
+    cut_size_limit: int,
+    max_expansion_level: int,
+):
+
     optimal_timing_label = TimingLabel()
-    
-    leaves: set = graph.fanins(signal).copy() # deep copy
+
+    leaves: set = graph.fanins(signal).copy()  # deep copy
     best_leaves: set = leaves.copy()  # deep copy
-    
+
     curr_expansion_level = 0
-    
+
     # we should also consider the constants
     while True:
 
@@ -63,10 +69,9 @@ def label_propagation(graph: BLIFGraph, arrival_time: callable, signal: str, cut
         if maximum_timing_label == TimingLabel(0):
             break
 
-
         # should we stop?
         done: bool = False
-        
+
         # we prepare for the next expansion
         leaves_to_expand = set()
         for label, leaf in arrival_times:
@@ -77,7 +82,7 @@ def label_propagation(graph: BLIFGraph, arrival_time: callable, signal: str, cut
                 if leaf not in graph.node_fanins:
                     done = True
                     break
-                
+
                 leaves_to_expand.add(leaf)
 
         if done:

@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-02-28 07:43:53
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-19 13:44:57
-'''
+"""
 
 import pygraphviz as pgv
+
 
 def get_difference_graph(G1: pgv.AGraph, G2: pgv.AGraph) -> pgv.AGraph:
     """

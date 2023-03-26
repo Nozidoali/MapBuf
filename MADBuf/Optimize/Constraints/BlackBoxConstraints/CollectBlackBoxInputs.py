@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 01:12:12
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:44:24
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Utils import *
 from MADBuf.Network import *
 from MADBuf.Optimize.Constraints.BlackBoxConstraints.BlackBox import *
+
 
 def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **kwargs):
 
@@ -35,7 +36,7 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
 
         # we only consider those anchors in the outputs
         #   the anchor has the structure of:
-        #              
+        #
         #              BLACKBOX
         #              out (v)
         #              |
@@ -47,14 +48,14 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
 
             if blackbox in component_from:
 
-                if '__anchor__in' in signal:
+                if "__anchor__in" in signal:
                     continue
 
                 if signal in graph.pis():
-                    
+
                     if component_from not in blackbox_primary_input:
                         blackbox_primary_input[component_from] = set()
-                        
+
                     blackbox_primary_input[component_from].add(signal)
                     continue
 
@@ -65,7 +66,7 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
                     continue
 
                 fanin = list(graph.fanins(signal))[0]
-                
+
                 if fanin in graph.pis():
 
                     if component_from not in blackbox_primary_input:
@@ -73,14 +74,15 @@ def collect_blackbox_primary_inputs(model: gp.Model, graph: BLIFGraph, *args, **
 
                     blackbox_primary_input[component_from].add(fanin)
 
-    verbose = get_value_from_kwargs(kwargs, "verbose", False)  
+    verbose = get_value_from_kwargs(kwargs, "verbose", False)
 
     if verbose:
-        
+
         for blackbox in blackbox_primary_input:
-            print_green(f"Adding {len(blackbox_primary_input[blackbox])} PIs of {blackbox} into delay propagation")
+            print_green(
+                f"Adding {len(blackbox_primary_input[blackbox])} PIs of {blackbox} into delay propagation"
+            )
             for signal in blackbox_primary_input[blackbox]:
                 print_orange(f"Adding constraint for {signal}")
-
 
     return blackbox_primary_input

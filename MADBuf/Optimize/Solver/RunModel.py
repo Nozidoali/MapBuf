@@ -25,7 +25,6 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         kwargs, ["time_limit", "timeout", "time", "t"], 3600
     )
 
-
     # now we solve the model under the time limit
     #
     model.Params.timeLimit = time_limit

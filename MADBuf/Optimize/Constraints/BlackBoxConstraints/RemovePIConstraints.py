@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-25 23:16:03
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-25 23:17:28
-'''
+"""
 
 import gurobipy as gp
 from MADBuf.Utils import *
 
 
-def remove_primary_inputs_constraints(model: gp.Model, primary_inputs_to_remove: set, verbose: bool = False):
+def remove_primary_inputs_constraints(
+    model: gp.Model, primary_inputs_to_remove: set, verbose: bool = False
+):
 
     constraints_to_remove = []
-    
+
     # now we remove the previous constraints
     for constr in model.getConstrs():
         row: gp.LinExpr = model.getRow(constr)
@@ -34,7 +36,7 @@ def remove_primary_inputs_constraints(model: gp.Model, primary_inputs_to_remove:
             continue
         if rhs != 0:
             continue
-        if sense != '=':
+        if sense != "=":
             continue
         if var_names[0] not in primary_inputs_to_remove:
             continue

@@ -13,6 +13,8 @@ from MADBuf.SubjectGraph import *
 from MADBuf.DataFlowGraph import *
 
 import gurobipy as gp
+
+
 class OptimizerBase:
     """Optimizer Base Class
 

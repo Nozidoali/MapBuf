@@ -34,9 +34,9 @@ def expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
             new_leaves.add(h)
 
     # Example:
-    # 
+    #
     #  a, b
-    # 
+    #
     #       c = f(a,b)
     #       d = f(a,b)
     #       e = f(a,b)
@@ -46,7 +46,7 @@ def expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
     #
     # however, this could cause a problem and skip the channels
     #
-    # for instance, 
+    # for instance,
     #  a, b
     #
     #       c = f(a)

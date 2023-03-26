@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 00:32:30
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:34:33
-'''
+"""
 
 from MADBuf.Utils import *
 from MADBuf.Network import *
 
 import queue
+
 
 def retrieve_components(graph: BLIFGraph) -> dict:
 
@@ -30,7 +31,7 @@ def retrieve_components(graph: BLIFGraph) -> dict:
         c: Channel = retrieve_channel_from_anchor(signal)
         if c is None:
             continue
-        
+
         if "__in" in signal:
             continue
 
@@ -42,7 +43,7 @@ def retrieve_components(graph: BLIFGraph) -> dict:
             component = c.v if c.t == Constants._channel_ready_ else c.u
             if component not in signals_in_component:
                 signals_in_component[component] = set()
-                
+
             # BFS algorithm to collect all the components
             q = queue.Queue()
             q.put(signal)

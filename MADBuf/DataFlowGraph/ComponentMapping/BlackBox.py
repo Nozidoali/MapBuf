@@ -12,7 +12,9 @@ from MADBuf.DataFlowGraph.ComponentMapping.MappingUtils import *
 from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 
 
-def mapping_icmp_to_blackboxes(g: pgv.agraph, verbose: bool = False) -> ComponentMapping:
+def mapping_icmp_to_blackboxes(
+    g: pgv.agraph, verbose: bool = False
+) -> ComponentMapping:
     """Mapping the graph to a graph without using functioning_component point operations
 
     Args:
@@ -33,7 +35,7 @@ def mapping_icmp_to_blackboxes(g: pgv.agraph, verbose: bool = False) -> Componen
         functioning_component = Component(node_name)
 
         component_type = functioning_component.type
-        
+
         if component_type != ComponentType.icmp_:
             continue
 

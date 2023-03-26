@@ -35,11 +35,15 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> ComponentMapp
         curr_index_used: bool = False
 
         if "_" not in node_name:
-            print_red(f"Warning: skiping functioning_component point checking on node {node_name}")
+            print_red(
+                f"Warning: skiping functioning_component point checking on node {node_name}"
+            )
             continue
 
         if len(node_name.split("_")) != 2:
-            print_red(f"Warning: skiping functioning_component point checking on node {node_name}")
+            print_red(
+                f"Warning: skiping functioning_component point checking on node {node_name}"
+            )
             continue
 
         component_type, component_index = node_name.split("_")
@@ -68,7 +72,6 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> ComponentMapp
                 f"replacing {mapping_from} using {mapping_to} (buffer = {buffer_inserted})",
                 end="...",
             )
-
 
         # then, we add the new components to the graph
         #

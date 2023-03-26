@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 17:24:10
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-21 17:34:53
-'''
+"""
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
@@ -15,8 +15,16 @@ from MADBuf.Synthesis.CutEnumeration.LabelPropagation import *
 
 import queue
 
-def dirty_label_propagations(graph: BLIFGraph, labels: dict, dirty_labels: dict, updated_nodes: set, cut_size_limit: int, max_expansion_level: int, verbose: bool = False):
 
+def dirty_label_propagations(
+    graph: BLIFGraph,
+    labels: dict,
+    dirty_labels: dict,
+    updated_nodes: set,
+    cut_size_limit: int,
+    max_expansion_level: int,
+    verbose: bool = False,
+):
     def arrival_time(f: str) -> TimingLabel:
         if f in dirty_labels:
             return dirty_labels[f]
@@ -36,8 +44,10 @@ def dirty_label_propagations(graph: BLIFGraph, labels: dict, dirty_labels: dict,
             continue
 
         l_old = labels[n]  # this read the original value
-        l_new, _ = label_propagation(graph, arrival_time, n, cut_size_limit, max_expansion_level)
-        
+        l_new, _ = label_propagation(
+            graph, arrival_time, n, cut_size_limit, max_expansion_level
+        )
+
         if verbose:
             print(f"update_label of {n} from {l_old} to {l_new}")
 

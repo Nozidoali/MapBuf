@@ -18,10 +18,11 @@ import pygraphviz as pgv
 import os
 import time
 
+
 def evaluate_delay(
     dfg: pgv.AGraph, top_module: str, run_synthesis: bool = False, verbose: bool = False
 ):
-    
+
     print_blue("\n\n[i] Evaluating delay...\n")
 
     mapping_to_unfloating(dfg)
@@ -30,7 +31,7 @@ def evaluate_delay(
     run_elaborate(dfg, top_module=top_module, verbose=verbose)
 
     # subprocess.run mapping
-    print("Running ABC", end="...",flush=True)
+    print("Running ABC", end="...", flush=True)
     run_abc_techmap(
         f"/tmp/eval/{top_module}.blif",
         f"/tmp/eval/{top_module}.abc.blif",
@@ -40,12 +41,17 @@ def evaluate_delay(
 
     # now we subprocess.run pre-VPR
     print("Running pre-VPR", end="...", flush=True)
-    subprocess.run( " ".join( [
-            "restore_multiclock_latch.pl",
-            f"/tmp/eval/{top_module}.blif",
-            f"/tmp/eval/{top_module}.abc.blif",
-            f"/tmp/eval/{top_module}.vpr.blif",
-        ]), shell=True, stdout=subprocess.PIPE
+    subprocess.run(
+        " ".join(
+            [
+                "restore_multiclock_latch.pl",
+                f"/tmp/eval/{top_module}.blif",
+                f"/tmp/eval/{top_module}.abc.blif",
+                f"/tmp/eval/{top_module}.vpr.blif",
+            ]
+        ),
+        shell=True,
+        stdout=subprocess.PIPE,
     )
     while not os.path.exists(f"/tmp/eval/{top_module}.vpr.blif"):
         time.sleep(1)
@@ -79,7 +85,9 @@ def evaluate_delay(
     )
 
     print("Running VPR", end="...", flush=True)
-    subprocess.run(f"cd /tmp/eval && ({vpr_command})", shell=True, stdout=subprocess.PIPE)
+    subprocess.run(
+        f"cd /tmp/eval && ({vpr_command})", shell=True, stdout=subprocess.PIPE
+    )
     while not os.path.exists(f"/tmp/eval/report_timing.setup.rpt"):
         time.sleep(1)
     print_green("Done")

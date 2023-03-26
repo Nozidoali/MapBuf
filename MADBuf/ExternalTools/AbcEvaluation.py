@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding=utf8 -*-
 
-'''
+"""
 Author: Hanyu Wang
 Created time: 2023-03-21 14:00:47
 Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-21 14:13:49
-'''
+"""
 
 import subprocess
 from MADBuf.ExternalTools.AbcEnvironment import abc_environment
@@ -21,7 +21,7 @@ from MADBuf.ExternalTools.AbcEnvironment import abc_environment
 
 def evaluate_lut_level_in_abc(filein: str, run_optimization: bool = True):
     tmp_filename = "/tmp/abc.log"
-    
+
     command = f'abc -c "read_blif {filein}; strash;'
     command += 'if -K 6; ps;" > {}'.format(tmp_filename)
 
