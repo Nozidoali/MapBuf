@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-25 23:37:06
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 04:34:54
+Last Modified time: 2023-03-26 04:59:18
 '''
 
 import gurobipy as gp
@@ -25,7 +25,7 @@ def add_clock_period_constraints(model: gp.Model, g: BLIFGraph, clock_period: in
     for signal in g.topological_traversal():
         
         if clock_period_constraints_params.skip_intermediate_nodes:
-            if signal not in g.outputs and signal not in g.ris():
+            if signal not in g.cos():
                 continue
             
         num_clock_period_constraints += 1

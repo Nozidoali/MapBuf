@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 04:01:04
+Last Modified time: 2023-03-26 05:03:16
 '''
 
 from MADBuf import *
@@ -42,7 +42,6 @@ def evaluate_milp(*args, **kwargs):
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
 
     write_topological_order(network, f"./{mut}/reports/{mut}_{method}.order")
-    exit(0)
     
     values = evalute_subject_graph(g)
     minimal_lut_level = None if 'lev' not in values else values['lev']
@@ -84,6 +83,7 @@ def evaluate_milp(*args, **kwargs):
 
     ext_lp_files = get_value_from_kwargs(kwargs, [
         "ext_lp_files",
+        "ext_lp_file",
         "external_lp_files",
     ], None)
 
