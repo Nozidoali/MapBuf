@@ -35,7 +35,7 @@ class ThroughputOptimizer(DFGOptimizer):
     def run_optimization(self, *args, **kwargs):
         self.build_model(*args, **kwargs)
 
-        print_blue(f"\n\n[i] Running MILP sovler\n")
+        print_blue(f"\n\n[i] Running MILP solver\n")
         run_gurobi_optimization(model=self.model, *args, **kwargs)
 
     def get_solution(self, *args, **kwargs):

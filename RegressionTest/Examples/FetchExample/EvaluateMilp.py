@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 00:09:22
+Last Modified time: 2023-03-26 04:01:04
 '''
 
 from MADBuf import *
@@ -32,15 +32,17 @@ def evaluate_milp(*args, **kwargs):
     run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
 
     g: BLIFGraph = BLIFGraph()
+    write_topological_order(g, f"./{mut}/reports/{mut}.order")
     if run_synthesis:
         read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
     else:
         read_blif(g, f"{mut}/reports/{mut}.strash.blif")
-
-
     
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
+
+    write_topological_order(network, f"./{mut}/reports/{mut}_{method}.order")
+    exit(0)
     
     values = evalute_subject_graph(g)
     minimal_lut_level = None if 'lev' not in values else values['lev']
@@ -56,47 +58,72 @@ def evaluate_milp(*args, **kwargs):
 
     max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 4)
 
-    print(f"Running cut enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
-    signal_to_cuts = cut_enumeration(
-        network, 
-        signal_to_channel=signal_to_channel,
-        priority_cut_size=20,
-        lut_size_limit=6,
-        cutless=True,
-        max_expansion_level=max_expansion_level,
-    )
-    print_green("Done", flush=True)
+    ext_cut_files = get_value_from_kwargs(kwargs, [
+        "ext_cut_files",
+        "external_cut_files",
+    ], None)
+
+    if ext_cut_files is not None:
+        print(f"Loading external cut files {ext_cut_files}...", end=' ', flush=True)
+        signal_to_cuts = read_cuts(ext_cut_files)
+        print_green("Done", flush=True)
+    else:
+        print(f"Running cut enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
+        signal_to_cuts = cut_enumeration(
+            network, 
+            signal_to_channel=signal_to_channel,
+            priority_cut_size=20,
+            lut_size_limit=6,
+            cutless=True,
+            max_expansion_level=max_expansion_level,
+        )
+        print_green("Done", flush=True)
+        write_cuts(signal_to_cuts, f"./{mut}/reports/{mut}.cuts")
 
     dfg= read_dfg(f"./{mut}/reports/{mut}.dot")
 
-    print(f"Initializing optimizer for {mut}...", end=' ', flush=True)
-    optimizer = Optimizer(
-        top=mut,
-        graph=g,
-        dfg=dfg,
-        mappings=mappings,
-        signal_to_cuts=signal_to_cuts,
-        clock_period=clock_period,
-        target="throughput",
-        lps=glob.glob(f"{mut}/lps/*.lp"),
-        verbose=False,
-    )
-    print_green("Done", flush=True)
+    ext_lp_files = get_value_from_kwargs(kwargs, [
+        "ext_lp_files",
+        "external_lp_files",
+    ], None)
 
-    timeout = get_value_from_kwargs(kwargs, [
-        "timeout",
-        "time_limit",
-    ], 60)
+    if ext_lp_files is not None:
+        print(f"Loading external lp files {ext_lp_files}...", end=' ', flush=True)
+        model: gp.Model = gp.read(ext_lp_files)
+        run_gurobi_optimization(model, **kwargs)
+        buffers = retrieve_buffers_from_dynamatic_variables(model)
+        buffer_slots = retrieve_buffers_to_n_slots(model)
+        print_green("Done", flush=True)
 
-    print_blue(f"\n\nRunning optimization with timeout {timeout} seconds\n", flush=True)
-    optimizer.run_optimization(
-        lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
-        ilp_filename = f"./{mut}/reports/{mut}_{method}.ilp",
-        solution_filename = f"./{mut}/reports/{mut}_{method}.sol",
-        **kwargs
-    )
+    else:
+        print(f"Initializing optimizer for {mut}...", end=' ', flush=True)
+        optimizer = Optimizer(
+            top=mut,
+            graph=g,
+            dfg=dfg,
+            mappings=mappings,
+            signal_to_cuts=signal_to_cuts,
+            clock_period=clock_period,
+            target="throughput",
+            lps=glob.glob(f"{mut}/lps/*.lp"),
+            verbose=False,
+        )
+        print_green("Done", flush=True)
 
-    buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
+        timeout = get_value_from_kwargs(kwargs, [
+            "timeout",
+            "time_limit",
+        ], 60)
+
+        print_blue(f"\n\nRunning optimization with timeout {timeout} seconds\n", flush=True)
+        optimizer.run_optimization(
+            lp_filename = f"./{mut}/reports/{mut}_{method}.lp",
+            ilp_filename = f"./{mut}/reports/{mut}_{method}.ilp",
+            solution_filename = f"./{mut}/reports/{mut}_{method}.sol",
+            **kwargs
+        )
+
+        buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
 
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
 

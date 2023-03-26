@@ -86,6 +86,8 @@ if __name__ == "__main__":
             max_expansion_level=0,
             check_timing_flag=False,
             check_cycle_flag=True,
+            # ext_lp_file=f"./{mut}/reports/{mut}.lp",
+            ext_cut_files=f"./{mut}/reports/{mut}.cuts",
         )
 
         if cycles is None or values is None:
