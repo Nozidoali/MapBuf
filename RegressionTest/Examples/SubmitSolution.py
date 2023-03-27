@@ -77,9 +77,9 @@ if __name__ == "__main__":
         cutless_enumeration_params.use_infinite_order_cut = True
         cutless_enumeration_params.use_all_buffered_cut = True
         
-        cutless_enumeration_params.use_old_cut_expansion = True
+        cutless_enumeration_params.use_old_cut_expansion = False
 
-        cut_enumeration_params.use_new_cut_enumeration = True
+        cut_enumeration_params.use_new_cut_enumeration = True # careful!!
 
         cycles, values = submit_solution(
             mut=mut,
@@ -92,14 +92,14 @@ if __name__ == "__main__":
             add_cutloopback_constraints_flag=False,
             add_blockbox_constraints_flag=True,
             add_blackbox_delay_propagation_flag=False,
-            add_cut_buffer_interaction_constraints_flag=False,
+            add_cut_buffer_interaction_constraints_flag=True,
             map_icmp=False,
             time_limit=timout,
             run_synthesis=True,
             max_expansion_level=0,
             check_timing_flag=True,
             check_cycle_flag=True,
-            use_cutless=False,
+            use_cutless=True,
             # ext_lp_file=f"./{mut}/reports/{mut}_{method}.lp",
             # ext_cut_files=f"./{mut}/reports/{mut}.cuts",
         )
