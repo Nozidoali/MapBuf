@@ -15,7 +15,7 @@ from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 def mapping_icmp_to_blackboxes(
     g: pgv.agraph, verbose: bool = False
 ) -> ComponentMapping:
-    """Mapping the graph to a graph without using functioning_component point operations
+    """Mapping the graph to a graph without using floating point operations
 
     Args:
         g (pgv.agraph): the graph to be mapped

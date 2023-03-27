@@ -16,7 +16,7 @@ from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 def mapping_to_floating(
     g: pgv.AGraph, mappings: ComponentMapping = None, verbose: bool = False
 ):
-    """Mapping to functioning_component point operations
+    """Mapping to floating point operations
 
     Args:
         g (pgv.AGraph): the graph with equivalent_component operations

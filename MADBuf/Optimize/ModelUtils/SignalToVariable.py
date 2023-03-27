@@ -74,14 +74,14 @@ def get_signal_to_variable(
         if c.u in equivalent_to_functioning_mapping:
             functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.u]
 
-            # we skip all the channels inside functioning_component point components
+            # we skip all the channels inside floating point components
             if buffer_inserted:
                 continue
 
         if c.v in equivalent_to_functioning_mapping:
             functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.v]
 
-            # we do not skip all the channels inside functioning_component point components
+            # we do not skip all the channels inside floating point components
             if buffer_inserted:
                 pass
 

@@ -37,7 +37,7 @@ if __name__ == "__main__":
     path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
     server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
 
-    timout = 0.5*60 # 10 minutes
+    timout = 10 # 10 seconds
 
     if len(sys.argv) == 1:
         muts = all_dac_examples()
@@ -72,6 +72,15 @@ if __name__ == "__main__":
         # BlackBox parameters
         BlackBoxParams.blackbox_propagation_delay = 4
 
+        cutless_enumeration_params.use_zero_order_cut = True
+        cutless_enumeration_params.use_first_order_cut = True
+        cutless_enumeration_params.use_infinite_order_cut = True
+        cutless_enumeration_params.use_all_buffered_cut = True
+        
+        cutless_enumeration_params.use_old_cut_expansion = True
+
+        cut_enumeration_params.use_new_cut_enumeration = True
+
         cycles, values = submit_solution(
             mut=mut,
             mut_path=mut_path,
@@ -80,15 +89,17 @@ if __name__ == "__main__":
             server=server,
             server_path=server_path,
             clock_period=clock_period,
-            add_cutloopback_constraints_flag=True,
-            add_blockbox_constraints_flag=False,
-            add_blackbox_delay_propagation_flag=True,
+            add_cutloopback_constraints_flag=False,
+            add_blockbox_constraints_flag=True,
+            add_blackbox_delay_propagation_flag=False,
             add_cut_buffer_interaction_constraints_flag=False,
+            map_icmp=False,
             time_limit=timout,
             run_synthesis=True,
             max_expansion_level=0,
             check_timing_flag=True,
             check_cycle_flag=True,
+            use_cutless=False,
             # ext_lp_file=f"./{mut}/reports/{mut}_{method}.lp",
             # ext_cut_files=f"./{mut}/reports/{mut}.cuts",
         )
@@ -100,16 +111,23 @@ if __name__ == "__main__":
                 f"{mut} has {cycles} cycles, CP = {values['delay']}, utils = {values['#FF']} FFs, {values['#LUT']} LUTs, {values['#ADD']} Adders"
             )
 
-            f = open(f"{mut}.txt", "a")
+            list_of_results = [
+                mut, 
+                clock_period,
+                cycles,
+                values['delay'],
+                values['#FF'],
+                values['#LUT'],
+                values['#ADD'],
+                values['lat'],
+                values['nd'],
+                values['lev'],
+            ]
 
-            f.write(
-                f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
-            )
+            f = open(f"{mut}.txt", "a")
+            f.write(','.join([str(x) for x in list_of_results]) + '\n')
             f.close()
 
             f = open(f"all.txt", "a")
-
-            f.write(
-                f"{mut},{clock_period},{cycles},{values['delay']},{values['#FF']},{values['#LUT']},{values['#ADD']}\n"
-            )
+            f.write(','.join([str(x) for x in list_of_results]) + '\n')
             f.close()

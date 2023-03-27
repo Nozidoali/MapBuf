@@ -32,7 +32,7 @@ def evaluate_delay(
 
     # subprocess.run mapping
     print("Running ABC", end="...", flush=True)
-    run_abc_techmap(
+    abc_values = run_abc_techmap(
         f"/tmp/eval/{top_module}.blif",
         f"/tmp/eval/{top_module}.abc.blif",
         run_optimization=run_synthesis,
@@ -121,5 +121,8 @@ def evaluate_delay(
 
         if "adder" in line and ":" in line:
             values["#ADD"] = int(line.split(":")[1].strip())
+
+    for key in abc_values:
+        values[key] = abc_values[key]
 
     return values

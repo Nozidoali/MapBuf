@@ -13,7 +13,7 @@ from MADBuf.DataFlowGraph.ComponentMapping.Mapping import *
 
 
 def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> ComponentMapping:
-    """Mapping the graph to a graph without using functioning_component point operations
+    """Mapping the graph to a graph without using floating point operations
 
     Args:
         g (pgv.agraph): the graph to be mapped
@@ -36,13 +36,13 @@ def mapping_to_unfloating(g: pgv.agraph, verbose: bool = False) -> ComponentMapp
 
         if "_" not in node_name:
             print_red(
-                f"Warning: skiping functioning_component point checking on node {node_name}"
+                f"Warning: skiping floating point checking on node {node_name}"
             )
             continue
 
         if len(node_name.split("_")) != 2:
             print_red(
-                f"Warning: skiping functioning_component point checking on node {node_name}"
+                f"Warning: skiping floating point checking on node {node_name}"
             )
             continue
 

@@ -1,4 +1,4 @@
-fcmp_6,add_6,False
+fcmp_6,icmp_6,False
 fadd_8,and_300,True
 fmul_9,and_301,True
 fadd_10,and_302,True
@@ -8,4 +8,3 @@ fmul_13,and_305,True
 fadd_14,and_306,True
 fmul_15,and_307,True
 fadd_16,and_308,True
-icmp_20,add_20,False

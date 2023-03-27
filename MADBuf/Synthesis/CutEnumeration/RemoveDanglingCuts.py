@@ -33,6 +33,9 @@ def cleanup_dangling_cuts(cuts: dict) -> dict:
     for signal in cuts:
         cut_set = cuts[signal]
 
+        if len(cut_set) == 0:
+            continue
+
         if len(cut_set) == 1:
             cut: Cut = cut_set[0]
             if cut.size() == 1:

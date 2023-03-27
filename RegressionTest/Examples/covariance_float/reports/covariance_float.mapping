@@ -3,11 +3,3 @@ fmul_14,and_301,True
 fsub_32,and_302,True
 fmul_58,and_303,True
 fadd_59,and_304,True
-icmp_12,add_12,False
-icmp_18,add_18,False
-icmp_34,add_34,False
-icmp_37,add_37,False
-icmp_41,add_41,False
-icmp_61,add_61,False
-icmp_72,add_72,False
-icmp_75,add_75,False

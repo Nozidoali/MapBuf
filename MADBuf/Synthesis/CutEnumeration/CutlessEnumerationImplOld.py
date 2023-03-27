@@ -173,4 +173,4 @@ def cutless_enumeration_impl_old(network: BLIFGraph, **kwargs) -> dict:
 
     cuts = cleanup_dangling_cuts(cuts)
 
-    return cuts
+    return labels, cuts

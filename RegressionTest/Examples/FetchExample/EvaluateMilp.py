@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-26 19:31:13
+Last Modified time: 2023-03-28 00:54:43
 '''
 
 from MADBuf import *
@@ -43,8 +43,12 @@ def evaluate_milp(*args, **kwargs):
     # Preprocessing 2: Floating point component mapping
     mapping_file = f"{mut}/reports/{mut}.mapping"
     mapping = mapping_to_unfloating(graph, verbose=verbose)
-    icmp_mapping = mapping_icmp_to_blackboxes(graph, verbose=verbose)
-    mapping = mapping + icmp_mapping
+
+    # Preprocessing 2.5: ICMP component mapping
+    icmp_mapping_flag = get_value_from_kwargs(kwargs, "map_icmp", False)
+    if icmp_mapping_flag:
+        icmp_mapping = mapping_icmp_to_blackboxes(graph, verbose=verbose)
+        mapping = mapping + icmp_mapping
     mapping.write(mapping_file)
 
     # Preprocessing 3: Fix the multiplier's width
@@ -86,18 +90,23 @@ def evaluate_milp(*args, **kwargs):
         "external_cut_files",
     ], None)
 
+    use_cutless = get_value_from_kwargs(kwargs, "use_cutless", False)
+
     if ext_cut_files is not None:
         print(f"Loading external cut files {ext_cut_files}...", end=' ', flush=True)
         signal_to_cuts = read_cuts(ext_cut_files)
         print_green("Done", flush=True)
     else:
-        print(f"Running cut enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
+        if use_cutless:
+            print(f"Running cutless enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
+        else:
+            print(f"Running cut enumeration...", end=' ', flush=True)
         signal_to_cuts = cut_enumeration(
             network, 
             signal_to_channel=signal_to_channel,
             priority_cut_size=20,
             lut_size_limit=6,
-            cutless=True,
+            cutless=use_cutless,
             max_expansion_level=max_expansion_level,
         )
         print_green("Done", flush=True)

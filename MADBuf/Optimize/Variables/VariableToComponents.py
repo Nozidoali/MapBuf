@@ -23,14 +23,14 @@ def variable_name_to_components(
     >>> MADBuf/Optimize/Variables/VariableToComponents.py
 
     We assume that:
-        1. the dynamatic LP model is built with the functioning_component point operations
+        1. the dynamatic LP model is built with the floating point operations
         2. the return type wants the unfloat components
 
     What we do:
         1. component_from:
-            mapped from the functioning_component point component to the equivalent_component version according to the mappings
+            mapped from the floating point component to the equivalent_component version according to the mappings
         2. component_to:
-            mapped from the functioning_component point component to the equivalent_component version according to the mappings
+            mapped from the floating point component to the equivalent_component version according to the mappings
             or, if a buffer is inserted, we return the buffer instead of the component_to
 
     Args:

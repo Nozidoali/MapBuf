@@ -15,14 +15,17 @@ from MADBuf.Synthesis.CutEnumeration.ExpandCutBase import *
 from MADBuf.Synthesis.CutEnumeration.ZeroOrderCutExpansion import *
 from MADBuf.Synthesis.CutEnumeration.FirstOrderCutExpansion import *
 from MADBuf.Synthesis.CutEnumeration.AllBufferedCutExpansion import *
+from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImplOld import *
 
-
-class cut_preparation_params:
+class cutless_enumeration_params:
 
     use_zero_order_cut: bool = True
     use_first_order_cut: bool = False
     use_infinite_order_cut: bool = True
     use_all_buffered_cut: bool = False
+
+    # this will overwrite the above settings
+    use_old_cut_expansion: bool = False
 
 
 def precompute_timing_labels(
@@ -44,6 +47,17 @@ def precompute_timing_labels(
         tuple (dict, dict): (labels, cuts)
     """
 
+
+    if cutless_enumeration_params.use_old_cut_expansion:
+        # this will also return a tuple of labels and cuts
+        return cutless_enumeration_impl_old(
+            g, 
+            signal_to_channel=signal_to_channel,
+            lut_size_limit=cut_size_limit,
+            max_expansion_level=max_expansion_level,
+            verbose=verbose,
+        )
+    
     if verbose:
         print(f"Precompute timing labels, cut size limit = {cut_size_limit}")
 
@@ -68,7 +82,7 @@ def precompute_timing_labels(
             signal_to_cuts[signal] = [Cut(signal, [signal])]
             continue
 
-        if cut_preparation_params.use_zero_order_cut:
+        if cutless_enumeration_params.use_zero_order_cut:
             optimal_timing_label, zero_order_cut = zero_order_cut_expansion(
                 g,
                 signal=signal,
@@ -81,8 +95,8 @@ def precompute_timing_labels(
 
             cuts.append(zero_order_cut)
 
-        if cut_preparation_params.use_first_order_cut:
-            assert cut_preparation_params.use_zero_order_cut
+        if cutless_enumeration_params.use_first_order_cut:
+            assert cutless_enumeration_params.use_zero_order_cut
 
             first_order_timing_label, first_order_cut = first_order_cut_expansion(
                 g,
@@ -100,11 +114,11 @@ def precompute_timing_labels(
 
                     cuts.append(first_order_cut)
 
-        if cut_preparation_params.use_infinite_order_cut:
+        if cutless_enumeration_params.use_infinite_order_cut:
             # infinite order cuts
             cuts.append(Cut(signal, g.fanins(signal)))
 
-        if cut_preparation_params.use_all_buffered_cut:
+        if cutless_enumeration_params.use_all_buffered_cut:
             if signal in signal_to_channel:
                 all_buffered_labels[signal] = TimingLabel(0)
 

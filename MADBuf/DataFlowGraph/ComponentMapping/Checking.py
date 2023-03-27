@@ -13,13 +13,13 @@ from MADBuf.DataFlowGraph.ComponentMapping.MappingUtils import *
 
 
 def dfg_has_floating(dfg: pgv.AGraph) -> bool:
-    """has functioning_component point operation
+    """has floating point operation
 
     Args:
         dfg (pgv.AGraph): the data flow graph
 
     Returns:
-        bool: whether the data flow graph has functioning_component point operation
+        bool: whether the data flow graph has floating point operation
     """
     for node in dfg.nodes():
 

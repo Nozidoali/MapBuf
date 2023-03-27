@@ -19,7 +19,7 @@ def get_channel_to_variable(
     """(Channel Mapped) to the variable in the model
 
     We assume that:
-        1. the model is built from dynamatic, which has functioning_component point operations
+        1. the model is built from dynamatic, which has floating point operations
         2. the channel indexing the mapping is the unfloat version
 
     >>> MADBuf/Optimize/ModelUtils.py/ChannelToVariable.py

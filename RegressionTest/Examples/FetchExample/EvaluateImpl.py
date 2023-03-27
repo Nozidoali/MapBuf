@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-25 22:53:30
+Last Modified time: 2023-03-28 00:31:30
 '''
 
 from MADBuf import *
@@ -30,6 +30,13 @@ def submit_solution(*args, **kwargs):
 
     print_blue(f"\n\n[i] Submit Solution for {mut} using {method}... ")
 
+
+    # print the experiment set up to a file
+    f = open(f"all.txt", "a")
+    for key, value in kwargs.items():
+        print(f"{key}: {text_orange(value)}")
+    f.close()
+    
     for key, value in kwargs.items():
         print(f"{key}: {text_orange(value)}")
     

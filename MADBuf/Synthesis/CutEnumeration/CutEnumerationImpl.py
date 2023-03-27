@@ -11,8 +11,12 @@ Last Modified time: 2023-03-19 13:11:55
 
 from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
+from MADBuf.Synthesis.CutEnumeration.CutEnumerationImplNew import *
 import pygraphviz as pgv
 
+class cut_enumeration_params:
+
+    use_new_cut_enumeration = True
 
 def cuts_to_string(cuts: list) -> str:
     cuts_str = ",".join([str(c) for c in cuts])
@@ -75,6 +79,9 @@ def cut_enumeration_impl(
         dict: _description_
     """
     cuts: dict = {}
+
+    if cut_enumeration_params.use_new_cut_enumeration:
+        return cut_enumeration_impl_new(g, priority_cut_size, lut_size_limit)
 
     if isinstance(g, pgv.AGraph):
         # here we use a DAG
