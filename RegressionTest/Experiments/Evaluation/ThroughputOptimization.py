@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:31:59
+Last Modified time: 2023-03-28 18:50:44
 '''
 
 
@@ -13,6 +13,12 @@ from RegressionTest.Experiments.Path import *
 from MADBuf import *
 
 def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict, **kwargs):
+    """Throughput optimization from kwargs
+
+    Args:
+        network (BLIFGraph): the network before retrieving anchors
+        signal_to_cuts (dict): the signal to cuts mapping
+    """
  
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
     

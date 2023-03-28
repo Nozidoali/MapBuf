@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:34:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:24:14
+Last Modified time: 2023-03-28 18:43:42
 '''
 
 from RegressionTest.Experiments.Stats import *
@@ -23,5 +23,5 @@ class Experiment:
         for key, value in params.items():
             print(f"{key}: {text_orange(value)}")
 
-        run_experiments(**params)
+        return run_experiments(**params)
         

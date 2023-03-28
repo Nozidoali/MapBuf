@@ -47,7 +47,7 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
             if not ilp_filename.endswith(".ilp"):
                 raise Exception("The filename should end with .ilp")
 
-            print(f"Writing ILP to {ilp_filename}...", end=" ", flush=True)
+            print(f"Writing ILP to {ilp_filename} ...", end=" ", flush=True)
             model.write(ilp_filename)
             print_green("DONE")
 

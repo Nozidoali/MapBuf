@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 17:56:27
+Last Modified time: 2023-03-28 18:43:27
 '''
 
 from MADBuf import *
@@ -34,8 +34,12 @@ def run_experiments(*args, **kwargs):
         equivalence_checking_from_kwargs(**kwargs)
 
         cycles = evaluate_num_cycles(**kwargs)
-        delays = evaluate_delay_from_kwargs(**kwargs)
+        values = evaluate_delay_from_kwargs(**kwargs)
 
     stats = Stats()
+    if cycles != None:
+        stats['cycles'] = cycles
+    if values != None:
+        stats += values
 
-    return cycles, delays
+    return stats
