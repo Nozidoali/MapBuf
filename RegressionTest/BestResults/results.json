@@ -21,11 +21,11 @@
         "speedup": 0.9330680900146164
     },
     "gemver": {
-        "execution_time": 85609.68,
-        "delay": 5.52,
-        "cycles": 15509,
+        "execution_time": 69315.672,
+        "delay": 4.852,
+        "cycles": 14286,
         "method": "milp",
-        "speedup": 0.6653714860282155
+        "speedup": 0.8217801019082668
     },
     "gsumif": {
         "execution_time": 23881.728000000003,
@@ -42,24 +42,24 @@
         "speedup": 0.9600537656222783
     },
     "matrix": {
-        "execution_time": 619548.1830000001,
-        "delay": 4.581,
-        "cycles": 135243,
+        "execution_time": 608976.684,
+        "delay": 4.572,
+        "cycles": 133197,
         "method": "milp",
-        "speedup": 0.7602792049508762
+        "speedup": 0.7734772321759366
     },
     "mvt_float": {
-        "execution_time": 104892.24600000001,
-        "delay": 4.698,
-        "cycles": 22327,
+        "execution_time": 100223.96999999999,
+        "delay": 4.515,
+        "cycles": 22198,
         "method": "milp",
-        "speedup": 0.7344723078958572
+        "speedup": 0.7686828809515329
     },
     "stencil_2d": {
-        "execution_time": 200377.76,
-        "delay": 7.088,
-        "cycles": 28270,
+        "execution_time": 196756.979,
+        "delay": 4.561,
+        "cycles": 43139,
         "method": "milp",
-        "speedup": 0.7608118785238441
+        "speedup": 0.7748125671313545
     }
 }

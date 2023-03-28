@@ -16,7 +16,7 @@ from MADBuf.Optimize.Constraints.TimingConstraints.WirePropagationConstraints im
 
 class madbuf_constraints_params:
     skip_definite_cut_selection: bool = True
-    skip_trivial_depth_propagation: bool = False
+    skip_trivial_depth_propagation: bool = True
 
 
 def add_madbuf_constraints(
