@@ -80,7 +80,7 @@ def precompute_timing_labels(
     Returns:
         tuple (dict, dict): (labels, cuts)
     """
-
+    set_cutless_heuristics(cutless_hueristic)
 
     if cutless_enumeration_params.use_old_cut_expansion:
         # this will also return a tuple of labels and cuts

@@ -3,54 +3,63 @@
         "execution_time": 20447.811999999998,
         "delay": 4.718,
         "cycles": 4334,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 1.3212905126475147
     },
     "covariance_float": {
         "execution_time": 1100388.064,
         "delay": 5.452,
         "cycles": 201832,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 0.7633960667897611
     },
     "insertion_sort": {
-        "execution_time": 1969.912,
-        "delay": 4.852,
-        "cycles": 406,
-        "method": "milp"
+        "execution_time": 1713.144,
+        "delay": 5.223,
+        "cycles": 328,
+        "method": "milp",
+        "speedup": 0.9330680900146164
     },
     "gemver": {
         "execution_time": 85609.68,
         "delay": 5.52,
         "cycles": 15509,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 0.6653714860282155
     },
     "gsumif": {
         "execution_time": 23881.728000000003,
         "delay": 5.408,
         "cycles": 4416,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 1.107977613680216
     },
     "gsum": {
-        "execution_time": 32816.197,
-        "delay": 5.017,
-        "cycles": 6541,
-        "method": "milp"
+        "execution_time": 28516.578,
+        "delay": 4.359,
+        "cycles": 6542,
+        "method": "milp",
+        "speedup": 0.8828520729240374
     },
     "matrix": {
         "execution_time": 619548.1830000001,
         "delay": 4.581,
         "cycles": 135243,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 0.7602792049508762
     },
     "mvt_float": {
         "execution_time": 104892.24600000001,
         "delay": 4.698,
         "cycles": 22327,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 0.7344723078958572
     },
     "stencil_2d": {
         "execution_time": 200377.76,
         "delay": 7.088,
         "cycles": 28270,
-        "method": "milp"
+        "method": "milp",
+        "speedup": 0.7608118785238441
     }
 }

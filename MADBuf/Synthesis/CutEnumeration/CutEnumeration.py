@@ -33,7 +33,7 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
         print(f"network is {type(network)}")
         raise Exception("network must be a pgv.AGraph or a BLIFGraph")
 
-    use_cutless = False if kwargs.get("cutless") is None else kwargs.get("cutless")
+    use_cutless = get_value_from_kwargs(kwargs, ["use_cutless", "cutless_enumeration"], False)
 
     if use_cutless:
 

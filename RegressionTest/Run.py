@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     param = Params()
     param.max_expansion_level = 0
-    param.add_blackbox_delay_propagation_flag = True
+    # param.add_blackbox_delay_propagation_flag = True
 
     experiment = Experiment(param)
 
