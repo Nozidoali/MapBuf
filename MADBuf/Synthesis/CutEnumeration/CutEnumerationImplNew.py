@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 00:23:19
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 00:41:05
+Last Modified time: 2023-03-29 01:55:08
 '''
 
 
@@ -14,7 +14,7 @@ from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
 import pygraphviz as pgv
 
-
+import random
 
 def cut_enumeration_impl_new(
     g: BLIFGraph, priority_cut_size: int = 20, lut_size_limit: int = 6
@@ -62,6 +62,10 @@ def cut_enumeration_impl_new(
 
             # uniqify
             cuts[n] = list(set(cuts[n]))
+
+            # random shuffle
+            random.shuffle(cuts[n])
+            cuts[n] = cuts[n][:priority_cut_size]
     
     # remove dangling cuts
     cuts = cleanup_dangling_cuts(cuts)    
