@@ -22,7 +22,10 @@ if __name__ == "__main__":
 
     param = Params()
     param.max_expansion_level = 0
-    # param.add_blackbox_delay_propagation_flag = True
+    param.add_cutloopback_constraints_flag = False
+    param.add_blackbox_delay_propagation_flag = False
+    param.cutless_hueristic = 1
+    param.timeout = 60
 
     experiment = Experiment(param)
 

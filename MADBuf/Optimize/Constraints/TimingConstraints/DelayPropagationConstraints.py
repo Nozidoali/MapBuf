@@ -44,7 +44,7 @@ def add_delay_propagation_constraints(
         else:
             constr = (
                 var_signal + (1 - cut_var + buffer_var) * milp_params.infinity
-                >= var_leaf
+                >= var_leaf + 1
             )
 
         model.addConstr(constr, f"DelayPropagation_{signal}")

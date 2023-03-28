@@ -42,6 +42,6 @@ def cleanup_dangling_cuts(cuts: dict) -> dict:
                 if signal in cut.leaves:
                     continue
 
-        signal_to_cuts[signal] = cuts[signal]
+        signal_to_cuts[signal] = list(set(cut_set))
 
     return signal_to_cuts

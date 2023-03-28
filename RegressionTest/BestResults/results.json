@@ -1,17 +1,17 @@
 {
     "gaussian": {
-        "execution_time": 20447.811999999998,
-        "delay": 4.718,
-        "cycles": 4334,
+        "execution_time": 24470.616,
+        "delay": 4.863,
+        "cycles": 5032,
         "method": "milp",
-        "speedup": 1.3212905126475147
+        "speedup": 1.1040792761408211
     },
     "covariance_float": {
-        "execution_time": 1100388.064,
-        "delay": 5.452,
-        "cycles": 201832,
+        "execution_time": 964108.416,
+        "delay": 4.819,
+        "cycles": 200064,
         "method": "milp",
-        "speedup": 0.7633960667897611
+        "speedup": 0.8713044156229002
     },
     "insertion_sort": {
         "execution_time": 1713.144,
@@ -35,11 +35,11 @@
         "speedup": 1.107977613680216
     },
     "gsum": {
-        "execution_time": 28516.578,
-        "delay": 4.359,
-        "cycles": 6542,
+        "execution_time": 26223.448,
+        "delay": 3.992,
+        "cycles": 6569,
         "method": "milp",
-        "speedup": 0.8828520729240374
+        "speedup": 0.9600537656222783
     },
     "matrix": {
         "execution_time": 619548.1830000001,
