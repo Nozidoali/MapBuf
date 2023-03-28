@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:51:06
+Last Modified time: 2023-03-28 18:59:52
 '''
 
 from MADBuf import *
@@ -14,8 +14,6 @@ from RegressionTest.Experiments.Evaluation.CutEnumeration import *
 from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 
 def evaluate_milp(*args, **kwargs):
-
-    print_blue("\n\n[i] Evaluating MILP++\n")
 
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
 

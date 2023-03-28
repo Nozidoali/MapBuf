@@ -25,6 +25,4 @@ if __name__ == "__main__":
 
     experiment = Experiment(param)
 
-    stats = experiment()
-
-    print(stats)
+    experiment()

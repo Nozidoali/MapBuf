@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:43:27
+Last Modified time: 2023-03-28 20:31:16
 '''
 
 from MADBuf import *
@@ -14,6 +14,7 @@ from RegressionTest.Experiments.Evaluation.EvaluateMilp import *
 from RegressionTest.Experiments.Evaluation.EvaluateCycles import *
 from RegressionTest.Experiments.Evaluation.EvaluateDelay import *
 from RegressionTest.Experiments.Evaluation.EquivalenceChecking import *
+from RegressionTest.Experiments.Evaluation.UpdateResults import *
 from RegressionTest.Experiments.Stats import *
 
 def run_experiments(*args, **kwargs):
@@ -36,10 +37,11 @@ def run_experiments(*args, **kwargs):
         cycles = evaluate_num_cycles(**kwargs)
         values = evaluate_delay_from_kwargs(**kwargs)
 
-    stats = Stats()
-    if cycles != None:
-        stats['cycles'] = cycles
-    if values != None:
-        stats += values
+        stats = Stats()
+        stats.add(kwargs)
+        if cycles != None:
+            stats.values['cycles'] = cycles
+        if values != None:
+            stats.add(values)
 
-    return stats
+        update_results(stats)

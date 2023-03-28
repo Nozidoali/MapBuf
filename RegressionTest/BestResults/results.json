@@ -1,0 +1,14 @@
+{
+    "gaussian": {
+        "execution_time": 20447.811999999998,
+        "delay": 4.718,
+        "cycles": 4334,
+        "method": "milp"
+    },
+    "covariance_float": {
+        "execution_time": 1195879.38,
+        "delay": 5.93,
+        "cycles": 201666,
+        "method": "milp"
+    }
+}
