@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:13:06
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 13:37:23
+Last Modified time: 2023-03-28 18:27:40
 '''
 
 from MADBuf import *
@@ -13,39 +13,27 @@ from FetchExample.Server import *
 import math
 import os
 import subprocess
+from RegressionTest.Experiments.Path import *
+from RegressionTest.Experiments.Params import *
 
 def evaluate_num_cycles(*args, **kwargs):
 
+    # evaluate the number of cycles
+    check_cycles = get_value_from_kwargs(kwargs, [
+        "check_cycles_flag", "check_cycles", "check_cycle_flag", "check_cycle"
+    ], True)
+    if not check_cycles:
+        return None
+
     print_blue("\n\n[i] Evaluating number of cycles... \n")
 
-    if "mut_path" not in kwargs:
-        raise Exception("Please provide the module under test path")
-    
-    mut_path = kwargs["mut_path"]
+    sol = get_dfg_sol_path_from_kwargs(**kwargs)
 
-    if "mut" not in kwargs:
-        raise Exception("Please provide the module under test name")
+    server_path = get_value_from_kwargs(kwargs, "server_path", None)
+    mut = get_mut_from_kwargs(**kwargs)
+    path = get_value_from_kwargs(kwargs, "path", None)
     
-    mut = kwargs["mut"]
-
-    if 'method' not in kwargs:
-        raise Exception("method is not specified")
-    
-    method = kwargs['method']
-
-    sol = f'./{mut}/reports/{mut}_{method}.dot'
-    if os.path.exists(sol) == False:
-        raise Exception(f"Solution {sol} does not exist")
-
-    if "server_path" not in kwargs:
-        raise Exception("Please provide the server path")
-    
-    server_path = kwargs["server_path"]
-
-    if "path" not in kwargs:
-        raise Exception("Please provide the path")
-    
-    path = kwargs["path"]
+    mut_path = os.path.join(path, mut)
     
     # we send this to the server
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code

@@ -5,17 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:34:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 17:05:09
+Last Modified time: 2023-03-28 18:24:14
 '''
 
 from RegressionTest.Experiments.Stats import *
 from RegressionTest.Experiments.Params import *
-
-def test(**kwargs) -> Stats:
-    method = get_value_from_kwargs(kwargs, "method", None)
-    if method is None:
-        raise Exception("method is not specified")
-    print(method)
+from RegressionTest.Experiments.Evaluation import *
 
 class Experiment:
 
@@ -24,6 +19,9 @@ class Experiment:
 
     def __call__(self) -> Stats:
         params = self.params.export()
-        test(**params)
+        
+        for key, value in params.items():
+            print(f"{key}: {text_orange(value)}")
 
+        run_experiments(**params)
         

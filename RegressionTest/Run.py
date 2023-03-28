@@ -10,7 +10,6 @@ Last Modified time: 2023-03-19 12:37:16
 
 from MADBuf import *
 from RegressionTest.FetchExample import *
-from RegressionTest.Evaluation import *
 from RegressionTest.Experiments import *
 from subprocess import run
 import art
@@ -25,7 +24,10 @@ if __name__ == "__main__":
     clock_period = 7
     method = 'milp'
 
-    experiment = Experiment(Params())
+    param = Params()
+    param.max_expansion_level = 0
+
+    experiment = Experiment(param)
 
     experiment()
     exit(0)
@@ -45,7 +47,7 @@ if __name__ == "__main__":
 
         cut_enumeration_params.use_new_cut_enumeration = True # careful!!
 
-        cycles, values = submit_solution(
+        cycles, values = run_experiments(
             mut=mut,
             mut_path=mut_path,
             path=path,

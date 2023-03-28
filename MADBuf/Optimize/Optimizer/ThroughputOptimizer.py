@@ -148,6 +148,6 @@ class ThroughputOptimizer(DFGOptimizer):
             if not lp_filename.endswith(".lp"):
                 raise Exception("LP filename should end with .lp")
 
-            print(f"write LP to {lp_filename}", end="...", flush=True)
+            print(f"write LP to {lp_filename} ", end="...", flush=True)
             self.model.write(lp_filename)
             print_green("DONE")

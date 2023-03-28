@@ -29,4 +29,4 @@ optimizer.run_optimization(
 
 dfg: pgv.AGraph = optimizer.get_solution()
 write_dfg(dfg, "dummy_buf.dot")
-run("dot -Tpng dummy_buf.dot -o dummy_buf.png", shell=True)
+subprocess.run("dot -Tpng dummy_buf.dot -o dummy_buf.png", shell=True)
