@@ -10,5 +10,47 @@
         "delay": 5.93,
         "cycles": 201666,
         "method": "milp"
+    },
+    "insertion_sort": {
+        "execution_time": 2165.658,
+        "delay": 5.181,
+        "cycles": 418,
+        "method": "milp"
+    },
+    "gemver": {
+        "execution_time": 98855.835,
+        "delay": 6.123,
+        "cycles": 16145,
+        "method": "milp"
+    },
+    "gsumif": {
+        "execution_time": 23881.728000000003,
+        "delay": 5.408,
+        "cycles": 4416,
+        "method": "milp"
+    },
+    "gsum": {
+        "execution_time": 32816.197,
+        "delay": 5.017,
+        "cycles": 6541,
+        "method": "milp"
+    },
+    "matrix": {
+        "execution_time": 634702.427,
+        "delay": 6.389,
+        "cycles": 99343,
+        "method": "milp"
+    },
+    "mvt_float": {
+        "execution_time": 142123.972,
+        "delay": 6.404,
+        "cycles": 22193,
+        "method": "milp"
+    },
+    "stencil_2d": {
+        "execution_time": 200377.76,
+        "delay": 7.088,
+        "cycles": 28270,
+        "method": "milp"
     }
 }
