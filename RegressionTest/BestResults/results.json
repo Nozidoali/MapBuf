@@ -14,18 +14,18 @@
         "speedup": 0.8713044156229002
     },
     "insertion_sort": {
-        "execution_time": 1713.144,
-        "delay": 5.223,
-        "cycles": 328,
+        "execution_time": 1558.6889999999999,
+        "delay": 4.917,
+        "cycles": 317,
         "method": "milp",
-        "speedup": 0.9330680900146164
+        "speedup": 1.025528505044945
     },
     "gemver": {
-        "execution_time": 69315.672,
-        "delay": 4.852,
-        "cycles": 14286,
+        "execution_time": 61976.502,
+        "delay": 5.022,
+        "cycles": 12341,
         "method": "milp",
-        "speedup": 0.8217801019082668
+        "speedup": 0.9190941431318599
     },
     "gsumif": {
         "execution_time": 23881.728000000003,
@@ -56,10 +56,10 @@
         "speedup": 0.7686828809515329
     },
     "stencil_2d": {
-        "execution_time": 196756.979,
-        "delay": 4.561,
-        "cycles": 43139,
+        "execution_time": 157930.596,
+        "delay": 4.572,
+        "cycles": 34543,
         "method": "milp",
-        "speedup": 0.7748125671313545
+        "speedup": 0.9652960468787188
     }
 }
