@@ -9,23 +9,11 @@ Last Modified time: 2023-03-19 12:37:16
 """
 
 from MADBuf import *
-from FetchExample import *
+from RegressionTest.FetchExample import *
+from RegressionTest.Evaluation import *
+from RegressionTest.Experiments import *
 from subprocess import run
 import art
-
-def all_dac_examples():
-    return [
-        'gaussian',
-        'covariance_float',
-        'insertion_sort',
-        'gemver',
-        'gsumif',
-        "gsum",
-        'matrix',
-        'mvt_float',
-        'stencil_2d'
-    ]
-
 
 import sys
 
@@ -33,39 +21,16 @@ if __name__ == "__main__":
 
     art.tprint("MADBuf")
 
-    server = "sp"
-    path = "/home/hanywang/Dynamatic/etc/dynamatic/Regression_test/examples"
-    server_path = f"{server}:{path}"  # points to the examples folder in dynamatic
+    timout = 60 # 10 seconds
+    clock_period = 7
+    method = 'milp'
 
-    timout = 10 # 10 seconds
+    experiment = Experiment(Params())
 
-    if len(sys.argv) == 1:
-        muts = all_dac_examples()
-        method = "milp"
-        clock_period = 7
+    experiment()
+    exit(0)
 
-    if len(sys.argv) == 2:
-        muts = [sys.argv[1]]
-        method = "madbuf"
-        clock_period = 5
-
-    if len(sys.argv) == 3:
-        muts = [sys.argv[1]]
-        method = sys.argv[2]
-        clock_period = 5
-
-    if len(sys.argv) == 4:
-        muts = [sys.argv[1]]
-        method = sys.argv[2]
-        clock_period = int(sys.argv[3])
-    
-    if len(sys.argv) == 5:
-        muts = [sys.argv[1]]
-        method = sys.argv[2]
-        clock_period = int(sys.argv[3])
-        timout = int(sys.argv[4])
-
-    for mut in muts:
+    for mut in all_dac_examples():
         print_blue(f"Processing {mut}...")
         mut_path = f"{path}/{mut}"
 
@@ -76,8 +41,7 @@ if __name__ == "__main__":
         cutless_enumeration_params.use_first_order_cut = True
         cutless_enumeration_params.use_infinite_order_cut = True
         cutless_enumeration_params.use_all_buffered_cut = True
-        
-        cutless_enumeration_params.use_old_cut_expansion = False
+        cutless_enumeration_params.use_old_cut_expansion = True # this overrides the above
 
         cut_enumeration_params.use_new_cut_enumeration = True # careful!!
 
@@ -90,9 +54,9 @@ if __name__ == "__main__":
             server_path=server_path,
             clock_period=clock_period,
             add_cutloopback_constraints_flag=False,
-            add_blockbox_constraints_flag=True,
+            add_blockbox_constraints_flag=False,
             add_blackbox_delay_propagation_flag=False,
-            add_cut_buffer_interaction_constraints_flag=True,
+            add_cut_buffer_interaction_constraints_flag=False,
             map_icmp=False,
             time_limit=timout,
             run_synthesis=True,

@@ -9,7 +9,14 @@ Last Modified time: 2023-03-19 11:00:43
 """
 
 import gurobipy as gp
+from gurobipy import GRB
+from MADBuf.Utils import *
+from enum import Enum, auto
 
+class LP_Type(Enum):
+
+    MG = auto()
+    NON_MG = auto()
 
 def load_model(lp_files, verbose: bool = False) -> gp.Model:
     """Load model from LP files
@@ -29,6 +36,12 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
         return model
 
     elif isinstance(lp_files, list):
+        """
+        merge multiple LPs into one
+        """
+
+        print_blue(f"[i] Merge {len(lp_files)} LPs into one")
+
         # Step 1: we read the first LP
         model = None
 
@@ -38,6 +51,7 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
 
             # there are some linear programs that we need to skip
             # because they are not related to the problem
+
 
             is_related_to_throughput = False
             for var in new_model.getVars():
@@ -56,6 +70,41 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
             if not is_related_to_throughput:
                 continue
 
+            # we rescale the objective function
+            objective = new_model.getObjective()
+            coeffs = []
+            var_names = []
+
+            for j in range(objective.size()):
+                coeffs.append(objective.getCoeff(j))
+                var_names.append(objective.getVar(j).VarName)
+
+            # get the LP type
+            lp_type = LP_Type.NON_MG
+            scale_factor = 1
+            for j, var_name in enumerate(var_names):
+                if "_hasBuffer" in var_name:
+                    lp_type = LP_Type.MG
+                    scale_factor = abs(coeffs[j])
+                    break
+                
+            print(lp_files[i], f"LP type: {lp_type}", text_orange(f"scale factor: {scale_factor}"))
+
+            # scale the coefficients
+            if lp_type == LP_Type.MG:
+                for j in range(len(coeffs)):
+                    #
+                    # we scale the coefficients by the scale factor
+                    # which is the coefficient of the variable _hasBuffer
+                    # so that after scalign, the coefficient of _hasBuffer is 1
+                    #
+                    coeffs[j] = coeffs[j] / scale_factor
+
+            vars = [new_model.getVarByName(var_name) for var_name in var_names]
+
+            new_objective = gp.LinExpr(coeffs, vars)
+            new_model.setObjective(new_objective)
+            
             if model is None:
                 model = new_model
                 continue
@@ -76,9 +125,9 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
                 coeffs = []
                 var_names = []
 
-                for i in range(row.size()):
-                    coeffs.append(row.getCoeff(i))
-                    var_names.append(row.getVar(i).VarName)
+                for j in range(row.size()):
+                    coeffs.append(row.getCoeff(j))
+                    var_names.append(row.getVar(j).VarName)
 
                 vars = [model.getVarByName(var_name) for var_name in var_names]
 
@@ -99,22 +148,23 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
             coeffs = []
             var_names = []
 
-            for i in range(new_objective.size()):
-                coeffs.append(new_objective.getCoeff(i))
-                var_names.append(new_objective.getVar(i).VarName)
+            for j in range(new_objective.size()):
+                coeffs.append(new_objective.getCoeff(j))
+                var_names.append(new_objective.getVar(j).VarName)
 
             vars = [model.getVarByName(var_name) for var_name in var_names]
 
-            for i in range(new_objective.size()):
+            for j in range(new_objective.size()):
                 # we need to all check the sense of the objective
                 # if the sense is minimization, we need to add the coefficients
 
                 if model.ModelSense == new_model.ModelSense:
-                    objective.add(vars[i], coeffs[i])
+                    objective.add(vars[j], coeffs[j])
                 else:
-                    objective.add(vars[i], -coeffs[i])
+                    objective.add(vars[j], -coeffs[j])
 
             model.setObjective(objective, sense=model.ModelSense)
             model.update()
 
+        # Step 3: we write the merged LP
         return model

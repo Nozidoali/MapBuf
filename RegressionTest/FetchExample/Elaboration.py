@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:12:23
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-19 13:53:00
+Last Modified time: 2023-03-28 16:30:07
 '''
 
 from MADBuf import *
-from subprocess import run
+import subprocess
 from FetchExample.Server import run_server
 
 def elaborate(*args, **kwargs):
@@ -47,21 +47,21 @@ def elaborate(*args, **kwargs):
     # Preprocessing 3: Fix the multiplier's width
     split_multiplier_bitwidth(graph, verbose=True)
 
-    run(f"rm -rf {mut}/to_dot2hdl", shell=True)
-    run(f"mkdir {mut}/to_dot2hdl", shell=True)
+    subprocess.run(f"rm -rf {mut}/to_dot2hdl", shell=True)
+    subprocess.run(f"mkdir {mut}/to_dot2hdl", shell=True)
     write_dfg(graph, f"{mut}/to_dot2hdl/{mut}.dot")
     write_dfg(graph, f"{mut}/reports/{mut}_decoy.dot")
-    run(f"dot -Tpng {mut}/to_dot2hdl/{mut}.dot > {mut}/reports/{mut}_decoy.png", shell=True)
+    subprocess.run(f"dot -Tpng {mut}/to_dot2hdl/{mut}.dot > {mut}/reports/{mut}_decoy.png", shell=True)
 
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
-    run(f"scp -r {mut}/to_dot2hdl {server_path}/{mut}", shell=True)  # copy the new source code
+    subprocess.run(f"scp -r {mut}/to_dot2hdl {server_path}/{mut}", shell=True)  # copy the new source code
 
-    # then we run dot2hdl, and prepare the Verilog and VHDL files
+    # then we subprocess.run dot2hdl, and prepare the Verilog and VHDL files
     run_server(f"cd {mut_path}/to_dot2hdl; dot2hdl {mut} &> /dev/null;", **kwargs)
 
     # then we retrive the result and copy the Verilog file back
-    run(f"scp {server_path}/{mut}/to_dot2hdl/{mut}.v {mut}/reports", shell=True)
+    subprocess.run(f"scp {server_path}/{mut}/to_dot2hdl/{mut}.v {mut}/reports", shell=True)
 
     # we read the file generated from dot2hdl
     vgraph = read_verilog(f"{mut}/reports/{mut}.v")
@@ -69,15 +69,15 @@ def elaborate(*args, **kwargs):
     # we add anchors
     insert_anchors(vgraph)
 
-    run(f"rm -rf {mut}/to_dot2hdl", shell=True) # finished, remove the folder
-    run(f"rm -rf {mut}/to_odin", shell=True)
-    run(f"mkdir {mut}/to_odin", shell=True)
+    subprocess.run(f"rm -rf {mut}/to_dot2hdl", shell=True) # finished, remove the folder
+    subprocess.run(f"rm -rf {mut}/to_odin", shell=True)
+    subprocess.run(f"mkdir {mut}/to_odin", shell=True)
 
     write_verilog(vgraph, f"{mut}/to_odin/{mut}.v")
 
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
-    run(f"scp -r {mut}/to_odin {server_path}/{mut}", shell=True)  # copy the new source code
+    subprocess.run(f"scp -r {mut}/to_odin {server_path}/{mut}", shell=True)  # copy the new source code
 
     root_dir = "/home/hanywang"
     vtr_path = "vtr-verilog-to-routing_bak"
@@ -102,16 +102,16 @@ def elaborate(*args, **kwargs):
         ]
     )
 
-    # then we run ODIN_II, and prepare the BLIF
+    # then we subprocess.run ODIN_II, and prepare the BLIF
     run_server(f"cd {mut_path}/to_odin; {odin_command};", **kwargs)
 
     # then we retrive the result and copy the DOT file back
-    run(f"scp {server_path}/{mut}/to_odin/{mut}.blif {mut}/reports/", shell=True)
+    subprocess.run(f"scp {server_path}/{mut}/to_odin/{mut}.blif {mut}/reports/", shell=True)
 
     run_abc_strash(f"{mut}/reports/{mut}.blif", f"{mut}/reports/{mut}.strash.blif")
     run_abc_strash(f"{mut}/reports/{mut}.blif", f"{mut}/reports/{mut}.strash.optimize.blif", run_optimization=True)
 
     # finally we do some cleanup
-    run(f"rm -rf {mut}/to_odin", shell=True)
-    run(f"rm -f {mut}/*.txt", shell=True)
-    run(f"rm -rf {mut}/sim", shell=True)
+    subprocess.run(f"rm -rf {mut}/to_odin", shell=True)
+    subprocess.run(f"rm -f {mut}/*.txt", shell=True)
+    subprocess.run(f"rm -rf {mut}/sim", shell=True)

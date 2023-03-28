@@ -9,6 +9,5 @@ Last Modified time: 2023-03-18 22:30:41
 """
 
 from MADBuf.Optimize.Constructor.ConstructMILP import *
-from MADBuf.Optimize.Constructor.MergeMGs import *
 from MADBuf.Optimize.Constructor.ConstructMILPBase import *
 from MADBuf.Optimize.Constructor.LoadModel import *

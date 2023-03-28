@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 00:54:43
+Last Modified time: 2023-03-28 01:44:24
 '''
 
 from MADBuf import *
@@ -98,7 +98,7 @@ def evaluate_milp(*args, **kwargs):
         print_green("Done", flush=True)
     else:
         if use_cutless:
-            print(f"Running cutless enumeration with max expansion level {max_expansion_level}", end=' ', flush=True)
+            print(f"Running cutless enumeration with max expansion level {max_expansion_level}...", end=' ', flush=True)
         else:
             print(f"Running cut enumeration...", end=' ', flush=True)
         signal_to_cuts = cut_enumeration(

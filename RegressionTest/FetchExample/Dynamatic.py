@@ -5,11 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-11 22:03:12
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-14 17:31:28
+Last Modified time: 2023-03-28 16:29:51
 '''
 
 import os
 from FetchExample.Server import *
+import subprocess
 
 def dynamatic(*args, **kwargs):
     
@@ -50,19 +51,19 @@ def dynamatic(*args, **kwargs):
     run_server(f"rm -rf {mut_path}", **kwargs)  # remove the existing source code
     run_server(f"mkdir {mut_path}", **kwargs)  # create a new folder
 
-    run(f"scp -r {mut}/src {server_path}/{mut}", shell=True)  # copy the new source code
-    run(f"scp {mut}/synthesis.tcl {server_path}/{mut}", shell=True)  # copy the new source code
+    subprocess.run(f"scp -r {mut}/src {server_path}/{mut}", shell=True)  # copy the new source code
+    subprocess.run(f"scp {mut}/synthesis.tcl {server_path}/{mut}", shell=True)  # copy the new source code
 
-    # then we run dynamatic, and prepare the DOT file
+    # then we subprocess.run dynamatic, and prepare the DOT file
     run_server(f"cd {mut_path}; dynamatic synthesis.tcl &> /dev/null", **kwargs)
 
     # then we retrive the result and copy the DOT file back
-    run(f"rm -rf {mut}/reports", shell=True)
-    run(f"mkdir {mut}/reports", shell=True)
-    run(f"scp {server_path}/{mut}/reports/*.dot {mut}/reports/", shell=True)
+    subprocess.run(f"rm -rf {mut}/reports", shell=True)
+    subprocess.run(f"mkdir {mut}/reports", shell=True)
+    subprocess.run(f"scp {server_path}/{mut}/reports/*.dot {mut}/reports/", shell=True)
 
     if "run_milp" in kwargs and kwargs["run_milp"] == True:
-        # we run buffers to get the LPs
+        # we subprocess.run buffers to get the LPs
         buffer_cmd = "buffers buffers "
         buffer_cmd += f"-filename=reports/{mut} "
         buffer_cmd += f"-period={clock_period} "
@@ -73,10 +74,10 @@ def dynamatic(*args, **kwargs):
         run_server(f"cd {mut_path}; {buffer_cmd}", **kwargs)
         
         
-        run(f"rm -rf {mut}/lps", shell=True)
-        run(f"mkdir {mut}/lps", shell=True)
-        run(f"scp {server_path}/{mut}/*.lp {mut}/lps/", shell=True)
-        run(f"scp {server_path}/{mut}/reports/{mut}_graph_buf.dot {mut}/reports/{mut}_baseline.dot", shell=True)
+        subprocess.run(f"rm -rf {mut}/lps", shell=True)
+        subprocess.run(f"mkdir {mut}/lps", shell=True)
+        subprocess.run(f"scp {server_path}/{mut}/*.lp {mut}/lps/", shell=True)
+        subprocess.run(f"scp {server_path}/{mut}/reports/{mut}_graph_buf.dot {mut}/reports/{mut}_baseline.dot", shell=True)
         
     # now we do a trick here to modify the bitwidth
     if unit_bitwidth == True:
