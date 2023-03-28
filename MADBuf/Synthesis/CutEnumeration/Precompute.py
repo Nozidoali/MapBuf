@@ -27,12 +27,46 @@ class cutless_enumeration_params:
     # this will overwrite the above settings
     use_old_cut_expansion: bool = False
 
+def set_cutless_heuristics(cutless_hueristic: int = 0):
+
+    # use zero + infinite order cut
+    if cutless_hueristic == 0:
+        cutless_enumeration_params.use_zero_order_cut: bool = True
+        cutless_enumeration_params.use_first_order_cut: bool = False
+        cutless_enumeration_params.use_infinite_order_cut: bool = True
+        cutless_enumeration_params.use_all_buffered_cut: bool = False
+        cutless_enumeration_params.use_old_cut_expansion: bool = False
+
+    # use old cut expansion
+    elif cutless_hueristic == 1:
+        cutless_enumeration_params.use_zero_order_cut: bool = True
+        cutless_enumeration_params.use_first_order_cut: bool = False
+        cutless_enumeration_params.use_infinite_order_cut: bool = True
+        cutless_enumeration_params.use_all_buffered_cut: bool = False
+        cutless_enumeration_params.use_old_cut_expansion: bool = True
+
+    # use zero + first + infinite order cut
+    elif cutless_hueristic == 2:
+        cutless_enumeration_params.use_zero_order_cut: bool = True
+        cutless_enumeration_params.use_first_order_cut: bool = True
+        cutless_enumeration_params.use_infinite_order_cut: bool = True
+        cutless_enumeration_params.use_all_buffered_cut: bool = False
+        cutless_enumeration_params.use_old_cut_expansion: bool = False
+
+    # use zero + infinite order cut + all buffered cut
+    elif cutless_hueristic == 3:
+        cutless_enumeration_params.use_zero_order_cut: bool = True
+        cutless_enumeration_params.use_first_order_cut: bool = False
+        cutless_enumeration_params.use_infinite_order_cut: bool = True
+        cutless_enumeration_params.use_all_buffered_cut: bool = True
+        cutless_enumeration_params.use_old_cut_expansion: bool = False
 
 def precompute_timing_labels(
     g: BLIFGraph,
     signal_to_channel: dict = {},
     cut_size_limit: int = 6,
     max_expansion_level: int = 0,
+    cutless_hueristic: int = 0,
     verbose: bool = False,
 ) -> tuple:
     """Get timing labels

@@ -59,7 +59,16 @@ RegressionTest/dummy/reports/*
 !RegressionTest/dummy/reports/dummy.dot
 
 # Examples
+RegressionTest/Examples/*/reports/*.v
+RegressionTest/Examples/*/reports/*.blif
+RegressionTest/Examples/*/reports/*.dot
+RegressionTest/Examples/*/reports/*.v
 RegressionTest/Examples/*/reports
 RegressionTest/Examples/*/reports/*.v
 !RegressionTest/Examples/*/reports/*.blif
 !RegressionTest/Examples/*/reports/*.dot
+
+# BestResults
+!RegressionTest/BestResults/*/*.dot
+!RegressionTest/BestResults/*/*.blif
+!RegressionTest/BestResults/*/*.cuts

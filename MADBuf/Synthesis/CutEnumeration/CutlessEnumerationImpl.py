@@ -22,20 +22,18 @@ def cutless_enumeration_impl(network: BLIFGraph, **kwargs) -> dict:
     Cutless enumeration of cuts
     """
 
-    signal_to_channel = (
-        kwargs["signal_to_channel"] if "signal_to_channel" in kwargs else {}
-    )
-    lut_size_limit = kwargs["lut_size_limit"] if "lut_size_limit" in kwargs else 6
-    verbose = kwargs["verbose"] if "verbose" in kwargs else False
-    max_expansion_level = (
-        kwargs["max_expansion_level"] if "max_expansion_level" in kwargs else 0
-    )
+    signal_to_channel = get_value_from_kwargs(kwargs, "signal_to_channel", {})
+    lut_size_limit = get_value_from_kwargs(kwargs, "lut_size_limit", 6)
+    verbose = get_value_from_kwargs(kwargs, "verbose", False)
+    max_expansion_level = get_value_from_kwargs(kwargs, "max_expansion_level", 0)
+    cutless_hueristic = get_value_from_kwargs(kwargs, "cutless_hueristic", 0)
+
 
     if signal_to_channel == None:
         signal_to_channel = {}
 
     labels, cuts = precompute_timing_labels(
-        network, signal_to_channel, lut_size_limit, max_expansion_level, verbose=verbose
+        network, signal_to_channel, lut_size_limit, max_expansion_level, cutless_hueristic, verbose=verbose
     )
 
     if verbose:

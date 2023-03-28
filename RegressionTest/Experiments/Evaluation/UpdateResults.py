@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 20:34:06
+Last Modified time: 2023-03-28 21:27:13
 '''
 
 import os
@@ -19,6 +19,9 @@ class results_params:
 
 
 def update_results(stats: Stats):
+
+    if 'benchmarks' in stats.values:
+        stats.values.pop('benchmarks')
 
     values = stats.values
 
@@ -50,19 +53,22 @@ def update_results(stats: Stats):
         results[mut]['cycles'] = values["cycles"]
         results[mut]['method'] = values["method"]
         
-    benchmark_dir = os.path.join(path, mut)
-    if not os.path.exists(benchmark_dir):
-        os.makedirs(benchmark_dir)
-        
-    dfg_path = get_dfg_sol_path_from_kwargs(**values)
-    subprocess.run("cp " + dfg_path + " " + benchmark_dir, shell=True)
+        benchmark_dir = os.path.join(path, mut)
+        if not os.path.exists(benchmark_dir):
+            os.makedirs(benchmark_dir)
+            
+        dfg_path = get_dfg_sol_path_from_kwargs(**values)
+        subprocess.run("cp " + dfg_path + " " + benchmark_dir, shell=True)
 
-    cuts_path = get_cuts_path_from_kwargs(**values)
-    subprocess.run("cp " + cuts_path + " " + benchmark_dir, shell=True)
+        cuts_path = get_cuts_path_from_kwargs(**values)
+        subprocess.run("cp " + cuts_path + " " + benchmark_dir, shell=True)
 
-    stats_path = os.path.join(benchmark_dir, "stats.json")
-    with open(stats_path, "w") as f:
-        json.dump(values, f, indent=4)
+        blif_path = get_blif_path_from_kwargs(**values)
+        subprocess.run("cp " + blif_path + " " + benchmark_dir, shell=True)
 
-    with open(result_path, "w") as f:
-        json.dump(results, f, indent=4)
+        stats_path = os.path.join(benchmark_dir, "stats.json")
+        with open(stats_path, "w") as f:
+            json.dump(values, f, indent=4)
+
+        with open(result_path, "w") as f:
+            json.dump(results, f, indent=4)
