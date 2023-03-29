@@ -61,5 +61,12 @@
         "cycles": 34543,
         "method": "milp",
         "speedup": 0.9652960468787188
+    },
+    "invertion": {
+        "execution_time": 16993.920000000002,
+        "delay": 4.24,
+        "cycles": 4008,
+        "method": "milp",
+        "speedup": 0.5158654389334538
     }
 }

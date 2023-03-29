@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:07:33
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 19:57:12
+Last Modified time: 2023-03-29 22:38:28
 '''
 
 from MADBuf import *
@@ -44,8 +44,8 @@ def run_vsim_from_kwargs(**kwargs):
                     
                     if line.split('=')[-1].strip() == '1fs':
                         cp = 4000000
-        print_green("DONE")
         cycles = math.floor(cycles/cp)
+        print_green("DONE")
         print(f"num cycles: {text_orange(cycles)}")
         return cycles
     except:

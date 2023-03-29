@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 22:11:40
+Last Modified time: 2023-03-29 22:56:01
 '''
 
 import os
@@ -27,9 +27,10 @@ class results_params:
         "matrix",
         "mvt_float",
         "stencil_2d",
+        "invertion"
     ]
-    fpl_cps = [5.35,4.68,6.89,5.92,5.02,4.69,4.64,3.83,4.97]
-    fpl_cycles = [5050,179494,232,9622,5271,5368,101515,20115,30674]
+    fpl_cps = [5.35,4.68,6.89,5.92,5.02,4.69,4.64,3.83,4.97,4.368]
+    fpl_cycles = [5050,179494,232,9622,5271,5368,101515,20115,30674,2007]
 
     fpl_results = {bmark: {'cycles': cycles, 'clock_period': cp, 'execution_time': float(cycles) * float(cp)} for bmark, cycles, cp in zip(fpl_bmarks, fpl_cycles, fpl_cps)}
 
@@ -85,6 +86,8 @@ def update_results(stats: Stats):
         with open(stats_path, "w") as f:
             json.dump(values, f, indent=4)
 
-    results[mut]['speedup'] = results_params.fpl_results[mut]['execution_time'] / results[mut]['execution_time']
+    if mut in results_params.fpl_results:
+        results[mut]['speedup'] = results_params.fpl_results[mut]['execution_time'] / results[mut]['execution_time']
+        
     with open(result_path, "w") as f:
         json.dump(results, f, indent=4)
