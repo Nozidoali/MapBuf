@@ -12,6 +12,7 @@ Last Modified time: 2023-03-19 01:25:28
 from MADBuf.Synthesis.CutEnumeration.CutEnumerationImpl import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImpl import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImplOld import *
+from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
 
 
 def cut_enumeration(network, *args, **kwargs) -> dict:
@@ -34,6 +35,9 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
         raise Exception("network must be a pgv.AGraph or a BLIFGraph")
 
     use_cutless = get_value_from_kwargs(kwargs, ["use_cutless", "cutless_enumeration"], False)
+    use_cut = get_value_from_kwargs(kwargs, ["use_cut", "cut_enumeration"], False)
+
+    signal_to_cuts = {}
 
     if use_cutless:
 
@@ -42,9 +46,13 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
                 "cutless enumeration is only implemented for BLIFGraph"
             )
 
-        return cutless_enumeration_impl(network=network, **kwargs)
+        cuts = cutless_enumeration_impl(network=network, **kwargs)
+        for n in cuts:
+            if n not in signal_to_cuts:
+                signal_to_cuts[n] = []
+            signal_to_cuts[n].extend(cuts[n])
 
-    else:
+    if use_cut:
 
         lut_size_limit = get_value_from_kwargs(
             kwargs,
@@ -66,8 +74,17 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
             20,
         )
 
-        return cut_enumeration_impl(
+        cuts = cut_enumeration_impl(
             g=network,
             priority_cut_size=priority_cut_size,
             lut_size_limit=lut_size_limit,
         )
+
+        for n in cuts:
+            if n not in signal_to_cuts:
+                signal_to_cuts[n] = []
+            signal_to_cuts[n].extend(cuts[n])
+
+    signal_to_cuts = cleanup_dangling_cuts(signal_to_cuts)
+
+    return signal_to_cuts

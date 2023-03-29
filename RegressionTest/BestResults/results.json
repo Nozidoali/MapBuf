@@ -14,11 +14,11 @@
         "speedup": 0.8713044156229002
     },
     "insertion_sort": {
-        "execution_time": 1517.208,
-        "delay": 4.926,
-        "cycles": 308,
+        "execution_time": 1445.3999999999999,
+        "delay": 4.818,
+        "cycles": 300,
         "method": "milp",
-        "speedup": 1.0535668148335626
+        "speedup": 1.1059083990590841
     },
     "gemver": {
         "execution_time": 61976.502,
@@ -35,18 +35,18 @@
         "speedup": 1.107977613680216
     },
     "gsum": {
-        "execution_time": 26223.448,
-        "delay": 3.992,
-        "cycles": 6569,
+        "execution_time": 25876.564000000002,
+        "delay": 3.494,
+        "cycles": 7406,
         "method": "milp",
-        "speedup": 0.9600537656222783
+        "speedup": 0.972923607631987
     },
     "matrix": {
-        "execution_time": 608976.684,
-        "delay": 4.572,
-        "cycles": 133197,
+        "execution_time": 459969.4,
+        "delay": 4.58,
+        "cycles": 100430,
         "method": "milp",
-        "speedup": 0.7734772321759366
+        "speedup": 1.024045512592794
     },
     "mvt_float": {
         "execution_time": 100223.96999999999,

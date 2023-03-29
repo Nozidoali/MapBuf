@@ -25,8 +25,12 @@ if __name__ == "__main__":
     param.add_cutloopback_constraints_flag = True
     param.add_blockbox_constraints_flag = False
     param.add_blackbox_delay_propagation_flag = True
+    param.timeout = 600
+    param.use_cutless = True
     param.cutless_hueristic = 1
-    param.timeout = 60
+    param.use_cut = True
+    param.priority_cut_size = 20
+
 
     experiment = Experiment(param)
 
