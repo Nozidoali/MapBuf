@@ -49,11 +49,11 @@
         "speedup": 1.024045512592794
     },
     "mvt_float": {
-        "execution_time": 100223.96999999999,
-        "delay": 4.515,
-        "cycles": 22198,
+        "execution_time": 86332.463,
+        "delay": 3.829,
+        "cycles": 22547,
         "method": "milp",
-        "speedup": 0.7686828809515329
+        "speedup": 0.8923694207589096
     },
     "stencil_2d": {
         "execution_time": 157930.596,
