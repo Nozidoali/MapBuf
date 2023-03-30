@@ -50,7 +50,7 @@ def retrieve_subject_graph(graph: BLIFGraph) -> BLIFGraph:
         g.ro_to_ri[signal] = graph.ro_to_ri[signal]
 
     # copy nodes
-    for signal in graph.nodes:
+    for signal in graph.get_nodes():
         g.nodes.add(signal)
         g.node_fanins[signal] = set(list(graph.fanins(signal))[:])
         g.node_funcs[signal] = graph.node_funcs[signal][:]

@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     param = Params()
     param.method = 'milp'
-    param.benchmarks = ["gsum"]
+    # param.benchmarks = ["gsum"]
     param.max_expansion_level = 0
     param.add_cutloopback_constraints_flag = False
     param.add_blockbox_constraints_flag = False
@@ -33,7 +33,17 @@ if __name__ == "__main__":
     param.use_cut = False
     param.priority_cut_size = 20
 
+    param.ext_cut_files = True
 
+    # A: CLBB = True
+    # Run A1: 5047 4.884
+    # Run A2: 5376 4.737
+    # Run A3 (B1's cut): 
+    # 
+    # B: CLBB = False
+    # Run B1: 4823 4.569
+    # Run B1a (B1's cut):
+    # 
     experiment = Experiment(param)
 
     experiment()

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 17:34:35
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 21:26:46
+Last Modified time: 2023-03-30 16:05:59
 '''
 
 
@@ -18,3 +18,8 @@ def get_blif_path_from_kwargs(**kwargs):
 
     mut = get_value_from_kwargs(kwargs, "mut", None)
     return os.path.join(path_params.example_dir, mut, "reports", f"{mut}.blif")
+
+def get_subject_graph_path_from_kwargs(**kwargs):
+
+    mut = get_value_from_kwargs(kwargs, "mut", None)
+    return os.path.join(path_params.example_dir, mut, "reports", f"{mut}.subjectgraph.blif")

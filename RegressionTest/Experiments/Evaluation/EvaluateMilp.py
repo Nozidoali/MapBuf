@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-30 14:14:15
+Last Modified time: 2023-03-30 16:17:14
 '''
 
 from MADBuf import *
@@ -42,12 +42,24 @@ def evaluate_milp(*args, **kwargs):
     split_multiplier_bitwidth(graph, verbose=verbose)
     
     mut = get_mut_from_kwargs(**kwargs)
-    g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
+
+    ext_cut_file_flag = get_value_from_kwargs(kwargs, [
+        "ext_cut_files",
+    ], False)
     
     blif_path = get_blif_path_from_kwargs(**kwargs)
-    print(f"Writing BLIF file to {blif_path} ...", end=' ', flush=True)
-    write_blif(g, blif_path)
-    print_green("Done", flush=True)
+
+    # skip elaboration if external cut files are provided
+    g: BLIFGraph
+    if ext_cut_file_flag is True:
+        print(f"Reading BLIF file from {blif_path} ...", end=' ', flush=True)
+        g: BLIFGraph = read_blif(blif_path)
+        print_blue("Done", flush=True)
+    else:
+        g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
+        print(f"Writing BLIF file to {blif_path} ...", end=' ', flush=True)
+        write_blif(g, blif_path)
+        print_green("Done", flush=True)
 
     # if run_synthesis:
     #     read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
@@ -56,7 +68,12 @@ def evaluate_milp(*args, **kwargs):
     
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
-        
+
+    subjectgraph_path: str = get_subject_graph_path_from_kwargs(**kwargs)
+    print(f"Writing subject graph to {subjectgraph_path} ...", end=' ', flush=True)
+    write_blif(network, subjectgraph_path)
+    print_green("Done", flush=True)
+
     values = evalute_subject_graph(g)
     minimal_lut_level = None if 'lev' not in values else values['lev']
 

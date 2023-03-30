@@ -28,6 +28,7 @@ def add_input_delay_constraints(
         """
         By default we assume all input delays = 0
         """
+        # CIs = PIs + Registers Outputs
         for input_signal in g.cis():
 
             input_var = model.getVarByName(f"TimingLabel_{input_signal}")

@@ -47,10 +47,10 @@ def write_blif_to_string(g: BLIFGraph) -> str:
     for node in g.constant1s():
         blif_string += ".names\t" + node + "\n1\n"
 
-    for node in g.nodes:
+    for node in g.get_nodes():
         blif_string += ".names\t"
 
-        for fanin in g.node_fanins[node]:
+        for fanin in g.fanins(node):
             blif_string += fanin + " "
 
         blif_string += node + "\n"

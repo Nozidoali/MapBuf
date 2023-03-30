@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:03:15
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 21:50:07
+Last Modified time: 2023-03-30 15:55:40
 '''
 
 from RegressionTest.Experiments.Path import *
@@ -13,16 +13,16 @@ from MADBuf import *
 
 def cut_enumeration_from_kwargs(network: BLIFGraph, signal_to_channel: dict, **kwargs):
 
-    ext_cut_files = get_value_from_kwargs(kwargs, [
+    ext_cut_file_flag = get_value_from_kwargs(kwargs, [
         "ext_cut_files",
-        "external_cut_files",
-    ], None)
+    ], False)
 
 
-    if ext_cut_files is not None:
+    if ext_cut_file_flag is True:
         """
         Load external cut files
         """
+        ext_cut_files = get_cuts_path_from_kwargs(**kwargs)
         print(f"Loading external cut files {ext_cut_files}...", end=' ', flush=True)
         signal_to_cuts = read_cuts(ext_cut_files)
         print_green("Done", flush=True)

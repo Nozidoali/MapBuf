@@ -30,7 +30,8 @@ def add_delay_propagation_constraints(
     for leaf in cut.leaves:
 
         var_leaf = model.getVarByName(f"TimingLabel_{leaf}")
-        assert var_leaf != None
+
+        assert var_leaf != None, f"Leaf {leaf} not found in model's variables (expecting TimingLabel_{leaf}))"
 
         if buffer_var == None and cut_var == None:
             constr = var_signal >= var_leaf + 1

@@ -42,12 +42,12 @@ def add_timing_constraints(
     if verbose:
         print_green(f"Found {len(channels)} channels")
 
+    # add the timing constraints
+    add_timing_label_variables(model, network)
+
     # add blackbox constraints
     if add_blockbox_constraints_flag:
         add_blackbox_constraints(model, verbose=verbose)
-
-    # add the timing constraints
-    add_timing_label_variables(model, network)
 
     # add the clock period constraints
     add_clock_period_constraints(model, network, clock_period=clock_period)

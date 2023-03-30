@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 20:31:16
+Last Modified time: 2023-03-30 15:45:58
 '''
 
 from MADBuf import *
@@ -42,6 +42,7 @@ def run_experiments(*args, **kwargs):
         if cycles != None:
             stats.values['cycles'] = cycles
         if values != None:
+            print('delay =', text_orange(values['delay']))
             stats.add(values)
 
         update_results(stats)

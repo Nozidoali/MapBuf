@@ -106,6 +106,9 @@ class BLIFGraphBase:
 
     def fanins(self, signal: str):
         return sorted(self.node_fanins[signal])
+    
+    def get_nodes(self):
+        return sorted(self.nodes)
 
     # sort __signals in a topological order
     # TODO: support runtime modification and maintain the topogical order

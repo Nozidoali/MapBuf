@@ -79,6 +79,8 @@ def add_madbuf_constraints(
                 )
                 cut_selection_vars.append(var_cut_selection)
 
+                model.update() # just to be safe
+
                 add_delay_propagation_constraints(
                     model, signal, cut, var_cut_selection, buffer_var
                 )
