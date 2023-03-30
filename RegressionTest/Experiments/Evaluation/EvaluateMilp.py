@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-29 22:59:18
+Last Modified time: 2023-03-29 23:08:19
 '''
 
 from MADBuf import *
@@ -16,9 +16,7 @@ from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 def evaluate_milp(*args, **kwargs):
 
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
-
     run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
-
     # we regenerate the BLIF file
     print_blue("\n\n[i] Generating BLIF file...\n", flush=True)
 
@@ -44,7 +42,7 @@ def evaluate_milp(*args, **kwargs):
     split_multiplier_bitwidth(graph, verbose=verbose)
     
     mut = get_mut_from_kwargs(**kwargs)
-    g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=True, run_strash=True, insert_anchors=True)
+    g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
     
     blif_path = get_blif_path_from_kwargs(**kwargs)
     write_blif(g, blif_path)

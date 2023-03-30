@@ -22,9 +22,21 @@ def quote(s: str) -> str:
 
 
 def node_str(n: pgv.Node) -> str:
-    key_order = {"type": 0, "in": 1, "out": 2, "bbID": 3, "others": 4}
+    key_order = {"type": 0, "in": 1, "out": 2, "bbID": 3, "slots": 4, "transparent": 5, "label": 6, "shape": 7, "style": 8, "others": 9}
     nodename = quote(n.get_name())
-    attributes: list = [f"{key}={quote(n.attr[key])}" for key in n.attr]
+
+    # 
+    # attributes: list = [f"{key}={quote(n.attr[key])}" for key in n.attr]
+    
+    # don't quote everything, 
+    attributes = []
+    keys_should_not_quote = {"transparent", "n_slots"}
+    for key in n.attr:
+        if key in keys_should_not_quote:
+            attributes.append(f"{key}={n.attr[key]}")
+        else:
+            attributes.append(f"{key}={quote(n.attr[key])}")
+    
     attributes.sort(
         key=lambda x: key_order[x.split("=")[0]]
         if x.split("=")[0] in key_order

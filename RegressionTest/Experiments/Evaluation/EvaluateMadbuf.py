@@ -5,10 +5,10 @@
 Author: Hanyu Wang
 Created time: 2023-03-12 15:59:01
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-21 13:21:47
+Last Modified time: 2023-03-29 23:12:03
 '''
 from MADBuf import *
-
+from RegressionTest.Experiments.Path import *
 """
 This is a script to run MADBuf on a single mut (module under test).
 
@@ -17,19 +17,41 @@ This is a script to run MADBuf on a single mut (module under test).
 
 def evaluate_madbuf(*args, **kwargs):
     
-    if 'mut' not in kwargs:
-        raise Exception("mut is not specified")
-    
-    mut = kwargs['mut']
-        
-    if 'method' not in kwargs:
-        raise Exception("method is not specified")
-    
-    method = kwargs['method']
+    verbose = get_value_from_kwargs(kwargs, "verbose", False)
+    run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
+    # we regenerate the BLIF file
+    print_blue("\n\n[i] Generating BLIF file...\n", flush=True)
 
-    blif: BLIFGraph = BLIFGraph()
-    read_blif(blif, f"{mut}/reports/{mut}.blif")
-    dfg: pgv.AGraph = read_dfg(f"{mut}/reports/{mut}_decoy.dot")
+    # we first check the presence of bbgrpah and the data flow graph
+    graph = get_dfg_ref_from_kwargs(**kwargs)
+    bbgraph = get_bbgraph_from_kwargs(**kwargs)
+    
+    # Preprocessing 1: Cut loop back
+    cut_loopback(graph, bbgraph, verbose=verbose)
+
+    # Preprocessing 2: Floating point component mapping
+    mapping_file = get_mapping_path_from_kwargs(**kwargs)
+    mapping = mapping_to_unfloating(graph, verbose=verbose)
+
+    # Preprocessing 2.5: ICMP component mapping
+    icmp_mapping_flag = get_value_from_kwargs(kwargs, "map_icmp", False)
+    if icmp_mapping_flag:
+        icmp_mapping = mapping_icmp_to_blackboxes(graph, verbose=verbose)
+        mapping = mapping + icmp_mapping
+    mapping.write(mapping_file)
+
+    # Preprocessing 3: Fix the multiplier's width
+    split_multiplier_bitwidth(graph, verbose=verbose)
+    
+    mut = get_mut_from_kwargs(**kwargs)
+    method = get_value_from_kwargs(kwargs, "method", "madbuf")
+
+    blif: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
+    
+    blif_path = get_blif_path_from_kwargs(**kwargs)
+    write_blif(blif, blif_path)
+    
+    dfg: pgv.AGraph = graph
 
     print(blif.num_nodes())
 
@@ -39,23 +61,22 @@ def evaluate_madbuf(*args, **kwargs):
     optimizer: MADBuf = MADBuf(network, signal_to_channel, signals_in_component)
     # optimizer: MADBuf = MADBuf(blif)
 
-    if "clock_period" not in kwargs:
-        raise Exception("clock_period is not specified")
-    
-    clock_period = kwargs['clock_period']
-
+    clock_period = get_value_from_kwargs(kwargs, "clock_period", 7)
     buffers, maximum_timing = optimizer.run(clock_period=clock_period, verbose=False)
 
     insert_buffers_in_dfg(dfg, buffers=buffers, verbose=False)
     buffer_blackboxes(dfg)
 
-    mapping = read_mapping(f"{mut}/reports/{mut}.mapping")
+    mapping = get_mapping_from_kwargs(**kwargs)
     mapping_to_floating(dfg, mappings=mapping, verbose=True)
     align_multiplier_bitwidth(dfg)
 
-    write_dfg(dfg, f"./{mut}/reports/{mut}_{method}.dot")
+    dfg_sol_path = get_dfg_sol_path_from_kwargs(**kwargs)
+    write_dfg(dfg, dfg_sol_path)
+
+    dfg_sol_png = dfg_sol_path.replace(".dot", ".png")
 
     subprocess.run(
-        f"dot -Tpng ./{mut}/reports/{mut}_{method}.dot -o ./{mut}/reports/{mut}_{method}.png",
+        f"dot -Tpng {dfg_sol_path} -o {dfg_sol_png}",
         shell=True,
     )

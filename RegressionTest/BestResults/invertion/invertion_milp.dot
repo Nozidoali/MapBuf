@@ -1,5 +1,16 @@
 Digraph G {
 	splines=spline;
+	subgraph cluster_cluster_0 {
+	color = "darkgreen";
+label = "cluster_0";
+		"brCst_block1" [type="Constant", in="in1:1", out="out1:1", bbID=1, value="0x1"];
+		"cst_0" [type="Constant", in="in1:1", out="out1:1", bbID=1, value="0x00000000"];
+		"branch_0" [type="Branch", in="in1:1 in2?:1", out="out1+:1 out2-:1", bbID=1];
+		"start_0" [type="Entry", in="in1:0", out="out1:0", bbID=1, control="true"];
+		"forkC_5" [type="Fork", in="in1:0", out="out1:0 out2:0 out3:0 ", bbID=1];
+		"branchC_2" [type="Branch", in="in1:0 in2?:1", out="out1+:0 out2-:0", bbID=1];
+		"fork_6" [type="Fork", in="in1:1", out="out1:1 out2:1 ", bbID=1];
+	}
 	subgraph cluster_cluster_1 {
 	color = "darkgreen";
 label = "cluster_1";
@@ -25,7 +36,7 @@ label = "cluster_1";
 		"source_2" [type="Source", out="out1:10", bbID=2];
 		"Buffer_0" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_0[1]", shape="box", slots=1, style="filled", transparent="false"];
 		"Buffer_1" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_1[1t]", shape="box", slots=1, style="filled", transparent="true"];
-		"Buffer_2" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_2[1]", shape="box", slots=1, style="filled", transparent="false"];
+		"Buffer_2" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_2[2]", shape="box", slots=2, style="filled", transparent="false"];
 	}
 	subgraph cluster_cluster_2 {
 	color = "darkgreen";
@@ -34,23 +45,10 @@ label = "cluster_2";
 		"end_0" [type="Exit", in="in1:0*e in2:0 ", out="out1:0", bbID=0];
 		"phiC_1" [type="Merge", in="in1:0 ", out="out1:0", bbID=3, delay=0.0];
 	}
-	subgraph cluster_cluster_0 {
-	color = "darkgreen";
-label = "cluster_0";
-		"brCst_block1" [type="Constant", in="in1:1", out="out1:1", bbID=1, value="0x1"];
-		"cst_0" [type="Constant", in="in1:1", out="out1:1", bbID=1, value="0x00000000"];
-		"branch_0" [type="Branch", in="in1:1 in2?:1", out="out1+:1 out2-:1", bbID=1];
-		"start_0" [type="Entry", in="in1:0", out="out1:0", bbID=1, control="true"];
-		"forkC_5" [type="Fork", in="in1:0", out="out1:0 out2:0 out3:0 ", bbID=1];
-		"branchC_2" [type="Branch", in="in1:0 in2?:1", out="out1+:0 out2-:0", bbID=1];
-		"fork_6" [type="Fork", in="in1:1", out="out1:1 out2:1 ", bbID=1];
-	}
 		"MC_in" [type="MC", in="in1:32*c0 in2:10*l0a in3:10*s0a in4:32*s0d ", out="out1:32*l0d out2:0*e ", bbID=0, bbcount=1, ldcount=1, memory="in", stcount=1];
 		"sink_0" [type="Sink", in="in1:1", bbID=0];
 		"sink_1" [type="Sink", in="in1:10", bbID=0];
 		"sink_2" [type="Sink", in="in1:0", bbID=0];
-		"Buffer_3" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_3[1]", shape="box", slots=1, style="filled", transparent="false"];
-		"Buffer_4" [type="Buffer", in="in1:32", out="out1:32", bbID=3, fillcolor="darkolivegreen3", height=0.4, label="Buffer_4[1]", shape="box", slots=1, style="filled", transparent="false"];
 		"brCst_block1" -> "fork_6" [color = "magenta", from = "out1", to = "in1"];
 		"cst_0" -> "branch_0" [color = "red", from = "out1", to = "in1"];
 		"phi_1" -> "Buffer_0" [color = "red", from = "out1", to = "in1"];
@@ -63,7 +61,7 @@ label = "cluster_0";
 		"cst_2" -> "add_8" [color = "red", from = "out1", to = "in2"];
 		"add_8" -> "fork_1" [color = "red", from = "out1", to = "in1"];
 		"cst_3" -> "icmp_9" [color = "red", from = "out1", to = "in2"];
-		"icmp_9" -> "Buffer_2" [color = "magenta", from = "out1", to = "in1"];
+		"icmp_9" -> "fork_8" [color = "magenta", from = "out1", to = "in1"];
 		"ret_0" -> "end_0" [color = "gold3", from = "out1", to = "in2"];
 		"fork_0" -> "load_4" [color = "red", from = "out2", to = "in2"];
 		"fork_0" -> "store_0" [color = "red", from = "out3", to = "in2"];
@@ -72,8 +70,8 @@ label = "cluster_0";
 		"fork_1" -> "branch_1" [color = "red", from = "out2", to = "in1"];
 		"branch_0" -> "phi_1" [color = "blue", from = "out1", to = "in2", minlen = 3];
 		"branch_0" -> "sink_0" [color = "blue", from = "out2", to = "in1", minlen = 3];
+		"branch_1" -> "phi_1" [color = "blue", from = "out1", to = "in3", minlen = 3];
 		"branch_1" -> "sink_1" [color = "blue", from = "out2", to = "in1", minlen = 3];
-		"branch_1" -> "Buffer_3" [color = "blue", from = "out1", to = "in1", minlen = 3];
 		"MC_in" -> "load_4" [color = "darkgreen", mem_address = "false", from = "out1", to = "in1"];
 		"MC_in" -> "end_0" [color = "gold3", from = "out2", to = "in1"];
 		"cst_4" -> "MC_in" [color = "darkgreen", from = "out1", to = "in1"];
@@ -86,11 +84,11 @@ label = "cluster_0";
 		"fork_6" -> "branch_0" [color = "red", from = "out1", to = "in2"];
 		"fork_6" -> "branchC_2" [color = "gold3", from = "out2", to = "in2"];
 		"phiC_0" -> "phi_1" [color = "green", from = "out2", to = "in1"];
-		"phiC_0" -> "forkC_7" [color = "gold3", from = "out1", to = "in1"];
+		"phiC_0" -> "Buffer_2" [color = "gold3", from = "out1", to = "in1"];
 		"forkC_7" -> "cst_4" [color = "gold3", from = "out1", to = "in1"];
 		"forkC_7" -> "branchC_3" [color = "gold3", from = "out2", to = "in1"];
+		"branchC_3" -> "phiC_0" [color = "gold3", from = "out1", to = "in2", minlen = 3];
 		"branchC_3" -> "phiC_1" [color = "gold3", from = "out2", to = "in1", minlen = 3];
-		"branchC_3" -> "Buffer_4" [color = "gold3", from = "out1", to = "in1", minlen = 3];
 		"fork_8" -> "branch_1" [color = "red", from = "out1", to = "in2"];
 		"fork_8" -> "branchC_3" [color = "gold3", from = "out2", to = "in2"];
 		"phiC_1" -> "ret_0" [color = "gold3", from = "out1", to = "in1"];
@@ -99,7 +97,5 @@ label = "cluster_0";
 		"source_2" -> "cst_3" [color = "red", from = "out1", to = "in1"];
 		"Buffer_0" -> "Buffer_1" [color = "red", from = "out1", to = "in1"];
 		"Buffer_1" -> "fork_0" [color = "red", from = "out1", to = "in1"];
-		"Buffer_2" -> "fork_8" [color = "magenta", from = "out1", to = "in1"];
-		"Buffer_3" -> "phi_1" [color = "blue", from = "out1", to = "in3", minlen = 3];
-		"Buffer_4" -> "phiC_0" [color = "gold3", from = "out1", to = "in2", minlen = 3];
+		"Buffer_2" -> "forkC_7" [color = "gold3", from = "out1", to = "in1"];
 }
