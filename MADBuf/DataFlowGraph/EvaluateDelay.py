@@ -28,7 +28,7 @@ def evaluate_delay(
     mapping_to_unfloating(dfg)
     split_multiplier_bitwidth(dfg)
 
-    run_elaborate(dfg, top_module=top_module, verbose=verbose)
+    run_elaborate(dfg, top_module=top_module, fifo_without_mod=True, verbose=verbose)
 
     # subprocess.run mapping
     print("Running ABC", end="...", flush=True)

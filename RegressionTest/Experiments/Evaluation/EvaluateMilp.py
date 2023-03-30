@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-29 23:08:19
+Last Modified time: 2023-03-30 14:14:15
 '''
 
 from MADBuf import *
@@ -45,7 +45,9 @@ def evaluate_milp(*args, **kwargs):
     g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
     
     blif_path = get_blif_path_from_kwargs(**kwargs)
+    print(f"Writing BLIF file to {blif_path} ...", end=' ', flush=True)
     write_blif(g, blif_path)
+    print_green("Done", flush=True)
 
     # if run_synthesis:
     #     read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")

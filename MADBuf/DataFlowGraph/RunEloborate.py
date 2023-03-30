@@ -52,8 +52,16 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
 
     if "ODIN_ARCH" not in os.environ:
         raise Exception("ODIN_ARCH is not set")
+    
+    fifo_without_mod_flag = get_value_from_kwargs(
+        kwargs, ["fifo_without_mod"], False
+    )
 
-    odin_components = os.environ["ODIN_COMPONENTS"] + "/new_Verilog/*.v"
+    if fifo_without_mod_flag:
+        odin_components = os.environ["ODIN_COMPONENTS"] + "/fifo_without_mod/*.v"
+    else:
+        odin_components = os.environ["ODIN_COMPONENTS"] + "/new_Verilog/*.v"
+
     odin_arc = os.environ["ODIN_ARCH"]
     odin_command = " ".join(
         [
