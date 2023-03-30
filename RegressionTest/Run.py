@@ -23,17 +23,17 @@ if __name__ == "__main__":
     param = Params()
     param.method = 'milp'
     # param.benchmarks = ["gsum", "gsumif"]
-    param.benchmarks = ["invertion"]
+    param.benchmarks = ["gaussian"]
     param.max_expansion_level = 0
-    param.add_cutloopback_constraints_flag = True
+    param.add_cutloopback_constraints_flag = False
     param.add_blockbox_constraints_flag = False
-    param.add_blackbox_delay_propagation_flag = True
-    param.add_cut_buffer_interaction_constraints_flag = True
-    param.timeout = 60
+    param.add_blackbox_delay_propagation_flag = False
+    param.add_cut_buffer_interaction_constraints_flag = False
+    param.timeout = 60000
     param.use_cutless = True
     param.cutless_hueristic = 1
     param.use_cut = False
-    param.priority_cut_size = 5
+    param.priority_cut_size = 10
 
     param.ext_cut_files = False
     param.ext_lp_files = False

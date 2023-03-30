@@ -63,10 +63,10 @@
         "speedup": 0.9652960468787188
     },
     "invertion": {
-        "execution_time": 10907.456,
-        "delay": 5.432,
-        "cycles": 2008,
+        "execution_time": 10173.483,
+        "delay": 5.069,
+        "cycles": 2007,
         "method": "milp",
-        "speedup": 0.8037232513245985
+        "speedup": 0.8617084237522195
     }
 }
