@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:50:44
+Last Modified time: 2023-03-30 17:11:56
 '''
 
 
@@ -22,13 +22,16 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
  
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
     
-    ext_lp_files = get_value_from_kwargs(kwargs, [
+    ext_lp_files_flag = get_value_from_kwargs(kwargs, [
         "ext_lp_files",
-        "ext_lp_file",
-        "external_lp_files",
-    ], None)
+    ], False)
 
-    if ext_lp_files is not None:
+    if ext_lp_files_flag is True:
+        ext_lp_files = get_lp_path_from_kwargs(**kwargs)
+
+        # replace the ^ with _ in the lp file
+        fix_lp_names(ext_lp_files)
+        
         print(f"Loading external lp files {ext_lp_files}...", end=' ', flush=True)
         model: gp.Model = gp.read(ext_lp_files)
         run_gurobi_optimization(model, **kwargs)

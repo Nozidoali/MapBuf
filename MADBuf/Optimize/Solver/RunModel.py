@@ -86,6 +86,6 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         if not solution_filename.endswith(".sol"):
             raise Exception("The filename should end with .sol")
 
-        print(f"Writing solution to {solution_filename}...", end=" ", flush=True)
+        print(f"Writing solution to {solution_filename} ...", end=" ", flush=True)
         model.write(solution_filename)
         print_green("DONE")

@@ -11,3 +11,4 @@ Last Modified time: 2023-03-19 00:32:12
 from MADBuf.Optimize.ModelUtils.ChannelToVariable import *
 from MADBuf.Optimize.ModelUtils.SignalToVariable import *
 from MADBuf.Optimize.ModelUtils.TimingConstrainstImpl import *
+from MADBuf.Optimize.ModelUtils.FixLPNames import *

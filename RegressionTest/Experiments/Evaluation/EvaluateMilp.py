@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-30 16:17:14
+Last Modified time: 2023-03-30 16:44:50
 '''
 
 from MADBuf import *
@@ -54,7 +54,7 @@ def evaluate_milp(*args, **kwargs):
     if ext_cut_file_flag is True:
         print(f"Reading BLIF file from {blif_path} ...", end=' ', flush=True)
         g: BLIFGraph = read_blif(blif_path)
-        print_blue("Done", flush=True)
+        print_green("Done", flush=True)
     else:
         g: BLIFGraph = run_elaborate(graph, mut=mut, run_optimization=run_synthesis, run_strash=True, insert_anchors=True)
         print(f"Writing BLIF file to {blif_path} ...", end=' ', flush=True)
