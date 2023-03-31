@@ -29,7 +29,9 @@ if __name__ == "__main__":
     param.add_blockbox_constraints_flag = False
     param.add_blackbox_delay_propagation_flag = True
     param.add_cut_buffer_interaction_constraints_flag = False
-    param.timeout = 60
+
+    param.repeat = 4
+    param.timeout = 600
     param.use_cutless = True
     param.cutless_hueristic = 1
     param.use_cut = False

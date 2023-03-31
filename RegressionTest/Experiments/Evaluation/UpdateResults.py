@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-29 22:56:01
+Last Modified time: 2023-03-31 03:56:35
 '''
 
 import os
@@ -81,6 +81,9 @@ def update_results(stats: Stats):
 
         blif_path = get_blif_path_from_kwargs(**values)
         subprocess.run("cp " + blif_path + " " + benchmark_dir, shell=True)
+
+        lp_path = get_lp_path_from_kwargs(**values)
+        subprocess.run("cp " + lp_path + " " + benchmark_dir, shell=True)
 
         stats_path = os.path.join(benchmark_dir, "stats.json")
         with open(stats_path, "w") as f:
