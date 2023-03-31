@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 01:42:29
+Last Modified time: 2023-03-31 18:56:37
 '''
 
 from MADBuf import *
@@ -85,6 +85,9 @@ def evaluate_milp(*args, **kwargs):
     print_green(f"\tMaximal LUT level: {maximal_lut_level}")
     
     signal_to_cuts = cut_enumeration_from_kwargs(network=network, signal_to_channel=signal_to_channel, **kwargs)
+
+    # before formulating the MILP problem, we need to check if the signal_to_cuts is valid
+    evaluate_signal_to_cuts(network, signal_to_cuts, signal_to_channel)
 
     throughput_optimization_from_kwargs(network=g, signal_to_cuts=signal_to_cuts, **kwargs)
 

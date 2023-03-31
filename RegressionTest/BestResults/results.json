@@ -14,11 +14,11 @@
         "speedup": 0.8775172481291642
     },
     "insertion_sort": {
-        "execution_time": 1415.316,
-        "delay": 5.684,
+        "execution_time": 1283.346,
+        "delay": 5.154,
         "cycles": 249,
         "method": "milp",
-        "speedup": 1.1294156216703548
+        "speedup": 1.2455565373640467
     },
     "gemver": {
         "execution_time": 43117.045999999995,

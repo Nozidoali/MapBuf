@@ -12,3 +12,4 @@ from MADBuf.Optimize.ModelUtils.ChannelToVariable import *
 from MADBuf.Optimize.ModelUtils.SignalToVariable import *
 from MADBuf.Optimize.ModelUtils.TimingConstrainstImpl import *
 from MADBuf.Optimize.ModelUtils.FixLPNames import *
+from MADBuf.Optimize.ModelUtils.EvaluateCuts import *

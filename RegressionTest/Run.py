@@ -23,13 +23,14 @@ if __name__ == "__main__":
     param = Params()
     param.method = 'milp'
     # param.benchmarks = ["gemver", "gsum", "gsumif"]
-    param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
-    # param.benchmarks = ["gaussian"]
+    # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
+    # param.benchmarks = ["insertion_sort"]
     param.max_expansion_level = 0
     param.add_cutloopback_constraints_flag = True
     param.add_blockbox_constraints_flag = False
     param.add_blackbox_delay_propagation_flag = True
     param.add_cut_buffer_interaction_constraints_flag = False
+    param.map_icmp = True
 
     param.repeat = 4
     param.timeout = 600

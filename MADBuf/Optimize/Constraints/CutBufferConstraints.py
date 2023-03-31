@@ -32,6 +32,8 @@ def add_cut_buffer_interaction_constraints(
         cuts = signal_to_cuts[signal]
 
         cut: Cut
+
+        has_free_cut: bool = False
         for cut_index, cut in enumerate(cuts):
 
             # this is the naming convention in the cut selection variables
@@ -46,10 +48,17 @@ def add_cut_buffer_interaction_constraints(
                 graph, cut, channel_signals, verbose
             )
 
+            if len(conflicting_signals) == 0:
+                has_free_cut = True
+
             # these signals are internal channels
             for conflict_signal in conflicting_signals:
                 assert conflict_signal in signal_to_variable
                 conflict_var = signal_to_variable[conflict_signal]
                 model.addConstr(conflict_var + var_cut_selection <= 1)
+
+        if not has_free_cut:
+            print_red(f"Warning: Signal {signal} has no free cut")
+            # raise Exception("No free cut")
 
     model.update()
