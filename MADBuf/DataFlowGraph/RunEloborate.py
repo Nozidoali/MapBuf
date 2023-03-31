@@ -103,13 +103,16 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
     if filename is not None:
         subprocess.run(f"cp /tmp/eval/{mut}.blif {filename}", shell=True)
 
-    g: BLIFGraph = read_blif(f"/tmp/eval/{mut}.blif")
+    try:
+        g: BLIFGraph = read_blif(f"/tmp/eval/{mut}.blif")
 
-    loop = find_loop(g)
-    if loop:
-        print_red("There is a loop in the graph")
-        print_red(loop)
+        loop = find_loop(g)
+        if loop:
+            print_red("There is a loop in the graph")
+            print_red(loop)
 
-    assert find_loop(g) == None, "There is a loop in the graph"
+        assert find_loop(g) == None, "There is a loop in the graph"
 
-    return g
+        return g
+    except:
+        return None

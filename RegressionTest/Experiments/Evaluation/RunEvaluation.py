@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-30 15:45:58
+Last Modified time: 2023-03-31 03:05:12
 '''
 
 from MADBuf import *
@@ -44,5 +44,9 @@ def run_experiments(*args, **kwargs):
         if values != None:
             print('delay =', text_orange(values['delay']))
             stats.add(values)
+
+        stats_path = get_stats_path_from_kwargs(**kwargs)
+        with open(stats_path, "w") as f:
+            json.dump(stats.values, f, indent=4)
 
         update_results(stats)

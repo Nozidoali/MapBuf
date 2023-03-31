@@ -117,6 +117,8 @@ class BLIFGraphBase:
         for signal in self.cis():
             assert signal not in self.__signals
             self.__signals.append(signal)
+
+
         for signal in self.cos():
             self.trav_rec(signal)
 
@@ -130,16 +132,27 @@ class BLIFGraphBase:
                     self.node_fanouts[f].add(signal)
 
     # topological traversal, used to sort the __signals in a topological order
-    def trav_rec(self, signal: str):
+    def trav_rec(self, signal: str, pending_signals: set = set()):
         if signal in self.__signals:
             return
-
+        
         if signal not in self.node_fanins:
             print(f"recursion stoped at node {signal}")
             exit()
+
+        pending_signals.add(signal)
+
         for f in self.fanins(signal):
             assert f != signal, f"node {signal} is its own fanin"
-            self.trav_rec(f)
+            if f not in self.__signals:
+                if f in pending_signals:
+                    # we have a loop
+                    # print(f"recursion stoped at node {signal}")
+                    # print(f"pending signals: {pending_signals}")
+                    return
+                self.trav_rec(f)
+
+        pending_signals.remove(signal)
         self.__signals.append(signal)
 
     def num_fanouts(self, signal: str):

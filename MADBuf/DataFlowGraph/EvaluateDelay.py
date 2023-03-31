@@ -93,6 +93,7 @@ def evaluate_delay(
     print_green("Done")
 
     # now we retrieve the clock period information from the set up timing report
+
     f = open("/tmp/eval/report_timing.setup.rpt", "r")
     delay = None
 
