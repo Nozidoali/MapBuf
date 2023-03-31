@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 03:56:35
+Last Modified time: 2023-03-31 21:31:49
 '''
 
 import os
@@ -15,7 +15,7 @@ from RegressionTest.Experiments.Stats import *
 from RegressionTest.Experiments.Path import *
 
 class results_params:
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "BestResults")
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 
     fpl_bmarks = [
         "gaussian",
@@ -34,7 +34,7 @@ class results_params:
 
     fpl_results = {bmark: {'cycles': cycles, 'clock_period': cp, 'execution_time': float(cycles) * float(cp)} for bmark, cycles, cp in zip(fpl_bmarks, fpl_cycles, fpl_cps)}
 
-def update_results(stats: Stats):
+def update_results(stats: Stats, unqiue_name: str):
 
     if 'benchmarks' in stats.values:
         stats.values.pop('benchmarks')
@@ -42,34 +42,39 @@ def update_results(stats: Stats):
     values = stats.values
 
     path = results_params.path
-    result_path = os.path.join(path, "results.json")
+
+    result_dir = os.path.join(path, unqiue_name)
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
+    best_result_path = os.path.join(path, unqiue_name, 'results.json')
 
     mut = values["mut"]
     curr_result = float(values["delay"]) * float(values["cycles"])
 
     previous_result = None
-    results = None
+    best_results = None
 
     try:
-        with open(result_path, "r") as f:
-            results = json.load(f)
-            previous_result = float(results[mut]['execution_time'])
+        with open(best_result_path, "r") as f:
+            best_results = json.load(f)
+            previous_result = float(best_results[mut]['execution_time'])
     except:
         pass
 
-    if results == None:
-        results = {}
+    if best_results == None:
+        best_results = {}
     
     if previous_result == None:
-        results[mut] = {}
+        best_results[mut] = {}
 
     if previous_result == None or curr_result < previous_result:
-        results[mut]['execution_time'] = curr_result
-        results[mut]['delay'] = values["delay"]
-        results[mut]['cycles'] = values["cycles"]
-        results[mut]['method'] = values["method"]
+        best_results[mut]['execution_time'] = curr_result
+        best_results[mut]['delay'] = values["delay"]
+        best_results[mut]['cycles'] = values["cycles"]
+        best_results[mut]['method'] = values["method"]
         
-        benchmark_dir = os.path.join(path, mut)
+        benchmark_dir = os.path.join(result_dir, mut)
         if not os.path.exists(benchmark_dir):
             os.makedirs(benchmark_dir)
             
@@ -85,12 +90,15 @@ def update_results(stats: Stats):
         lp_path = get_lp_path_from_kwargs(**values)
         subprocess.run("cp " + lp_path + " " + benchmark_dir, shell=True)
 
+        rpt_path = get_setup_timing_report_path_from_kwargs(**values)
+        subprocess.run("cp " + rpt_path + " " + benchmark_dir, shell=True)
+
         stats_path = os.path.join(benchmark_dir, "stats.json")
         with open(stats_path, "w") as f:
             json.dump(values, f, indent=4)
 
     if mut in results_params.fpl_results:
-        results[mut]['speedup'] = results_params.fpl_results[mut]['execution_time'] / results[mut]['execution_time']
+        best_results[mut]['speedup'] = results_params.fpl_results[mut]['execution_time'] / best_results[mut]['execution_time']
         
-    with open(result_path, "w") as f:
-        json.dump(results, f, indent=4)
+    with open(best_result_path, "w") as f:
+        json.dump(best_results, f, indent=4)

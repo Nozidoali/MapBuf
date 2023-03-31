@@ -37,6 +37,8 @@ build
 *.mapping
 *.cuts
 
+stats.json
+
 # Benchmarks
 *.blif
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.blif

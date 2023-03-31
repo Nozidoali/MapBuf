@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 03:55:05
+Last Modified time: 2023-03-31 20:07:56
 '''
 
 from MADBuf import *
@@ -17,9 +17,12 @@ from RegressionTest.Experiments.Evaluation.EquivalenceChecking import *
 from RegressionTest.Experiments.Evaluation.UpdateResults import *
 from RegressionTest.Experiments.Stats import *
 
+from datetime import datetime
+
 def run_experiments(*args, **kwargs):
 
     benchmarks = get_value_from_kwargs(kwargs, "benchmarks", None)
+    exp_id = datetime.now().strftime('%Y%m-%d-%H-%M')
     
     for benchmark in benchmarks:
         kwargs["mut"] = benchmark
@@ -53,4 +56,6 @@ def run_experiments(*args, **kwargs):
             with open(stats_path, "w") as f:
                 json.dump(stats.values, f, indent=4)
 
-            update_results(stats)
+            
+            update_results(stats, f"{exp_id}")
+            update_results(stats, "BestResults")

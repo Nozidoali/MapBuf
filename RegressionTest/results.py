@@ -1,6 +1,6 @@
 import json
 
-results = json.load(open('./BestResults/results.json'))
+results = json.load(open('./BestResults/best_results.json'))
 
 for result in results:
 
@@ -8,5 +8,6 @@ for result in results:
 
     cycles = results[result]['cycles']
     cp = results[result]['delay']
+    speedup = results[result]['speedup']
 
-    print(f"{bmark}, {cycles}, {cp}")
+    print(f"{bmark}, {cycles}, {cp}, {speedup}")

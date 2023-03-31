@@ -7,11 +7,11 @@
         "speedup": 1.7557362879221654
     },
     "covariance_float": {
-        "execution_time": 957282.5170000001,
-        "delay": 5.267,
-        "cycles": 181751,
+        "execution_time": 933601.3470000001,
+        "delay": 5.229,
+        "cycles": 178543,
         "method": "milp",
-        "speedup": 0.8775172481291642
+        "speedup": 0.8997758226242146
     },
     "insertion_sort": {
         "execution_time": 1283.346,
