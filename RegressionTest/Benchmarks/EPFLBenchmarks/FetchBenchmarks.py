@@ -48,7 +48,7 @@ with gp.Env(empty=True) as env:
         signal_to_cuts = cut_enumeration(
             blif, 
             signal_to_channel=None,
-            priority_cut_size=20,
+            priority_cut_size_limit=20,
             lut_size_limit=6,
             cutless=True,
             max_expansion_level=4

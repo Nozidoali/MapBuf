@@ -41,7 +41,7 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
         merge multiple LPs into one
         """
 
-        print_blue(f"[i] Merge {len(lp_files)} LPs into one")
+        print_blue(f"[i] Merging {len(lp_files)} LPs into one")
 
         # Step 1: we read the first LP
         model = None
@@ -71,7 +71,10 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
             if lp_type != LP_Type.NON_MG:
                 continue
 
-            print(lp_files[i], f"LP type: {lp_type}")
+            print(f"Model {i}:")
+            print(f"\tLP type: {lp_type}")
+            print(f"\t{lp_files[i]}")
+            print("\n")
 
             model = gp.read(lp_files[i])
 
@@ -105,8 +108,14 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
             
             if lp_type != LP_Type.MG:
                 continue
-                
-            print(lp_files[i], f"LP type: {lp_type}", text_orange(f"scale factor: {scale_factor}"))
+
+
+            # print the information    
+            print(f"Model {i}:")
+            print(f"\tLP type: {lp_type}")
+            print(f"\tscale factor: {scale_factor}")
+            print(f"\t{lp_files[i]}")
+            print("\n")
 
             # we rescale the objective function
             # scale the coefficients

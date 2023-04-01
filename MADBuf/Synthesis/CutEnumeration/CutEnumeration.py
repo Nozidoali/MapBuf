@@ -40,50 +40,20 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
     signal_to_cuts = {}
 
     if use_cutless:
-
         if not isinstance(network, BLIFGraph):
             raise NotImplementedError(
                 "cutless enumeration is only implemented for BLIFGraph"
             )
 
         cuts = cutless_enumeration_impl(network=network, **kwargs)
-        for n in cuts:
-            if n not in signal_to_cuts:
-                signal_to_cuts[n] = []
-            signal_to_cuts[n].extend(cuts[n])
 
     if use_cut:
+        cuts = cut_enumeration_impl(g=network, **kwargs)
 
-        lut_size_limit = get_value_from_kwargs(
-            kwargs,
-            [
-                "lut_size_limit",
-                "cut_size_limit",
-                "lut_size",
-                "cut_size",
-            ],
-            6,
-        )
-
-        priority_cut_size = get_value_from_kwargs(
-            kwargs,
-            [
-                "priority_cut_size",
-                "num_cuts",
-            ],
-            20,
-        )
-
-        cuts = cut_enumeration_impl(
-            g=network,
-            priority_cut_size=priority_cut_size,
-            lut_size_limit=lut_size_limit,
-        )
-
-        for n in cuts:
-            if n not in signal_to_cuts:
-                signal_to_cuts[n] = []
-            signal_to_cuts[n].extend(cuts[n])
+    for n in cuts:
+        if n not in signal_to_cuts:
+            signal_to_cuts[n] = []
+        signal_to_cuts[n].extend(cuts[n])
 
     signal_to_cuts = cleanup_dangling_cuts(signal_to_cuts)
 

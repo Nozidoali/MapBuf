@@ -14,10 +14,6 @@ from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.CutEnumerationImplNew import *
 import pygraphviz as pgv
 
-class cut_enumeration_params:
-
-    use_new_cut_enumeration = True
-
 def cuts_to_string(cuts: list) -> str:
     cuts_str = ",".join([str(c) for c in cuts])
 
@@ -47,7 +43,7 @@ def merge_cuts(cuts: list, setsize: int, lut_size_limit: int = 6):
 
 
 def cut_enumeration_impl_helper(
-    g, n, cuts, priority_cut_size: int = 20, lut_size_limit: int = 6
+    g, n, cuts, priority_cut_size_limit: int = 20, lut_size_limit: int = 6
 ) -> dict:
     if n in cuts:
         return
@@ -57,21 +53,19 @@ def cut_enumeration_impl_helper(
         return
 
     for l in g.predecessors(n):
-        cut_enumeration_impl_helper(g, l, cuts, priority_cut_size, lut_size_limit)
+        cut_enumeration_impl_helper(g, l, cuts, priority_cut_size_limit, lut_size_limit)
 
     cuts[n] = [Cut(n, [n])]
     c = [cuts[f] for f in g.predecessors(n)]
-    cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
+    cuts[n] += merge_cuts(c, priority_cut_size_limit, lut_size_limit)[:]
 
 
-def cut_enumeration_impl(
-    g, priority_cut_size: int = 20, lut_size_limit: int = 6
-) -> dict:
+def cut_enumeration_impl(g, **kwargs) -> dict:
     """Cut Enumeration (implementation)
 
     Args:
         g (BLIFGraph or pgv.AGraph): the graph to be enumerated
-        priority_cut_size (int, optional): the maximum number of cuts to be stored at each node.
+        priority_cut_size_limit (int, optional): the maximum number of cuts to be stored at each node.
                                             Defaults to 20.
         lut_size_limit (int, optional): the LUT size. Defaults to 6.
 
@@ -80,14 +74,31 @@ def cut_enumeration_impl(
     """
     cuts: dict = {}
 
-    if cut_enumeration_params.use_new_cut_enumeration:
-        return cut_enumeration_impl_new(g, priority_cut_size, lut_size_limit)
+    is_two_input_network = get_value_from_kwargs(kwargs, ["is_two_input_network"], False)
+    lut_size_limit = get_value_from_kwargs(
+        kwargs,
+        [
+            "lut_size_limit",
+        ],
+        6,
+    )
+
+    priority_cut_size_limit = get_value_from_kwargs(
+        kwargs,
+        [
+            "priority_cut_size_limit",
+        ],
+        8, # None means no priority cut size limit
+    )
+
+    if is_two_input_network:
+        return two_input_network_cut_enumeration_impl(g, priority_cut_size_limit, lut_size_limit)
 
     if isinstance(g, pgv.AGraph):
         # here we use a DAG
 
         for n in g.nodes():
-            cut_enumeration_impl_helper(g, n, cuts, priority_cut_size, lut_size_limit)
+            cut_enumeration_impl_helper(g, n, cuts, priority_cut_size_limit, lut_size_limit)
 
     elif isinstance(g, BLIFGraph):
 
@@ -96,7 +107,7 @@ def cut_enumeration_impl(
 
             if n in g.node_fanins:
                 c = [cuts[f] for f in g.fanins(n)]
-                cuts[n] += merge_cuts(c, priority_cut_size, lut_size_limit)[:]
+                cuts[n] += merge_cuts(c, priority_cut_size_limit, lut_size_limit)[:]
 
     # the cuts we calculated may have wrong root
     # we need to fix it

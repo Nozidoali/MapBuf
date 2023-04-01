@@ -49,7 +49,7 @@ def run_logic_synthesis():
         "write_aiger tmp.aig; &read tmp.aig; &deepsyn -T 60; &b; if -K 2;",
     ]:
 
-        for priority_cut_size in [50]:
+        for priority_cut_size_limit in [50]:
 
             tmp_filename = "tmp.blif"
 
@@ -71,7 +71,7 @@ def run_logic_synthesis():
                         g,
                         clock_period=5,
                         insert_buffer=True,
-                        priority_cut_size=priority_cut_size,
+                        priority_cut_size_limit=priority_cut_size_limit,
                     )
 
                 toc = time.perf_counter()
@@ -83,7 +83,7 @@ def run_logic_synthesis():
                 stats["#buf"] = len(buffers)
                 stats["cp"] = int(cp_opt)
                 stats["time"] = toc - tic
-                stats["#priority-cuts"] = priority_cut_size
+                stats["#priority-cuts"] = priority_cut_size_limit
 
                 data.append(stats)
 
@@ -100,14 +100,14 @@ def run_cut_size():
 
     for method in ["milp"]:
 
-        for priority_cut_size in [1, 2, 5, 10, 20, 100, 200]:
+        for priority_cut_size_limit in [1, 2, 5, 10, 20, 100, 200]:
 
             tic = time.perf_counter()
             buffers, cp_opt = run_milps(
                 g,
                 clock_period=5,
                 insert_buffer=True,
-                priority_cut_size=priority_cut_size,
+                priority_cut_size_limit=priority_cut_size_limit,
             )
             toc = time.perf_counter()
 
@@ -117,7 +117,7 @@ def run_cut_size():
             stats["#buf"] = len(buffers)
             stats["cp"] = int(cp_opt)
             stats["time"] = toc - tic
-            stats["#priority-cuts"] = priority_cut_size
+            stats["#priority-cuts"] = priority_cut_size_limit
 
             data.append(stats)
 
