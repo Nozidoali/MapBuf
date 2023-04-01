@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 20:07:56
+Last Modified time: 2023-04-02 00:31:51
 '''
 
 from MADBuf import *
@@ -56,6 +56,7 @@ def run_experiments(*args, **kwargs):
             with open(stats_path, "w") as f:
                 json.dump(stats.values, f, indent=4)
 
-            
-            update_results(stats, f"{exp_id}")
-            update_results(stats, "BestResults")
+            save_report = get_value_from_kwargs(kwargs, "save_report", True)
+            if save_report:
+                update_results(stats, f"{exp_id}")
+                update_results(stats, "BestResults")

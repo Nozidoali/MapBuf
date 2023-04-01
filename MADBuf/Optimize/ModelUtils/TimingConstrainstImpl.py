@@ -32,36 +32,26 @@ def add_timing_constraints(
     # if verbose:
     print_blue(f"Adding timing constraints")
 
-    channels: set = set()
-    for node in signal_to_channel:
-        channel = signal_to_channel[node]
-        u, v = channel.u, channel.v
-        channel_name = f"{u}_{v}"
-        channels.add(channel_name)
-
-    if verbose:
-        print_green(f"Found {len(channels)} channels")
-
     # add the timing constraints
     print("[i] Adding timing label variables...", end=" ", flush=True)
     add_timing_label_variables(model, network)
-    print_green("Done")
+    print_green("Done", flush=True)
 
     # add blackbox constraints
     if add_blockbox_constraints_flag:
         print("[i] Adding blackbox constraints...", end=" ", flush=True)
         add_blackbox_constraints(model, verbose=verbose)
-        print_green("Done")
+        print_green("Done", flush=True)
 
     # add the clock period constraints
     print("[i] Adding clock period constraints...", end=" ", flush=True)
     add_clock_period_constraints(model, network, clock_period=clock_period)
-    print_green("Done")
+    print_green("Done", flush=True)
 
     # add the input delay constraints
     print("[i] Adding input delay constraints...", end=" ", flush=True)
     add_input_delay_constraints(model, network)
-    print_green("Done")
+    print_green("Done", flush=True)
 
     # add the cut selection constraints
     print("[i] Adding cut selection constraints...", end=" ", flush=True)
@@ -71,7 +61,7 @@ def add_timing_constraints(
         signal_to_cuts=signal_to_cuts,
         signal_to_variable=signal_to_variable,
     )
-    print_green("Done")
+    print_green("Done", flush=True)
 
     if add_cut_buffer_interaction_constraints_flag:
         print("[i] Adding cut-buffer interaction constraints...", end=" ", flush=True)
@@ -82,11 +72,11 @@ def add_timing_constraints(
             signal_to_variable=signal_to_variable,
             verbose=verbose,
         )
-        print_green("Done")
+        print_green("Done", flush=True)
 
     if add_blackbox_delay_propagation_flag:
         print("[i] Adding blackbox delay propagation constraints...", end=" ", flush=True)
         add_blackbox_delay_propapation_constraints(model, graph=network)
-        print_green("Done")
+        print_green("Done", flush=True)
 
     model.update()

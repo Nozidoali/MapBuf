@@ -21,7 +21,8 @@ def add_delay_propagation_constraints_on_wire(
 
         model.addConstr(
             model.getVarByName(f"TimingLabel_{signal}")
-            == model.getVarByName(f"TimingLabel_{fanin}")
+            == model.getVarByName(f"TimingLabel_{fanin}"), 
+            f"Wiredelay_{signal}_{fanin}"
         )
 
     else:
@@ -29,5 +30,6 @@ def add_delay_propagation_constraints_on_wire(
         model.addConstr(
             buffer_var * milp_params.infinity
             + model.getVarByName(f"TimingLabel_{signal}")
-            >= model.getVarByName(f"TimingLabel_{fanin}")
+            >= model.getVarByName(f"TimingLabel_{fanin}"),
+            f"Wiredelay_{signal}_{fanin}"
         )

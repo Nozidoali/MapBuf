@@ -17,7 +17,7 @@ from MADBuf.Synthesis import *
 
 class madbuf_constraints_params:
     skip_definite_cut_selection: bool = True
-    skip_trivial_depth_propagation: bool = False
+    skip_trivial_depth_propagation: bool = True
 
 
 def add_madbuf_constraints(
@@ -57,10 +57,10 @@ def add_madbuf_constraints(
             else:
 
                 # only one fanin
-                for fanin in graph.fanins(signal):
-                    add_delay_propagation_constraints_on_wire(
-                        model, signal, fanin, buffer_var
-                    )
+                fanin = graph.fanins(signal)[0]
+                add_delay_propagation_constraints_on_wire(
+                    model, signal, fanin, buffer_var
+                )
                 continue
 
         # get the set of cuts that are precomputed for this signal

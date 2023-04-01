@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 00:23:19
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 22:52:54
+Last Modified time: 2023-04-02 00:58:24
 '''
 
 
@@ -13,6 +13,7 @@ from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
 from MADBuf.Synthesis.CutEnumeration.CutSummary import *
+from MADBuf.Synthesis.CutEnumeration.CutCompression import *
 import pygraphviz as pgv
 
 import random
@@ -40,11 +41,21 @@ def two_input_network_cut_enumeration_impl(
     signal_to_channel = get_value_from_kwargs(kwargs, ["signal_to_channel"], {})
     skip_feedthrough = get_value_from_kwargs(kwargs, ["skip_feedthrough"], False)
 
+    def get_num_supports(cut: Cut):
+        num_supports = 0
+        for leaf in cut.leaves:
+            if leaf not in g.constants():
+                num_supports += 1
+        return num_supports
+
     assert isinstance(g, BLIFGraph), "g must be a BLIFGraph"
 
     # initialize the cuts
     for n in g.topological_traversal():
-        cuts[n] = [Cut(n, [n])]
+        if n in g.constants():
+            cuts[n] = [Cut(n, [])]
+        else:
+            cuts[n] = [Cut(n, [n])]
 
     total_roots = len(g.topological_traversal())
     curr_root = 0
@@ -76,7 +87,7 @@ def two_input_network_cut_enumeration_impl(
                 for cut1 in cuts[fanin1]:
                     for cut2 in cuts[fanin2]:
                         c = cut1 + cut2
-                        if c.size() <= lut_size_limit:
+                        if get_num_supports(c) <= lut_size_limit:
                             c.root = n
                             cuts[n].append(c)
 
@@ -87,6 +98,9 @@ def two_input_network_cut_enumeration_impl(
             if priority_cut_size_limit is not None:
                 random.shuffle(cuts[n])
                 cuts[n] = cuts[n][:priority_cut_size_limit]
+
+    # auto compression
+    cuts = compress_cuts(g, cuts, signal_to_channel, lut_size_limit=lut_size_limit)
     
     # remove dangling cuts
     cuts = cleanup_dangling_cuts(cuts)

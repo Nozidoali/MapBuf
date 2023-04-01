@@ -1,9 +1,0 @@
-{
-    "invertion": {
-        "execution_time": 14039.682999999999,
-        "delay": 4.669,
-        "cycles": 3007,
-        "method": "milp",
-        "speedup": 0.624414098238543
-    }
-}

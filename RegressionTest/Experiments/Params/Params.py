@@ -5,11 +5,11 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:34:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 03:54:11
+Last Modified time: 2023-04-01 23:23:44
 '''
 
 from MADBuf import *
-from RegressionTest.Experiments.Params.CutEnumeration import *
+from RegressionTest.Experiments.Params.CutEnumerationParams import *
 from RegressionTest.Experiments.Params.Server import *
 from RegressionTest.Experiments.Params.MILPSolver import *
 from RegressionTest.Experiments.Params.MILPFormulation import *
