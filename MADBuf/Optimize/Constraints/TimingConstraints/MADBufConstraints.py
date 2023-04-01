@@ -12,6 +12,7 @@ import gurobipy as gp
 from MADBuf.Network import *
 from MADBuf.Optimize.Constraints.TimingConstraints.DelayPropagationConstraints import *
 from MADBuf.Optimize.Constraints.TimingConstraints.WirePropagationConstraints import *
+from MADBuf.Synthesis import *
 
 
 class madbuf_constraints_params:
@@ -25,6 +26,10 @@ def add_madbuf_constraints(
     signal_to_cuts: dict,
     signal_to_variable: dict = None,
 ):
+    
+    if madbuf_constraints_params.skip_definite_cut_selection:
+        signal_to_feedthroughs = precompute_feedthroughs(graph)
+        # report_feedthroughs(signal_to_feedthroughs)
 
     for signal in signal_to_cuts:
 

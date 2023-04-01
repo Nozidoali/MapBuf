@@ -92,7 +92,7 @@ def cut_enumeration_impl(g, **kwargs) -> dict:
     )
 
     if is_two_input_network:
-        return two_input_network_cut_enumeration_impl(g, priority_cut_size_limit, lut_size_limit)
+        return two_input_network_cut_enumeration_impl(g, **kwargs)
 
     if isinstance(g, pgv.AGraph):
         # here we use a DAG

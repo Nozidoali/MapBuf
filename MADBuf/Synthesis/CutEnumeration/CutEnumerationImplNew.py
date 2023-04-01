@@ -5,13 +5,14 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 00:23:19
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 22:48:19
+Last Modified time: 2023-04-01 22:52:54
 '''
 
 
 from MADBuf.Network.BLIF import *
 from MADBuf.Utils import *
 from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
+from MADBuf.Synthesis.CutEnumeration.CutSummary import *
 import pygraphviz as pgv
 
 import random
@@ -89,6 +90,8 @@ def two_input_network_cut_enumeration_impl(
     
     # remove dangling cuts
     cuts = cleanup_dangling_cuts(cuts)
-    print_green("Done")
+    print_green("\nDone")
+
+    print_cut_summary(cuts)
 
     return cuts  # uniqify
