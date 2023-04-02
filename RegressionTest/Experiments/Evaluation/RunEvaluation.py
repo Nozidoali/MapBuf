@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 00:31:51
+Last Modified time: 2023-04-02 13:48:04
 '''
 
 from MADBuf import *
@@ -50,6 +50,7 @@ def run_experiments(*args, **kwargs):
                 stats.values['cycles'] = cycles
             if values != None:
                 print('delay =', text_orange(values['delay']))
+                print('LUT lev =', text_orange(values['lev']))
                 stats.add(values)
 
             stats_path = get_stats_path_from_kwargs(**kwargs)

@@ -15,7 +15,7 @@ from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
 from MADBuf.Utils import *
 
 
-def __expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
+def __expand_cut_at(g: BLIFGraph, signal_to_channel: dict, leaves: set, leaves_to_expand: str):
 
     # we can call it on multiple leaves
     new_leaves: set = set(list(leaves)[:])  # deep copy
@@ -38,6 +38,10 @@ def __expand_cut_at(g: BLIFGraph, leaves: set, leaves_to_expand: str):
         updated = False
         for h in new_leaves:
             if h not in g.node_fanins:
+                continue
+
+            # do not skip the channels
+            if h in signal_to_channel:
                 continue
 
             # here the plus 1 is because we haven't remove h from leaves yet!
@@ -124,19 +128,33 @@ def __get_timing_labels(
             if maximum_timing_label == TimingLabel(0):
                 break
 
-            if f not in g.node_fanins:
-                break
 
-            if f in signal_to_channel:
-                if curr_expansion_level == 0:
-                    cuts[signal].append(Cut(signal, leaves))
-
+            is_reaching_cis = False
+            is_on_channel = False
             leaves_to_expand = set()
             for label, f in arrival_times:
+                
+                # we need to stop if we reach the CIs
+                if f not in g.node_fanins:
+                    is_reaching_cis = True
+                    break
+
+                # we need to remember the leaves that are on the channel
+                if f in signal_to_channel:
+                    is_on_channel = True
+
+                # we only expand the leaves that have the maximum timing label
                 if label == maximum_timing_label:
                     leaves_to_expand.add(f)
 
-            leaves = __expand_cut_at(g, leaves, leaves_to_expand)
+            if is_reaching_cis:
+                break
+
+            if is_on_channel:
+                if curr_expansion_level == 0:
+                    cuts[signal].append(Cut(signal, leaves))
+
+            leaves = __expand_cut_at(g, signal_to_channel, leaves, leaves_to_expand)
 
         labels[signal] = optimal_timing_label
         cuts[signal].append(Cut(signal, best_leaves))

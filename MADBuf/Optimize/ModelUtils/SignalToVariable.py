@@ -25,21 +25,11 @@ def get_signal_to_variable(
 ) -> dict:
 
     signal_to_variable: dict = {}
-    constria_cnts_to_add: set = set()
 
     verbose = get_value_from_kwargs(
         kwargs,
         [
             "verbose",
-        ],
-        False,
-    )
-
-    add_constraints = get_value_from_kwargs(
-        kwargs,
-        [
-            "add_constraints",
-            "add_cutloopback_constraints_flag",
         ],
         False,
     )

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 18:56:37
+Last Modified time: 2023-04-02 14:02:24
 '''
 
 from MADBuf import *
@@ -15,31 +15,41 @@ from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 
 def evaluate_milp(*args, **kwargs):
 
+    print_blue("[i] Running MILP ...", flush=True)
+
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
     run_synthesis = get_value_from_kwargs(kwargs, "run_synthesis", False)
-    # we regenerate the BLIF file
-    print_blue("\n\n[i] Generating BLIF file...\n", flush=True)
 
     # we first check the presence of bbgrpah and the data flow graph
+    print(f"Loading data flow graph and basic block graph ...", end=" ", flush=True)
     graph = get_dfg_ref_from_kwargs(**kwargs)
     bbgraph = get_bbgraph_from_kwargs(**kwargs)
+    print_green("Done")
     
     # Preprocessing 1: Cut loop back
+    print(f"Cutting loop back ...", end=" ", flush=True)
     cut_loopback(graph, bbgraph, verbose=verbose)
+    print_green("Done")
 
     # Preprocessing 2: Floating point component mapping
+    print(f"Mapping floating point components ...", end=" ", flush=True)
     mapping_file = get_mapping_path_from_kwargs(**kwargs)
     mapping = mapping_to_unfloating(graph, verbose=verbose)
+    print_green("Done")
 
     # Preprocessing 2.5: ICMP component mapping
     icmp_mapping_flag = get_value_from_kwargs(kwargs, "map_icmp", False)
     if icmp_mapping_flag:
+        print(f"Mapping ICMP components ...", end=" ", flush=True)
         icmp_mapping = mapping_icmp_to_blackboxes(graph, verbose=verbose)
         mapping = mapping + icmp_mapping
+        print_green("Done")
     mapping.write(mapping_file)
 
     # Preprocessing 3: Fix the multiplier's width
+    print(f"Fixing multiplier's width ...", end=" ", flush=True)
     split_multiplier_bitwidth(graph, verbose=verbose)
+    print_green("Done")
     
     mut = get_mut_from_kwargs(**kwargs)
 
@@ -60,14 +70,11 @@ def evaluate_milp(*args, **kwargs):
         print(f"Writing BLIF file to {blif_path} ...", end=' ', flush=True)
         write_blif(g, blif_path)
         print_green("Done", flush=True)
-
-    # if run_synthesis:
-    #     read_blif(g, f"{mut}/reports/{mut}.strash.optimize.blif")
-    # else:
-    #     read_blif(g, f"{mut}/reports/{mut}.strash.blif")
     
+    print(f"Removing anchors ...", end=' ', flush=True)
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
+    print_green("Done", flush=True)
 
     subjectgraph_path: str = get_subject_graph_path_from_kwargs(**kwargs)
     print(f"Writing subject graph to {subjectgraph_path} ...", end=' ', flush=True)
@@ -87,9 +94,7 @@ def evaluate_milp(*args, **kwargs):
     signal_to_cuts = cut_enumeration_from_kwargs(network=network, signal_to_channel=signal_to_channel, **kwargs)
 
     # before formulating the MILP problem, we need to check if the signal_to_cuts is valid
-    evaluate_signal_to_cuts(network, signal_to_cuts, signal_to_channel)
+    # evaluate_signal_to_cuts(network, signal_to_cuts, signal_to_channel)
 
     throughput_optimization_from_kwargs(network=g, signal_to_cuts=signal_to_cuts, **kwargs)
-
-    print_green("Done")
 

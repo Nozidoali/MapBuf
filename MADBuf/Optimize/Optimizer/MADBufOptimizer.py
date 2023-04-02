@@ -57,16 +57,11 @@ class MADBufOptimizer(DFGOptimizer):
 
     def parse_signal_to_variable(self, *args, **kwargs):
 
-        keep_cut_loopback_buffers_flag = get_value_from_kwargs(
-            kwargs, ["cut_loopback", "add_cutloopback_constraints_flag"], False
-        )
-
         self.signal_to_variable = get_signal_to_variable(
             self.model,
             signal_to_channel=self.signal_to_channel,
             dfg_mapped=self.dfg_mapped,
             mapping=self.mapping,
-            add_constraints=keep_cut_loopback_buffers_flag,
             verbose=False
         )
 

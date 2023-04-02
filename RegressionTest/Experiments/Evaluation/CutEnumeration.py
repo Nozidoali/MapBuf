@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:03:15
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 22:34:01
+Last Modified time: 2023-04-02 14:03:38
 '''
 
 from RegressionTest.Experiments.Path import *
@@ -33,7 +33,6 @@ def cut_enumeration_from_kwargs(network: BLIFGraph, signal_to_channel: dict, **k
             signal_to_channel=signal_to_channel,
             **kwargs
         )
-        print_green("Done", flush=True)
 
         cut_path = get_cuts_path_from_kwargs(**kwargs)
         print(f"Writing cuts to {cut_path} ...", end='', flush=True)

@@ -26,26 +26,6 @@ def add_timing_constraints(
     
     verbose = get_value_from_kwargs(kwargs, ["verbose"], False)
 
-    clock_period = get_value_from_kwargs(kwargs, ["clock_period"], 1.0)
-
-    insert_blackbox_buffers_flag = get_value_from_kwargs(
-        kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
-    )
-
-    add_cut_buffer_interaction_constraints_flag = get_value_from_kwargs(
-        kwargs,
-        ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"],
-        False,
-    )
-
-    add_blackbox_delay_propagation_flag = get_value_from_kwargs(
-        kwargs,
-        [
-            "add_blackbox_delay_propagation_constraints_flag",
-            "add_blackbox_delay_propagation_flag",
-        ],
-        False,
-    )
 
     # if verbose:
     print_blue(f"Adding timing constraints")
@@ -56,6 +36,9 @@ def add_timing_constraints(
     print_green("Done", flush=True)
 
     # add blackbox constraints
+    insert_blackbox_buffers_flag = get_value_from_kwargs(
+        kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
+    )
     if insert_blackbox_buffers_flag:
         print("[i] Adding blackbox constraints...", end=" ", flush=True)
         add_blackbox_constraints(model, verbose=verbose)
@@ -63,6 +46,7 @@ def add_timing_constraints(
 
     # add the clock period constraints
     print("[i] Adding clock period constraints...", end=" ", flush=True)
+    clock_period = get_value_from_kwargs(kwargs, ["clock_period"], 1.0)
     add_clock_period_constraints(model, network, clock_period=clock_period)
     print_green("Done", flush=True)
 
@@ -81,6 +65,11 @@ def add_timing_constraints(
     )
     print_green("Done", flush=True)
 
+    add_cut_buffer_interaction_constraints_flag = get_value_from_kwargs(
+        kwargs,
+        ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"],
+        False,
+    )
     if add_cut_buffer_interaction_constraints_flag:
         print("[i] Adding cut-buffer interaction constraints...", end=" ", flush=True)
         add_cut_buffer_interaction_constraints(
@@ -92,6 +81,14 @@ def add_timing_constraints(
         )
         print_green("Done", flush=True)
 
+    add_blackbox_delay_propagation_flag = get_value_from_kwargs(
+        kwargs,
+        [
+            "add_blackbox_delay_propagation_constraints_flag",
+            "add_blackbox_delay_propagation_flag",
+        ],
+        False,
+    )
     if add_blackbox_delay_propagation_flag:
         print("[i] Adding blackbox delay propagation constraints...", end=" ", flush=True)
         add_blackbox_delay_propapation_constraints(model, graph=network)

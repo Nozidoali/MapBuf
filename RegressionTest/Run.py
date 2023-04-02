@@ -24,8 +24,8 @@ if __name__ == "__main__":
     param.method = 'milp'
     # param.benchmarks = ["gemver", "gsum", "gsumif"]
     # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
-    # param.benchmarks = ["insertion_sort"]
-    param.benchmarks = ["invertion"]
+    param.benchmarks = ["insertion_sort"]
+    # param.benchmarks = ["invertion"]
     param.add_cutloopback_constraints_flag = False
     # param.add_blockbox_constraints_flag = True
     param.add_blackbox_delay_propagation_flag = True
@@ -41,10 +41,10 @@ if __name__ == "__main__":
     # param.max_expansion_level = 4
     # param.cutless_hueristic = 0
 
-    param.use_cut = True
+    param.use_cut = False
     param.priority_cut_size_limit = None
 
-    param.ext_cut_files = True
+    # param.ext_cut_files = True
     # param.ext_lp_files = True
 
     param.save_report = False

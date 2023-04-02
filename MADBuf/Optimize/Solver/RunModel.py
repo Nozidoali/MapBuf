@@ -29,8 +29,7 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
     #
     model.Params.timeLimit = time_limit
 
-    if verbose:
-        print_orange("Solving the model...")
+    print_blue(f"\n[i] Running MILP solver, time limit: {time_limit} seconds ...", flush=True)
     model.optimize()
 
     if verbose:
