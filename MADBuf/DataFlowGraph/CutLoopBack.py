@@ -60,3 +60,6 @@ def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph, verbose: bool = False):
     for buffer_name in to_insert:
         edge_to_buffer = to_insert[buffer_name]
         insert_buffer_at(graph, edge_to_buffer, buffer_name, transparent=False)
+
+    cut_loopback_buffers = list(to_insert.keys())
+    return cut_loopback_buffers

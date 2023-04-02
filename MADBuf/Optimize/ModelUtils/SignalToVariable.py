@@ -70,6 +70,18 @@ def get_signal_to_variable(
                 # print_green(f"{signal} is found in the dynamatic model")
                 pass
         else:
+
+            # filter out the special components
+            is_special_component = False
+            for component_name in [equivalent_channel.u, equivalent_channel.v]:
+                component = Component(component_name)
+                if component.type == None:
+                    is_special_component = True
+                    break
+            
+            if is_special_component:
+                continue
+
             print_red(f"Warning: {signal} is not found in the dynamatic model")
             pass
 

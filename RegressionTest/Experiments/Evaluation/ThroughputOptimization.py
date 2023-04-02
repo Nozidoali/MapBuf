@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 14:20:40
+Last Modified time: 2023-04-02 15:32:38
 '''
 
 
@@ -34,7 +34,12 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         
         print(f"Loading external lp files {ext_lp_files}...", end=' ', flush=True)
         model: gp.Model = gp.read(ext_lp_files)
-        run_gurobi_optimization(model, **kwargs)
+        run_gurobi_optimization(
+            model,
+            ilp_filename = get_ilp_path_from_kwargs(**kwargs),
+            sol_filename = get_sol_path_from_kwargs(**kwargs), 
+            **kwargs
+        )
         buffers = retrieve_buffers_from_dynamatic_variables(model)
         buffer_slots = retrieve_buffers_to_n_slots(model)
         print_green("Done", flush=True)
@@ -61,6 +66,7 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
             lp_filename = get_lp_path_from_kwargs(**kwargs),
             ilp_filename = get_ilp_path_from_kwargs(**kwargs),
             solution_filename = get_sol_path_from_kwargs(**kwargs),
+            cut_loopback_registers_path = get_cut_loopback_register_output_path_from_kwargs(**kwargs),
             **kwargs
         )
 

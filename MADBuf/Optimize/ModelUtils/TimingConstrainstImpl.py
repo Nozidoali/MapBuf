@@ -94,4 +94,21 @@ def add_timing_constraints(
         add_blackbox_delay_propapation_constraints(model, graph=network)
         print_green("Done", flush=True)
 
+    cut_loopback_delay_propagation_flag = get_value_from_kwargs(
+        kwargs,
+        [
+            "cut_loopback_delay_propagation",
+        ],
+        False,
+    )
+    if cut_loopback_delay_propagation_flag:
+
+        cut_loopback_registers_path = get_value_from_kwargs(
+            kwargs, ["cut_loopback_registers_path"], None
+        )
+        assert cut_loopback_registers_path is not None, "cut_loopback_registers_path is not specified"
+        print("[i] Adding cut loopback delay propagation constraints...", end=" ", flush=True)
+        add_cut_loopback_delay_propagation_constraints(model, graph=network, cut_loopback_registers_path=cut_loopback_registers_path)
+        print_green("Done", flush=True)
+
     model.update()

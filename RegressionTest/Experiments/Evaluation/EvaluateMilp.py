@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 14:02:24
+Last Modified time: 2023-04-02 16:16:04
 '''
 
 from MADBuf import *
@@ -28,7 +28,12 @@ def evaluate_milp(*args, **kwargs):
     
     # Preprocessing 1: Cut loop back
     print(f"Cutting loop back ...", end=" ", flush=True)
-    cut_loopback(graph, bbgraph, verbose=verbose)
+    cut_loopback_buffers = cut_loopback(graph, bbgraph, verbose=verbose)
+    print_green("Done")
+    cut_loopback_path: list = get_cut_loopback_path_from_kwargs(**kwargs)
+    print(f"Writing cut loop back buffers to {cut_loopback_path} ...", end=" ", flush=True)
+    with open(cut_loopback_path, "w") as f:
+        f.write("\n".join(cut_loopback_buffers))
     print_green("Done")
 
     # Preprocessing 2: Floating point component mapping
@@ -74,6 +79,18 @@ def evaluate_milp(*args, **kwargs):
     print(f"Removing anchors ...", end=' ', flush=True)
     network: BLIFGraph
     network, signal_to_channel, signals_in_component = retrieve_information_from_subject_graph_with_anchors(g)
+    print_green("Done", flush=True)
+
+    cut_loopback_registers: list = []
+    for buffer in cut_loopback_buffers:
+        signals_in_buffer = signals_in_component[buffer]
+        for signal in signals_in_buffer:
+            if signal in network.ros():
+                cut_loopback_registers.append(signal)
+    cut_loopback_registers_path: str = get_cut_loopback_register_output_path_from_kwargs(**kwargs)
+    print(f"Writing cut loopback registers to {cut_loopback_registers_path} ...", end=' ', flush=True)
+    with open(cut_loopback_registers_path, "w") as f:
+        f.write("\n".join(cut_loopback_registers))
     print_green("Done", flush=True)
 
     subjectgraph_path: str = get_subject_graph_path_from_kwargs(**kwargs)

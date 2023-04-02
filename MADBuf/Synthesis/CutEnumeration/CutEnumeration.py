@@ -12,7 +12,7 @@ Last Modified time: 2023-03-19 01:25:28
 from MADBuf.Synthesis.CutEnumeration.CutEnumerationImpl import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImpl import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImplOld import *
-from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
+from MADBuf.Synthesis.CutEnumeration.CleanupDanglingCuts import *
 
 
 def cut_enumeration(network, *args, **kwargs) -> dict:
@@ -61,5 +61,6 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
             signal_to_cuts[n].extend(cuts[n])
 
     signal_to_cuts = cleanup_dangling_cuts(signal_to_cuts)
+    print_cut_summary(signal_to_cuts)
 
     return signal_to_cuts

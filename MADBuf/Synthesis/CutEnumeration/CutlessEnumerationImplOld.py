@@ -11,8 +11,11 @@ Last Modified time: 2023-03-19 13:13:15
 
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
-from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
+from MADBuf.Synthesis.CutEnumeration.CleanupDanglingCuts import *
 from MADBuf.Utils import *
+
+class CutlessEnumerationImplOld_params:
+    skip_feedthrough = True
 
 
 def __expand_cut_at(g: BLIFGraph, signal_to_channel: dict, leaves: set, leaves_to_expand: str):
@@ -84,6 +87,18 @@ def __get_timing_labels(
             labels[signal] = TimingLabel(0)
             cuts[signal] = [Cut(signal, [signal])]
             continue
+
+        assert signal in g.node_fanins
+
+        # 
+        if CutlessEnumerationImplOld_params.skip_feedthrough:
+            if len(g.node_fanins[signal]) == 1:
+                fanin = g.fanins(signal)[0]
+                
+                assert fanin in labels
+                labels[signal] = labels[fanin]
+                cuts[signal] = [Cut(signal, [fanin])]
+                continue
 
         optimal_timing_label = TimingLabel()
 

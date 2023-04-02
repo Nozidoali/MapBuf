@@ -12,7 +12,7 @@ Last Modified time: 2023-03-19 13:13:15
 from MADBuf.Network import *
 from MADBuf.Synthesis.TimingLabel import TimingLabel
 from MADBuf.Utils import *
-from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
+from MADBuf.Synthesis.CutEnumeration.CleanupDanglingCuts import *
 from MADBuf.Synthesis.CutEnumeration.Precompute import *
 from MADBuf.Synthesis.CutEnumeration.CutlessEnumerationImpl import *
 

@@ -9,7 +9,7 @@ Last Modified time: 2023-03-19 12:29:09
 """
 
 from MADBuf.Synthesis.CutEnumeration.CutEnumeration import *
-from MADBuf.Synthesis.CutEnumeration.RemoveDanglingCuts import *
+from MADBuf.Synthesis.CutEnumeration.CleanupDanglingCuts import *
 from MADBuf.Synthesis.CutEnumeration.SanityCheck import *
 from MADBuf.Synthesis.CutEnumeration.ExpandCutBase import *
 from MADBuf.Synthesis.CutEnumeration.IO import *
