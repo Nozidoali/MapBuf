@@ -21,7 +21,7 @@ def add_blackbox_constraints(
         var_name = var.getAttr("VarName")
 
         if var_name.endswith("_flop"):
-            component_from, component_to = variable_name_to_components(var_name)
+            component_from, component_to = variable_name_to_equivalent_components(var_name)
 
             for component in [component_from, component_to]:
 

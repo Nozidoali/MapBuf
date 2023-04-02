@@ -13,7 +13,7 @@ from MADBuf.DataFlowGraph import *
 from MADBuf.Optimize.Variables import *
 
 
-def get_channel_to_variable(
+def get_equivalent_channel_to_variable(
     model: gp.Model, mappings: ComponentMapping = None
 ) -> dict:
     """(Channel Mapped) to the variable in the model
@@ -37,7 +37,7 @@ def get_channel_to_variable(
         var_name = var.getAttr("VarName")
 
         if "_flop_ready" in var_name or "_flop_valid" in var_name:
-            component_from, component_to = variable_name_to_components(
+            component_from, component_to = variable_name_to_equivalent_components(
                 var_name, mappings
             )
 
@@ -59,3 +59,43 @@ def get_channel_to_variable(
             channel_to_var[c] = var
 
     return channel_to_var
+
+def get_equivalent_channel(
+    dfg_mapped: pgv.AGraph,
+    equivalent_to_functioning_mapping: ComponentMapping,
+    prev_channel: Channel,
+) -> Channel:
+    
+    new_channel = Channel(prev_channel.u, prev_channel.v, prev_channel.t, 0)
+
+    # we don't have a seperate variable for the data channel and the valid channel
+    if new_channel.t == Constants._channel_data_:
+        new_channel.t = Constants._channel_valid_
+
+    # we skip all the channels inside floating point components
+    if new_channel.u in equivalent_to_functioning_mapping:
+        functioning_component, buffer_inserted = equivalent_to_functioning_mapping[new_channel.u]
+        if buffer_inserted:
+            return None
+
+    # we skip all the channels that are connected already to the buffers
+    #
+    #                    Component A
+    #                      |   |    <--- this channel is skipped
+    #                     V|   |R
+    #                      |   |
+    #                      Buffer
+    #                      |   |
+    #                     V|   |R
+    #                      |   |
+    #                    Component B
+    if "Buffer" in new_channel.u:
+        return None
+
+    # bypass the buffer
+    if "Buffer" in new_channel.v:
+        assert new_channel.v in dfg_mapped.nodes()
+        assert dfg_mapped.out_degree(new_channel.v) == 1
+        new_channel.v = dfg_mapped.successors(new_channel.v)[0]
+
+    return new_channel

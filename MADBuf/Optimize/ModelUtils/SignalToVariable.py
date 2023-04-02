@@ -25,8 +25,7 @@ def get_signal_to_variable(
 ) -> dict:
 
     signal_to_variable: dict = {}
-
-    constriants_to_add: set = set()
+    constria_cnts_to_add: set = set()
 
     verbose = get_value_from_kwargs(
         kwargs,
@@ -44,10 +43,9 @@ def get_signal_to_variable(
         ],
         False,
     )
-    print_green(f"Add Constraints for Cut Loopback Buffers: {add_constraints}")
 
     # we first get the channel to variable mapping
-    channel_to_var = get_channel_to_variable(model, mapping)
+    channel_to_var = get_equivalent_channel_to_variable(model, mapping)
 
     if mapping is not None:
         equivalent_to_functioning_mapping = (
@@ -62,69 +60,16 @@ def get_signal_to_variable(
         raise TypeError("signal_to_channel is not a dict")
 
     for signal in signal_to_channel:
-        c: Channel = signal_to_channel[signal]
+        prev_channel: Channel = signal_to_channel[signal]
 
-        # a buffer need to be inserted no matter what
-        has_buffer: bool = False
+        equivalent_channel: Channel = get_equivalent_channel(dfg_mapped, equivalent_to_functioning_mapping, prev_channel)
 
-        # we don't have a seperate variable for the data channel
-        if c.t == Constants._channel_data_:
-            c.t = Constants._channel_valid_
 
-        if c.u in equivalent_to_functioning_mapping:
-            functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.u]
-
-            # we skip all the channels inside floating point components
-            if buffer_inserted:
-                continue
-
-        if c.v in equivalent_to_functioning_mapping:
-            functioning_component, buffer_inserted = equivalent_to_functioning_mapping[c.v]
-
-            # we do not skip all the channels inside floating point components
-            if buffer_inserted:
-                pass
-
-        # we skip all the channels that are connected already to the buffers
-        #
-        #                    Component A
-        #                      |   |    <--- this channel is skipped
-        #                     V|   |R
-        #                ->    |   |
-        #                      Buffer
-        #                      |   |
-        #                     V|   |R
-        #                      |   |
-        #                    Component B
-        if "Buffer" in c.v:
-
-            assert c.v in dfg_mapped.nodes()
-            assert dfg_mapped.out_degree(c.v) == 1
-
-            # bypass the buffer
-            c.v = dfg_mapped.successors(c.v)[0]
-
-            # TODO: now we assume that the channel is always a valid signal
-            # and we don't consider the case where more than one buffer is on the channel
-            if c.t == Constants._channel_valid_:
-
-                if c not in channel_to_var:
-                    print_red(f"Channel {c} is not found in the dynamatic model")
-                    raise Exception("Channel not found in the dynamatic model")
-
-                assert c in channel_to_var
-                matched_var = channel_to_var[c]
-                has_buffer = True
-
-                # we need to add a constraint to make sure the buffer is used
-                if add_constraints:
-                    constriants_to_add.add(matched_var)
-
-            # we don't need to consider the buffer channel
+        if equivalent_channel is None:
             continue
 
-        if c in channel_to_var:
-            matched_var = channel_to_var[c]
+        if equivalent_channel in channel_to_var:
+            matched_var = channel_to_var[equivalent_channel]
 
             if verbose:
                 var_name = matched_var.getAttr("VarName")
@@ -135,28 +80,7 @@ def get_signal_to_variable(
                 # print_green(f"{signal} is found in the dynamatic model")
                 pass
         else:
-
-            # we don't need to consider the buffer channel
-            if "Buffer" in c.u:
-                continue
-
-            # TODO: we should not add this variable
-            # new_var = model.addVar(vtype=GRB.BINARY, name=f"new_{c.u}_{c.v}_{c.t}")
-            # signal_to_variable[signal] = new_var
-
-            if verbose:
-                print_red(f"Warning: {signal} is not found in the dynamatic model")
-                pass
-
-    if add_constraints:
-        # we add the constraints
-        for var in constriants_to_add:
-            var_name = var.getAttr("VarName")
-
-            if verbose:
-                print_orange(f"Adding Cut Loopback Buffer Constraints: {var_name} >= 1")
-            component_from, component_to = variable_name_to_components(var_name)
-            assert "branch" in component_from and "phi" in component_to
-            model.addConstr(var >= 1)
+            print_red(f"Warning: {signal} is not found in the dynamatic model")
+            pass
 
     return signal_to_variable

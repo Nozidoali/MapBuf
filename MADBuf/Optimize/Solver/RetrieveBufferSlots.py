@@ -29,7 +29,7 @@ def retrieve_buffers_to_n_slots(model: gp.Model):
 
             num_buffers += variable.x
 
-            component_from, component_to = variable_name_to_components(var_name)
+            component_from, component_to = variable_name_to_equivalent_components(var_name)
             channel_type = Constants._channel_valid_
             channel = Channel(component_from, component_to, channel_type)
 

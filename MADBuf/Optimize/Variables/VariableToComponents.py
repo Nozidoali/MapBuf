@@ -15,7 +15,7 @@ from gurobipy import GRB
 from MADBuf.DataFlowGraph import *
 
 
-def variable_name_to_components(
+def variable_name_to_equivalent_components(
     var_name: str, mappings: ComponentMapping = None
 ) -> tuple:
     """Variable name to components Mapping

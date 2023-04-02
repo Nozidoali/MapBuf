@@ -58,7 +58,14 @@ def add_cut_buffer_interaction_constraints(
                 model.addConstr(conflict_var + var_cut_selection <= 1)
 
         if not has_free_cut:
-            print_red(f"Warning: Signal {signal} has no free cut")
-            # raise Exception("No free cut")
+            if signal not in graph.node_fanins:
+                pass
+
+            elif len(graph.fanins(signal)) == 1:
+                pass
+
+            else:
+                print_red(f"Warning: Signal {signal} has no free cut")
+                # raise Exception("No free cut")
 
     model.update()

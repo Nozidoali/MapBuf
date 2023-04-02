@@ -25,7 +25,7 @@ def add_memory_constraints(model: gp.Model, *args, **kwargs):
 
         if "_flop_valid" in varname or "_flop_ready" in varname:
 
-            component_from, component_to = variable_name_to_components(varname)
+            component_from, component_to = variable_name_to_equivalent_components(varname)
 
             # if "MC" in component_to and "store" in component_from:
             #     always_zero_vars.add(var)

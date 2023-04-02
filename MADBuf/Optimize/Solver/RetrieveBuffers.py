@@ -67,7 +67,7 @@ def retrieve_buffers_from_dynamatic_variables(model: gp.Model, verbose: bool = F
                 else Constants._channel_valid_
             )
 
-            component_from, component_to = variable_name_to_components(var_name)
+            component_from, component_to = variable_name_to_equivalent_components(var_name)
             channel = Channel(component_from, component_to, channel_type)
 
             buffers.add(channel)
