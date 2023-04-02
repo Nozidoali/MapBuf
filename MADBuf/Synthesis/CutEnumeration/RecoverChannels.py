@@ -80,7 +80,7 @@ def find_channels_in_cut(
             if curr != root and curr:
                 visited_channels.add(curr)
 
-        for f in g.node_fanins[curr]:
+        for f in g.fanins(curr):
             if f not in visited:
                 q.put(f)
 

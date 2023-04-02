@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-04-02 19:18:09
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 19:23:28
+Last Modified time: 2023-04-02 22:47:50
 '''
 
 from MADBuf.Utils import *
@@ -28,6 +28,19 @@ def remove_cut_loopback_cuts(graph: BLIFGraph, cuts: dict, signal_to_variable: d
 
 
     for signal in cuts:
+
+        # skip trivial cuts
+        if signal in graph.cis():
+            continue
+
+        # skip node that are not fanins
+        if len(cuts[signal]) == 0:
+            continue
+
+        # skip node that are not fanins
+        if signal not in graph.node_fanins:
+            continue
+
         signal_to_cuts[signal] = []
 
         cut_set = cuts[signal]
