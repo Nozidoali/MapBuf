@@ -65,7 +65,7 @@ def add_cut_buffer_interaction_constraints(
                 pass
 
             else:
-                print_red(f"Warning: Signal {signal} has no free cut")
+                print_red(f"Warning: Signal {signal} (#cuts = {len(cuts)}) has no free cut")
                 # raise Exception("No free cut")
 
     model.update()

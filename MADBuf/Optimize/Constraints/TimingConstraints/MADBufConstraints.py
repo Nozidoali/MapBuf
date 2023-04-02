@@ -25,13 +25,23 @@ def add_madbuf_constraints(
     graph: BLIFGraph,
     signal_to_cuts: dict,
     signal_to_variable: dict = None,
+    special_links: set = set(),
 ):
     
     if madbuf_constraints_params.skip_definite_cut_selection:
-        signal_to_feedthroughs = precompute_feedthroughs(graph)
+        # signal_to_feedthroughs = precompute_feedthroughs(graph)
         # report_feedthroughs(signal_to_feedthroughs)
+        pass
 
-    for signal in signal_to_cuts:
+    total_signals = len(graph.topological_traversal())
+    curr_signals: int = 0
+
+    for signal in graph.topological_traversal():
+        print(f"\r[i] Adding cut selection constraints... {curr_signals:5d}/{total_signals:5d}", end="\r", flush=True)
+        curr_signals += 1
+
+        if signal in special_links:
+            continue
 
         # find the buffer variable
         # buffer_var is None, when:
@@ -62,6 +72,9 @@ def add_madbuf_constraints(
                     model, signal, fanin, buffer_var
                 )
                 continue
+        
+        if signal not in signal_to_cuts:
+            raise Exception(f"Signal {signal} is not in signal_to_cuts")
 
         # get the set of cuts that are precomputed for this signal
         cut_set: list = signal_to_cuts[signal]
@@ -99,4 +112,5 @@ def add_madbuf_constraints(
             # reference: https://www.gurobi.com/documentation/10.0/refman/py_model_addconstrs.html
             model.addConstr(sum(cut_selection_vars) == 1, f"cut_selection_at_{signal}")
 
+    print_green(f"\nDone", end="\n", flush=True)
     model.update()

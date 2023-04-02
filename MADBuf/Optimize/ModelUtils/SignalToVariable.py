@@ -81,8 +81,9 @@ def get_signal_to_variable(
             
             if is_special_component:
                 continue
-
-            print_red(f"Warning: {signal} is not found in the dynamatic model")
+            
+            if verbose:
+                print_red(f"Warning: {signal} is not found in the dynamatic model")
             pass
 
     return signal_to_variable

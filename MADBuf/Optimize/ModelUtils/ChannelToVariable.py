@@ -90,7 +90,9 @@ def get_equivalent_channel(
     #                      |   |
     #                    Component B
     if "Buffer" in new_channel.u:
-        return None
+        assert new_channel.u in dfg_mapped.nodes()
+        assert dfg_mapped.in_degree(new_channel.u) == 1
+        new_channel.u = dfg_mapped.predecessors(new_channel.u)[0]
 
     # bypass the buffer
     if "Buffer" in new_channel.v:

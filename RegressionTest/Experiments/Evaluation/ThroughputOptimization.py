@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 15:32:38
+Last Modified time: 2023-04-02 17:12:27
 '''
 
 
@@ -48,7 +48,6 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         mut = get_value_from_kwargs(kwargs, "mut", None)
         mappings = get_mapping_path_from_kwargs(**kwargs)
         dfg= get_dfg_ref_from_kwargs(**kwargs)
-        clock_period = get_value_from_kwargs(kwargs, "clock_period", 7)
         print(f"Initializing optimizer for {mut}...", end=' ', flush=True)
         optimizer = Optimizer(
             top=mut,
@@ -66,6 +65,7 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
             lp_filename = get_lp_path_from_kwargs(**kwargs),
             ilp_filename = get_ilp_path_from_kwargs(**kwargs),
             solution_filename = get_sol_path_from_kwargs(**kwargs),
+            cut_loopback_buffers_path = get_cut_loopback_buffers_path_from_kwargs(**kwargs),
             cut_loopback_registers_path = get_cut_loopback_register_output_path_from_kwargs(**kwargs),
             **kwargs
         )

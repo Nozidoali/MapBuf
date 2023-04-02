@@ -11,7 +11,7 @@ Last Modified time: 2023-03-12 01:00:43
 import pygraphviz as pgv
 from MADBuf.Utils import *
 from MADBuf.DataFlowGraph.BufferInsertion import *
-
+from MADBuf.DataFlowGraph.CutLoopback.CutLoopBackBuffers import *
 
 class cut_loopback_params:
     reserved_index: int = 100
@@ -61,5 +61,12 @@ def cut_loopback(graph: pgv.AGraph, bbgraph: pgv.AGraph, verbose: bool = False):
         edge_to_buffer = to_insert[buffer_name]
         insert_buffer_at(graph, edge_to_buffer, buffer_name, transparent=False)
 
-    cut_loopback_buffers = list(to_insert.keys())
+    cut_loopback_buffers: list = []
+
+    for buffer_name in to_insert:
+        edge_to_buffer = to_insert[buffer_name]
+        u, v = edge_to_buffer
+        clb = CutLoopBackBuffer(u, v, buffer_name)
+        cut_loopback_buffers.append(clb)
+        
     return cut_loopback_buffers

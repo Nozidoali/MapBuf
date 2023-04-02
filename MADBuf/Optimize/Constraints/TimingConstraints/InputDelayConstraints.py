@@ -18,6 +18,8 @@ def add_input_delay_constraints(
     model: gp.Model, g: BLIFGraph, input_delays: dict = None
 ):
 
+    input_signals: set = set()
+
     if input_delays != None:
         """
         we will allow users to specify the input delays (arrival times at the module inputs)
@@ -30,9 +32,12 @@ def add_input_delay_constraints(
         """
         # CIs = PIs + Registers Outputs
         for input_signal in g.cis():
+            input_signals.add(input_signal)
 
             input_var = model.getVarByName(f"TimingLabel_{input_signal}")
 
             model.addConstr(input_var == 0, f"InputDelay_{input_signal}")
 
     model.update()
+
+    return input_signals
