@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-04-02 14:33:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 18:51:32
+Last Modified time: 2023-04-02 19:41:24
 '''
 
 import gurobipy as gp
@@ -99,3 +99,10 @@ def add_cut_loopback_delay_propagation_constraints(
             
         remove_register_output_constraints(model, register_outputs_to_remove, verbose=True)
         model.update()
+
+def add_cut_loopback_buffers_naive(model: gp.Model, clb_variables: set):
+
+    for var_signal in clb_variables:
+        model.addConstr(var_signal >= 1, f"CutLoopbackBuffers_{var_signal.VarName}")
+
+    model.update()

@@ -58,14 +58,24 @@ def add_timing_constraints(
 
 
     cut_loopback_signals: set = set()
+    clb_variables: set = set()
     cut_loopback_delay_propagation_flag = get_value_from_kwargs(
         kwargs, "cut_loopback_delay_propagation", False,
     )
+    cut_loopback_buffer_insertion_flag = get_value_from_kwargs(
+        kwargs, "cut_loopback_buffer_insertion", False,
+    )
+    cut_loopback_buffers_path = get_value_from_kwargs(
+        kwargs, ["cut_loopback_buffers_path"], None
+    )
+    clb_variables = get_clb_variables(
+        model, 
+        graph=network, 
+        clb_path=cut_loopback_buffers_path, 
+        signal_to_variable=signal_to_variable,
+    )
+    assert cut_loopback_buffers_path is not None, "cut_loopback_registers_path is not specified"
     if cut_loopback_delay_propagation_flag:
-        cut_loopback_buffers_path = get_value_from_kwargs(
-            kwargs, ["cut_loopback_buffers_path"], None
-        )
-        assert cut_loopback_buffers_path is not None, "cut_loopback_registers_path is not specified"
         print("[i] Adding cut loopback delay propagation constraints...", end=" ", flush=True)
         cut_loopback_signals = add_cut_loopback_delay_propagation_constraints(
             model, 
@@ -75,22 +85,20 @@ def add_timing_constraints(
         )
         print_green("Done", flush=True)
 
-    print("[i] Removing cut loopback cuts...", end=" ", flush=True)
-    clb_variables = get_clb_variables(
-        model, 
-        graph=network, 
-        clb_path=cut_loopback_buffers_path, 
-        signal_to_variable=signal_to_variable,
-    )
-    print(f"clb_variables: {clb_variables}")
-    signal_to_cuts = remove_cut_loopback_cuts(
-        graph=network, 
-        cuts=signal_to_cuts, 
-        signal_to_variable=signal_to_variable, 
-        blacklist_variables=clb_variables
-    )
-    print_green("Done", flush=True)
-    print_cut_summary(signal_to_cuts)
+        print("[i] Removing cut loopback cuts...", end=" ", flush=True)
+        signal_to_cuts = remove_cut_loopback_cuts(
+            graph=network, 
+            cuts=signal_to_cuts, 
+            signal_to_variable=signal_to_variable, 
+            blacklist_variables=clb_variables
+        )
+        print_green("Done", flush=True)
+        print_cut_summary(signal_to_cuts)
+        
+    if cut_loopback_buffer_insertion_flag:
+        print("[i] Adding cut loopback buffers naive...", end=" ", flush=True)
+        add_cut_loopback_buffers_naive(model, clb_variables=clb_variables)
+        print_green("Done", flush=True)
 
     # add the cut selection constraints
     add_madbuf_constraints(

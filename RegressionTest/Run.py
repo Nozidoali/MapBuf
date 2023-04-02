@@ -26,12 +26,13 @@ if __name__ == "__main__":
     # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
     # param.benchmarks = ["matrix"]
     param.benchmarks = ["insertion_sort"]
-    param.cut_loopback_delay_propagation = True
+    param.cut_loopback_delay_propagation = False
+    param.cut_loopback_buffer_insertion = True
     # param.add_blockbox_constraints_flag = True
     param.add_blackbox_delay_propagation_flag = True
     param.add_cut_buffer_interaction_constraints_flag = True
 
-    param.map_icmp = True
+    param.map_icmp = False
 
     param.run_synthesis = False
 
