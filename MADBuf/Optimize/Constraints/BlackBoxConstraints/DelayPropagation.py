@@ -29,8 +29,6 @@ def add_blackbox_delay_propapation_constraints(
     blackbox_outputs = collect_blackbox_primary_inputs(model, graph, *args, **kwargs)
     blackbox_inputs = collect_blackbox_primary_outputs(model, graph, *args, **kwargs)
 
-    print_green(f"Adding blackbox delay propagation constraints")
-
     for blackbox in blackbox_inputs:
         if len(blackbox_inputs[blackbox]) == 0:
             continue

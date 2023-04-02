@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 01:54:47
+Last Modified time: 2023-04-02 14:20:40
 '''
 
 
@@ -57,12 +57,6 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         )
         print_green("Done", flush=True)
 
-        timeout = get_value_from_kwargs(kwargs, [
-            "timeout",
-            "time_limit",
-        ], 60)
-
-        print_blue(f"\n\nRunning optimization with timeout {timeout} seconds\n", flush=True)
         optimizer.run_optimization(
             lp_filename = get_lp_path_from_kwargs(**kwargs),
             ilp_filename = get_ilp_path_from_kwargs(**kwargs),
