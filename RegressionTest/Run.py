@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # param.benchmarks = ["gemver", "gsum", "gsumif"]
     # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
     # param.benchmarks = ["insertion_sort"]
-    param.benchmarks = ["matrix"]
+    # param.benchmarks = ["matrix"]
     param.add_cutloopback_constraints_flag = False
     # param.add_blockbox_constraints_flag = True
     param.add_blackbox_delay_propagation_flag = True
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     param.run_synthesis = False
 
     param.repeat = 1
-    param.timeout = 3600
+    param.timeout = 1200
 
     param.use_cutless = True
     # param.max_expansion_level = 4

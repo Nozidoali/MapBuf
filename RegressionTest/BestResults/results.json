@@ -28,18 +28,18 @@
         "speedup": 1.3211072020100822
     },
     "gsumif": {
-        "execution_time": 22805.456000000002,
-        "delay": 5.176,
-        "cycles": 4406,
+        "execution_time": 18995.262,
+        "delay": 5.577,
+        "cycles": 3406,
         "method": "milp",
-        "speedup": 1.160267086963751
+        "speedup": 1.3930010546840574
     },
     "gsum": {
-        "execution_time": 21315.756,
-        "delay": 8.211,
-        "cycles": 2596,
+        "execution_time": 20932.604,
+        "delay": 5.852,
+        "cycles": 3577,
         "method": "milp",
-        "speedup": 1.1810943979655237
+        "speedup": 1.2027132410282066
     },
     "matrix": {
         "execution_time": 208474.76,
