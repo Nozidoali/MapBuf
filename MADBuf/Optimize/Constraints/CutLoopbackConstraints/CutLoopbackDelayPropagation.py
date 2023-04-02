@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-04-02 14:33:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 18:31:30
+Last Modified time: 2023-04-02 18:51:32
 '''
 
 import gurobipy as gp
@@ -74,7 +74,7 @@ def add_cut_loopback_delay_propagation_constraints(
         )
 
         # these signals will be ignored in MADBuf
-        clb_signals.add(signal_in)
+        clb_signals.add(signal)
     
     return clb_signals
 

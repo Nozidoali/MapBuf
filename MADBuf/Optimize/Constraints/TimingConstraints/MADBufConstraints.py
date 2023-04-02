@@ -55,6 +55,7 @@ def add_madbuf_constraints(
         except:
             buffer_var = None
 
+
         # here we have special cases for delay propagation on wire:
         if madbuf_constraints_params.skip_trivial_depth_propagation:
 
