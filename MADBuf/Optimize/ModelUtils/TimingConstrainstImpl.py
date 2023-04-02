@@ -20,14 +20,32 @@ def add_timing_constraints(
     model: gp.Model,
     network: BLIFGraph,
     signal_to_cuts: dict,
-    signal_to_channel: dict,
     signal_to_variable: dict,
-    add_blockbox_constraints_flag: bool = True,
-    add_cut_buffer_interaction_constraints_flag: bool = True,
-    add_blackbox_delay_propagation_flag: bool = True,
-    clock_period: int = 100,
-    verbose: bool = False,
+    **kwargs,
 ):
+    
+    verbose = get_value_from_kwargs(kwargs, ["verbose"], False)
+
+    clock_period = get_value_from_kwargs(kwargs, ["clock_period"], 1.0)
+
+    insert_blackbox_buffers_flag = get_value_from_kwargs(
+        kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
+    )
+
+    add_cut_buffer_interaction_constraints_flag = get_value_from_kwargs(
+        kwargs,
+        ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"],
+        False,
+    )
+
+    add_blackbox_delay_propagation_flag = get_value_from_kwargs(
+        kwargs,
+        [
+            "add_blackbox_delay_propagation_constraints_flag",
+            "add_blackbox_delay_propagation_flag",
+        ],
+        False,
+    )
 
     # if verbose:
     print_blue(f"Adding timing constraints")
@@ -38,7 +56,7 @@ def add_timing_constraints(
     print_green("Done", flush=True)
 
     # add blackbox constraints
-    if add_blockbox_constraints_flag:
+    if insert_blackbox_buffers_flag:
         print("[i] Adding blackbox constraints...", end=" ", flush=True)
         add_blackbox_constraints(model, verbose=verbose)
         print_green("Done", flush=True)

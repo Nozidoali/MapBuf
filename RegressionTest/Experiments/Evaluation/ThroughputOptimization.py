@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-30 17:11:56
+Last Modified time: 2023-04-02 01:54:47
 '''
 
 
@@ -51,7 +51,6 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
             dfg=dfg,
             mappings=mappings,
             signal_to_cuts=signal_to_cuts,
-            clock_period=clock_period,
             target="throughput",
             lps=glob.glob(get_lp_dir_from_kwargs(**kwargs) + "/*.lp"),
             verbose=verbose,

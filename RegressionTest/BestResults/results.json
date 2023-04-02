@@ -42,11 +42,11 @@
         "speedup": 1.1810943979655237
     },
     "matrix": {
-        "execution_time": 210611.415,
-        "delay": 6.195,
-        "cycles": 33997,
+        "execution_time": 208474.76,
+        "delay": 5.98,
+        "cycles": 34862,
         "method": "milp",
-        "speedup": 2.2364865646052468
+        "speedup": 2.2594082852044055
     },
     "mvt_float": {
         "execution_time": 86332.463,

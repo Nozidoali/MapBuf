@@ -26,19 +26,20 @@ if __name__ == "__main__":
     # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
     # param.benchmarks = ["insertion_sort"]
     param.benchmarks = ["matrix"]
-    param.max_expansion_level = 0
     param.add_cutloopback_constraints_flag = False
     # param.add_blockbox_constraints_flag = True
     param.add_blackbox_delay_propagation_flag = True
-    param.add_cut_buffer_interaction_constraints_flag = False
-    # param.map_icmp = True
+    param.add_cut_buffer_interaction_constraints_flag = True
+    param.map_icmp = True
 
     param.run_synthesis = False
 
     param.repeat = 1
-    param.timeout = 60
+    param.timeout = 3600
 
-    param.use_cutless = False
+    param.use_cutless = True
+    # param.max_expansion_level = 4
+    # param.cutless_hueristic = 0
 
     param.use_cut = True
     param.priority_cut_size_limit = None
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     param.ext_cut_files = False
     param.ext_lp_files = False
 
-    param.save_report = False
+    param.save_report = True
 
     experiment = Experiment(param)
 

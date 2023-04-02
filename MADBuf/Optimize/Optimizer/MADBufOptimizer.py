@@ -25,24 +25,13 @@ class MADBufOptimizer(DFGOptimizer):
 
         super().__init__(*args, **kwargs)
 
-        self.clock_period: int
         self.lps: list
         self.model: gp.Model
 
         self.signal_to_variable: dict
 
-        self.parse_clock_period(*args, **kwargs)
         self.parse_lps(*args, **kwargs)
-
-    def parse_clock_period(self, *args, **kwargs):
-
-        # get the target clock period, if not specified, raise an exception
-        clock_period: int = get_value_from_kwargs(kwargs, ["clock_period", "cp"], None)
-
-        if clock_period is None:
-            raise Exception("Clock period is not specified")
-
-        self.clock_period = clock_period
+        self.parse_signal_to_variable(*args, **kwargs)
 
     def parse_lps(self, *args, **kwargs):
 
@@ -66,20 +55,10 @@ class MADBufOptimizer(DFGOptimizer):
 
         self.model = model
 
-    def build_model(self, *args, **kwargs):
+    def parse_signal_to_variable(self, *args, **kwargs):
 
-        cut_loopback = get_value_from_kwargs(
+        keep_cut_loopback_buffers_flag = get_value_from_kwargs(
             kwargs, ["cut_loopback", "add_cutloopback_constraints_flag"], False
-        )
-
-        blackbox = get_value_from_kwargs(
-            kwargs, ["blackbox", "add_blockbox_constraints_flag"], False
-        )
-
-        cut_buffer_interaction = get_value_from_kwargs(
-            kwargs,
-            ["cut_buffer_interaction", "add_cut_buffer_interaction_constraints_flag"],
-            False,
         )
 
         self.signal_to_variable = get_signal_to_variable(
@@ -87,30 +66,18 @@ class MADBufOptimizer(DFGOptimizer):
             signal_to_channel=self.signal_to_channel,
             dfg_mapped=self.dfg_mapped,
             mapping=self.mapping,
-            add_constraints=cut_loopback,
+            add_constraints=keep_cut_loopback_buffers_flag,
             verbose=False
         )
 
-        add_blackbox_delay_propagation_flag = get_value_from_kwargs(
-            kwargs,
-            [
-                "add_blackbox_delay_propagation_constraints_flag",
-                "add_blackbox_delay_propagation_flag",
-            ],
-            False,
-        )
+    def build_model(self, *args, **kwargs):
 
         add_timing_constraints(
             self.model,
             self.graph,
             self.signal_to_cuts,
-            self.signal_to_channel,
             self.signal_to_variable,
-            add_blockbox_constraints_flag=blackbox,
-            add_cut_buffer_interaction_constraints_flag=cut_buffer_interaction,
-            add_blackbox_delay_propagation_flag=add_blackbox_delay_propagation_flag,
-            clock_period=self.clock_period,
-            verbose=False,
+            **kwargs
         )
 
         # refine model: we should not buffer the channel between Memory Controller and Memory

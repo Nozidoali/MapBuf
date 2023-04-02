@@ -46,14 +46,19 @@ def cut_enumeration(network, *args, **kwargs) -> dict:
             )
 
         cuts = cutless_enumeration_impl(network=network, **kwargs)
+        
+        for n in cuts:
+            if n not in signal_to_cuts:
+                signal_to_cuts[n] = []
+            signal_to_cuts[n].extend(cuts[n])
 
     if use_cut:
         cuts = cut_enumeration_impl(g=network, **kwargs)
 
-    for n in cuts:
-        if n not in signal_to_cuts:
-            signal_to_cuts[n] = []
-        signal_to_cuts[n].extend(cuts[n])
+        for n in cuts:
+            if n not in signal_to_cuts:
+                signal_to_cuts[n] = []
+            signal_to_cuts[n].extend(cuts[n])
 
     signal_to_cuts = cleanup_dangling_cuts(signal_to_cuts)
 
