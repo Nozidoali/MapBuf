@@ -54,23 +54,13 @@ def get_signal_to_variable(
 
         equivalent_channel: Channel = get_equivalent_channel(dfg_mapped, equivalent_to_functioning_mapping, prev_channel)
 
-
         if equivalent_channel is None:
             continue
 
         if equivalent_channel in channel_to_var:
             matched_var = channel_to_var[equivalent_channel]
-
-            if verbose:
-                var_name = matched_var.getAttr("VarName")
-                # print_green(f"Matched: {signal} to {var_name}")
             signal_to_variable[signal] = matched_var
-
-            if verbose:
-                # print_green(f"{signal} is found in the dynamatic model")
-                pass
         else:
-
             # filter out the special components
             is_special_component = False
             for component_name in [equivalent_channel.u, equivalent_channel.v]:
@@ -82,8 +72,7 @@ def get_signal_to_variable(
             if is_special_component:
                 continue
             
-            if verbose:
-                print_red(f"Warning: {signal} is not found in the dynamatic model")
+            print_red(f"Warning: {signal}, {equivalent_channel} is not found in the dynamatic model")
             pass
 
     return signal_to_variable

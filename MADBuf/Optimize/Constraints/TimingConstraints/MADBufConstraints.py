@@ -66,7 +66,6 @@ def add_madbuf_constraints(
                 pass
 
             else:
-
                 # only one fanin
                 fanin = graph.fanins(signal)[0]
                 add_delay_propagation_constraints_on_wire(

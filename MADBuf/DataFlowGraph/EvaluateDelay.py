@@ -20,12 +20,14 @@ import time
 
 
 def evaluate_delay(
-    dfg: pgv.AGraph, top_module: str, run_synthesis: bool = False, verbose: bool = False
+    dfg: pgv.AGraph, top_module: str, map_icmp: bool = False, run_synthesis: bool = False, verbose: bool = False
 ):
 
     print_blue("\n\n[i] Evaluating delay...\n")
 
     mapping_to_unfloating(dfg)
+    if map_icmp:
+        mapping_icmp_to_blackboxes(dfg, verbose=verbose)
     split_multiplier_bitwidth(dfg)
 
     run_elaborate(dfg, top_module=top_module, fifo_without_mod=True, verbose=verbose)

@@ -1,0 +1,37 @@
+{
+    "gaussian": {
+        "execution_time": 17105.944000000003,
+        "delay": 4.964,
+        "cycles": 3446,
+        "method": "milp",
+        "speedup": 1.5794217495392242
+    },
+    "covariance_float": {
+        "execution_time": 855226.944,
+        "delay": 4.752,
+        "cycles": 179972,
+        "method": "milp",
+        "speedup": 0.9822327580923361
+    },
+    "insertion_sort": {
+        "execution_time": 1337.985,
+        "delay": 8.415,
+        "cycles": 159,
+        "method": "milp",
+        "speedup": 1.19469201822143
+    },
+    "gemver": {
+        "execution_time": 61981.409999999996,
+        "delay": 5.539,
+        "cycles": 11190,
+        "method": "milp",
+        "speedup": 0.9190213646317501
+    },
+    "gsumif": {
+        "execution_time": 22329.714,
+        "delay": 5.259,
+        "cycles": 4246,
+        "method": "milp",
+        "speedup": 1.1849869640067938
+    }
+}

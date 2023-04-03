@@ -46,19 +46,4 @@ def variable_name_to_equivalent_components(
     component_from = f"{entries[0]}_{entries[1]}"
     component_to = f"{entries[2]}_{entries[3]}"
 
-    if mappings is not None:
-        maps = mappings.export_mapping_functioning_to_equivalent()
-        if component_from in maps:
-            (component_from, buffer_inserted) = maps[component_from]
-            component_type, component_index = component_from.split("_")
-
-            if buffer_inserted:
-                component_from = f"Buffer_{component_index}"
-
-        if component_to in maps:
-            component_to, buffer_inserted = maps[component_to]
-
-            # insert buffer does not influence the component_to
-            pass
-
     return component_from, component_to

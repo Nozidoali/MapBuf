@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # param.benchmarks = ["gemver", "gsum", "gsumif"]
     # param.benchmarks = ["mvt_float", "stencil_2d", "invertion"]
     # param.benchmarks = ["matrix"]
-    # param.benchmarks = ["insertion_sort"]
+    param.benchmarks = ["insertion_sort"]
     param.cut_loopback_delay_propagation = True
     param.cut_loopback_buffer_insertion = False
     # param.add_blockbox_constraints_flag = True
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     param.run_synthesis = False
 
     param.repeat = 1
-    param.timeout = 1200
+    param.timeout = 60
 
     param.use_cutless = True
     # param.max_expansion_level = 4
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     param.use_cut = True
     param.priority_cut_size_limit = None
 
-    # param.ext_cut_files = True
+    param.ext_cut_files = True
     # param.ext_lp_files = True
 
     param.save_report = True

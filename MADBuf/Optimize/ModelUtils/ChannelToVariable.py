@@ -37,9 +37,7 @@ def get_equivalent_channel_to_variable(
         var_name = var.getAttr("VarName")
 
         if "_flop_ready" in var_name or "_flop_valid" in var_name:
-            component_from, component_to = variable_name_to_equivalent_components(
-                var_name, mappings
-            )
+            component_from, component_to = variable_name_to_equivalent_components(var_name)
 
             # Here we do the mapping of:
             #   ready -> ready
@@ -72,12 +70,6 @@ def get_equivalent_channel(
     if new_channel.t == Constants._channel_data_:
         new_channel.t = Constants._channel_valid_
 
-    # we skip all the channels inside floating point components
-    if new_channel.u in equivalent_to_functioning_mapping:
-        functioning_component, buffer_inserted = equivalent_to_functioning_mapping[new_channel.u]
-        if buffer_inserted:
-            return None
-
     # we skip all the channels that are connected already to the buffers
     #
     #                    Component A
@@ -89,6 +81,14 @@ def get_equivalent_channel(
     #                     V|   |R
     #                      |   |
     #                    Component B
+
+    # we skip all the channels inside floating point components
+    if new_channel.u in equivalent_to_functioning_mapping:
+        functioning_component, buffer_inserted = equivalent_to_functioning_mapping[new_channel.u]
+        if buffer_inserted:
+            return None
+            
+    # this is done before
     if "Buffer" in new_channel.u:
         assert new_channel.u in dfg_mapped.nodes()
         assert dfg_mapped.in_degree(new_channel.u) == 1
@@ -99,5 +99,12 @@ def get_equivalent_channel(
         assert new_channel.v in dfg_mapped.nodes()
         assert dfg_mapped.out_degree(new_channel.v) == 1
         new_channel.v = dfg_mapped.successors(new_channel.v)[0]
+
+    
+    if new_channel.u in equivalent_to_functioning_mapping:
+        new_channel.u = equivalent_to_functioning_mapping[new_channel.u][0]
+
+    if new_channel.v in equivalent_to_functioning_mapping:
+        new_channel.v = equivalent_to_functioning_mapping[new_channel.v][0]
 
     return new_channel
