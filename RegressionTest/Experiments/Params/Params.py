@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:34:28
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 23:23:44
+Last Modified time: 2023-04-04 21:36:36
 '''
 
 from MADBuf import *
@@ -15,6 +15,7 @@ from RegressionTest.Experiments.Params.MILPSolver import *
 from RegressionTest.Experiments.Params.MILPFormulation import *
 from RegressionTest.Experiments.Params.Evaluation import *
 from RegressionTest.Experiments.Params.Global import *
+from RegressionTest.Experiments.Params.VPR import *
 from RegressionTest.Experiments.Benchmarks import *
 
 class Params():
@@ -26,6 +27,7 @@ class Params():
         EvaluationParams.__init__(self, **kwargs)
         CutEnumerationParams.__init__(self, **kwargs)
         GlobalParams.__init__(self, **kwargs)
+        VprParams.__init__(self, **kwargs)
         self.parse_benchmarks(**kwargs)
         self.parse_method(**kwargs)
 

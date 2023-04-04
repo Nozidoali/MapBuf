@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 13:48:04
+Last Modified time: 2023-04-04 22:37:38
 '''
 
 from MADBuf import *
@@ -32,8 +32,16 @@ def run_experiments(*args, **kwargs):
         for _ in range(repeat_times):
 
             method = get_value_from_kwargs(kwargs, "method", "madbuf")
+
+            ext_dot_file = get_value_from_kwargs(kwargs, "ext_dot_file", False)
+            if ext_dot_file:
+                ext_dot_path = get_best_solution_file(benchmark)
+                dfg_sol_path = get_dfg_sol_path_from_kwargs(**kwargs)
+                print(f"Writing best solution to {dfg_sol_path} ...", end="", flush=True)
+                subprocess.run(f"cp {ext_dot_path} {dfg_sol_path}", shell=True)
+                print_green("Done")
             
-            if method == "madbuf":
+            elif method == "madbuf":
                 evaluate_madbuf(**kwargs)
 
             elif method == "milp":
@@ -59,5 +67,5 @@ def run_experiments(*args, **kwargs):
 
             save_report = get_value_from_kwargs(kwargs, "save_report", True)
             if save_report:
-                update_results(stats, f"{exp_id}")
-                update_results(stats, "BestResults")
+                update_results(stats, f"{exp_id}", copy_files=True)
+                update_results(stats, "BestResults", copy_files=True)

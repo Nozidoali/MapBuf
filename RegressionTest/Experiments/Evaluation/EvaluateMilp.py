@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 21:20:59
+Last Modified time: 2023-04-04 22:52:01
 '''
 
 from MADBuf import *
@@ -15,17 +15,15 @@ from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 
 def evaluate_milp(*args, **kwargs):
 
-    ext_sol_files = get_value_from_kwargs(kwargs, "ext_sol_files", False)
-    if ext_sol_files is True:
+    ext_sol_file = get_value_from_kwargs(kwargs, "ext_sol_file", False)
+    if ext_sol_file is True:
         print_blue("[i] Loading external solution files ...", flush=True)
-        lp_file = get_lp_path_from_kwargs(**kwargs)
+        
         sol_file = get_sol_path_from_kwargs(**kwargs)
-        model = gp.read(lp_file)
-        model.read(sol_file)
-
-        buffers = retrieve_buffers_from_dynamatic_variables(model)
-        buffer_slots = retrieve_buffers_to_n_slots(model)
-        print_green("[i] Done", flush=True)
+        fix_lp_names(sol_file)
+        print_blue(f"Loading solution file from {sol_file} ...", end="\n", flush=True)
+        buffers = retrieve_buffers_from_milp_solution(sol_file)
+        buffer_slots = retrieve_buffers_to_n_slots_from_milp_solution(sol_file)
 
         dfg = get_dfg_ref_from_kwargs(**kwargs)
         insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
@@ -78,11 +76,18 @@ def evaluate_milp(*args, **kwargs):
     print(f"Fixing multiplier's width ...", end=" ", flush=True)
     split_multiplier_bitwidth(graph, verbose=verbose)
     print_green("Done")
+
+    # Preprocessing 4: Fix the icmp's width
+    fix_icmp_for_insertion_sort = get_value_from_kwargs(kwargs, "fix_icmp_for_insertion_sort", False)
+    if fix_icmp_for_insertion_sort:
+        print(f"Fixing icmp's width ...", end=" ", flush=True)
+        fix_icmp_width(graph, verbose=verbose)
+        print_green("Done")
     
     mut = get_mut_from_kwargs(**kwargs)
 
     ext_cut_file_flag = get_value_from_kwargs(kwargs, [
-        "ext_cut_files",
+        "ext_cut_file",
     ], False)
     
     blif_path = get_blif_path_from_kwargs(**kwargs)

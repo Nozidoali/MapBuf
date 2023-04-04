@@ -14,21 +14,35 @@ from MADBuf.ExternalTools import *
 from MADBuf.DataFlowGraph.ComponentMapping import *
 from MADBuf.DataFlowGraph.MultiplierWidth import *
 from MADBuf.DataFlowGraph.RunEloborate import *
+from MADBuf.DataFlowGraph.IcmpWidth import *
 import pygraphviz as pgv
 import os
 import time
 
 
 def evaluate_delay(
-    dfg: pgv.AGraph, top_module: str, map_icmp: bool = False, use_dac: bool = False, run_synthesis: bool = False, verbose: bool = False
+    dfg: pgv.AGraph, top_module: str, map_icmp: bool = False, fix_icmp_for_insertion_sort: bool = False, use_dac: bool = False, run_synthesis: bool = False, verbose: bool = False
 ):
 
     print_blue("\n\n[i] Evaluating delay...\n")
 
+    print("Running mapping to unfloat components", end="...", flush=True)
     mapping_to_unfloating(dfg)
+    print_green("Done")
+
     if map_icmp:
+        print("Running icmp mapping to adders", end="...", flush=True)
         mapping_icmp_to_blackboxes(dfg, verbose=verbose)
+        print_green("Done")
+
+    if fix_icmp_for_insertion_sort:
+        print("Fixing icmp for insertion sort", end="...", flush=True)
+        fix_icmp_width(dfg, verbose=True)
+        print_green("Done")
+
+    print("Running multiplier width modifications", end="...", flush=True)
     split_multiplier_bitwidth(dfg)
+    print_green("Done")
 
     run_elaborate(dfg, top_module=top_module, fifo_without_mod=True, verbose=verbose)
 

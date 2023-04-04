@@ -17,3 +17,4 @@ from MADBuf.DataFlowGraph.Checking import *
 from MADBuf.DataFlowGraph.EvaluateDelay import *
 from MADBuf.DataFlowGraph.DuplicateDFG import *
 from MADBuf.DataFlowGraph.RunEloborate import *
+from MADBuf.DataFlowGraph.IcmpWidth import *

@@ -56,7 +56,13 @@ def retrieve_buffers_from_dynamatic_variables(model: gp.Model, verbose: bool = F
         # collect all the buffers
         if "_flop_ready" in var_name or "_flop_valid" in var_name:
 
-            if variable.x == 0:
+            try:
+                value = variable.x
+            except:
+                print_red(f"Variable {var_name} is not in the model")
+                continue
+
+            if value == 0:
                 continue
 
             num_buffered_channels += 1
@@ -73,6 +79,49 @@ def retrieve_buffers_from_dynamatic_variables(model: gp.Model, verbose: bool = F
             buffers.add(channel)
 
             # and, we also need the buffer
+
+    print("Number of buffered channels: ", text_orange(num_buffered_channels))
+
+    return buffers
+
+def retrieve_buffers_from_milp_solution(sol_file: str, verbose: bool = False):
+
+    num_buffered_channels: int = 0
+
+    buffers: set = set()
+
+    with open(sol_file, "r") as f:
+        lines = f.readlines()
+
+        for line in lines:
+            if line.startswith("#"):
+                continue
+
+            try:
+                var_name, value = line.split(" ")
+                value = int(value)
+
+                if "_flop_ready" in var_name or "_flop_valid" in var_name:
+
+                    if value == 0:
+                        continue
+                    
+
+                    num_buffered_channels += 1
+
+                    channel_type = (
+                        Constants._channel_ready_
+                        if "_flop_ready" in var_name
+                        else Constants._channel_valid_
+                    )
+
+                    component_from, component_to = variable_name_to_equivalent_components(var_name)
+                    channel = Channel(component_from, component_to, channel_type)
+
+                    buffers.add(channel)
+
+            except:
+                continue
 
     print("Number of buffered channels: ", text_orange(num_buffered_channels))
 
