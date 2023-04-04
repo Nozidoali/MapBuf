@@ -1,0 +1,23 @@
+{
+    "gaussian": {
+        "execution_time": 23014.52,
+        "delay": 4.57,
+        "cycles": 5036,
+        "method": "milp",
+        "speedup": 1.1739328041601562
+    },
+    "covariance_float": {
+        "execution_time": 756935.0549999999,
+        "delay": 4.177,
+        "cycles": 181215,
+        "method": "milp",
+        "speedup": 1.1097807063513527
+    },
+    "insertion_sort": {
+        "execution_time": 2508.731,
+        "delay": 4.133,
+        "cycles": 607,
+        "method": "milp",
+        "speedup": 0.6371667588115266
+    }
+}

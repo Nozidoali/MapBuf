@@ -55,7 +55,8 @@ def add_cut_buffer_interaction_constraints(
             for conflict_signal in conflicting_signals:
                 assert conflict_signal in signal_to_variable
                 conflict_var = signal_to_variable[conflict_signal]
-                model.addConstr(conflict_var + var_cut_selection <= 1)
+                model.addConstr(conflict_var + var_cut_selection <= 1, 
+                                f"CutBufferInteraction_{signal}_{conflict_signal}_")
 
         if not has_free_cut:
             if signal not in graph.node_fanins:

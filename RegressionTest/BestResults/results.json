@@ -7,18 +7,18 @@
         "speedup": 1.7557362879221654
     },
     "covariance_float": {
-        "execution_time": 855226.944,
-        "delay": 4.752,
-        "cycles": 179972,
+        "execution_time": 751450.3960000001,
+        "delay": 4.198,
+        "cycles": 179002,
         "method": "milp",
-        "speedup": 0.9822327580923361
+        "speedup": 1.1178807336738696
     },
     "insertion_sort": {
-        "execution_time": 1283.346,
-        "delay": 5.154,
-        "cycles": 249,
+        "execution_time": 889.8689999999999,
+        "delay": 4.659,
+        "cycles": 191,
         "method": "milp",
-        "speedup": 1.2455565373640467
+        "speedup": 1.7963093444091212
     },
     "gemver": {
         "execution_time": 43117.045999999995,
@@ -49,11 +49,11 @@
         "speedup": 2.2594082852044055
     },
     "mvt_float": {
-        "execution_time": 86332.463,
-        "delay": 3.829,
-        "cycles": 22547,
+        "execution_time": 80749.62000000001,
+        "delay": 3.99,
+        "cycles": 20238,
         "method": "milp",
-        "speedup": 0.8923694207589096
+        "speedup": 0.9540657900309623
     },
     "stencil_2d": {
         "execution_time": 127078.112,
@@ -63,10 +63,10 @@
         "speedup": 1.1996541151004825
     },
     "invertion": {
-        "execution_time": 10173.483,
-        "delay": 5.069,
-        "cycles": 2007,
+        "execution_time": 8027.984,
+        "delay": 3.998,
+        "cycles": 2008,
         "method": "milp",
-        "speedup": 0.8617084237522195
+        "speedup": 1.0920021763869983
     }
 }
