@@ -22,14 +22,16 @@ if __name__ == "__main__":
 
     param = Params()
 
-    param.clock_period = 7
-    param.blackbox_propagation_delay = 4
+    param.benchmarks = ["insertion_sort"]
 
+    param.clock_period = 6
+    param.blackbox_propagation_delay = 4
+    param.timeout = 1200
 
     # param.ext_cut_file = True
     # param.ext_lp_file = True
     # param.ext_sol_file = True
-    param.ext_dot_file = True
+    # param.ext_dot_file = True
 
 
     experiment = Experiment(param)
