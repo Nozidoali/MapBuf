@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:32:59
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 22:54:46
+Last Modified time: 2023-04-04 21:17:41
 '''
 
 from MADBuf import *
@@ -19,6 +19,7 @@ class CutEnumerationParams:
         self.lut_size_limit = 6
         self.priority_cut_size_limit = 20
         self.cutless_hueristic = 1
+        
         self.ext_cut_files = None
 
         self.is_two_input_network = True

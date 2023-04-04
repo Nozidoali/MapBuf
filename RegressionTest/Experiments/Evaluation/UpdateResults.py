@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-31 21:31:49
+Last Modified time: 2023-04-04 21:21:22
 '''
 
 import os
@@ -89,6 +89,9 @@ def update_results(stats: Stats, unqiue_name: str):
 
         lp_path = get_lp_path_from_kwargs(**values)
         subprocess.run("cp " + lp_path + " " + benchmark_dir, shell=True)
+
+        sol_path = get_sol_path_from_kwargs(**values)
+        subprocess.run("cp " + sol_path + " " + benchmark_dir, shell=True)
 
         rpt_path = get_setup_timing_report_path_from_kwargs(**values)
         subprocess.run("cp " + rpt_path + " " + benchmark_dir, shell=True)

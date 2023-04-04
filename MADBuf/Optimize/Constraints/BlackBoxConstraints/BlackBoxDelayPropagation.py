@@ -64,18 +64,22 @@ def add_blackbox_delay_propapation_constraints(
             # now that we have the new constraints, we remove the old ones
             primary_inputs_to_remove.add(f"TimingLabel_{signal}")
 
+    blackbox_propagation_delay = get_value_from_kwargs(
+        kwargs, "blackbox_propagation_delay", 3
+    )
+
     for blackbox in blackbox_inputs:
         if blackbox not in blackbox_outputs:
             continue
         # so we successfully find the inputs and outputs of the blackbox
         model.addConstr(
             model.getVarByName(f"TimingLabel_{blackbox}_inputs")
-            + BlackBoxParams.blackbox_propagation_delay
+            + blackbox_propagation_delay
             <= model.getVarByName(f"TimingLabel_{blackbox}_outputs")
         )
         if verbose:
             print_orange(
-                f"Adding constraint: {model.getVarByName(f'TimingLabel_{blackbox}_inputs').VarName} + {BlackBoxParams.blackbox_propagation_delay} <= {model.getVarByName(f'TimingLabel_{blackbox}_outputs').VarName}"
+                f"Adding constraint: {model.getVarByName(f'TimingLabel_{blackbox}_inputs').VarName} + {blackbox_propagation_delay} <= {model.getVarByName(f'TimingLabel_{blackbox}_outputs').VarName}"
             )
 
     remove_primary_inputs_constraints(model, primary_inputs_to_remove, verbose=verbose)

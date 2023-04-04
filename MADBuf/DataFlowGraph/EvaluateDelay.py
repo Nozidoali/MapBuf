@@ -20,7 +20,7 @@ import time
 
 
 def evaluate_delay(
-    dfg: pgv.AGraph, top_module: str, map_icmp: bool = False, run_synthesis: bool = False, verbose: bool = False
+    dfg: pgv.AGraph, top_module: str, map_icmp: bool = False, use_dac: bool = False, run_synthesis: bool = False, verbose: bool = False
 ):
 
     print_blue("\n\n[i] Evaluating delay...\n")
@@ -71,11 +71,13 @@ def evaluate_delay(
     f.write("set_output_delay -clock * -max 0 [get_ports {*}]\n")
     f.close()
 
+    vpr_arch = "k6_frac_N10_frac_chain_mem32K_40nm.xml" if not use_dac else "dac.xml"
+
     vpr_command = " ".join(
         [
             os.environ["VTR_ROOT"] + "/vpr/vpr",
             os.environ["VTR_ROOT"]
-            + "/vtr_flow/arch/timing/k6_frac_N10_frac_chain_mem32K_40nm.xml",
+            + f"/vtr_flow/arch/timing/{vpr_arch}",
             top_module,
             f"--circuit_file /tmp/eval/{top_module}.vpr.fixed.blif",
             "--sdc_file /tmp/eval/period.sdc",

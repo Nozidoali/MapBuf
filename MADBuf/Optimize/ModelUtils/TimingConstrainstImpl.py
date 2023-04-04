@@ -85,15 +85,20 @@ def add_timing_constraints(
         )
         print_green("Done", flush=True)
 
-        print("[i] Removing cut loopback cuts...", end=" ", flush=True)
-        signal_to_cuts = remove_cut_loopback_cuts(
-            graph=network, 
-            cuts=signal_to_cuts, 
-            signal_to_variable=signal_to_variable, 
-            blacklist_variables=clb_variables
+        remove_cut_loopback_cuts_flag = get_value_from_kwargs(
+            kwargs, ["remove_cut_loopback_cuts_flag"], False,
         )
-        print_green("Done", flush=True)
-        print_cut_summary(signal_to_cuts)
+
+        if remove_cut_loopback_cuts_flag:
+            print("[i] Removing cut loopback cuts...", end=" ", flush=True)
+            signal_to_cuts = remove_cut_loopback_cuts(
+                graph=network, 
+                cuts=signal_to_cuts, 
+                signal_to_variable=signal_to_variable, 
+                blacklist_variables=clb_variables
+            )
+            print_green("Done", flush=True)
+            print_cut_summary(signal_to_cuts)
         
     if cut_loopback_buffer_insertion_flag:
         print("[i] Adding cut loopback buffers naive...", end=" ", flush=True)

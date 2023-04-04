@@ -25,6 +25,7 @@ if __name__ == "__main__":
     param.method = 'milp'
 
     param.cut_loopback_delay_propagation = True
+    param.remove_cut_loopback_cuts_flag = True
 
 
     param.map_icmp = True
@@ -43,12 +44,14 @@ if __name__ == "__main__":
     # param.cutless_hueristic = 0
 
     param.clock_period = 6
+    param.blackbox_propagation_delay = 3
 
     param.use_cut = True
     param.priority_cut_size_limit = None
 
     param.ext_cut_files = True
-    param.ext_lp_files = True
+    # param.ext_lp_files = True
+    param.ext_sol_files = True
 
     param.save_report = True
 

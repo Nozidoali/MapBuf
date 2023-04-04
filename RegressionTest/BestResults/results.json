@@ -14,18 +14,18 @@
         "speedup": 1.1178807336738696
     },
     "insertion_sort": {
-        "execution_time": 889.8689999999999,
-        "delay": 4.659,
-        "cycles": 191,
+        "execution_time": 846.039,
+        "delay": 5.321,
+        "cycles": 159,
         "method": "milp",
-        "speedup": 1.7963093444091212
+        "speedup": 1.8893691661968302
     },
     "gemver": {
-        "execution_time": 43117.045999999995,
-        "delay": 5.762,
-        "cycles": 7483,
+        "execution_time": 40710.24,
+        "delay": 6.12,
+        "cycles": 6652,
         "method": "milp",
-        "speedup": 1.3211072020100822
+        "speedup": 1.3992115988508051
     },
     "gsumif": {
         "execution_time": 18995.262,
@@ -56,11 +56,11 @@
         "speedup": 0.9540657900309623
     },
     "stencil_2d": {
-        "execution_time": 127078.112,
-        "delay": 5.558,
-        "cycles": 22864,
+        "execution_time": 113379.70800000001,
+        "delay": 5.331,
+        "cycles": 21268,
         "method": "milp",
-        "speedup": 1.1996541151004825
+        "speedup": 1.3445949252224214
     },
     "invertion": {
         "execution_time": 8027.984,

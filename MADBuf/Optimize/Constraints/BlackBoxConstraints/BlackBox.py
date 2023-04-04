@@ -15,5 +15,3 @@ class BlackBoxParams:
         "add",
         "sub",
     ]
-
-    blackbox_propagation_delay: int = 4

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 17:19:59
+Last Modified time: 2023-04-04 21:20:59
 '''
 
 from MADBuf import *
@@ -14,6 +14,30 @@ from RegressionTest.Experiments.Evaluation.CutEnumeration import *
 from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 
 def evaluate_milp(*args, **kwargs):
+
+    ext_sol_files = get_value_from_kwargs(kwargs, "ext_sol_files", False)
+    if ext_sol_files is True:
+        print_blue("[i] Loading external solution files ...", flush=True)
+        lp_file = get_lp_path_from_kwargs(**kwargs)
+        sol_file = get_sol_path_from_kwargs(**kwargs)
+        model = gp.read(lp_file)
+        model.read(sol_file)
+
+        buffers = retrieve_buffers_from_dynamatic_variables(model)
+        buffer_slots = retrieve_buffers_to_n_slots(model)
+        print_green("[i] Done", flush=True)
+
+        dfg = get_dfg_ref_from_kwargs(**kwargs)
+        insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
+
+        dfg_path = get_dfg_sol_path_from_kwargs(**kwargs)
+        print(f"Writting solution to {dfg_path}", end="... ", flush=True)
+        write_dfg(dfg, dfg_path)
+
+        png_path = dfg_path.replace(".dot", ".png")
+        subprocess.run(f"dot -Tpng {dfg_path} -o {png_path}", shell=True)
+
+        return
 
     print_blue("[i] Running MILP ...", flush=True)
 
