@@ -1,40 +1,36 @@
 import json
 
-columns = ['60', '300', '600', '2400']
 
-print(",".join(columns))
+def all_dac_examples():
+    return [
+        'gaussian',
+        'covariance_float',
+        'insertion_sort',
+        'gemver',
+        'gsumif',
+        "gsum",
+        'matrix',
+        'mvt_float',
+        'stencil_2d'
+    ]
 
+
+exp_id = '202304-06-01-01'
+# exp_id = 'BestResults'
 
 values = {}
 
-rows = set()
+rows = all_dac_examples()
 
-for column in columns:
-    values[column] = {}
 
-for column in columns:
-    results = json.load(open(f'./{column}/results.json'))
+columns = ['cycles','delay','lev','#LUT',"#FF"]
 
-    for result in results:
-
-        if result not in rows:
-            rows.add(result)
-
-        bmark = result
-
-        cycles = results[result]['cycles']
-        cp = results[result]['delay']
-        speedup = results[result]['speedup']
-
-        values[column][bmark] = cycles
-
-        # print(f"{bmark}, {cycles}, {cp}, {speedup}")
-
+print(",".join(columns))
 
 for row in rows:
+    results = json.load(open(f'./{exp_id}/{row}/stats.json'))
     print(row, end=",")
 
     for column in columns:
-        print(values[column][row], end=",")
-
+        print(results[column], end=",")
     print()

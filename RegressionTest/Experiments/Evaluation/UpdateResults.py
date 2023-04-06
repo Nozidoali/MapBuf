@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:38:59
+Last Modified time: 2023-04-06 12:33:19
 '''
 
 import os
@@ -13,7 +13,7 @@ import json
 import subprocess
 from RegressionTest.Experiments.Stats import *
 from RegressionTest.Experiments.Path import *
-
+from MADBuf import *
 class results_params:
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 
@@ -112,5 +112,7 @@ def update_results(stats: Stats, unqiue_name: str, copy_files: bool = False):
     if mut in results_params.fpl_results:
         best_results[mut]['speedup'] = results_params.fpl_results[mut]['execution_time'] / best_results[mut]['execution_time']
         
+    print(f"Writing results to {best_result_path} ...", end=" ", flush=True)
     with open(best_result_path, "w") as f:
         json.dump(best_results, f, indent=4)
+    print_green("Done")

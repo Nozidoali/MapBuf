@@ -5,12 +5,15 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:34:50
+Last Modified time: 2023-04-06 13:52:29
 '''
 
 
 from RegressionTest.Experiments.Path import *
+from RegressionTest.Experiments.Stats import *
+from RegressionTest.Experiments.Evaluation.EvaluateCycles import *
 from MADBuf import *
+
 
 def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict, **kwargs):
     """Throughput optimization from kwargs
@@ -21,6 +24,8 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
     """
  
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
+
+    stats = Stats()
     
     ext_lp_files_flag = get_value_from_kwargs(kwargs, [
         "ext_lp_file",
@@ -34,14 +39,61 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         
         print(f"Loading external lp files {ext_lp_file}...", end=' ', flush=True)
         model: gp.Model = gp.read(ext_lp_file)
-        run_gurobi_optimization(
+
+        best_opt: int = None
+        converged_iterations: int = 0
+        prev_time = 0
+        
+        breakpoint_interval = get_value_from_kwargs(
+            kwargs, ["breakpoint_interval", "breakpoint_t", "breakpoint_time"], 60
+        )
+
+        def breakpoint_callback_function(model, where) -> bool:
+            nonlocal converged_iterations
+            nonlocal best_opt
+            nonlocal prev_time
+            
+            if where == gp.GRB.Callback.MIP:
+                
+                curr_time = model.cbGet(gp.GRB.Callback.RUNTIME)
+                if curr_time - prev_time >= breakpoint_interval:
+                    prev_time = curr_time
+            
+                    print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
+                    
+                    curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
+                    if curr_opt != GRB.INFINITY:
+                        if best_opt is None or curr_opt < best_opt:
+                            best_opt = curr_opt
+                            converged_iterations = 0
+
+                        else:
+                            converged_iterations += 1
+
+                        print_green(f"Opt: {curr_opt:0.04f}", flush=True)
+                    else:
+                        curr_opt = None
+                        converged_iterations = 0
+                        print_red("Opt: None", flush=True)
+                        
+                        
+                    if model.status == gp.GRB.OPTIMAL:
+                        model.terminate()
+
+                    if converged_iterations * breakpoint_interval >= 60:
+                        model.terminate()
+
+        milp_stats = run_gurobi_optimization(
             model,
+            breakpoint_callback_function=breakpoint_callback_function,
             ilp_filename = get_ilp_path_from_kwargs(**kwargs),
             sol_filename = get_sol_path_from_kwargs(**kwargs), 
             **kwargs
         )
+
+        stats.add(milp_stats)
         buffers = retrieve_buffers_from_dynamatic_variables(model)
-        buffer_slots = retrieve_buffers_to_n_slots(model)
+        buffer_slots = retrieve_buffers_to_n_slots_from_dynamatic_variables(model)
         print_green("Done", flush=True)
 
     else:
@@ -82,3 +134,5 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
 
     png_path = dfg_path.replace(".dot", ".png")
     subprocess.run(f"dot -Tpng {dfg_path} -o {png_path}", shell=True)
+
+    return stats

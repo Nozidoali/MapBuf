@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:52:01
+Last Modified time: 2023-04-06 12:28:07
 '''
 
 from MADBuf import *
@@ -15,6 +15,8 @@ from RegressionTest.Experiments.Evaluation.ThroughputOptimization import *
 
 def evaluate_milp(*args, **kwargs):
 
+    stats = Stats()
+
     ext_sol_file = get_value_from_kwargs(kwargs, "ext_sol_file", False)
     if ext_sol_file is True:
         print_blue("[i] Loading external solution files ...", flush=True)
@@ -23,7 +25,7 @@ def evaluate_milp(*args, **kwargs):
         fix_lp_names(sol_file)
         print_blue(f"Loading solution file from {sol_file} ...", end="\n", flush=True)
         buffers = retrieve_buffers_from_milp_solution(sol_file)
-        buffer_slots = retrieve_buffers_to_n_slots_from_milp_solution(sol_file)
+        buffer_slots = retrieve_buffers_to_n_slots_from_dynamatic_variables_from_milp_solution(sol_file)
 
         dfg = get_dfg_ref_from_kwargs(**kwargs)
         insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
@@ -134,5 +136,9 @@ def evaluate_milp(*args, **kwargs):
     # before formulating the MILP problem, we need to check if the signal_to_cuts is valid
     # evaluate_signal_to_cuts(network, signal_to_cuts, signal_to_channel)
 
-    throughput_optimization_from_kwargs(network=g, signal_to_cuts=signal_to_cuts, **kwargs)
+    solver_stats = throughput_optimization_from_kwargs(network=g, signal_to_cuts=signal_to_cuts, **kwargs)
+
+    stats.add(solver_stats)
+
+    return stats
 

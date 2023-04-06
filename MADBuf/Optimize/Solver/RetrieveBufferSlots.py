@@ -13,7 +13,7 @@ from MADBuf.Optimize.Variables import *
 from MADBuf.Utils import *
 
 
-def retrieve_buffers_to_n_slots(model: gp.Model):
+def retrieve_buffers_to_n_slots_from_dynamatic_variables(model: gp.Model):
     buffer_to_slots: dict = {}
 
     num_buffers: int = 0
@@ -29,7 +29,7 @@ def retrieve_buffers_to_n_slots(model: gp.Model):
                 value = variable.x
             except:
                 print_red(f"Variable {var_name} is not in the model")
-                continue
+                raise Exception(f"Variable {var_name} is not in the model")
 
             if value == 0:
                 continue
@@ -48,7 +48,7 @@ def retrieve_buffers_to_n_slots(model: gp.Model):
 
     return buffer_to_slots
 
-def retrieve_buffers_to_n_slots_from_milp_solution(sol_file: str):
+def retrieve_buffers_to_n_slots_from_dynamatic_variables_from_milp_solution(sol_file: str):
 
     buffer_to_slots: dict = {}
 

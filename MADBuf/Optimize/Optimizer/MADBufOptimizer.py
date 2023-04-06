@@ -99,7 +99,7 @@ class MADBufOptimizer(DFGOptimizer):
 
     def get_solution_tuple(self, *args, **kwargs):
         buffers = retrieve_buffers_from_dynamatic_variables(self.model)
-        buffer_slots = retrieve_buffers_to_n_slots(self.model)
+        buffer_slots = retrieve_buffers_to_n_slots_from_dynamatic_variables(self.model)
         signal_to_cut = retrieve_cuts(self.model, self.signal_to_cuts)
         signal_to_label = retrieve_timing_labels(self.model)
 

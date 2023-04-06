@@ -10,9 +10,11 @@ Last Modified time: 2023-03-19 01:17:15
 
 import gurobipy as gp
 from MADBuf.Utils import *
-
+from MADBuf.Optimize.Solver.RetrieveBuffers import *
+from MADBuf.Optimize.Solver.RetrieveBufferSlots import *
 
 def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
+    stats = {}
 
     verbose = get_value_from_kwargs(kwargs, "verbose", False)
 
@@ -29,8 +31,19 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
     #
     model.Params.timeLimit = time_limit
 
-    print_blue(f"\n[i] Running MILP solver, time limit: {time_limit} seconds ...", flush=True)
-    model.optimize()
+    print_blue(f"\n[i] Running MILP solver, time limit: {time_limit} seconds...", flush=True)
+
+    curr_time: int = 0
+
+    breakpoint_callback_function = get_value_from_kwargs(
+        kwargs, ["breakpoint_callback", "breakpoint_callback_function"], None
+    )
+    model.optimize(breakpoint_callback_function)
+
+
+
+
+    stats['milp_run_time'] = curr_time
 
     if verbose:
         print_blue(f"Model status: {model.status}")
@@ -88,3 +101,5 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         print(f"Writing solution to {solution_filename} ...", end=" ", flush=True)
         model.write(solution_filename)
         print_green("DONE")
+
+    return stats

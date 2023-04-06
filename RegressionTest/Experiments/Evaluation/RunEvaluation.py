@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:37:38
+Last Modified time: 2023-04-06 12:28:44
 '''
 
 from MADBuf import *
@@ -29,7 +29,8 @@ def run_experiments(*args, **kwargs):
 
         repeat_times = get_value_from_kwargs(kwargs, "repeat", 1)
 
-        for _ in range(repeat_times):
+        for run_id in range(repeat_times):
+            stats = Stats()
 
             method = get_value_from_kwargs(kwargs, "method", "madbuf")
 
@@ -45,14 +46,14 @@ def run_experiments(*args, **kwargs):
                 evaluate_madbuf(**kwargs)
 
             elif method == "milp":
-                evaluate_milp(**kwargs)
+                milp_stats = evaluate_milp(**kwargs)
+                stats.add(milp_stats)
 
             equivalence_checking_from_kwargs(**kwargs)
 
             cycles = evaluate_num_cycles(**kwargs)
             values = evaluate_delay_from_kwargs(**kwargs)
 
-            stats = Stats()
             stats.add(kwargs)
             if cycles != None:
                 stats.values['cycles'] = cycles

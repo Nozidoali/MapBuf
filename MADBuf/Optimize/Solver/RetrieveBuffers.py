@@ -60,7 +60,7 @@ def retrieve_buffers_from_dynamatic_variables(model: gp.Model, verbose: bool = F
                 value = variable.x
             except:
                 print_red(f"Variable {var_name} is not in the model")
-                continue
+                raise Exception(f"Variable {var_name} is not in the model")
 
             if value == 0:
                 continue

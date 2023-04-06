@@ -1,10 +1,10 @@
 {
     "gaussian": {
-        "execution_time": 15388.131000000001,
-        "delay": 4.413,
-        "cycles": 3487,
+        "execution_time": 15371.382000000001,
+        "delay": 4.583,
+        "cycles": 3354,
         "method": "milp",
-        "speedup": 1.7557362879221654
+        "speedup": 1.7576493772648418
     },
     "covariance_float": {
         "execution_time": 748765.3659999999,
@@ -49,11 +49,11 @@
         "speedup": 2.2594082852044055
     },
     "mvt_float": {
-        "execution_time": 80749.62000000001,
-        "delay": 3.99,
-        "cycles": 20238,
+        "execution_time": 75806.898,
+        "delay": 3.793,
+        "cycles": 19986,
         "method": "milp",
-        "speedup": 0.9540657900309623
+        "speedup": 1.0162722922655403
     },
     "stencil_2d": {
         "execution_time": 108509.33600000001,

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:47:32
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:51:16
+Last Modified time: 2023-04-05 20:54:52
 '''
 
 class MilpFormulationParams:
@@ -17,10 +17,17 @@ class MilpFormulationParams:
         
         
         self.cut_loopback_delay_propagation=True
+
+
         self.cut_loopback_buffer_insertion = False
-        self.remove_cut_loopback_cuts_flag=False
+        
+        
+        self.remove_cut_loopback_cuts_flag=True
+        
         
         self.add_blockbox_constraints_flag=False
+        
+        
         self.add_blackbox_delay_propagation_flag=True
         
         self.add_cut_buffer_interaction_constraints_flag=True

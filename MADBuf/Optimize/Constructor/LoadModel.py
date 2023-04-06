@@ -189,8 +189,8 @@ def load_model(lp_files, verbose: bool = False) -> gp.Model:
             var_names.append(objective.getVar(j).VarName)
 
         # rescale the objective function
-        for j in range(len(coeffs)):
-            coeffs[j] = coeffs[j] * scale_factor
+        # for j in range(len(coeffs)):
+        #     coeffs[j] = coeffs[j] * scale_factor
 
         vars = [model.getVarByName(var_name) for var_name in var_names]
 
