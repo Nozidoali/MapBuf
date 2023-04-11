@@ -1,0 +1,16 @@
+{
+    "gsum": {
+        "execution_time": 20996.859,
+        "delay": 4.017,
+        "cycles": 5227,
+        "method": "milp",
+        "speedup": 1.1990326743633417
+    },
+    "gsumif": {
+        "execution_time": 22280.976,
+        "delay": 4.308,
+        "cycles": 5172,
+        "method": "milp",
+        "speedup": 1.1875790360350462
+    }
+}

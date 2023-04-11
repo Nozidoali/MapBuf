@@ -38,9 +38,11 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
     breakpoint_callback_function = get_value_from_kwargs(
         kwargs, ["breakpoint_callback", "breakpoint_callback_function"], None
     )
-    model.optimize(breakpoint_callback_function)
+    if breakpoint_callback_function is not None:
+        model.optimize(breakpoint_callback_function)
 
-
+    else:
+        model.optimize()
 
 
     stats['milp_run_time'] = curr_time

@@ -1,0 +1,65 @@
+{
+    "gaussian": {
+        "execution_time": 15371.382000000001,
+        "delay": 4.583,
+        "cycles": 3354,
+        "method": "milp",
+        "speedup": 1.7576493772648418
+    },
+    "covariance_float": {
+        "execution_time": 758561.1179999999,
+        "delay": 4.289,
+        "cycles": 176862,
+        "method": "milp",
+        "speedup": 1.1074017637692841
+    },
+    "insertion_sort": {
+        "execution_time": 1021.2679999999999,
+        "delay": 5.132,
+        "cycles": 199,
+        "method": "milp",
+        "speedup": 1.5651915070285176
+    }, 
+    "gemver": {
+        "execution_time": 82509.75499999999,
+        "delay": 5.611,
+        "cycles": 14705,
+        "method": "milp",
+        "speedup": 0.6903697629449997
+    },
+    "gsumif": {
+        "execution_time": 22293.312,
+        "delay": 4.288,
+        "cycles": 5199,
+        "method": "milp",
+        "speedup": 1.186921889398937
+    },
+    "gsum": {
+        "execution_time": 22575.413,
+        "delay": 4.319,
+        "cycles": 5227,
+        "method": "milp",
+        "speedup": 1.1151920011385839
+    },
+    "matrix": {
+        "execution_time": 297577.47599999997,
+        "delay": 4.398,
+        "cycles": 67662,
+        "method": "milp",
+        "speedup": 1.582880553768794
+    },
+    "mvt_float": {
+        "execution_time": 74598.60800000001,
+        "delay": 3.721,
+        "cycles": 20048,
+        "method": "milp",
+        "speedup": 1.0327330772713612
+    },
+    "stencil_2d": {
+        "execution_time": 117440.976,
+        "delay": 4.978,
+        "cycles": 23592,
+        "method": "milp",
+        "speedup": 1.2980970117278317
+    }
+}

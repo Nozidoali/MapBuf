@@ -21,16 +21,18 @@ if __name__ == "__main__":
     art.tprint("MADBuf")
 
     param = Params()
+    param.benchmarks = ["gsum", "gsumif"]
 
     param.clock_period = 7
     param.blackbox_propagation_delay = 4
 
-    param.timeout = 600
-    param.breakpoint_interval = 30
+    param.timeout = 2400
+    param.repeat = 4
+    param.breakpoint_interval = None
 
     # param.map_icmp = True
     param.ext_cut_file = True
-    # param.ext_lp_file = True
+    param.ext_lp_file = True
     # param.ext_sol_file = True
     # param.ext_dot_file = True
 

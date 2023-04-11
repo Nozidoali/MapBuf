@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 13:52:29
+Last Modified time: 2023-04-06 20:24:56
 '''
 
 
@@ -48,40 +48,45 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
             kwargs, ["breakpoint_interval", "breakpoint_t", "breakpoint_time"], 60
         )
 
-        def breakpoint_callback_function(model, where) -> bool:
-            nonlocal converged_iterations
-            nonlocal best_opt
-            nonlocal prev_time
-            
-            if where == gp.GRB.Callback.MIP:
+        if breakpoint_interval is None:
+            breakpoint_callback_function = None
+        
+        else:
+            def breakpoint_callback_function(model, where) -> bool:
+                nonlocal converged_iterations
+                nonlocal best_opt
+                nonlocal prev_time
                 
-                curr_time = model.cbGet(gp.GRB.Callback.RUNTIME)
-                if curr_time - prev_time >= breakpoint_interval:
-                    prev_time = curr_time
-            
-                    print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
+                if where == gp.GRB.Callback.MIP:
                     
-                    curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
-                    if curr_opt != GRB.INFINITY:
-                        if best_opt is None or curr_opt < best_opt:
-                            best_opt = curr_opt
-                            converged_iterations = 0
+                    curr_time = model.cbGet(gp.GRB.Callback.RUNTIME)
+                    if curr_time - prev_time >= breakpoint_interval:
+                        prev_time = curr_time
+                
+                        print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
+                        
+                        curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
+                        if curr_opt != GRB.INFINITY:
+                            if best_opt is None or curr_opt < best_opt:
+                                best_opt = curr_opt
+                                converged_iterations = 0
 
+                            else:
+                                converged_iterations += 1
+
+                            print_green(f"Opt: {curr_opt:0.04f}", flush=True)
                         else:
-                            converged_iterations += 1
+                            curr_opt = None
+                            converged_iterations = 0
+                            print_red("Opt: None", flush=True)
+                            
+                            
+                        if model.status == gp.GRB.OPTIMAL:
+                            model.terminate()
 
-                        print_green(f"Opt: {curr_opt:0.04f}", flush=True)
-                    else:
-                        curr_opt = None
-                        converged_iterations = 0
-                        print_red("Opt: None", flush=True)
-                        
-                        
-                    if model.status == gp.GRB.OPTIMAL:
-                        model.terminate()
+                        if converged_iterations >= 3:
+                            model.terminate()
 
-                    if converged_iterations * breakpoint_interval >= 60:
-                        model.terminate()
 
         milp_stats = run_gurobi_optimization(
             model,
