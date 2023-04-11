@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:34:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 20:17:57
+Last Modified time: 2023-04-11 19:23:03
 '''
 
 class Stats():
@@ -14,6 +14,8 @@ class Stats():
         self.values: dict = dict(*args, **kwargs)
     
     def add(self, other):
+        if other == None:
+            return
         if isinstance(other, dict):
             self.values.update(other)
         elif isinstance(other, Stats):

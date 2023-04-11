@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:40:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 12:06:36
+Last Modified time: 2023-04-11 22:00:54
 '''
 
 class MilpSolverParams:
@@ -14,6 +14,8 @@ class MilpSolverParams:
         
         self.timeout = 300
         self.breakpoint_interval = 10
+
+        self.convergence_interval = None
         
         self.solver = "gurobi"
         

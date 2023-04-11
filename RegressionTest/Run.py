@@ -21,13 +21,13 @@ if __name__ == "__main__":
     art.tprint("MADBuf")
 
     param = Params()
-    param.benchmarks = ["gsum", "gsumif"]
+    # param.benchmarks = ["gsum", "gsumif"]
 
     param.clock_period = 7
     param.blackbox_propagation_delay = 4
 
-    param.timeout = 2400
-    param.repeat = 4
+    param.timeout = 60
+    param.repeat = 1
     param.breakpoint_interval = None
 
     # param.map_icmp = True
@@ -36,6 +36,9 @@ if __name__ == "__main__":
     # param.ext_sol_file = True
     # param.ext_dot_file = True
 
+    param.breakpoint_interval = 10
+    param.save_report = False
+    param.check_cycle_flag = False
 
     experiment = Experiment(param)
 

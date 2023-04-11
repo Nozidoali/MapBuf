@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 12:33:19
+Last Modified time: 2023-04-11 19:43:37
 '''
 
 import os
@@ -57,6 +57,10 @@ def update_results(stats: Stats, unqiue_name: str, copy_files: bool = False):
     best_result_path = os.path.join(path, unqiue_name, 'results.json')
 
     mut = values["mut"]
+
+    if "delay" not in values or "cycles" not in values:
+        return
+
     curr_result = float(values["delay"]) * float(values["cycles"])
 
     previous_result = None

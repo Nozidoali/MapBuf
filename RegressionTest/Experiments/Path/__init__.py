@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 17:34:29
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 14:28:29
+Last Modified time: 2023-04-11 22:04:30
 '''
 
 from RegressionTest.Experiments.Path.Path import *
@@ -18,4 +18,5 @@ from RegressionTest.Experiments.Path.BLIF import *
 from RegressionTest.Experiments.Path.Milp import *
 from RegressionTest.Experiments.Path.CutLoopBack import *
 from RegressionTest.Experiments.Path.Sourcecode import *
+from RegressionTest.Experiments.Path.BreakPoints import *
 

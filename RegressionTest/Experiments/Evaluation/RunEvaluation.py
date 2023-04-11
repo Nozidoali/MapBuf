@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 12:28:44
+Last Modified time: 2023-04-11 19:28:38
 '''
 
 from MADBuf import *
@@ -52,15 +52,15 @@ def run_experiments(*args, **kwargs):
             equivalence_checking_from_kwargs(**kwargs)
 
             cycles = evaluate_num_cycles(**kwargs)
-            values = evaluate_delay_from_kwargs(**kwargs)
+            vpr_stats = evaluate_delay_from_kwargs(**kwargs)
 
             stats.add(kwargs)
             if cycles != None:
                 stats.values['cycles'] = cycles
-            if values != None:
-                print('delay =', text_orange(values['delay']))
-                print('LUT lev =', text_orange(values['lev']))
-                stats.add(values)
+            if vpr_stats != None:
+                print('delay =', text_orange(vpr_stats['delay']))
+                print('LUT lev =', text_orange(vpr_stats['lev']))
+                stats.add(vpr_stats)
 
             stats_path = get_stats_path_from_kwargs(**kwargs)
             with open(stats_path, "w") as f:

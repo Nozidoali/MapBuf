@@ -125,23 +125,23 @@ def evaluate_delay(
 
     # subprocess.run(f"rm -rf /tmp/eval", shell=True)
 
-    values: dict = {}
+    vpr_stats: dict = {}
 
-    values["delay"] = delay
+    vpr_stats["delay"] = delay
 
     f = open("/tmp/eval/vpr_stdout.log", "r")
 
     for line in f:
         if ".latch" in line and ":" in line:
-            values["#FF"] = int(line.split(":")[1].strip())
+            vpr_stats["#FF"] = int(line.split(":")[1].strip())
 
         if "6-LUT" in line and ":" in line:
-            values["#LUT"] = int(line.split(":")[1].strip())
+            vpr_stats["#LUT"] = int(line.split(":")[1].strip())
 
         if "adder" in line and ":" in line:
-            values["#ADD"] = int(line.split(":")[1].strip())
+            vpr_stats["#ADD"] = int(line.split(":")[1].strip())
 
     for key in abc_values:
-        values[key] = abc_values[key]
+        vpr_stats[key] = abc_values[key]
 
-    return values
+    return vpr_stats

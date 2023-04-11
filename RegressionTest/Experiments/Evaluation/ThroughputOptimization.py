@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 20:24:56
+Last Modified time: 2023-04-11 22:15:51
 '''
 
 
@@ -48,6 +48,16 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
             kwargs, ["breakpoint_interval", "breakpoint_t", "breakpoint_time"], 60
         )
 
+        convergence_interval = get_value_from_kwargs(
+            kwargs, ["convergence_interval", "convergence_t", "convergence_time"], 60
+        )
+
+        breakpoint_datapoints: list = []
+
+        breakpoint_path = get_breakpoint_path_from_kwargs(**kwargs)
+        if not os.path.exists(breakpoint_path):
+            os.makedirs(breakpoint_path)
+
         if breakpoint_interval is None:
             breakpoint_callback_function = None
         
@@ -56,6 +66,9 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
                 nonlocal converged_iterations
                 nonlocal best_opt
                 nonlocal prev_time
+                nonlocal breakpoint_datapoints
+                nonlocal breakpoint_interval
+                nonlocal convergence_interval
                 
                 if where == gp.GRB.Callback.MIP:
                     
@@ -65,6 +78,7 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
                 
                         print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
                         
+
                         curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
                         if curr_opt != GRB.INFINITY:
                             if best_opt is None or curr_opt < best_opt:
@@ -80,11 +94,12 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
                             converged_iterations = 0
                             print_red("Opt: None", flush=True)
                             
+                        breakpoint_datapoints.append((curr_time, curr_opt))
                             
                         if model.status == gp.GRB.OPTIMAL:
                             model.terminate()
 
-                        if converged_iterations >= 3:
+                        if convergence_interval != None and converged_iterations >= convergence_interval:
                             model.terminate()
 
 
@@ -100,6 +115,17 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         buffers = retrieve_buffers_from_dynamatic_variables(model)
         buffer_slots = retrieve_buffers_to_n_slots_from_dynamatic_variables(model)
         print_green("Done", flush=True)
+
+        if breakpoint_interval is not None:
+            breakpoint_path = os.path.join(get_breakpoint_path_from_kwargs(**kwargs), "trace.csv")
+            
+            print(f"Writing breakpoint data to {breakpoint_path} ...", end=' ', flush=True)
+            with open(breakpoint_path, "w") as f:
+                f.write("time, opt\n")
+                for t, opt in breakpoint_datapoints:
+                    f.write(f"{t}, {opt}\n")
+            
+            print_green("Done", flush=True)
 
     else:
         mut = get_value_from_kwargs(kwargs, "mut", None)

@@ -5,11 +5,12 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 17:31:55
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-04 22:50:51
+Last Modified time: 2023-04-11 22:17:45
 '''
 
 from MADBuf import *
 from RegressionTest.Experiments.Path import *
+from RegressionTest.Experiments.Evaluation.RunDelayAnalysis import *
 
 def evaluate_delay_from_kwargs(**kwargs):
 
