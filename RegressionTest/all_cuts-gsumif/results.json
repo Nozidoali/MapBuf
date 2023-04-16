@@ -1,0 +1,9 @@
+{
+    "gsumif": {
+        "execution_time": 18970.776,
+        "delay": 4.488,
+        "cycles": 4227,
+        "method": "milp",
+        "speedup": 1.3947990319426045
+    }
+}

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-06 12:28:07
+Last Modified time: 2023-04-12 09:23:53
 '''
 
 from MADBuf import *
@@ -17,7 +17,14 @@ def evaluate_milp(*args, **kwargs):
 
     stats = Stats()
 
+    ext_dfg = get_value_from_kwargs(kwargs, "ext_dfg", False)
+
+    if ext_dfg is True:
+        
+        return
+
     ext_sol_file = get_value_from_kwargs(kwargs, "ext_sol_file", False)
+
     if ext_sol_file is True:
         print_blue("[i] Loading external solution files ...", flush=True)
         
@@ -47,6 +54,8 @@ def evaluate_milp(*args, **kwargs):
     # we first check the presence of bbgrpah and the data flow graph
     print(f"Loading data flow graph and basic block graph ...", end=" ", flush=True)
     graph = get_dfg_ref_from_kwargs(**kwargs)
+    stats.values["num_components"] = len(graph.nodes())
+    stats.values["num_channels"] = len(graph.edges())
     bbgraph = get_bbgraph_from_kwargs(**kwargs)
     print_green("Done")
     
@@ -123,18 +132,29 @@ def evaluate_milp(*args, **kwargs):
 
     values = evalute_subject_graph(g)
     minimal_lut_level = None if 'lev' not in values else values['lev']
+    stats.values['minimal_lut_level'] = minimal_lut_level
 
     values = evalute_subject_graph(network)
     maximal_lut_level = None if 'lev' not in values else values['lev']
+    stats.values['maximal_lut_level'] = maximal_lut_level
 
-    print_stats(network)
+    subject_graph_stats = print_stats(network)
+    stats.add(subject_graph_stats)
     print_green(f"\tMinimal LUT level: {minimal_lut_level}")
     print_green(f"\tMaximal LUT level: {maximal_lut_level}")
     
     signal_to_cuts = cut_enumeration_from_kwargs(network=network, signal_to_channel=signal_to_channel, **kwargs)
 
+    cut_stats = print_cut_summary(signal_to_cuts)
+    stats.add(cut_stats)
+
     # before formulating the MILP problem, we need to check if the signal_to_cuts is valid
     # evaluate_signal_to_cuts(network, signal_to_cuts, signal_to_channel)
+
+    skip_milp = get_value_from_kwargs(kwargs, "skip_milp", False)
+    if skip_milp:
+        print_blue("[i] Skip MILP", flush=True)
+        return stats
 
     solver_stats = throughput_optimization_from_kwargs(network=g, signal_to_cuts=signal_to_cuts, **kwargs)
 

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 00:23:19
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-02 14:44:54
+Last Modified time: 2023-04-16 22:15:00
 '''
 
 
@@ -17,6 +17,9 @@ from MADBuf.Synthesis.CutEnumeration.CutCompression import *
 import pygraphviz as pgv
 
 import random
+
+class two_input_network_cut_enumeration_params:
+    compress_cuts: bool = False
 
 def two_input_network_cut_enumeration_impl(
     g: BLIFGraph, **kwargs
@@ -80,7 +83,7 @@ def two_input_network_cut_enumeration_impl(
                     for cut in cuts[fanin]:
                         cuts[n].append(Cut(n, cut.leaves))
 
-            elif len(g.fanins(n)) == 2:            
+            elif len(g.fanins(n)) == 2:    
                 fanin1 = list(g.fanins(n))[0]
                 fanin2 = list(g.fanins(n))[1]
 
@@ -94,13 +97,15 @@ def two_input_network_cut_enumeration_impl(
             # uniqify
             cuts[n] = list(set(cuts[n]))
 
-            # random shuffle
-            if priority_cut_size_limit is not None:
-                random.shuffle(cuts[n])
-                cuts[n] = cuts[n][:priority_cut_size_limit]
-
     # auto compression
-    cuts = compress_cuts(g, cuts, signal_to_channel, lut_size_limit=lut_size_limit)
+    if two_input_network_cut_enumeration_params.compress_cuts:
+        cuts = compress_cuts(g, cuts, signal_to_channel, lut_size_limit=lut_size_limit)
+    
+    for n in g.topological_traversal():
+        # random shuffle
+        if priority_cut_size_limit is not None:
+            random.shuffle(cuts[n])
+            cuts[n] = cuts[n][:priority_cut_size_limit]
     
     # remove dangling cuts
     cuts = cleanup_dangling_cuts(cuts)

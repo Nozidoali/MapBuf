@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 16:40:00
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-11 22:00:54
+Last Modified time: 2023-04-12 09:21:15
 '''
 
 class MilpSolverParams:
@@ -24,3 +24,7 @@ class MilpSolverParams:
         self.ext_sol_file = False
 
         self.ext_dot_file = False
+
+        self.ext_dfg = False
+
+        self.skip_milp = False

@@ -21,24 +21,33 @@ if __name__ == "__main__":
     art.tprint("MADBuf")
 
     param = Params()
-    # param.benchmarks = ["gsum", "gsumif"]
 
-    param.clock_period = 7
+    param.clock_period = 6
     param.blackbox_propagation_delay = 4
 
-    param.timeout = 60
+    param.timeout = 2400
     param.repeat = 1
     param.breakpoint_interval = None
 
+    param.method = 'milp'
+    # param.benchmarks = ['gsumif']
+
+    param.use_cutless = True
+    param.cutless_hueristic = 1
+    param.use_cut = True
+    # param.priority_cut_size_limit = 10
     # param.map_icmp = True
-    param.ext_cut_file = True
-    param.ext_lp_file = True
+    # param.ext_cut_file = True
+    # param.ext_lp_file = True
+    # param.ext_dfg = True
     # param.ext_sol_file = True
     # param.ext_dot_file = True
+    # param.skip_milp = True
 
-    param.breakpoint_interval = 10
-    param.save_report = False
-    param.check_cycle_flag = False
+    param.breakpoint_interval = 5
+    param.save_report = True
+    # param.check_cycle_flag = False
+    # param.check_timing_flag = False
 
     experiment = Experiment(param)
 

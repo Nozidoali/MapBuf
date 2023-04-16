@@ -5,12 +5,13 @@
 Author: Hanyu Wang
 Created time: 2023-03-21 13:20:46
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-11 19:28:38
+Last Modified time: 2023-04-11 23:02:42
 '''
 
 from MADBuf import *
 from RegressionTest.Experiments.Evaluation.EvaluateMadbuf import *
 from RegressionTest.Experiments.Evaluation.EvaluateMilp import *
+from RegressionTest.Experiments.Evaluation.EvaluateBaseline import *
 from RegressionTest.Experiments.Evaluation.EvaluateCycles import *
 from RegressionTest.Experiments.Evaluation.EvaluateDelay import *
 from RegressionTest.Experiments.Evaluation.EquivalenceChecking import *
@@ -48,6 +49,10 @@ def run_experiments(*args, **kwargs):
             elif method == "milp":
                 milp_stats = evaluate_milp(**kwargs)
                 stats.add(milp_stats)
+
+            elif method == "baseline":
+                baseline_stats = evaluate_baseline(**kwargs)
+                stats.add(baseline_stats)
 
             equivalence_checking_from_kwargs(**kwargs)
 

@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-04-01 22:49:32
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-01 22:57:19
+Last Modified time: 2023-04-12 09:19:47
 '''
 
 from MADBuf.Utils import *
@@ -32,3 +32,11 @@ def print_cut_summary(signal_to_cuts: dict):
     print(f"Max cut count = {text_orange(max_cut_count)}")
     for cut_size in cut_count_by_size:
         print(f"Cut size {cut_size} count = {cut_count_by_size[cut_size]}")
+
+    stats = {}
+    stats["total_cut_count"] = total_cut_count
+    stats["max_cut_count"] = max_cut_count
+    for cut_size in cut_count_by_size:
+        stats[f"cut_size_{cut_size}_count"] = cut_count_by_size[cut_size]
+
+    return stats

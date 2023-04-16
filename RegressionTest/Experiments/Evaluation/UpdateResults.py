@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 19:59:22
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-11 19:43:37
+Last Modified time: 2023-04-16 14:05:05
 '''
 
 import os
@@ -108,6 +108,9 @@ def update_results(stats: Stats, unqiue_name: str, copy_files: bool = False):
 
             rpt_path = get_setup_timing_report_path_from_kwargs(**values)
             subprocess.run("cp " + rpt_path + " " + benchmark_dir, shell=True)
+
+            breakpoint_path = get_breakpoint_path_from_kwargs(**values)
+            subprocess.run("cp -r " + breakpoint_path + " " + benchmark_dir, shell=True)
 
         stats_path = os.path.join(benchmark_dir, "stats.json")
         with open(stats_path, "w") as f:

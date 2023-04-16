@@ -1,0 +1,9 @@
+{
+    "gaussian": {
+        "execution_time": 18954.771,
+        "delay": 4.747,
+        "cycles": 3993,
+        "method": "milp",
+        "speedup": 1.425366732206894
+    }
+}

@@ -32,6 +32,7 @@ def cutless_enumeration_impl(network: BLIFGraph, **kwargs) -> dict:
     if signal_to_channel == None:
         signal_to_channel = {}
 
+    print(f"Precomputing timing labels, cutless_hueristic = {cutless_hueristic} ...")
     labels, cuts = precompute_timing_labels(
         network, signal_to_channel, lut_size_limit, max_expansion_level, cutless_hueristic, verbose=verbose
     )

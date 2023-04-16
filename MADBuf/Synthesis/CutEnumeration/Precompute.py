@@ -69,6 +69,14 @@ def set_cutless_heuristics(cutless_hueristic: int = 0):
         cutless_enumeration_params.use_all_buffered_cut: bool = True
         cutless_enumeration_params.use_old_cut_expansion: bool = False
 
+    # use infinite order cut
+    elif cutless_hueristic == 5:
+        cutless_enumeration_params.use_zero_order_cut: bool = False
+        cutless_enumeration_params.use_first_order_cut: bool = False
+        cutless_enumeration_params.use_infinite_order_cut: bool = True
+        cutless_enumeration_params.use_all_buffered_cut: bool = False
+        cutless_enumeration_params.use_old_cut_expansion: bool = False
+
 def precompute_timing_labels(
     g: BLIFGraph,
     signal_to_channel: dict = {},

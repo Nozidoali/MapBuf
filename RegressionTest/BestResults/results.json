@@ -28,11 +28,11 @@
         "speedup": 1.4222180675912517
     },
     "gsumif": {
-        "execution_time": 18845.4,
-        "delay": 4.487,
-        "cycles": 4200,
+        "execution_time": 17336.916,
+        "delay": 3.942,
+        "cycles": 4398,
         "method": "milp",
-        "speedup": 1.4040784488522395
+        "speedup": 1.5262472287458737
     },
     "gsum": {
         "execution_time": 17316.372,

@@ -31,19 +31,91 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
     #
     model.Params.timeLimit = time_limit
 
-    print_blue(f"\n[i] Running MILP solver, time limit: {time_limit} seconds...", flush=True)
+
+    best_opt: int = None
+    converged_iterations: int = 0
+    prev_time = 0
+    
+    breakpoint_interval = get_value_from_kwargs(
+        kwargs, ["breakpoint_interval", "breakpoint_t", "breakpoint_time"], 60
+    )
+
+    convergence_interval = get_value_from_kwargs(
+        kwargs, ["convergence_interval", "convergence_t", "convergence_time"], 60
+    )
+
+    breakpoint_datapoints: list = []
+
+
+    breakpoint_callback_function = None
+    if breakpoint_interval is None:
+        breakpoint_callback_function = None
+    
+    else:
+        breakpoint_path = get_value_from_kwargs(kwargs, ["breakpoint_path", "breakpoint_dir"], None)
+        assert breakpoint_path is not None, "breakpoint_path is not specified"
+        if not os.path.exists(breakpoint_path):
+            os.makedirs(breakpoint_path)
+        def breakpoint_callback_function(model, where) -> bool:
+            nonlocal converged_iterations
+            nonlocal best_opt
+            nonlocal prev_time
+            nonlocal breakpoint_datapoints
+            nonlocal breakpoint_interval
+            nonlocal convergence_interval
+            
+            if where == gp.GRB.Callback.MIP:
+                
+                curr_time = model.cbGet(gp.GRB.Callback.RUNTIME)
+                if curr_time - prev_time >= breakpoint_interval:
+                    prev_time = curr_time
+            
+                    print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
+                    
+
+                    curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
+                    if curr_opt != GRB.INFINITY:
+                        if best_opt is None or curr_opt < best_opt:
+                            best_opt = curr_opt
+                            converged_iterations = 0
+
+                        else:
+                            converged_iterations += 1
+
+                        print_green(f"Opt: {curr_opt:0.04f}", flush=True)
+                    else:
+                        curr_opt = None
+                        converged_iterations = 0
+                        print_red("Opt: None", flush=True)
+                        
+                    breakpoint_datapoints.append((curr_time, curr_opt))
+                        
+                    if model.status == gp.GRB.OPTIMAL:
+                        model.terminate()
+
+                    if convergence_interval != None and converged_iterations >= convergence_interval:
+                        model.terminate()
+       
+    print_blue(f"\n[i] Running MILP solver, time limit: {time_limit} seconds, breakpoint_path = {breakpoint_path}...", flush=True)
 
     curr_time: int = 0
 
-    breakpoint_callback_function = get_value_from_kwargs(
-        kwargs, ["breakpoint_callback", "breakpoint_callback_function"], None
-    )
     if breakpoint_callback_function is not None:
         model.optimize(breakpoint_callback_function)
 
     else:
         model.optimize()
 
+    if breakpoint_interval is not None:
+        breakpoint_path = os.path.join(breakpoint_path, "trace.csv")
+        
+        print(f"Writing breakpoint data to {breakpoint_path} ...", end=' ', flush=True)
+        with open(breakpoint_path, "w") as f:
+            f.write("time, opt\n")
+            for t, opt in breakpoint_datapoints:
+                f.write(f"{t}, {opt}\n")
+        
+        print_green("Done", flush=True)
 
     stats['milp_run_time'] = curr_time
 

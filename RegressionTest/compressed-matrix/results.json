@@ -1,0 +1,9 @@
+{
+    "matrix": {
+        "execution_time": 309553.65,
+        "delay": 4.575,
+        "cycles": 67662,
+        "method": "milp",
+        "speedup": 1.5216412405410176
+    }
+}

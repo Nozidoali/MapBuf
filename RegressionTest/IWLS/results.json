@@ -21,18 +21,18 @@
         "speedup": 1.5651915070285176
     }, 
     "gemver": {
-        "execution_time": 82509.75499999999,
-        "delay": 5.611,
-        "cycles": 14705,
+        "execution_time": 40051.692,
+        "delay": 6.021,
+        "cycles": 6652,
         "method": "milp",
-        "speedup": 0.6903697629449997
+        "speedup": 1.4222180675912517
     },
     "gsumif": {
-        "execution_time": 22293.312,
-        "delay": 4.288,
-        "cycles": 5199,
+        "execution_time": 17821.032,
+        "delay": 4.216,
+        "cycles": 4227,
         "method": "milp",
-        "speedup": 1.186921889398937
+        "speedup": 1.4847860662614825
     },
     "gsum": {
         "execution_time": 22575.413,

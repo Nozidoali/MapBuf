@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:14:25
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-03-28 18:32:04
+Last Modified time: 2023-04-11 22:56:14
 '''
 
 from MADBuf import *
@@ -15,6 +15,11 @@ def get_lp_path_from_kwargs(**kwargs):
 
     mut = get_value_from_kwargs(kwargs, "mut", None)
     return os.path.join(path_params.example_dir, mut, "reports", f"{mut}.lp")
+
+def get_baseline_lp_path_from_kwargs(**kwargs):
+
+    mut = get_value_from_kwargs(kwargs, "mut", None)
+    return os.path.join(path_params.example_dir, mut, "reports", f"{mut}.baseline.lp")
 
 def get_lp_dir_from_kwargs(**kwargs):
 
