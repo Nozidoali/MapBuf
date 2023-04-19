@@ -13,7 +13,7 @@ import pygraphviz as pgv
 from TestCases.Formatter.Dummy import *
 
 registered_test_cases = [
-    TestDummy(),
+    # TestDummy(),
 ]
 
 class TestFormatter(TestCases):

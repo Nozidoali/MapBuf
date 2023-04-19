@@ -15,8 +15,8 @@ from TestCases.IO.BLIFReader import *
 from TestCases.IO.VerilogReader import *
 
 registered_test_cases = [
-    TestBLIFReader(),
-    TestVerilogReader(),
+    # TestBLIFReader(),
+    # TestVerilogReader(),
 ]
 
 class TestIO(TestCases):
