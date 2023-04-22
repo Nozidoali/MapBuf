@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-04-11 19:32:15
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-11 21:30:26
+Last Modified time: 2023-04-18 11:00:49
 '''
 
 from RegressionTest.Experiments.Path import *
@@ -36,6 +36,8 @@ def run_delay_analysis(setup_timing_report_path: str, n_paths_to_analyze: int, v
         curr_n_paths = 0
         curr_adder_delay = 0
         curr_adder_name = None
+
+        wire_delay_type = 'logic'
         
         i: int = 0
         while i < len(lines):
@@ -82,6 +84,7 @@ def run_delay_analysis(setup_timing_report_path: str, n_paths_to_analyze: int, v
 
 
                 if "(adder)" in name:
+                    wire_delay_type = 'adder'
                     adder_name = name.split("^")[0].strip()
                     print(f"{adder_name} ({name}), curr_adder_delay = {curr_adder_delay}, incr = {incr}")
                     if curr_adder_name == None or curr_adder_name != adder_name:
@@ -107,17 +110,22 @@ def run_delay_analysis(setup_timing_report_path: str, n_paths_to_analyze: int, v
 
                     if "dual_port_ram" in name:
                         dual_port_ram_delays.append(incr)
+                        wire_delay_type = 'ram'
 
                     elif "(multiply)" in name:
                         multiplier_delays.append(incr)
+                        wire_delay_type = 'multiplier'
 
                     elif ".out[" in name and "(.names)" in name:
                         if incr not in [0.235, 0.261]:
                             print(f"{name}: {curr_delay_type} (path: {path}, incr: {incr})")
                             raise Exception(f"error parsing line {i}: {line}")
+                        
                         logic_delays.append(incr)
-                        lut_level_delays.append(incr + wire_delays[-1])
-                        logic_wire_delays.append(wire_delays[-1])
+                        effective_wire_delay = wire_delays[-1] if wire_delay_type == 'lut' else 0
+                        lut_level_delays.append(incr + effective_wire_delay)
+                        logic_wire_delays.append(effective_wire_delay)
+                        wire_delay_type = 'lut'
                 
                 # toggle delay type
                 if curr_delay_type == "wire-delay":

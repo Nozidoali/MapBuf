@@ -177,3 +177,74 @@ def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
         print_green("DONE")
 
     return stats
+
+
+def run_gurobi_optimization_with_breakpoints(model: gp.Model, breakpoint_interval: int = 5) -> gp.Model:
+    stats = {}
+
+    best_opt: int = None
+    converged_iterations: int = 0
+    prev_time = 0
+    
+
+    breakpoint_datapoints: list = []
+
+    def breakpoint_callback_function(model, where) -> bool:
+        nonlocal converged_iterations
+        nonlocal best_opt
+        nonlocal prev_time
+        nonlocal breakpoint_datapoints
+        nonlocal breakpoint_interval
+        
+        if where == gp.GRB.Callback.MIP:
+            
+            curr_time = model.cbGet(gp.GRB.Callback.RUNTIME)
+            if curr_time - prev_time >= breakpoint_interval:
+                prev_time = curr_time
+        
+                print_blue(f"\tTime: {curr_time:0.02f} seconds", end = ' ', flush=True)
+                
+
+                curr_opt = model.cbGet(GRB.Callback.MIP_OBJBST)
+                if curr_opt != GRB.INFINITY:
+                    if best_opt is None or curr_opt < best_opt:
+                        best_opt = curr_opt
+                        converged_iterations = 0
+
+                    else:
+                        converged_iterations += 1
+
+                    print_green(f"Opt: {curr_opt:0.04f}", flush=True)
+                else:
+                    curr_opt = None
+                    converged_iterations = 0
+                    print_red("Opt: None", flush=True)
+                    
+                breakpoint_datapoints.append((curr_time, curr_opt))
+                    
+                if model.status == gp.GRB.OPTIMAL:
+                    model.terminate()
+       
+    print_blue(f"\n[i] Running MILP solver, breakpoint = {breakpoint_interval}...", flush=True)
+
+    model.optimize(breakpoint_callback_function)
+
+
+    if model.status == gp.GRB.INFEASIBLE or model.status == gp.GRB.INF_OR_UNBD:
+        print_red("Infeasible model")
+        model.computeIIS()
+
+        exit(1)
+
+    if model.status == gp.GRB.TIME_LIMIT:
+        num_solutions = model.SolCount
+        print_red(f"Time limit reached, {num_solutions} solutions found")
+
+    if model.status == gp.GRB.OPTIMAL:
+        print_green("Optimal solution found")
+
+    if model.status == gp.GRB.UNBOUNDED:
+        print_red("Unbounded model")
+        exit(1)
+
+    return breakpoint_datapoints

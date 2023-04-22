@@ -5,7 +5,7 @@
 [![Actions Status](https://github.com/Nozidoali/MADBuf/workflows/linux/badge.svg)](https://github.com/Nozidoali/MADBuf/actions)
 
 
-MADBuf is the new addition to the family of buffer insertion algorithms in [Dynamatic](https://dynamatic.epfl.ch/) that considers technology mapping and logic synthesis in the timing constraints. Compared to its siblings, who precharacterize the combinational delays of each elastic component, MADBuf estimates propagation delays more accurately and places buffers more aggressively.
+MapBuf is the new addition to the family of buffer insertion algorithms in [Dynamatic](https://dynamatic.epfl.ch/) that considers technology mapping and logic synthesis in the timing constraints. Compared to its siblings, who precharacterize the combinational delays of each elastic component, MADBuf estimates propagation delays more accurately and places buffers more aggressively.
 
 ### Why precharacterization is inaccurate?
 
@@ -15,4 +15,5 @@ These effects are negligible if the target clock frequency is low and the number
 
 ### How to eliminate mispredictions?
 
-WIP
+MapBuf: Simultaneous Technology Mapping and Buffer Insertion for HLS Performance Optimization. 
+

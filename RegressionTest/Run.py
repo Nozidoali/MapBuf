@@ -25,12 +25,12 @@ if __name__ == "__main__":
     param.clock_period = 6
     param.blackbox_propagation_delay = 4
 
-    param.timeout = 2400
-    param.repeat = 1
+    param.timeout = 1500
+    param.repeat = 2
     param.breakpoint_interval = None
 
     param.method = 'milp'
-    # param.benchmarks = ['gsumif']
+    param.benchmarks = ['matrix', 'stencil_2d', 'mvt_float']
 
     param.use_cutless = True
     param.cutless_hueristic = 1
