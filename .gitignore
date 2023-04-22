@@ -1,50 +1,57 @@
+# tmp files that are definitely useless
 __pycache__
-
 .vscode
 .pytest_cache
-
-*.sol
-*.aig
-*.csv
-*.png
-*_buf.dot
-*_buf_*.dot
-
-abc.rc
-
-*.egg-info
-
-scripts
-Buffers
 .DS_Store
 
+# ABC configuration files
+abc.rc
 
+# scripts for running the experiments faster
+scripts
+Buffers
 
 # in case some one install using 
 #
 #   python setup.py install
 build
 *.egg
+*.egg-info
 
 # dont change these
 *.log
 *.rpt
-*.pdf
 *.txt
+
+# LP files are large
 *.ilp
 *.lp
-*.dot
+*.sol
+
+# these are temporary files that can be easily regenerated
 *.mapping
 *.cuts
 
-stats.json
+# the plots and 
+*.pdf
+*.png
+!Figures/*.pdf
+!Figures/*.png
 
 # Benchmarks
-*.blif
-!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.blif
+*.dot
+*.csv
+*.json
+!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.dot
+!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.csv
+!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.json
 
+# these are not good for visualization
 *.svg
 *.gv
+
+# AIGER in EPFL benchmarks
+*.aig
 
 # temporary files
 tmp.*
