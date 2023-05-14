@@ -58,7 +58,8 @@ def all_dac_examples():
         # "mvt_float",
         # "matrix",
         # "stencil_2d",
-        "invertion"
+        # "invertion",
+        "convolutional_neural_network"
     ]
 
 if __name__ == "__main__":

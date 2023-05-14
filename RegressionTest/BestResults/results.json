@@ -68,5 +68,11 @@
         "cycles": 2008,
         "method": "milp",
         "speedup": 1.0920021763869983
+    },
+    "convolutional_neural_network": {
+        "execution_time": 2251220.72,
+        "delay": 5.11,
+        "cycles": 440552,
+        "method": "milp"
     }
 }

@@ -46,7 +46,7 @@ def evaluate_delay(
 
     run_elaborate(dfg, top_module=top_module, fifo_without_mod=True, verbose=verbose)
 
-    # subprocess.run mapping
+    # run mapping
     print("Running ABC", end="...", flush=True)
     abc_values = run_abc_techmap(
         f"/tmp/eval/{top_module}.blif",
@@ -55,7 +55,7 @@ def evaluate_delay(
     )
     print_green("Done")
 
-    # now we subprocess.run pre-VPR
+    # now we run pre-VPR
     print("Running pre-VPR", end="...", flush=True)
     subprocess.run(
         " ".join(

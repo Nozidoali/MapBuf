@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-14 16:03:11
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-12 09:23:53
+Last Modified time: 2023-05-12 17:30:59
 '''
 
 from MADBuf import *
@@ -38,7 +38,7 @@ def evaluate_milp(*args, **kwargs):
         insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
 
         dfg_path = get_dfg_sol_path_from_kwargs(**kwargs)
-        print(f"Writting solution to {dfg_path}", end="... ", flush=True)
+        print(f"Writting solution to {dfg_path}", end=" ... ", flush=True)
         write_dfg(dfg, dfg_path)
 
         png_path = dfg_path.replace(".dot", ".png")

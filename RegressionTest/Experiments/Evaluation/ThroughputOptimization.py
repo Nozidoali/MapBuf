@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-03-28 18:08:21
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-04-16 13:38:07
+Last Modified time: 2023-05-12 17:31:04
 '''
 
 
@@ -83,13 +83,16 @@ def throughput_optimization_from_kwargs(network: BLIFGraph, signal_to_cuts: dict
         )
 
         buffers, buffer_slots, signal_to_cut, signal_to_label = optimizer.get_solution()
+
+        stats.values['number_of_buffered_channels'] = len(buffers)
+        stats.values['number_of_buffer_slots'] = len(buffer_slots)
         
 
     dfg = get_dfg_ref_from_kwargs(**kwargs)
     insert_buffers_in_dfg(dfg, buffers, buffer_slots, verbose=False)
 
     dfg_path = get_dfg_sol_path_from_kwargs(**kwargs)
-    print(f"Writting solution to {dfg_path} ", end="... ", flush=True)
+    print(f"Writting solution to {dfg_path} ", end=" ... ", flush=True)
     write_dfg(dfg, dfg_path)
 
     png_path = dfg_path.replace(".dot", ".png")

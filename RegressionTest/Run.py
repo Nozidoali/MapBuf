@@ -26,21 +26,21 @@ if __name__ == "__main__":
     param.blackbox_propagation_delay = 4
 
     param.timeout = 1500
-    param.repeat = 2
+    # param.repeat = 2
     param.breakpoint_interval = None
 
     param.method = 'milp'
-    param.benchmarks = ['matrix', 'stencil_2d', 'mvt_float']
+    param.benchmarks = ['convolutional_neural_network']
 
     param.use_cutless = True
     param.cutless_hueristic = 1
     param.use_cut = True
     # param.priority_cut_size_limit = 10
     # param.map_icmp = True
-    # param.ext_cut_file = True
-    # param.ext_lp_file = True
+    param.ext_cut_file = True
+    param.ext_lp_file = True
     # param.ext_dfg = True
-    # param.ext_sol_file = True
+    param.ext_sol_file = True
     # param.ext_dot_file = True
     # param.skip_milp = True
 

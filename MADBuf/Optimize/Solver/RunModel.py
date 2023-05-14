@@ -14,6 +14,12 @@ from MADBuf.Optimize.Solver.RetrieveBuffers import *
 from MADBuf.Optimize.Solver.RetrieveBufferSlots import *
 
 def run_gurobi_optimization(model: gp.Model, **kwargs) -> gp.Model:
+    """run gurobi optimization
+
+    Args:
+        model (gp.Model): the model to be optimized
+
+    """
     stats = {}
 
     verbose = get_value_from_kwargs(kwargs, "verbose", False)

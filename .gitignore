@@ -7,6 +7,9 @@ __pycache__
 # ABC configuration files
 abc.rc
 
+# environment files
+.env
+
 # scripts for running the experiments faster
 scripts
 Buffers

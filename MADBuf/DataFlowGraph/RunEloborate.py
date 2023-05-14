@@ -63,9 +63,10 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
         odin_components = os.environ["ODIN_COMPONENTS"] + "/new_Verilog/*.v"
 
     odin_arc = os.environ["ODIN_ARCH"]
+    odin_path = os.environ["ODIN_PATH"]
     odin_command = " ".join(
         [
-            "/home/nozidoali/MADBuf/vtr-verilog-to-routing/ODIN_II/odin_II",
+            f"{odin_path}",
             "--elaborator yosys",
             "-G",
             f"-a {odin_arc}",
@@ -83,6 +84,10 @@ def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:
     while not os.path.exists(f"/tmp/eval/{mut}.blif"):
         time.sleep(1)
     print_green("Done")
+
+    # in case someone wants to debug
+    # subprocess.run(f"cp /tmp/eval/{mut}.blif ~/MADBuf", shell=True)
+    # subprocess.run(f"cp /tmp/eval/{mut}.v ~/MADBuf", shell=True)
 
     run_strash = get_value_from_kwargs(kwargs, ["run_strash", "strash"], False)
     if run_strash:
