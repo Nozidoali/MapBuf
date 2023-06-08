@@ -1,4 +1,4 @@
-## MADBuf: Mapping-aware dynamic buffer insertion algorithm for dynamically scheduled circuits
+## MapBuf: Simultaneous Technology Mapping and Buffer Insertion for HLS Performance Optimization
 ---
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Nozidoali/MADBuf.git)
@@ -13,7 +13,6 @@ Precharacterization-based algorithms mispredict LUT levels because they are unaw
 
 These effects are negligible if the target clock frequency is low and the number of logic levels inside a clock period is much longer than the number of LUT levels on the boundary. However, in high-speed FPGA designs, a clock period fits only 5 LUT levels and the misprediction on both register outputs and register inputs may introduce at most 2 additional levels (40% of the clock period). As a result, existing algorithms either easily fail to meet the target clock period or have to leave a large margin for logic synthesis and physics synthesis.
 
-### How to eliminate mispredictions?
+### Why simultaneous?
 
-MapBuf: Simultaneous Technology Mapping and Buffer Insertion for HLS Performance Optimization. 
-
+TBD
