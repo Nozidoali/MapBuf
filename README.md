@@ -16,3 +16,7 @@ These effects are negligible if the target clock frequency is low and the number
 ### Why simultaneous?
 
 TBD
+
+### Getting Started
+
+Currently, MapBuf works as a plugin to the Dynamatic workflow and requires Gorubi as the backend MILP solver.
