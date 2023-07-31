@@ -22,25 +22,25 @@ if __name__ == "__main__":
 
     param = Params()
 
-    param.clock_period = 6
+    param.clock_period = 7 # set to 6, 7 for gsum and gsumif
     param.blackbox_propagation_delay = 4
 
-    param.timeout = 1500
+    param.timeout = 3600
     # param.repeat = 2
     param.breakpoint_interval = None
 
     param.method = 'milp'
-    param.benchmarks = ['convolutional_neural_network']
+    param.benchmarks = ['gsum', 'gsumif']
 
     param.use_cutless = True
     param.cutless_hueristic = 1
     param.use_cut = True
     # param.priority_cut_size_limit = 10
     # param.map_icmp = True
-    param.ext_cut_file = True
-    param.ext_lp_file = True
+    param.ext_cut_file = False
+    param.ext_lp_file = False
     # param.ext_dfg = True
-    param.ext_sol_file = True
+    param.ext_sol_file = False
     # param.ext_dot_file = True
     # param.skip_milp = True
 
