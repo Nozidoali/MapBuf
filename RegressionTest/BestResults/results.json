@@ -21,11 +21,11 @@
         "speedup": 1.8893691661968302
     },
     "gemver": {
-        "execution_time": 37795.24,
-        "delay": 5.446,
-        "cycles": 6940,
+        "execution_time": 33508.562,
+        "delay": 5.014,
+        "cycles": 6683,
         "method": "milp",
-        "speedup": 1.5071273525449236
+        "speedup": 1.6999309012424944
     },
     "gsumif": {
         "execution_time": 17336.916,
