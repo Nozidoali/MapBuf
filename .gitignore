@@ -18,6 +18,7 @@ Buffers
 #
 #   python setup.py install
 build
+_build
 *.egg
 *.egg-info
 
