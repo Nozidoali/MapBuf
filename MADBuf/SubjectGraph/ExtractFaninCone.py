@@ -35,7 +35,7 @@ def _extract_fanin_cone_rec(
             g.inputs.add(n)
     else:
         g.nodes.add(n)
-        g.fanins(n) = set()
+        g.node_fanins = set()
         for f in graph.fanins(n):
             _extract_fanin_cone_rec(graph, f, g, visited)
             g.fanins(n).add(f)

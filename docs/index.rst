@@ -11,7 +11,23 @@ Welcome to MapBuf's documentation!
    :caption: Contents:
    
    introduction
+   getting_started
 
+.. toctree::
+  :maxdepth: 2
+  :caption: Experiments
+
+  delay_decomp
+  performance_evaluation
+  depth_estimation
+  runtime_analysis
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+   :caption: Algorithms
+
+   modules
 
 Indices and tables
 ==================
