@@ -1,7 +1,7 @@
 Delay characterization
 ======================
 
-.. image:: ../Figures/delay_decomp.png
+.. image:: ../../Figures/delay_decomp.png
   :width: 400
   :alt: Delay decomposition
 

@@ -15,19 +15,17 @@ Welcome to MapBuf's documentation!
 
 .. toctree::
   :maxdepth: 2
+  :glob:
   :caption: Experiments
 
-  delay_decomp
-  performance_evaluation
-  depth_estimation
-  runtime_analysis
+   experiments/*
 
 .. toctree::
    :maxdepth: 2
    :glob:
    :caption: Algorithms
 
-   modules
+   algorithms/*
 
 Indices and tables
 ==================
