@@ -159,9 +159,9 @@ def mapping(bmark):
     #     'fpl': 'B-M',
     # }
     names = {
-        'cutless': 'MapBuf',
-        # 'heu-5': 'MapBuf-Exhaustive',
-        'heu-5': 'MapBuf',
+        'cutless': 'MapBuf-Lite',
+        'heu-5': 'MapBuf-Exhaustive',
+        # 'heu-5': 'MapBuf',
         'dac2': 'M-B (the last iter.)',
         'fpl': 'B-M',
     }
@@ -177,7 +177,7 @@ plot([
     # 'cut',
     # 'heu-1',
     # 'heu-4',
-    # 'heu-5',
-    # 'dac2',
+    'heu-5',
+    'dac2',
     'fpl',
 ])

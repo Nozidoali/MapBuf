@@ -51,6 +51,10 @@ _build
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.json
 !Experiments/*/*.csv
 
+# for the runtime-exp
+!Experiments/*/*/*/*/*.csv
+!Experiments/*/*/*/*.json
+
 # these are not good for visualization
 *.svg
 *.gv
