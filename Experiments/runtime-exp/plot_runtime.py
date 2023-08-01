@@ -129,54 +129,20 @@ def plot(benchmarks: list):
     plt.grid()  #just add this
     plt.show()
 
-
 import glob
 import gurobipy as gp
 
-
-def run_gurobi():
-    # path = "/home/nozidoali/MADBuf/RegressionTest/Examples/convolutional_neural_network/lps_new/*.lp"
-    path = "/home/nozidoali/MADBuf/RegressionTest/Examples/convolutional_neural_network/lps_dac_iter2/*.lp"
-    lps = glob.glob(path)
-    print(lps)
-
-    model = load_model(lps, rescale_coefficients=True)
-    # model = gp.read("/home/nozidoali/MADBuf/RegressionTest/Examples/convolutional_neural_network/lps_dac_iter2/milp2.lp")
-    # model = gp.read("/home/nozidoali/MADBuf/RegressionTest/Examples/convolutional_neural_network/lps_new/milp.lp")
-    # model = gp.read("/home/nozidoali/MADBuf/RegressionTest/Examples/convolutional_neural_network/reports/convolutional_neural_network.lp")
-    model.write('cnn_dac_iter2.lp')
-
-    run_gurobi_optimization(breakpoint_interval=5, breakpoint_path="./", model=model, time_limit=1500)
-    # model.write('cnn_fpl.sol')
-
-# run_gurobi()
-
 def mapping(bmark):
-    # names = {
-    #     'cutless': 'MapBuf ($|\Gamma_n|=1$)',
-    #     'heu-5': 'MapBuf ($|\Gamma_n|\leq100$)',
-    #     'dac2': 'M-B (the last iter.)',
-    #     'fpl': 'B-M',
-    # }
     names = {
         'cutless': 'MapBuf-Lite',
         'heu-5': 'MapBuf-Exhaustive',
-        # 'heu-5': 'MapBuf',
         'dac2': 'M-B (the last iter.)',
         'fpl': 'B-M',
     }
     return names[bmark] if bmark in names else bmark
 
 plot([
-    # 'dac1', 
-    # 'mapbuf',
-    # 'mapbuf\'',
-    # 'mapbuf-cut-pruning',
-    # 'mapbuf-cut-pruning\'',
     'cutless',
-    # 'cut',
-    # 'heu-1',
-    # 'heu-4',
     'heu-5',
     'dac2',
     'fpl',
