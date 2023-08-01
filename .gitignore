@@ -90,3 +90,6 @@ RegressionTest/Examples/*/reports/*.v
 !RegressionTest/BestResults/*/*.dot
 !RegressionTest/BestResults/*/*.blif
 !RegressionTest/BestResults/*/*.cuts
+
+# twine
+dist
