@@ -49,6 +49,7 @@ _build
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.dot
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.csv
 !RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.json
+!Experiments/*/*.csv
 
 # these are not good for visualization
 *.svg
