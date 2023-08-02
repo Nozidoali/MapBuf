@@ -14,17 +14,16 @@ Welcome to MapBuf's documentation!
    getting_started
 
 .. toctree::
-  :maxdepth: 2
-  :caption: Experiments
+   :maxdepth: 2
+   :glob:
+   :caption: Experiments:
 
-   experiments/delay_decomp
-   experiments/depth_estimation
-   experiments/runtime_analysis
+   experiments/*
 
 .. toctree::
    :maxdepth: 2
    :glob:
-   :caption: Algorithms
+   :caption: Algorithms:
 
    algorithms/*
 
