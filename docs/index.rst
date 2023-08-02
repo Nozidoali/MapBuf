@@ -15,10 +15,11 @@ Welcome to MapBuf's documentation!
 
 .. toctree::
   :maxdepth: 2
-  :glob:
   :caption: Experiments
 
-   experiments/*
+   experiments/delay_decomp
+   experiments/depth_estimation
+   experiments/runtime_analysis
 
 .. toctree::
    :maxdepth: 2
