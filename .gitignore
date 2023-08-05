@@ -55,6 +55,11 @@ _build
 !Experiments/*/*/*/*/*.csv
 !Experiments/*/*/*/*.json
 
+# for the 
+!Experiments/*/*/*/*.json
+!Experiments/*/*/*/*/*.csv
+!Experiments/*/*/*/*.csv
+
 # these are not good for visualization
 *.svg
 *.gv

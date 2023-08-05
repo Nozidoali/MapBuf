@@ -49,16 +49,16 @@ def fetch_examples(*arg, **kwargs):
 
 def all_dac_examples():
     return [
-        # "covariance_float",
-        # "gaussian",
-        # "gemver",
-        # "gsum",
-        # "gsumif",
-        # "insertion_sort",
-        # "mvt_float",
-        # "matrix",
-        # "stencil_2d",
-        # "invertion",
+        "covariance_float",
+        "gaussian",
+        "gemver",
+        "gsum",
+        "gsumif",
+        "insertion_sort",
+        "mvt_float",
+        "matrix",
+        "stencil_2d",
+        "invertion",
         "convolutional_neural_network"
     ]
 
