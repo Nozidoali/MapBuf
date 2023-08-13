@@ -14,7 +14,7 @@ from .subject_graph import *
 from .io import *
 from .external import *
 from .visualization import *
-from .mapbuf_formulation import *
+from .mapbuf import *
 from .madbuf import *
 from .views import *
 from .dataflow_graph import *
