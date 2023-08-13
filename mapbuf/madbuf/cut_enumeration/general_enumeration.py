@@ -11,7 +11,7 @@ Last Modified time: 2023-03-19 13:11:55
 
 from mapbuf.network.blif_network import *
 from mapbuf.utils import *
-from mapbuf.madbuf.cut_enumeration.CutEnumerationImplNew import *
+from mapbuf.madbuf.cut_enumeration.two_inputs import *
 import pygraphviz as pgv
 
 def cuts_to_string(cuts: list) -> str:

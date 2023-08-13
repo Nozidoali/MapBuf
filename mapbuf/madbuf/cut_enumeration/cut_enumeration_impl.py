@@ -9,10 +9,10 @@ Last Modified time: 2023-03-19 01:25:28
 """
 
 
-from mapbuf.madbuf.cut_enumeration.CutEnumerationImpl import *
-from mapbuf.madbuf.cut_enumeration.CutlessEnumerationImpl import *
-from mapbuf.madbuf.cut_enumeration.CutlessEnumerationImplOld import *
-from mapbuf.madbuf.cut_enumeration.CleanupDanglingCuts import *
+from mapbuf.madbuf.cut_enumeration.general_enumeration import *
+from mapbuf.madbuf.cut_enumeration.cutless import *
+from mapbuf.madbuf.cut_enumeration.cutless_legacy import *
+from mapbuf.madbuf.cut_enumeration.cleanup_dangling import *
 
 
 def cut_enumeration(network, *args, **kwargs) -> dict:

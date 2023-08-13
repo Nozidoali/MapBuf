@@ -12,10 +12,10 @@ Last Modified time: 2023-03-26 04:44:24
 from mapbuf.network import *
 from mapbuf.madbuf.label import TimingLabel
 from mapbuf.utils import *
-from mapbuf.madbuf.cut_enumeration.ExpandCutBase import *
-from mapbuf.madbuf.cut_enumeration.RecoverChannels import *
-from mapbuf.madbuf.cut_enumeration.DirtyLabelPropagation import *
-from mapbuf.madbuf.cut_enumeration.LabelPropagation import *
+from mapbuf.madbuf.cut_enumeration.expansion import *
+from mapbuf.madbuf.cut_enumeration.channel_recovery import *
+from mapbuf.madbuf.cut_enumeration.lazy_propagation import *
+from mapbuf.madbuf.cut_enumeration.label_precomputation import *
 
 
 class first_order_cut_params:

@@ -11,7 +11,7 @@ Last Modified time: 2023-03-21 17:34:53
 from mapbuf.network import *
 from mapbuf.madbuf.label import TimingLabel
 from mapbuf.utils import *
-from mapbuf.madbuf.cut_enumeration.LabelPropagation import *
+from mapbuf.madbuf.cut_enumeration.label_precomputation import *
 
 import queue
 

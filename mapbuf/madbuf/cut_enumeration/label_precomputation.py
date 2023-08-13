@@ -12,7 +12,7 @@ from mapbuf.network import *
 from mapbuf.madbuf.label import TimingLabel
 from mapbuf.utils import *
 
-from mapbuf.madbuf.cut_enumeration.ExpandCutBase import *
+from mapbuf.madbuf.cut_enumeration.expansion import *
 
 
 def label_propagation(

@@ -11,9 +11,9 @@ Last Modified time: 2023-03-21 18:34:00
 from mapbuf.network import *
 from mapbuf.madbuf.label import TimingLabel
 from mapbuf.utils import *
-from mapbuf.madbuf.cut_enumeration.ExpandCutBase import *
-from mapbuf.madbuf.cut_enumeration.RecoverChannels import *
-from mapbuf.madbuf.cut_enumeration.FirstOrderCutExpansionImpl import *
+from mapbuf.madbuf.cut_enumeration.expansion import *
+from mapbuf.madbuf.cut_enumeration.channel_recovery import *
+from mapbuf.madbuf.cut_enumeration.first_order_impl import *
 
 
 def first_order_cut_expansion(

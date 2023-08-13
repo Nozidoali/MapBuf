@@ -11,7 +11,7 @@ Last Modified time: 2023-03-19 13:13:15
 
 from mapbuf.network import *
 from mapbuf.madbuf.label import TimingLabel
-from mapbuf.madbuf.cut_enumeration.CleanupDanglingCuts import *
+from mapbuf.madbuf.cut_enumeration.cleanup_dangling import *
 from mapbuf.utils import *
 
 class CutlessEnumerationImplOld_params:
