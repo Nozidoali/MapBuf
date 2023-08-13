@@ -10,7 +10,7 @@ Last Modified time: 2023-03-26 04:44:24
 
 import pygraphviz as pgv
 from mapbuf.network.blif_network import *
-from mapbuf.formatter.PrettyGraph import *
+from mapbuf.visualization.format_graphs import *
 import random
 import queue
 

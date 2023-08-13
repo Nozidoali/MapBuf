@@ -9,8 +9,8 @@ Last Modified time: 2023-03-26 04:44:13
 """
 
 from mapbuf.network.blif_network import *
-from mapbuf.formatter.PrettyGraph import *
-from mapbuf.formatter.PrettyRegisters import *
+from mapbuf.visualization.format_graphs import *
+from mapbuf.visualization.format_registers import *
 import pygraphviz as pgv
 
 # export the graph to a DOT file

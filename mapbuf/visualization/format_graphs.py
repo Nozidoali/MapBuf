@@ -10,7 +10,7 @@ Last Modified time: 2023-03-14 23:04:21
 
 import pygraphviz as pgv
 from mapbuf.utils import *
-from mapbuf.formatter.Subgraph import *
+from mapbuf.visualization.print_subgraphs import *
 
 
 def set_pretty_attributes(

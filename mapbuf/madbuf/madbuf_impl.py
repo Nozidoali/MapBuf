@@ -1,6 +1,6 @@
 from mapbuf.network.blif_network import *
 from mapbuf.madbuf.label import TimingLabel
-from mapbuf.formatter import *
+from mapbuf.visualization import *
 from mapbuf.utils import *
 
 import subprocess

@@ -13,7 +13,7 @@ from .network import *
 from .subject_graph import *
 from .io import *
 from .external import *
-from .formatter import *
+from .visualization import *
 from .mapbuf_formulation import *
 from .madbuf import *
 from .views import *
