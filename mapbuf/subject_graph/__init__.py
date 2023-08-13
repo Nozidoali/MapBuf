@@ -11,14 +11,14 @@ Last Modified time: 2023-03-11 20:10:14
 # this can be hidden from the user
 # from MADBuf.SubjectGraph.BLIFGraphBase import *
 
-from mapbuf.subject_graph.RetrieveChannels import *
-from mapbuf.subject_graph.RetrieveComponents import *
-from mapbuf.subject_graph.RetrieveSubjectGraph import *
+from mapbuf.subject_graph.retrieve_channels import *
+from mapbuf.subject_graph.retrieve_components import *
+from mapbuf.subject_graph.retrieve_subject_graph import *
 
-from mapbuf.subject_graph.RetrieveAnchors import *
-from mapbuf.subject_graph.FindLoop import *
-from mapbuf.subject_graph.RetrieveDFG import *
-from mapbuf.subject_graph.KLUTMapping import *
-from mapbuf.subject_graph.PrintStats import *
-from mapbuf.subject_graph.EvaluateLevel import *
-from mapbuf.subject_graph.Traversal import *
+from mapbuf.subject_graph.retrieve_anchors import *
+from mapbuf.subject_graph.find_loop import *
+from mapbuf.subject_graph.retrieve_dataflow_graph import *
+from mapbuf.subject_graph.klut_mapping import *
+from mapbuf.subject_graph.print_statistics import *
+from mapbuf.subject_graph.level_evaluations import *
+from mapbuf.subject_graph.graph_traversal import *

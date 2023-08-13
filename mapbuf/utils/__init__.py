@@ -8,14 +8,14 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 20:54:06
 """
 
-from mapbuf.utils.Constants import *
-from mapbuf.utils.Channel import *
-from mapbuf.utils.ColorPrint import *
-from mapbuf.utils.StopWatch import *
-from mapbuf.utils.StringUtils import *
-from mapbuf.utils.Anchors import *
-from mapbuf.utils.Cuts import *
-from mapbuf.utils.ArgParser import *
-from mapbuf.utils.Components import *
-from mapbuf.utils.ComponentType import *
-from mapbuf.utils.Standard import *
+from .constants import *
+from .channels import *
+from .color_print import *
+from .timer import *
+from .string_utils import *
+from .anchors import *
+from .cuts import *
+from .argument_parser import *
+from .components import *
+from .component_types import *
+from .suppress_output import *

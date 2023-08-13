@@ -9,7 +9,7 @@ Last Modified time: 2023-03-19 12:55:20
 """
 
 from mapbuf.network import *
-from mapbuf.synthesis.TimingLabel import *
+from mapbuf.madbuf.label import *
 from mapbuf.utils import *
 
 

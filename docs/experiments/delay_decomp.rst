@@ -7,7 +7,7 @@ The code can be found in ``Experiments/delay_characterization/raw/retrieve_timin
 
 The figure below show the delay distribution measured in our flow for the following constructs: (i) inside a single LUT, (ii) on the wire between two LUTs, (iii) the effective LUT level delay (i.e., the sum of the single LUT delay and the surrounding wiring), and (iv) an arithmetic unit (including the wire delays to and from the arithmetic units).
 
-.. image:: ../../Figures/delay_decomp_v6.png
+.. image:: ../../img/delay_decomp_v6.png
   :width: 400
   :alt: Delay decomposition
 

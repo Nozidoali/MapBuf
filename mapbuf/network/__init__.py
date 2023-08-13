@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:00:54
 """
 
-from mapbuf.network.BLIF import *
+from mapbuf.network.blif_network import *
 from mapbuf.network.Verilog import *
 
 # the other packages are allowed to use the following packages

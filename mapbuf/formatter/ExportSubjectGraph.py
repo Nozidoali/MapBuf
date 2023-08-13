@@ -8,7 +8,7 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-26 04:44:13
 """
 
-from mapbuf.network.BLIF import *
+from mapbuf.network.blif_network import *
 from mapbuf.formatter.PrettyGraph import *
 from mapbuf.formatter.PrettyRegisters import *
 import pygraphviz as pgv

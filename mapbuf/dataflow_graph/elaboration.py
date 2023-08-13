@@ -16,7 +16,7 @@ from mapbuf.io import *
 from mapbuf.network import *
 from mapbuf.dataflow_graph.insert_anchors import *
 from mapbuf.external import *
-from mapbuf.synthesis import *
+from mapbuf.madbuf import *
 
 
 def run_elaborate(dfg: pgv.AGraph, *args, **kwargs) -> BLIFGraph:

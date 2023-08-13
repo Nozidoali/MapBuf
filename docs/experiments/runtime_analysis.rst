@@ -3,7 +3,7 @@ CPU-time analysis
 
 MapBuf combines buffer insertion and technology mapping into a MILP formulation which is, naturally, more complex than approaches that handle these optimizations separately. We here investigate the runtime of MapBuf and its ability to achieve near-optimal results within an acceptable time frame. 
 
-.. image:: ../../Figures/runtime_v9.png
+.. image:: ../../img/runtime_v9.png
   :width: 400
   :alt: Run-time analysis
 

@@ -39,8 +39,8 @@ _build
 # the plots and 
 *.pdf
 *.png
-!Figures/*.pdf
-!Figures/*.png
+!img/*.pdf
+!img/*.png
 
 # Benchmarks
 *.dot
