@@ -7,6 +7,8 @@
 
 MapBuf is the new addition to the family of buffer insertion algorithms in [Dynamatic](https://dynamatic.epfl.ch/) that considers technology mapping and logic synthesis in the timing constraints. Compared to its siblings, who precharacterize the combinational delays of each elastic component, MADBuf estimates propagation delays more accurately and places buffers more aggressively.
 
+[Read full documentation](https://mapbuf.readthedocs.io/en/latest/)
+
 ### Why precharacterization is inaccurate?
 
 Precharacterization-based algorithms mispredict LUT levels because they are unaware of the logic network during the technology mapping. When precharacterization, each elastic component is isolated from its loads and drives, so logic clustering during technology mapping is forced to stop at the component's boundary.
