@@ -11,7 +11,7 @@ def get_csv_filename(mut):
     if os.path.exists(os.path.join(mut, "convolutional_neural_network", "milp_breakpoints", "trace.csv")):
         return os.path.join(mut, "convolutional_neural_network", "milp_breakpoints", "trace.csv")
     print(f"Cannot find trace.csv for {mut}")
-    return os.path.join("RegressionTest", mut, "convolutional_neural_network", "milp_breakpoints", "trace.csv")
+    return os.path.join("mapbuf_runtime", mut, "convolutional_neural_network", "milp_breakpoints", "trace.csv")
 
 def read_data_from_csv(mut):
     csv_file = get_csv_filename(mut)

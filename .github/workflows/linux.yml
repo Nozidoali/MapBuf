@@ -17,7 +17,7 @@ jobs:
           cd ${{github.event.repository.name}}
           sudo sh ./install_apt_packages.sh
           pip3 install -e .
-          cd RegressionTest
+          cd mapbuf_runtime
           python3 Test.py
 
       - name: Cleanup

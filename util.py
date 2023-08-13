@@ -5,7 +5,7 @@
 Author: Hanyu Wang
 Created time: 2023-05-16 11:16:32
 Last Modified by: Hanyu Wang
-Last Modified time: 2023-08-13 09:20:53
+Last Modified time: 2023-08-13 10:19:07
 '''
 
 from mapbuf import *
@@ -47,8 +47,8 @@ def get_area(path: str):
     return stats["#FF"], stats["#LUT"]
 
 for time_limit in [300, 600, 900, 1200, 1500]:
-    df, final_opt = get_opt_values(f"/home/nozidoali/MADBuf/RegressionTest/{time_limit}s")
-    cycles = get_cycles(f"/home/nozidoali/MADBuf/RegressionTest/{time_limit}s")
-    cp = get_cp(f"/home/nozidoali/MADBuf/RegressionTest/{time_limit}s")
-    ffs, luts = get_area(f"/home/nozidoali/MADBuf/RegressionTest/{time_limit}s")
+    df, final_opt = get_opt_values(f"/home/nozidoali/MADBuf/mapbuf_runtime/{time_limit}s")
+    cycles = get_cycles(f"/home/nozidoali/MADBuf/mapbuf_runtime/{time_limit}s")
+    cp = get_cp(f"/home/nozidoali/MADBuf/mapbuf_runtime/{time_limit}s")
+    ffs, luts = get_area(f"/home/nozidoali/MADBuf/mapbuf_runtime/{time_limit}s")
     print(",".join([str(time_limit), str(final_opt), str(cycles), str(cp), str(ffs), str(luts)]))

@@ -7,4 +7,4 @@ To install, run
 You can then import the module with
 `import MADBuf`
 
-We are working on a more detailed tutorial, but for now, you can look at the examples in the `RegressionTest` folder.
+We are working on a more detailed tutorial, but for now, you can look at the examples in the `mapbuf_runtime` folder.

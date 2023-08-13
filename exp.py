@@ -1,5 +1,5 @@
 from mapbuf import *
-from RegressionTest import *
+from mapbuf_runtime import *
 
 import pygraphviz as pgv
 

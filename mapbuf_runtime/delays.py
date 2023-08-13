@@ -1,4 +1,4 @@
-from RegressionTest.Experiments import *
+from mapbuf_runtime.Experiments import *
 import numpy as np
 def all_dac_examples():
     return [
