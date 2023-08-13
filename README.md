@@ -1,6 +1,7 @@
 ## MapBuf: Simultaneous Technology Mapping and Buffer Insertion for HLS Performance Optimization
 ---
 
+[![DOI](https://zenodo.org/badge/598144740.svg)](https://zenodo.org/badge/latestdoi/598144740)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Nozidoali/MADBuf.git)
 [![Actions Status](https://github.com/Nozidoali/MADBuf/workflows/linux/badge.svg)](https://github.com/Nozidoali/MADBuf/actions)
 
