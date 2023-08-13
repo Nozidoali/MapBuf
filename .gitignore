@@ -73,21 +73,8 @@ test.*
 
 arch_dsp.v
 
-# dummy
-mapbuf_runtime/dummy/*
-!mapbuf_runtime/dummy/src
-!mapbuf_runtime/dummy/reports
-mapbuf_runtime/dummy/reports/*
-!mapbuf_runtime/dummy/reports/dummy.blif
-!mapbuf_runtime/dummy/reports/dummy.dot
-
 # Examples
-mapbuf_runtime/Examples/*/reports/*.v
-mapbuf_runtime/Examples/*/reports/*.blif
-mapbuf_runtime/Examples/*/reports/*.dot
-mapbuf_runtime/Examples/*/reports/*.v
-mapbuf_runtime/Examples/*/reports
-mapbuf_runtime/Examples/*/reports/*.v
+mapbuf_runtime/Examples/*/reports/*
 !mapbuf_runtime/Examples/*/reports/*.blif
 !mapbuf_runtime/Examples/*/reports/*.dot
 

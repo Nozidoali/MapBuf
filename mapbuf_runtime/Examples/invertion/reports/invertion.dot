@@ -1,0 +1,96 @@
+Digraph G {
+	splines=spline;
+//DHLS version: 0.1.1" [shape = "none" pos = "20,20!"]
+		"brCst_block1" [type = "Constant", bbID= 1, in = "in1:1", out = "out1:1", value = "0x1"];
+		"cst_0" [type = "Constant", bbID= 1, in = "in1:1", out = "out1:1", value = "0x00000000"];
+		"phi_1" [type = "Mux", bbID= 2, in = "in1?:1 in2:10 in3:10 ", out = "out1:10", delay=1.397];
+		"load_4" [type = "Operator", bbID= 2, op = "mc_load_op", bbID= 2, portId= 0, in = "in1:32 in2:10 ", out = "out1:32 out2:10 ", delay=1.412, latency=2, II=1];
+		"cst_1" [type = "Constant", bbID= 2, in = "in1:32", out = "out1:32", value = "0xFFFFFFFF"];
+		"add_5" [type = "Operator", bbID= 2, op = "add_op", in = "in1:32 in2:32 ", out = "out1:32 ", delay=2.287, latency=0, II=1];
+		"store_0" [type = "Operator", bbID= 2, op = "mc_store_op", bbID= 2, portId= 0, in = "in1:32 in2:10 ", out = "out1:32 out2:10 ", delay=0.672, latency=0, II=1];
+		"cst_2" [type = "Constant", bbID= 2, in = "in1:1", out = "out1:1", value = "0x00000001"];
+		"add_8" [type = "Operator", bbID= 2, op = "add_op", in = "in1:10 in2:10 ", out = "out1:10 ", delay=2.287, latency=0, II=1];
+		"cst_3" [type = "Constant", bbID= 2, in = "in1:10", out = "out1:10", value = "0x000003E9"];
+		"icmp_9" [type = "Operator", bbID= 2, op = "icmp_ult_op", in = "in1:10 in2:10 ", out = "out1:1 ", delay=1.907, latency=0, II=1];
+		"ret_0" [type = "Operator", bbID= 3, op = "ret_op", in = "in1:0 ", out = "out1:0 ", delay=0.000, latency=0, II=1];
+		"fork_0" [type = "Fork", bbID= 2, in = "in1:10", out = "out1:10 out2:10 out3:10 "];
+		"fork_1" [type = "Fork", bbID= 2, in = "in1:10", out = "out1:10 out2:10 "];
+		"branch_0" [type = "Branch", bbID= 1,  in = "in1:1 in2?:1", out = "out1+:1 out2-:1"];
+		"branch_1" [type = "Branch", bbID= 2,  in = "in1:10 in2?:1", out = "out1+:10 out2-:10"];
+		"MC_in" [type = "MC", bbID= 0, in = "in1:32*c0 in2:10*l0a in3:10*s0a in4:32*s0d ", out = "out1:32*l0d out2:0*e ", memory = "in", bbcount = 1, ldcount = 1, stcount = 1];
+		"cst_4" [type = "Constant", bbID= 2, in = "in1:1", out = "out1:1", value = "0x00000001"];
+		"end_0" [type = "Exit", bbID= 0, in = "in1:0*e in2:0 ", out = "out1:0"];
+		"start_0" [type = "Entry", control= "true", bbID= 1, in = "in1:0", out = "out1:0"];
+		"forkC_5" [type = "Fork", bbID= 1, in = "in1:0", out = "out1:0 out2:0 out3:0 "];
+		"branchC_2" [type = "Branch", bbID= 1,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
+		"fork_6" [type = "Fork", bbID= 1, in = "in1:1", out = "out1:1 out2:1 "];
+		"phiC_0" [type = "CntrlMerge", bbID= 2, in = "in1:0 in2:0 ", out = "out1:0 out2?:1", delay=0.000];
+		"forkC_7" [type = "Fork", bbID= 2, in = "in1:0", out = "out1:0 out2:0 "];
+		"branchC_3" [type = "Branch", bbID= 2,  in = "in1:0 in2?:1", out = "out1+:0 out2-:0"];
+		"fork_8" [type = "Fork", bbID= 2, in = "in1:1", out = "out1:1 out2:1 "];
+		"phiC_1" [type = "Merge", bbID= 3, in = "in1:0 ", out = "out1:0", delay=0.000];
+		"sink_0" [type = "Sink", bbID= 0, in = "in1:1"];
+		"sink_1" [type = "Sink", bbID= 0, in = "in1:10"];
+		"sink_2" [type = "Sink", bbID= 0, in = "in1:0"];
+		"source_0" [type = "Source", bbID= 2, out = "out1:32"];
+		"source_1" [type = "Source", bbID= 2, out = "out1:1"];
+		"source_2" [type = "Source", bbID= 2, out = "out1:10"];
+		"load_4" -> "MC_in" [color = "darkgreen", mem_address = "true", from = "out2", to = "in2"];
+		"MC_in" -> "load_4" [color = "darkgreen", mem_address = "false", from = "out1", to = "in1"];
+		"store_0" -> "MC_in" [color = "darkgreen", mem_address = "true", from = "out2", to = "in3"];
+		"store_0" -> "MC_in" [color = "darkgreen", mem_address = "false", from = "out1", to = "in4"];
+		"cst_4" -> "MC_in" [color = "darkgreen", from = "out1", to = "in1"];
+		"MC_in" -> "end_0" [color = "gold3", from = "out2", to = "in1"];
+	subgraph cluster_0 {
+	color = "darkgreen";
+		label = "block1";
+		"brCst_block1" -> "fork_6" [color = "magenta", from = "out1", to = "in1"];
+		"cst_0" -> "branch_0" [color = "red", from = "out1", to = "in1"];
+		"start_0" -> "forkC_5" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_5" -> "cst_0" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_5" -> "branchC_2" [color = "gold3", from = "out2", to = "in1"];
+		"forkC_5" -> "brCst_block1" [color = "gold3", from = "out3", to = "in1"];
+		"fork_6" -> "branch_0" [color = "red", from = "out1", to = "in2"];
+		"fork_6" -> "branchC_2" [color = "gold3", from = "out2", to = "in2"];
+	}
+		"branch_0" -> "phi_1" [color = "blue", minlen = 3, from = "out1", to = "in2"];
+		"branch_0" -> "sink_0" [color = "blue", minlen = 3, from = "out2", to = "in1"];
+		"branchC_2" -> "phiC_0" [color = "gold3", minlen = 3, from = "out1", to = "in1"];
+		"branchC_2" -> "sink_2" [color = "gold3", minlen = 3, from = "out2", to = "in1"];
+	subgraph cluster_1 {
+	color = "darkgreen";
+		label = "block2";
+		"phi_1" -> "fork_0" [color = "red", from = "out1", to = "in1"];
+		"load_4" -> "add_5" [color = "red", from = "out1", to = "in1"];
+		"cst_1" -> "add_5" [color = "red", from = "out1", to = "in2"];
+		"add_5" -> "store_0" [color = "red", from = "out1", to = "in1"];
+		"cst_2" -> "add_8" [color = "red", from = "out1", to = "in2"];
+		"add_8" -> "fork_1" [color = "red", from = "out1", to = "in1"];
+		"cst_3" -> "icmp_9" [color = "red", from = "out1", to = "in2"];
+		"icmp_9" -> "fork_8" [color = "magenta", from = "out1", to = "in1"];
+		"fork_0" -> "add_8" [color = "red", from = "out1", to = "in1"];
+		"fork_0" -> "load_4" [color = "red", from = "out2", to = "in2"];
+		"fork_0" -> "store_0" [color = "red", from = "out3", to = "in2"];
+		"fork_1" -> "icmp_9" [color = "red", from = "out1", to = "in1"];
+		"fork_1" -> "branch_1" [color = "red", from = "out2", to = "in1"];
+		"phiC_0" -> "phi_1" [color = "green", from = "out2", to = "in1"];
+		"phiC_0" -> "forkC_7" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_7" -> "cst_4" [color = "gold3", from = "out1", to = "in1"];
+		"forkC_7" -> "branchC_3" [color = "gold3", from = "out2", to = "in1"];
+		"fork_8" -> "branch_1" [color = "red", from = "out1", to = "in2"];
+		"fork_8" -> "branchC_3" [color = "gold3", from = "out2", to = "in2"];
+		"source_0" -> "cst_1" [color = "red", from = "out1", to = "in1"];
+		"source_1" -> "cst_2" [color = "red", from = "out1", to = "in1"];
+		"source_2" -> "cst_3" [color = "red", from = "out1", to = "in1"];
+	}
+		"branch_1" -> "phi_1" [color = "blue", minlen = 3, from = "out1", to = "in3"];
+		"branch_1" -> "sink_1" [color = "blue", minlen = 3, from = "out2", to = "in1"];
+		"branchC_3" -> "phiC_0" [color = "gold3", minlen = 3, from = "out1", to = "in2"];
+		"branchC_3" -> "phiC_1" [color = "gold3", minlen = 3, from = "out2", to = "in1"];
+	subgraph cluster_2 {
+	color = "darkgreen";
+		label = "block3";
+		"ret_0" -> "end_0" [color = "gold3", from = "out1", to = "in2"];
+		"phiC_1" -> "ret_0" [color = "gold3", from = "out1", to = "in1"];
+	}
+}
