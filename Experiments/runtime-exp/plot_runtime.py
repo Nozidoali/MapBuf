@@ -1,4 +1,4 @@
-from MADBuf import *
+from mapbuf import *
 
 import pandas as pd
 import numpy as np

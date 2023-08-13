@@ -1,4 +1,4 @@
-from MADBuf import *
+from mapbuf import *
 from RegressionTest import *
 
 import pygraphviz as pgv
