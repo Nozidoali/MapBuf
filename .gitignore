@@ -46,9 +46,9 @@ _build
 *.dot
 *.csv
 *.json
-!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.dot
-!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.csv
-!RegressionTest/Benchmarks/EPFLBenchmarks/benchmarks/*/*.json
+!mapbuf_runtime/Benchmarks/EPFLBenchmarks/benchmarks/*/*.dot
+!mapbuf_runtime/Benchmarks/EPFLBenchmarks/benchmarks/*/*.csv
+!mapbuf_runtime/Benchmarks/EPFLBenchmarks/benchmarks/*/*.json
 !Experiments/*/*.csv
 
 # for the runtime-exp
@@ -74,27 +74,27 @@ test.*
 arch_dsp.v
 
 # dummy
-RegressionTest/dummy/*
-!RegressionTest/dummy/src
-!RegressionTest/dummy/reports
-RegressionTest/dummy/reports/*
-!RegressionTest/dummy/reports/dummy.blif
-!RegressionTest/dummy/reports/dummy.dot
+mapbuf_runtime/dummy/*
+!mapbuf_runtime/dummy/src
+!mapbuf_runtime/dummy/reports
+mapbuf_runtime/dummy/reports/*
+!mapbuf_runtime/dummy/reports/dummy.blif
+!mapbuf_runtime/dummy/reports/dummy.dot
 
 # Examples
-RegressionTest/Examples/*/reports/*.v
-RegressionTest/Examples/*/reports/*.blif
-RegressionTest/Examples/*/reports/*.dot
-RegressionTest/Examples/*/reports/*.v
-RegressionTest/Examples/*/reports
-RegressionTest/Examples/*/reports/*.v
-!RegressionTest/Examples/*/reports/*.blif
-!RegressionTest/Examples/*/reports/*.dot
+mapbuf_runtime/Examples/*/reports/*.v
+mapbuf_runtime/Examples/*/reports/*.blif
+mapbuf_runtime/Examples/*/reports/*.dot
+mapbuf_runtime/Examples/*/reports/*.v
+mapbuf_runtime/Examples/*/reports
+mapbuf_runtime/Examples/*/reports/*.v
+!mapbuf_runtime/Examples/*/reports/*.blif
+!mapbuf_runtime/Examples/*/reports/*.dot
 
 # BestResults
-!RegressionTest/BestResults/*/*.dot
-!RegressionTest/BestResults/*/*.blif
-!RegressionTest/BestResults/*/*.cuts
+!mapbuf_runtime/BestResults/*/*.dot
+!mapbuf_runtime/BestResults/*/*.blif
+!mapbuf_runtime/BestResults/*/*.cuts
 
 # twine
 dist
