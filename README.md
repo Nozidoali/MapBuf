@@ -13,10 +13,13 @@ Precharacterization-based algorithms mispredict LUT levels because they are unaw
 
 These effects are negligible if the target clock frequency is low and the number of logic levels inside a clock period is much longer than the number of LUT levels on the boundary. However, in high-speed FPGA designs, a clock period fits only 5 LUT levels and the misprediction on both register outputs and register inputs may introduce at most 2 additional levels (40% of the clock period). As a result, existing algorithms either easily fail to meet the target clock period or have to leave a large margin for logic synthesis and physics synthesis.
 
-### Why simultaneous?
-
-TBD
-
 ### Getting Started
 
 Currently, MapBuf works as a plugin to the Dynamatic workflow and requires Gorubi as the backend MILP solver.
+
+For experiments:
+
+```sh
+cd mapbuf_runtime
+python Run.py
+```
