@@ -8,18 +8,9 @@ Last Modified by: Hanyu Wang
 Last Modified time: 2023-03-11 21:07:20
 """
 
-from mapbuf.io.BLIFReader import *
-from mapbuf.io.BLIFWriter import *
-from mapbuf.io.VerilogReader import *
-from mapbuf.io.VerilogWriter import *
-from mapbuf.io.DFGReader import *
-from mapbuf.io.DFGWriter import *
-
-all = [
-    "read_blif",
-    "write_blif",
-    "read_verilog",
-    "write_verilog",
-    "read_dfg",
-    "write_dfg",
-]
+from .read_blif import *
+from .write_blif import *
+from .read_verilog import *
+from .write_verilog import *
+from .read_dfg import *
+from .write_dfg import *
