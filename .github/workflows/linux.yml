@@ -16,7 +16,7 @@ jobs:
           source venv/bin/activate
           cd ${{github.event.repository.name}}
           sudo sh ./install_apt_packages.sh
-          pip3 install -e .
+          python3 -m pip install -e .
           cd mapbuf_runtime
           python3 Test.py
 
