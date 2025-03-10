@@ -37,8 +37,6 @@ For more details, please refer to the following [paper](https://dynamo.ethz.ch/w
   booktitle={2023 IEEE/ACM International Conference on Computer Aided Design (ICCAD)}, 
   title={MapBuf: Simultaneous Technology Mapping and Buffer Insertion for HLS Performance Optimization}, 
   year={2023},
-  volume={},
-  number={},
   pages={1-9},
   doi={10.1109/ICCAD57390.2023.10323639}}
 ```
